@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 
 import org.junit.Assert;
@@ -29,6 +30,9 @@ public class AuthUserServiceTest {
 	
 	@Resource
 	private AuthUserService authUserService;
+	
+	@Resource
+	private AuthRoleService authRoleService;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -111,6 +115,28 @@ public class AuthUserServiceTest {
 	public void testChangeState() {
 		Assert.assertEquals(true, authUserService.changeState(1, AuthUserState.INACTIVE));
 		authUserService.changeState(1, AuthUserState.ACTIVE); //将状态改回去，方便下次测试使用
+	}
+	
+	@Test
+	public void testAddRole() {
+		AuthUser user = this.authUserService.findByName("cmao");
+		AuthRole role = this.authRoleService.findById(3);//customer role
+		
+		//添加未关联的角色，应该返回true
+		Assert.assertEquals(true, this.authUserService.addRole(user, role));		
+		//添加已关联的角色，应该返回false
+		Assert.assertEquals(false, this.authUserService.addRole(user, role));
+	}
+	
+	@Test
+	public void testRemoveRole() {
+		AuthUser user = this.authUserService.findByName("cmao");
+		AuthRole role = this.authRoleService.findById(3);//customer role
+		
+		//移除已关联的角色，应该返回true
+		Assert.assertEquals(true, this.authUserService.removeRole(user, role));
+		//移除未关联的角色，应该返回false
+		Assert.assertEquals(false, this.authUserService.removeRole(user, role));
 	}
 
 }

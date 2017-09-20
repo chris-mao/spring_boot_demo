@@ -6,6 +6,7 @@ package com.example.demo.auth.service;
 import java.util.List;
 
 import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 
 /**
@@ -85,4 +86,22 @@ public interface AuthUserService {
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	public boolean changeState(Integer id, AuthUserState state);
+	
+	/**
+	 * 添加新角色
+	 * 
+	 * @param user
+	 * @param role
+	 * @return
+	 */
+	public boolean addRole(AuthUser user, AuthRole role);
+	
+	/**
+	 * 移除角色
+	 * 
+	 * @param user
+	 * @param role
+	 * @return
+	 */
+	public boolean removeRole(AuthUser user, AuthRole role);
 }

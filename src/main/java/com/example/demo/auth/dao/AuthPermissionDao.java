@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -61,7 +62,7 @@ public interface AuthPermissionDao {
 		@Result(property="createdTime", column="created_time"),
 		@Result(property="updateTime", column="update_time")
 	})
-	public AuthPermission findById(Integer permissionId);
+	public AuthPermission findById(@Param(value = "id")Integer id);
 	
 	/**
 	 * 按权限名称查询
@@ -78,15 +79,15 @@ public interface AuthPermissionDao {
 		@Result(property="createdTime", column="created_time"),
 		@Result(property="updateTime", column="update_time")
 	})
-	public AuthPermission findByName(String permissionName);
+	public AuthPermission findByName(@Param(value = "name")String permissionName);
 	
 	/**
 	 * 按角色名称查询其所拥有的权限
 	 * 
-	 * @param permissionName
+	 * @param roleName
 	 * @return Set
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM vw_auth_permission_permission WHERE permission_name = #{name}")
+	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM vw_auth_role_permission WHERE role_name = #{roleName}")
 	@Results({
 		@Result(property="permissionId", column="permission_id", id=true),
 		@Result(property="permissionName", column="permission_name"),
@@ -95,25 +96,33 @@ public interface AuthPermissionDao {
 		@Result(property="createdTime", column="created_time"),
 		@Result(property="updateTime", column="update_time")
 	})
-	public Set<AuthPermission> findAllBypermissionName(String permissionName);
-	
+	public Set<AuthPermission> findAllByRoleName(@Param(value = "roleName")String roleName);
+		
+	/**
+	 * 创建新权限
+	 * 
+	 * @param permission
+	 * @return 受影响的行数
+	 */
 	@Insert("INSERT INTO auth_permission(permission_name, permission_url, available, created_time) VALUES(#{permissionName}, #{permissionUrl}, #{available}, NOW())")
 	@Options(useGeneratedKeys = true, keyProperty="permissionId")
 	public int insert(AuthPermission permission);
 	
 	/**
+	 * 更新权限
 	 * 
 	 * @param permission
-	 * @return
+	 * @return 受影响的行数
 	 */
 	@Update("UPDATE auth_permission SET permission_name = #{permissionName}, permission_url = #{permissionUrl}, available = #{available} WHERE permission_id = #{permissionId}")
 	public int udpate(AuthPermission permission);
 	
 	/**
+	 * 删除权限
 	 * 
 	 * @param id
+	 * @return 受影响的行数
 	 */
 	@Delete("DELETE FROM auth_permission WHERE permission_id = #{id}")
-	public void delete(Integer id);
-
+	public int delete(@Param(value = "id")Integer id);
 }

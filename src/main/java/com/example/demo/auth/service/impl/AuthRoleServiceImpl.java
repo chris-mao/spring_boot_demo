@@ -3,6 +3,7 @@
  */
 package com.example.demo.auth.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.dao.AuthRoleDao;
+import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthRoleService;
@@ -92,6 +94,27 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	@Override
 	public boolean delete(Integer id) {
 		return 1 == authRoleDao.delete(id);
+	}
+
+	@Override
+	public boolean addPermission(AuthRole role, AuthPermission permission) {
+		if (true == role.getPermissions().add(permission)) {
+			return 1 == this.authRoleDao.addPermission(role.getRoleId(), permission.getPermissionId());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removePermission(AuthRole role, AuthPermission permission) {
+		Iterator<AuthPermission> it = role.getPermissions().iterator();
+		while (it.hasNext()) {
+			AuthPermission p = it.next();
+			if (p.equals(permission)) {
+				it.remove();
+				return 1 == this.authRoleDao.removePermission(role.getRoleId(), permission.getPermissionId());
+			}
+		}
+		return false;
 	}
 
 }

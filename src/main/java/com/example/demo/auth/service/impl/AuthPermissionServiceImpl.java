@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.auth.dao.AuthPermissionDao;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
-import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthPermissionService;
 
 /**
@@ -26,11 +25,13 @@ import com.example.demo.auth.service.AuthPermissionService;
  */
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
-	
+
 	@Resource
 	private AuthPermissionDao authPermissionDao;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.example.demo.auth.service.AuthPermissionService#findAll()
 	 */
 	@Override
@@ -38,84 +39,59 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return authPermissionDao.findAll();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.example.demo.auth.service.AuthPermissionService#findByName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.example.demo.auth.service.AuthPermissionService#findByName(java.lang.
+	 * String)
 	 */
 	@Override
 	public AuthPermission findByName(String permissionName) {
 		return authPermissionDao.findByName(permissionName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.example.demo.auth.service.AuthPermissionService#findAllByUser(com.example.demo.auth.entity.AuthUser)
-	 */
-	@Override
-	public Set<AuthPermission> findAllByUser(AuthUser user) {
-		return null;//authPermissionDao.findAllByUserName(user.getUserName());
-	}
-
-	/* (non-Javadoc)
-	 * @see com.example.demo.auth.service.AuthPermissionService#findAllByUser(java.lang.String)
-	 */
-	@Override
-	public Set<AuthPermission> findAllByUser(String userName) {
-		return null;//authPermissionDao.findAllByUserName(userName);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.example.demo.auth.service.AuthPermissionService#findAllByRole(com.example.demo.auth.entity.AuthRole)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.example.demo.auth.service.AuthPermissionService#findAllByRole(com.
+	 * example.demo.auth.entity.AuthRole)
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
-		return null; //authPermissionDao.findAllByRoleName(role.getRoleName());
+		return authPermissionDao.findAllByRoleName(role.getRoleName());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.example.demo.auth.service.AuthPermissionService#findAllByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.example.demo.auth.service.AuthPermissionService#findAllByRole(java.
+	 * lang.String)
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(String roleName) {
-		return null; //authPermissionDao.findAllByRoleName(roleName);
+		return authPermissionDao.findAllByRoleName(roleName);
 	}
 
 	@Override
-	public void grant(String permissionName, AuthRole role) {
-		// TODO Auto-generated method stub
-		
+	public boolean insert(AuthPermission permission) {
+		return 1 == this.authPermissionDao.insert(permission);
 	}
 
 	@Override
-	public void grant(String permissionName, AuthUser user) {
-		// TODO Auto-generated method stub
-		
+	public boolean update(AuthPermission permission) {
+		return 1 == this.authPermissionDao.udpate(permission);
 	}
 
 	@Override
-	public void revoke(String permissionName, AuthRole role) {
-		// TODO Auto-generated method stub
-		
+	public boolean delete(Integer id) {
+		return 1 == this.authPermissionDao.delete(id);
 	}
 
 	@Override
-	public void revoke(String permissionName, AuthUser user) {
-		// TODO Auto-generated method stub
-		
+	public AuthPermission findById(Integer id) {
+		return this.authPermissionDao.findById(id);
 	}
-
-	@Override
-	public AuthPermission insert(AuthPermission permission) {
-		this.authPermissionDao.insert(permission);
-		return this.authPermissionDao.findByName(permission.getPermissionName());
-	}
-
-	@Override
-	public int update(AuthPermission permission) {
-		return this.authPermissionDao.udpate(permission);
-	}
-
-	@Override
-	public void delete(Integer id) {
-		this.authPermissionDao.delete(id);
-	}
-
 }

@@ -37,11 +37,11 @@ public class AuthPermission implements Serializable {
 	 * 
 	 */
 	private String permissionUrl;
-    
+
 	/**
 	 * 
 	 */
-    private Boolean available = Boolean.FALSE;
+	private Boolean available = Boolean.FALSE;
 
 	/**
 	 * 
@@ -106,7 +106,8 @@ public class AuthPermission implements Serializable {
 	}
 
 	/**
-	 * @param available the available to set
+	 * @param available
+	 *            the available to set
 	 */
 	public void setAvailable(Boolean available) {
 		this.available = available;
@@ -120,7 +121,8 @@ public class AuthPermission implements Serializable {
 	}
 
 	/**
-	 * @param createdTime the createdTime to set
+	 * @param createdTime
+	 *            the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -134,13 +136,16 @@ public class AuthPermission implements Serializable {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -148,6 +153,16 @@ public class AuthPermission implements Serializable {
 		return "AuthPermission [permissionId=" + permissionId + ", permissionName=" + permissionName
 				+ ", permissionUrl=" + permissionUrl + ", available=" + available + ", createdTime=" + createdTime
 				+ ", updateTime=" + updateTime + "]";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		return this.getPermissionId() == ((AuthPermission) obj).getPermissionId();
 	}
 
 }

@@ -6,6 +6,7 @@ package com.example.demo.auth.service;
 import java.util.List;
 import java.util.Set;
 
+import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 
@@ -20,57 +21,83 @@ import com.example.demo.auth.entity.AuthUser;
 public interface AuthRoleService {
 	
 	/**
+	 * 查询所有角色信息
 	 * 
-	 * @return
+	 * @return List
 	 */
 	public List<AuthRole> findAll();
 	
 	/**
+	 * 按角色编号查询
 	 * 
 	 * @param id
-	 * @return
+	 * @return AuthRole
 	 */
 	public AuthRole findById(Integer id);
 	
 	/**
+	 * 按角色名称查询
 	 * 
 	 * @param roleName
-	 * @return
+	 * @return AuthRole
 	 */
 	public AuthRole findByName(String roleName);
 	
 	/**
+	 * 根据用户查询其所拥有的角色清单
 	 * 
 	 * @param user
-	 * @return
+	 * @return Set
 	 */
 	public Set<AuthRole> findAllByUser(AuthUser user);
 	
 	/**
+	 * 根据用户名称查询其所拥有的角色清单
 	 * 
 	 * @param userName
-	 * @return
+	 * @return Set
 	 */
 	public Set<AuthRole> findAllByUser(String userName);
 	
 	/**
+	 * 创建新角色
 	 * 
 	 * @param role
-	 * @return
+	 * @return 成功返回true,否则返回false
 	 */
 	public boolean insert(AuthRole role);
 	
 	/**
+	 * 更新角色
 	 * 
 	 * @param role
-	 * @return
+	 * @return 成功返回true,否则返回false
 	 */
 	public boolean update(AuthRole role);
 	
 	/**
+	 * 删除角色
 	 * 
 	 * @param id
-	 * @return
+	 * @return 成功返回true,否则返回false
 	 */
 	public boolean delete(Integer id);
+	
+	/**
+	 * 添加新权限
+	 * 
+	 * @param role
+	 * @param permission
+	 * @return
+	 */
+	public boolean addPermission(AuthRole role, AuthPermission permission);
+	
+	/**
+	 * 移除权限
+	 * 
+	 * @param role
+	 * @param permission
+	 * @return
+	 */
+	public boolean removePermission(AuthRole role, AuthPermission permission);
 }

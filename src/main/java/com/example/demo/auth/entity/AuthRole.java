@@ -142,4 +142,12 @@ public class AuthRole implements Serializable {
 		return "AuthRole [roleId=" + roleId + ", roleName=" + roleName + ", createdTime=" + createdTime
 				+ ", updateTime=" + updateTime + ", available=" + available + ", permissions=" + permissions + "]";
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		return this.getRoleId() == ((AuthRole) obj).getRoleId();
+	}
 }

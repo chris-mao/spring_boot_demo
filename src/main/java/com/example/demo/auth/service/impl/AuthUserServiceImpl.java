@@ -3,6 +3,7 @@
  */
 package com.example.demo.auth.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.AuthUserState;
 import com.example.demo.auth.dao.AuthUserDao;
+import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
 
@@ -81,6 +83,27 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public boolean changeState(Integer id, AuthUserState state) {
 		return 1 == this.authUserDao.changeState(id, state);
+	}
+
+	@Override
+	public boolean addRole(AuthUser user, AuthRole role) {
+		if (true == user.getRoles().add(role)) {
+			return 1 == this.authUserDao.addRole(user.getUserId(), role.getRoleId());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeRole(AuthUser user, AuthRole role) {
+		Iterator<AuthRole> it = user.getRoles().iterator();
+		while (it.hasNext()) {
+			AuthRole r = it.next();
+			if (r.equals(role)) {
+				it.remove();
+				return 1 == this.authUserDao.removeRole(user.getUserId(), role.getRoleId());
+			}
+		}
+		return false;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 
@@ -28,6 +29,9 @@ public class AuthRoleServiceTest {
 
 	@Resource
 	private AuthRoleService authRoleService;
+	
+	@Resource
+	private AuthPermissionService authPermissionService;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -54,6 +58,7 @@ public class AuthRoleServiceTest {
 		AuthRole role = authRoleService.findByName("csr");
 		Assert.assertNotNull(role);
 		Assert.assertEquals("csr", role.getRoleName());
+		System.out.println(role);
 	}
 
 	@Test
@@ -80,7 +85,7 @@ public class AuthRoleServiceTest {
 		role = new AuthRole();
 		role.setAvailable(true);
 		role.setRoleName(roleName);
-	    Assert.assertEquals(1, this.authRoleService.insert(role));
+	    Assert.assertEquals(true, this.authRoleService.insert(role));
 	    Assert.assertNotNull(role.getRoleId());
 		Assert.assertNotNull(authRoleService.findByName(roleName));
 	}
@@ -93,7 +98,8 @@ public class AuthRoleServiceTest {
 		Assert.assertNotNull(role);
 		
 		role.setRoleName(newRoleName);
-		Assert.assertEquals(1, authRoleService.update(role));
+		role.setAvailable(false);
+		Assert.assertEquals(true, authRoleService.update(role));
 		Assert.assertNotNull(authRoleService.findByName(newRoleName));
 	}
 	
@@ -105,6 +111,28 @@ public class AuthRoleServiceTest {
 		
 		authRoleService.delete(role.getRoleId());
 		Assert.assertNull(authRoleService.findByName(roleName));
+	}
+	
+	@Test
+	public void testAddPermission() {
+		AuthRole role = this.authRoleService.findById(1);//administrator role
+		AuthPermission permission = this.authPermissionService.findById(36);
+		
+		//添加未分配的权限，应该返回true
+		Assert.assertEquals(true, this.authRoleService.addPermission(role, permission));
+		//添加已分配的权限，应该返回false
+		Assert.assertEquals(false, this.authRoleService.addPermission(role, permission));
+	}
+	
+	@Test
+	public void testRemovePermission() {
+		AuthRole role = this.authRoleService.findById(1);//administrator role
+		AuthPermission permission = this.authPermissionService.findById(36);
+		
+		//移除已分配的权限，应该返回true
+		Assert.assertEquals(true, this.authRoleService.removePermission(role, permission));
+		//移除未分配的权限，应该返回false
+		Assert.assertEquals(false, this.authRoleService.removePermission(role, permission));
 	}
 
 }

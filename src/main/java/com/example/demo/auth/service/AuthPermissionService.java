@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
-import com.example.demo.auth.entity.AuthUser;
 
 /**
  * com.example.demo.auth.service AuthPermissionService
@@ -21,96 +20,70 @@ import com.example.demo.auth.entity.AuthUser;
 public interface AuthPermissionService {
 
 	/**
+	 * 查询所有权限
 	 * 
-	 * @return
+	 * @return List
 	 */
 	public List<AuthPermission> findAll();
 
 	/**
+	 * 按权限编号查询
 	 * 
-	 * @param roleName
-	 * @return
+	 * @param id
+	 * @return AuthPermission
 	 */
-	public AuthPermission findByName(String permissionName);
-	
-	/**
-	 * grant the specific permission to the role
-	 * 
-	 * @param permissionName
-	 * @param role
-	 */
-	public void grant(String permissionName, AuthRole role);
-	
-	/**
-	 * grant the specific permission to the user
-	 * 
-	 * @param permissionName
-	 * @param user
-	 */
-	public void grant(String permissionName, AuthUser user);
-	
-	/**
-	 * revoke the permission from the specific role
-	 * 
-	 * @param permissionName
-	 * @param role
-	 */
-	public void revoke(String permissionName, AuthRole role);
-	
-	/**
-	 * revoke the permission from the specific user
-	 * 
-	 * @param permissionName
-	 * @param user
-	 */
-	public void revoke(String permissionName, AuthUser user);
+	public AuthPermission findById(Integer id);
 
 	/**
+	 * 按权限名称查询
 	 * 
-	 * @param user
-	 * @return
+	 * @param permissionName
+	 * @return AuthPermission
 	 */
-	public Set<AuthPermission> findAllByUser(AuthUser user);
-	
+	public AuthPermission findByName(String permissionName);
+
 	/**
+	 * 创建新权限
 	 * 
-	 * @param userName
-	 * @return
+	 * @param permission
+	 * @return 成功返回true,否则返回false
 	 */
-	public Set<AuthPermission> findAllByUser(String userName);
-	
+	public boolean insert(AuthPermission permission);
+
 	/**
+	 * 更新权限
+	 * 
+	 * @param permission
+	 * @return 成功返回true,否则返回false
+	 */
+	public boolean update(AuthPermission permission);
+
+	/**
+	 * 删除权限
+	 * 
+	 * @param permission
+	 * @return 成功返回true,否则返回false
+	 */
+	public boolean delete(Integer id);
+
+	/**
+	 * 按角色查询其所拥有的权限
 	 * 
 	 * @param role
-	 * @return
+	 * @return Set
 	 */
 	public Set<AuthPermission> findAllByRole(AuthRole role);
 
 	/**
+	 * 按角色名称查询其所拥有的权限
 	 * 
 	 * @param roleName
-	 * @return
+	 * @return Set
 	 */
 	public Set<AuthPermission> findAllByRole(String roleName);
-	
-	/**
-	 * 
-	 * @param permission
-	 * @return
-	 */
-	public AuthPermission insert(AuthPermission permission);
-	
-	/**
-	 * 
-	 * @param permission
-	 * @return
-	 */
-	public int update(AuthPermission permission);
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public void delete(Integer id);
+
+	// public Set<AuthPermission> findAllByUser(AuthUser user);
+
+	// public Set<AuthPermission> findAllByUser(String userName);
 
 }

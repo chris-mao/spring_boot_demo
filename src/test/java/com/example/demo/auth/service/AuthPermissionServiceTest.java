@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.auth.entity.AuthPermission;
+import com.example.demo.auth.entity.AuthRole;
 
 /**
  * 
@@ -38,7 +39,14 @@ public class AuthPermissionServiceTest {
 
 	@Test
 	public void testFindAll() {
-		Assert.assertEquals(50, authPermissionService.findAll().size());
+		Assert.assertEquals(51, authPermissionService.findAll().size());
+	}
+
+	@Test
+	public void testFindById() {
+		AuthPermission permission = authPermissionService.findById(1);
+		System.out.println(permission);
+		Assert.assertNotNull(permission);
 	}
 
 	@Test
@@ -46,37 +54,59 @@ public class AuthPermissionServiceTest {
 		AuthPermission permission = authPermissionService.findByName("Application\\Controller\\Index\\index");
 		Assert.assertNotNull(permission);
 	}
+	
+	@Test
+	public void testInsert() {
+		AuthPermission permission = null;
+		final String permissionName = "new permission";
+		permission = authPermissionService.findByName(permissionName);
+		if (null != permission) {
+			authPermissionService.delete(permission.getPermissionId());
+		}
 
-	public void testGrantStringAuthRole() {
-		//
+		permission = new AuthPermission();
+		permission.setAvailable(true);
+		permission.setPermissionName(permissionName);
+		permission.setPermissionUrl("/aa/bb");
+	    Assert.assertEquals(true, this.authPermissionService.insert(permission));
+	    Assert.assertNotNull(permission.getPermissionId());
+		Assert.assertNotNull(authPermissionService.findByName(permissionName));
+	}
+	
+	@Test
+	public void testUpdate() {
+		final String permissionName = "new permission";
+		final String newPermissionName = "new permission 123";
+		AuthPermission permission = authPermissionService.findByName(permissionName);
+		Assert.assertNotNull(permission);
+		
+		permission.setPermissionName(newPermissionName);
+		permission.setAvailable(false);
+		Assert.assertEquals(true, authPermissionService.update(permission));
+		Assert.assertNotNull(authPermissionService.findByName(newPermissionName));
+	}
+	
+	@Test
+	public void testDelete() {
+		final String permissionName = "new permission 123";
+		AuthPermission permission = authPermissionService.findByName(permissionName);
+		Assert.assertNotNull(permission);
+		
+		authPermissionService.delete(permission.getPermissionId());
+		Assert.assertNull(authPermissionService.findByName(permissionName));
 	}
 
-	public void testGrantStringAuthUser() {
-		//
-	}
-
-	public void testRevokeStringAuthRole() {
-		//
-	}
-
-	public void testRevokeStringAuthUser() {
-		//
-	}
-
-	public void testFindAllByUserAuthUser() {
-		//
-	}
-
-	public void testFindAllByUserString() {
-		//
-	}
-
+	@Test
 	public void testFindAllByRoleAuthRole() {
-		//
+		AuthRole role = new AuthRole();
+		role.setRoleName("csr");
+		Assert.assertEquals(29, this.authPermissionService.findAllByRole(role.getRoleName()).size());
 	}
 
+	@Test
 	public void testFindAllByRoleString() {
-		//
+		final String roleName = "csr";
+		Assert.assertEquals(29, this.authPermissionService.findAllByRole(roleName).size());
 	}
 
 }

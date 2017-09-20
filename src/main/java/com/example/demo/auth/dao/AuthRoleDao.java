@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -55,7 +56,7 @@ public interface AuthRoleDao {
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
-	public AuthRole findById(Integer id);
+	public AuthRole findById(@Param(value = "id")Integer id);
 
 	/**
 	 * 按角色名称查询
@@ -69,7 +70,7 @@ public interface AuthRoleDao {
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
-	public AuthRole findByName(String roleName);
+	public AuthRole findByName(@Param(value = "name")String roleName);
 
 	/**
 	 * 根据用户编号查询其所拥有的角色清单
@@ -81,8 +82,9 @@ public interface AuthRoleDao {
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
-	public Set<AuthRole> findAllByUserId(Integer userId);
+			@Result(property = "updateTime", column = "update_time"),
+			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+	public Set<AuthRole> findAllByUserId(@Param(value = "id")Integer userId);
 
 	/**
 	 * 根据用户名称查询其所拥有的角色清单
@@ -94,32 +96,56 @@ public interface AuthRoleDao {
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
-	public Set<AuthRole> findAllByUser(String userName);
+			@Result(property = "updateTime", column = "update_time"),
+			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+	public Set<AuthRole> findAllByUser(@Param(value = "name")String userName);
 	
 	/**
+	 * 创建新角色
 	 * 
 	 * @param role
-	 * @return
+	 * @return 返回受影响的行数
 	 */
 	@Insert("INSERT INTO auth_role(role_name, available, created_time) VALUES(#{roleName}, #{available}, NOW())")
 	@Options(useGeneratedKeys = true, keyProperty="roleId")
 	public int insert(AuthRole role);
 	
 	/**
+	 * 更新角色
 	 * 
 	 * @param role
-	 * @return
+	 * @return 返回受影响的行数
 	 */
 	@Update("UPDATE auth_role SET role_name = #{roleName}, available = #{available} WHERE role_id = #{roleId}")
 	public int udpate(AuthRole role);
 	
 	/**
+	 * 删除角色
 	 * 
 	 * @param id
-	 * @return
+	 * @return 返回受影响的行数
 	 */
 	@Delete("DELETE FROM auth_role WHERE role_id = #{id}")
-	public int delete(Integer id);
+	public int delete(@Param(value = "id")Integer id);
+	
+	/**
+	 * 添加新权限
+	 * 
+	 * @param roleId
+	 * @param permissionId
+	 * @return
+	 */
+	@Insert("INSERT IGNORE auth_role_permission(role_id, permission_id, available, start_date) VALUE(#{roleId}, #{permissionId}, 1, NOW())")
+	public int addPermission(@Param(value = "roleId")Integer roleId, @Param(value = "permissionId")Integer permissionId);
+	
+	/**
+	 * 移除已有权限
+	 * 
+	 * @param roleId
+	 * @param permissionId
+	 * @return
+	 */
+	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId} AND permission_id = #{permissionId}")
+	public int removePermission(@Param(value = "roleId")Integer roleId, @Param(value = "permissionId")Integer permissionId);
 
 }
