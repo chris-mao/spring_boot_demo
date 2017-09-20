@@ -1,0 +1,18 @@
+server: 
+  port: 8088
+mybatis:
+  type-aliases-package: com.example.demo.*.entity
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shiro
+    username: root
+    password: cope9020
+    dbcp:
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+  thymeleaf:
+    check-template: false
+    content-type: text/html

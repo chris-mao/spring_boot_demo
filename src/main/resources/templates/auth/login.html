@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head>
+<title>请登录</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row">
+			<div
+				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-md-offset-6 col-xs-4 col-xs-offset-4">
+				<form class="form-horizontal" method="post" action=""
+					th:fragment="signupForm">
+					<!--/* Show general error message when form contains errors */-->
+
+					<fieldset>
+						<legend>Please Sign Up</legend>
+						<div class="form-group">
+							<label for="email" class="col-lg-2 control-label">Email</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="user_name" name="user_name"
+									placeholder="Email address" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-lg-2 control-label">Password</label>
+							<div class="col-lg-10">
+								<input type="password" class="form-control" id="password" name="password"
+									placeholder="Password" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="submit" class="btn btn-default">Sign up</button>
+							</div>
+						</div>
+					</fieldset>
+					错误信息：<h4 th:text="${msg}"></h4>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

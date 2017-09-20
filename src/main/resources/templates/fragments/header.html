@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header class="hidden-print" th:fragment="header">
+	<nav class="navbar navbar-default navbar-fixed-top" role="banner">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar-collapse-header">
+					<span class="sr-only">Toggle Navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{/}"> <img alt="Brand"
+					th:src="@{img/zf2-logo.png}" style="margin-right: 1rem;" />Emerson
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse-header"
+				role="navigation">
+				<ul class="nav navbar-nav navbar-left">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">User Name<b class="caret"></b>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+</html>
