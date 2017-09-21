@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service AuthPermissionService
@@ -20,11 +21,20 @@ import com.example.demo.auth.entity.AuthRole;
 public interface AuthPermissionService {
 
 	/**
-	 * 查询所有权限
+	 * 查询所有权限，不分页
 	 * 
 	 * @return List
 	 */
 	public List<AuthPermission> findAll();
+	
+	/**
+	 * 查询所有权限，分页
+	 * 
+	 * @param pageNum
+	 * @param pageSize
+	 * @return PageInfo
+	 */
+	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize);
 
 	/**
 	 * 按权限编号查询

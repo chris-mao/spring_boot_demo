@@ -18,7 +18,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-th-each="user, state: ${userList}" data-th-object="${user}">
+				<tr data-th-each="user, state: ${page.list}" data-th-object="${user}">
 					<td data-th-text="${state.count}"></td>
 					<td data-th-text="${user}"></td>
 				</tr>

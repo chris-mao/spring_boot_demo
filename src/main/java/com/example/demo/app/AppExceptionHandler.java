@@ -26,8 +26,9 @@ public class AppExceptionHandler {
 	@ResponseBody
 	public ExceptionInfo defaultErrorHandler(HttpServletRequest req, Exception e) {
 		ExceptionInfo info = new ExceptionInfo();
-		info.setCode("100");
-		info.setMessage(e.getMessage());
+		info.setCode(100);
+		info.setExMessage(e.getMessage());
+		info.setMessage("您没有足够的权限");
 		info.setUrl(req.getRequestURL().toString());
 		return info;
 		

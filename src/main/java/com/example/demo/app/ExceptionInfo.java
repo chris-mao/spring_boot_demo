@@ -20,12 +20,17 @@ public class ExceptionInfo {
 	/**
 	 * 错误代码
 	 */
-	public String code;
+	public Integer code;
 	
 	/**
 	 * 错误信息
 	 */
 	public String message;
+	
+	/**
+	 * exception message
+	 */
+	public String exMessage;
 	
 	/**
 	 * 用于给开发人员查看的更加详细的错误描述
@@ -50,14 +55,14 @@ public class ExceptionInfo {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
 	/**
 	 * @param code the code to set
 	 */
-	public void setCode(String code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
@@ -131,13 +136,28 @@ public class ExceptionInfo {
 		this.developerMessage = developerMessage;
 	}
 
+	/**
+	 * @return the exMessage
+	 */
+	public String getExMessage() {
+		return exMessage;
+	}
+
+	/**
+	 * @param exMessage the exMessage to set
+	 */
+	public void setExMessage(String exMessage) {
+		this.exMessage = exMessage;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ExceptionInfo [httpStatus=" + httpStatus + ", code=" + code + ", message=" + message
-				+ ", developerMessage=" + developerMessage + ", url=" + url + ", errorData=" + errorData + "]";
+		return "ExceptionInfo [code=" + code + ", message=" + message + ", exMessage=" + exMessage
+				+ ", developerMessage=" + developerMessage + ", url=" + url + ", httpStatus=" + httpStatus
+				+ ", errorData=" + errorData + "]";
 	}
 
 }

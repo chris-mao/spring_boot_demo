@@ -48,9 +48,9 @@ public class AuthController {
 			// token.setRememberMe(true);
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
-			if (subject.isAuthenticated()) {
-				return "redirect:/";
-			}
+			// if (subject.isAuthenticated()) {
+			// return "redirect:/";
+			// }
 		} catch (UnknownAccountException e) {
 			msg = "您输入的帐号不存在！";
 			System.out.println(msg + " >>> " + e.getClass().getName());

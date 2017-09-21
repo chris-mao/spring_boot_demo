@@ -1,1 +1,0 @@
-<h1>User Index Page</h1>

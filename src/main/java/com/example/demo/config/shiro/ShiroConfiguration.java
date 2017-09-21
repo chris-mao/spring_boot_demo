@@ -12,6 +12,8 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,6 +31,8 @@ import com.example.demo.auth.JrShiroRealm;
  */
 @Configuration
 public class ShiroConfiguration {
+	
+	private final static Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
 
 	/**
 	 * ShiroFilterFactoryBean 处理拦截资源文件问题
@@ -38,7 +42,7 @@ public class ShiroConfiguration {
 	 */
 	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
-		System.out.println("ShiroConfiguration.shiroFilter() has been lunched");
+		logger.info("ShiroConfiguration.shiroFilter() has been loaded");
 		ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
 		filterBean.setSecurityManager(securityManager);
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();

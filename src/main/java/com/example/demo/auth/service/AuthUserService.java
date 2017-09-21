@@ -8,6 +8,7 @@ import java.util.List;
 import com.example.demo.auth.AuthUserState;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service AuthUserService
@@ -20,17 +21,27 @@ import com.example.demo.auth.entity.AuthUser;
 public interface AuthUserService { 
 	
 	/**
-	 * 查询所有用户信息
+	 * 查询所有用户信息，不分页
 	 * 
-	 * @return
+	 * @return List
 	 */
 	public List<AuthUser> findAll();
+	
+	/**
+	 * 查询所有用户信息，分页
+	 * 
+	 * @param pageNum  页码
+	 * @param pageSize 每页记录数
+	 * 
+	 * @return PageInfo
+	 */
+	public PageInfo<AuthUser> findAll(int pageNum, int pageSize);
 	
 	/**
 	 * 根据用户编号查询用户信息
 	 * 
 	 * @param id
-	 * @return
+	 * @return AuthUser
 	 */
 	public AuthUser findById(Integer id);
   
@@ -38,7 +49,7 @@ public interface AuthUserService {
 	 * 根据用户名称查询用户信息
 	 * 
 	 * @param userName
-	 * @return
+	 * @return AuthUser
 	 */
 	public AuthUser findByName(String userName);
 	
@@ -92,7 +103,7 @@ public interface AuthUserService {
 	 * 
 	 * @param user
 	 * @param role
-	 * @return
+	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean addRole(AuthUser user, AuthRole role);
 	
@@ -101,7 +112,7 @@ public interface AuthUserService {
 	 * 
 	 * @param user
 	 * @param role
-	 * @return
+	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean removeRole(AuthUser user, AuthRole role);
 }

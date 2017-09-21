@@ -15,6 +15,8 @@ import com.example.demo.auth.dao.AuthUserDao;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service.impl AuthUserServiceImpl
@@ -30,14 +32,20 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Resource
 	private AuthUserDao authUserDao;
 
+	@Override
+	public List<AuthUser> findAll() {
+		return authUserDao.findAll();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.example.demo.auth.service.AuthUserService#findAll()
 	 */
 	@Override
-	public List<AuthUser> findAll() {
-		return authUserDao.findAll();
+	public PageInfo<AuthUser> findAll(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize, "user_name");
+		return new PageInfo<AuthUser>(authUserDao.findAll());
 	}
 
 	/*

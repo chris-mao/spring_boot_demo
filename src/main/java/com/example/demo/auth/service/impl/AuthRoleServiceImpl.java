@@ -16,6 +16,8 @@ import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthRoleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service.impl AuthRoleServiceImpl
@@ -39,6 +41,12 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	@Override
 	public List<AuthRole> findAll() {
 		return authRoleDao.findAll();
+	}
+
+	@Override
+	public PageInfo<AuthRole> findAll(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		return new PageInfo<AuthRole>(authRoleDao.findAll());
 	}
 
 	/*

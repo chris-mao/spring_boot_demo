@@ -56,7 +56,9 @@ public class ControllerLogAspect {
 		logger.info("class method = {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 		
 		//parameters
-		logger.info("args = {}", joinPoint.getArgs());
+		for(Object obj: joinPoint.getArgs()) {
+			logger.info("args = {}", obj);	
+		}
 	}
 	
 	@After("log()")

@@ -9,6 +9,7 @@ import java.util.Set;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service AuthRoleService
@@ -21,11 +22,20 @@ import com.example.demo.auth.entity.AuthUser;
 public interface AuthRoleService {
 	
 	/**
-	 * 查询所有角色信息
+	 * 查询所有角色信息，不分页
 	 * 
 	 * @return List
 	 */
 	public List<AuthRole> findAll();
+	
+	/**
+	 * 查询所有角色信息，分页
+	 * 
+	 * @param pageNum
+	 * @param pageSize
+	 * @return PageInfo
+	 */
+	public PageInfo<AuthRole> findAll(int pageNum, int pageSize);
 	
 	/**
 	 * 按角色编号查询
@@ -88,7 +98,7 @@ public interface AuthRoleService {
 	 * 
 	 * @param role
 	 * @param permission
-	 * @return
+	 * @return 成功返回true,否则返回false
 	 */
 	public boolean addPermission(AuthRole role, AuthPermission permission);
 	
@@ -97,7 +107,7 @@ public interface AuthRoleService {
 	 * 
 	 * @param role
 	 * @param permission
-	 * @return
+	 * @return 成功返回true,否则返回false
 	 */
 	public boolean removePermission(AuthRole role, AuthPermission permission);
 }

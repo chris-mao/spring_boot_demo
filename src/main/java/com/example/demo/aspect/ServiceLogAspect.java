@@ -24,31 +24,34 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class ServiceLogAspect {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(ControllerLogAspect.class);
 
 	@Pointcut("execution(public * com.example.demo.*.service.*.*(..))")
 	public void log() {
 		//
 	}
-	
+
 	@Before("log()")
 	public void beforeLog(JoinPoint joinPoint) {
 		logger.info("ServiceLogAspect.beforeLog() has been lunched");
-				
-		//class
-		logger.info("class method = {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-		
-		//parameters
-		logger.info("args = {}", joinPoint.getArgs());
+
+		// class
+		logger.info("class method = {}",
+				joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+
+		// parameters
+		for (Object obj : joinPoint.getArgs()) {
+			logger.info("args = {}", obj);
+		}
 	}
-	
+
 	@After("log()")
 	public void afterLog() {
 		logger.info("ServiceLogAspect.afterLog() has been lunched");
 	}
-	
-	@AfterReturning(pointcut="log()", returning="object")
+
+	@AfterReturning(pointcut = "log()", returning = "object")
 	public void afterReturning(Object object) {
 		logger.info("response = {}", object);
 	}

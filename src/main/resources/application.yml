@@ -1,7 +1,10 @@
+#服务器配置
 server: 
   port: 8088
+#实体类扫描的包名
 mybatis:
   type-aliases-package: com.example.demo.*.entity
+#数据源配置
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -13,6 +16,7 @@ spring:
       max-idle: 8
       min-idle: 8
       initial-size: 10
+#模板配置
   thymeleaf:
     check-template: false
     content-type: text/html

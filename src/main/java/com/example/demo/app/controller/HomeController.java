@@ -12,8 +12,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.app.controller HomeController
@@ -26,14 +29,8 @@ import com.example.demo.auth.service.AuthUserService;
 @Controller
 public class HomeController {
 	
-	@Resource
-	private AuthUserService authUserService;
-	
 	@GetMapping("/")
 	public String index(HttpServletRequest request, Map<String, Object> map) {
-		Subject subject = SecurityUtils.getSubject();
-		System.out.println(subject.isPermitted("/"));
-		map.put("userList", this.authUserService.findAll());
 		return "index";
 	}
 

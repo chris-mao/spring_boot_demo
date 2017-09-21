@@ -14,6 +14,8 @@ import com.example.demo.auth.dao.AuthPermissionDao;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.service.AuthPermissionService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.service.impl AuthPermissionServiceImpl
@@ -37,6 +39,12 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public List<AuthPermission> findAll() {
 		return authPermissionDao.findAll();
+	}
+	
+	@Override
+	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		return new PageInfo<AuthPermission>(authPermissionDao.findAll());
 	}
 
 	/*
@@ -94,4 +102,5 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	public AuthPermission findById(Integer id) {
 		return this.authPermissionDao.findById(id);
 	}
+
 }
