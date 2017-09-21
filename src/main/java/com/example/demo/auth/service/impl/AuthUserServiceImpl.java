@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.AuthUserState;
@@ -28,6 +29,9 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
 
 	@Resource
 	private AuthUserDao authUserDao;
@@ -43,8 +47,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 	 * @see com.example.demo.auth.service.AuthUserService#findAll()
 	 */
 	@Override
-	public PageInfo<AuthUser> findAll(int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize, "user_name");
+	public PageInfo<AuthUser> findAll(int pageNum) {
+		PageHelper.startPage(pageNum, this.pageSize, "user_name");
 		return new PageInfo<AuthUser>(authUserDao.findAll());
 	}
 

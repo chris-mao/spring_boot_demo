@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.dao.AuthPermissionDao;
@@ -27,6 +28,9 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
 
 	@Resource
 	private AuthPermissionDao authPermissionDao;
@@ -42,8 +46,8 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 	
 	@Override
-	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<AuthPermission> findAll(int pageNum) {
+		PageHelper.startPage(pageNum, this.pageSize);
 		return new PageInfo<AuthPermission>(authPermissionDao.findAll());
 	}
 

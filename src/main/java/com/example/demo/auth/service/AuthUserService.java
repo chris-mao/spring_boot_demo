@@ -31,11 +31,10 @@ public interface AuthUserService {
 	 * 查询所有用户信息，分页
 	 * 
 	 * @param pageNum  页码
-	 * @param pageSize 每页记录数
 	 * 
 	 * @return PageInfo
 	 */
-	public PageInfo<AuthUser> findAll(int pageNum, int pageSize);
+	public PageInfo<AuthUser> findAll(int pageNum);
 	
 	/**
 	 * 根据用户编号查询用户信息

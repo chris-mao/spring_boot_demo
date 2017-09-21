@@ -20,3 +20,6 @@ spring:
   thymeleaf:
     check-template: false
     content-type: text/html
+    encoding: UTF-8
+#分页配置
+pageSize: 15

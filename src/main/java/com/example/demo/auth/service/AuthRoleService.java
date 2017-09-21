@@ -32,10 +32,9 @@ public interface AuthRoleService {
 	 * 查询所有角色信息，分页
 	 * 
 	 * @param pageNum
-	 * @param pageSize
 	 * @return PageInfo
 	 */
-	public PageInfo<AuthRole> findAll(int pageNum, int pageSize);
+	public PageInfo<AuthRole> findAll(int pageNum);
 	
 	/**
 	 * 按角色编号查询

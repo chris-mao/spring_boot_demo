@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.dao.AuthRoleDao;
@@ -29,6 +30,9 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class AuthRoleServiceImpl implements AuthRoleService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
 
 	@Resource
 	private AuthRoleDao authRoleDao;
@@ -44,8 +48,8 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public PageInfo<AuthRole> findAll(int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<AuthRole> findAll(int pageNum) {
+		PageHelper.startPage(pageNum, this.pageSize);
 		return new PageInfo<AuthRole>(authRoleDao.findAll());
 	}
 

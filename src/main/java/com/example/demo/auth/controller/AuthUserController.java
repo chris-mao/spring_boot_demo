@@ -3,14 +3,11 @@
  */
 package com.example.demo.auth.controller;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,18 +34,18 @@ public class AuthUserController {
 	private AuthUserService authUserService;
 	
 	@GetMapping("")
-//	@RequiresPermissions("authUser:list")
-	public String findAllUser(@RequestParam(defaultValue="1")int pageNum, Map<String, Object> map) {
-		final int pageSize = 20;
-		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum, pageSize);
-		map.put("page", page);
+	@RequiresPermissions("authUser:list")
+	public String findAllUser(@RequestParam(defaultValue="1")int pageNum, Model model) {
+		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum);
+		model.addAttribute("page", page);
 		return "auth/users/index";
 	}
 	
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
-	public String findUser(@PathVariable("id")Integer id) {
-		return null;
+	public String findUser(@PathVariable("id")Integer id, Model model) {
+		model.addAttribute("user", this.authUserService.findById(id));
+		return "auth/users/detail";
 	}
 	
 	@GetMapping("/new")

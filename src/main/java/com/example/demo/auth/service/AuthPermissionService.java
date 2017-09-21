@@ -31,10 +31,9 @@ public interface AuthPermissionService {
 	 * 查询所有权限，分页
 	 * 
 	 * @param pageNum
-	 * @param pageSize
 	 * @return PageInfo
 	 */
-	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize);
+	public PageInfo<AuthPermission> findAll(int pageNum);
 
 	/**
 	 * 按权限编号查询
