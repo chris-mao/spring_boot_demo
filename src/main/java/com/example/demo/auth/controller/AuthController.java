@@ -16,6 +16,9 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,8 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class AuthController {
+	
+	private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 	@GetMapping("/auth")
 	public String index(HttpServletRequest request, Map<String, Object> map) {
@@ -48,28 +53,28 @@ public class AuthController {
 			// token.setRememberMe(true);
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
-			// if (subject.isAuthenticated()) {
-			// return "redirect:/";
-			// }
+			if (subject.isAuthenticated()) {
+				return "redirect:/users";
+			}
 		} catch (UnknownAccountException e) {
 			msg = "您输入的帐号不存在！";
-			System.out.println(msg + " >>> " + e.getClass().getName());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		} catch (IncorrectCredentialsException e) {
 			msg = "您输入的密码不正确！";
-			System.out.println(msg + " >>> " + e.getClass().getName());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		} catch (LockedAccountException e) {
 			msg = "您的帐号已被锁定！";
-			System.out.println(msg + " >>> " + e.getClass().getName());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		} catch (ExpiredCredentialsException e) {
 			msg = "您的帐号已过期！";
-			System.out.println(msg + " >>> " + e.getClass().getName());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		} catch (DisabledAccountException e) {
 			msg = "您的帐号已被禁用！";
-			System.out.println(msg + " >>> " + e.getClass().getName());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		} catch (AuthenticationException e) {
 			msg = "登录认证失败，原因不明！";
 			// e.printStackTrace();
-			map.put("msg", e.getMessage());
+			logger.error(msg + " >>> " + e.getClass().getName());
 		}
 
 		map.put("msg", msg);
@@ -78,8 +83,7 @@ public class AuthController {
 
 	@GetMapping("/logout")
 	public String logout() {
-		Subject subject = SecurityUtils.getSubject();
-		subject.logout();
+		SecurityUtils.getSubject().logout();
 		return "auth/logout";
 	}
 

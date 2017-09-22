@@ -37,10 +37,11 @@ public interface AuthUserDao {
 	 * 
 	 * @return List
 	 */
-	@Select("SELECT user_id, user_name, nick_name, user_psd, salt, state, created_time, update_time FROM auth_user")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
-			@Result(property = "password", column = "user_psd"), @Result(property = "salt", column = "salt"),
+			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
+			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
@@ -53,15 +54,16 @@ public interface AuthUserDao {
 	 * @param id
 	 * @return AuthUser
 	 */
-	@Select("SELECT user_id, user_name, nick_name, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_id = #{id}")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_id = #{id}")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
-			@Result(property = "password", column = "user_psd"), @Result(property = "salt", column = "salt"),
+			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
+			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.example.demo.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
-	public AuthUser findById(@Param(value = "id")Integer id);
+	public AuthUser findById(@Param(value = "id") Integer id);
 
 	/**
 	 * 根据用户名称查询用户信息
@@ -69,15 +71,16 @@ public interface AuthUserDao {
 	 * @param userName
 	 * @return AuthUser
 	 */
-	@Select("SELECT user_id, user_name, nick_name, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_name = #{name}")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_name = #{name}")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
-			@Result(property = "password", column = "user_psd"), @Result(property = "salt", column = "salt"),
+			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
+			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.example.demo.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
-	public AuthUser findByName(@Param(value = "name")String userName);
+	public AuthUser findByName(@Param(value = "name") String userName);
 
 	/**
 	 * 创建新用户
@@ -85,18 +88,17 @@ public interface AuthUserDao {
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Insert("INSERT INTO auth_user(user_name, nick_name, user_psd, salt, state, available, created_time) VALUES(#{userName}, #{nickName}, #{password}, #{salt}, #{state}, 1, NOW())")
-	@Options(useGeneratedKeys = true, keyProperty="userId")
+	@Insert("INSERT INTO auth_user(user_name, nick_name, email, user_psd, salt, state, available, created_time) VALUES(#{userName}, #{nickName}, #{email}, #{password}, #{salt}, #{state}, 1, NOW())")
+	@Options(useGeneratedKeys = true, keyProperty = "userId")
 	public int insert(AuthUser user);
 
 	/**
-	 * 更新用户信息，不会修改密码和加密盐值
-	 * 如果需要修改密码请使用 changePassword
+	 * 更新用户信息，不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
 	 * 
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, state = #{state} WHERE user_id = #{userId}")
+	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, email = #{email}, state = #{state} WHERE user_id = #{userId}")
 	public int udpate(AuthUser user);
 
 	/**
@@ -106,8 +108,8 @@ public interface AuthUserDao {
 	 * @return 返回受影响的行数
 	 */
 	@Delete("DELETE FROM auth_user WHERE user_id = #{id}")
-	public int delete(@Param(value = "id")Integer id);
-	
+	public int delete(@Param(value = "id") Integer id);
+
 	/**
 	 * 修改登录密码
 	 * 
@@ -117,8 +119,9 @@ public interface AuthUserDao {
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	@Update("UPDATE auth_user SET user_psd = MD5(#{newPassword}) WHERE user_id = #{id} AND user_psd = MD5(#{oldPassword})")
-	public int changePassword(@Param(value = "id")Integer id, @Param(value = "oldPassword")String oldPassword, @Param(value = "newPassword")String newPassword);
-		
+	public int changePassword(@Param(value = "id") Integer id, @Param(value = "oldPassword") String oldPassword,
+			@Param(value = "newPassword") String newPassword);
+
 	/**
 	 * 更新用户状态
 	 * 
@@ -129,8 +132,8 @@ public interface AuthUserDao {
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	@Update("UPDATE auth_user SET state = #{state} WHERE user_id = #{userId}")
-	public int changeState(@Param(value = "userId")Integer id, @Param(value = "state")AuthUserState state);
-	
+	public int changeState(@Param(value = "userId") Integer id, @Param(value = "state") AuthUserState state);
+
 	/**
 	 * 添加新角色
 	 * 
@@ -139,8 +142,8 @@ public interface AuthUserDao {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE auth_user_role(user_id, role_id, available, start_date) VALUE(#{userId}, #{roleId}, 1, NOW())")
-	public int addRole(@Param(value = "userId")Integer userId, @Param(value = "roleId")Integer roleId);
-	
+	public int addRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
+
 	/**
 	 * 移除已关联角色
 	 * 
@@ -149,5 +152,5 @@ public interface AuthUserDao {
 	 * @return
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
-	public int removeRole(@Param(value = "userId")Integer userId, @Param(value = "roleId")Integer roleId);
+	public int removeRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
 }

@@ -38,32 +38,38 @@ public class AuthUserController {
 	public String findAllUser(@RequestParam(defaultValue="1")int pageNum, Model model) {
 		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum);
 		model.addAttribute("page", page);
-		return "auth/users/index";
+		return "auth/user/index";
 	}
 	
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
 	public String findUser(@PathVariable("id")Integer id, Model model) {
 		model.addAttribute("user", this.authUserService.findById(id));
-		return "auth/users/detail";
+		return "auth/user/detail";
 	}
 	
 	@GetMapping("/new")
 	@RequiresPermissions("authUser:new")
 	public String newUser() {
-		return "";
+		return "auth/user/new";
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String editUser(@PathVariable("id")Integer id, Model model) {
+		model.addAttribute("user", this.authUserService.findById(id));
+		return "auth/user/edit";
 	}
 	
 	@PostMapping("/save")
 	@RequiresPermissions("authUser:save")
 	public String saveUser() {
-		return "";
+		return "auth/user/save";
 	}
 	
 	@PostMapping("/del/{id}")
 	@RequiresPermissions("authUser:delete")
 	public String deleteUser(@PathVariable("id")Integer id) {
-		return "";
+		return "auth/user/delete";
 	}
 
 }

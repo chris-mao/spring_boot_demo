@@ -45,28 +45,25 @@ public class ShiroConfiguration {
 		logger.info("ShiroConfiguration.shiroFilter() has been loaded");
 		ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
 		filterBean.setSecurityManager(securityManager);
-		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-
-		// 配置过滤器
-		// authc:所有URL都必须通过认证才可以访问
-		// anon: 所有URL都可以匿名访问
-
-		// 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
-		filterChainDefinitionMap.put("/logout", "logout");
-		// 允许匿名访问css/js/img资源
-		filterChainDefinitionMap.put("/css/**", "anon");
-		filterChainDefinitionMap.put("/js/**", "anon");
-		filterChainDefinitionMap.put("/img/**", "anon");
-		filterChainDefinitionMap.put("/static/**", "anon");
-		filterChainDefinitionMap.put("/**", "authc");
-		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
 		// 登录页面，如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		filterBean.setLoginUrl("/auth");
 		// 登录成功后要跳转的链接
-		filterBean.setSuccessUrl("/");
+		filterBean.setSuccessUrl("/index");
 		// 未授权界面
 		filterBean.setUnauthorizedUrl("/unauthorized");
+		
+		// 配置过滤器
+		// authc:所有URL都必须通过认证才可以访问
+		// anon: 所有URL都可以匿名访问
+		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+		// 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
+		filterChainDefinitionMap.put("/logout", "logout");
+		// 允许匿名访问css/js/img资源
+		filterChainDefinitionMap.put("/css/*", "anon");
+		filterChainDefinitionMap.put("/img/*", "anon");
+		filterChainDefinitionMap.put("/js/*", "anon");
+		filterChainDefinitionMap.put("/**", "authc");
+		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		return filterBean;
 	}

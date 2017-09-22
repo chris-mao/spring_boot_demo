@@ -15,6 +15,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
@@ -22,6 +24,8 @@ import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
 
 public class JrShiroRealm extends AuthorizingRealm {
+	
+	private final static Logger logger = LoggerFactory.getLogger(JrShiroRealm.class);
 
 	/**
 	 * 
@@ -42,19 +46,13 @@ public class JrShiroRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		AuthUser user = (AuthUser) principals.getPrimaryPrincipal();
-		System.out.println("权限配置-->JrShiroRealm.doGetAuthorizationInfo()");
-
-		/**
-		 * add single permission
-		 * 
-		 * authorizationInfo.addRole(roleName);
-		 * authorizationInfo.addStringPermission(permissionName);
-		 * 
-		 */
+		logger.info("读取用户[" + user.getUserName() + "]权限 --> JrShiroRealm.doGetAuthorizationInfo()");
 
 		// 获取用户录属的角色及相应权限
+		logger.info("读取用户[" + user.getUserName() + "]关联的角色 --> JrShiroRealm.doGetAuthorizationInfo()");
 		for (AuthRole role : user.getRoles()) {
 			authorizationInfo.addRole(role.getRoleName());
+			logger.info("读取角色[" + role.getRoleName() + "]关联的权限 --> JrShiroRealm.doGetAuthorizationInfo()");
 			for (AuthPermission permission : role.getPermissions()) {
 				authorizationInfo.addStringPermission(permission.getPermissionName());
 			}
@@ -82,15 +80,15 @@ public class JrShiroRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();
 		AuthUser user = authUserService.findByName(userName);
-		System.out.println("身份验证" + "[" + user + "] " + "-->JrShiroRealm.doGetAuthorizationInfo()");
+		logger.info("身份验证" + "[" + user + "] " + "-->JrShiroRealm.doGetAuthorizationInfo()");
 
 		if (user == null) { // 没找到帐号
 			throw new UnknownAccountException();
-		} else if (user.getState() == AuthUserState.LOCKED) { // 帐号被锁
+		} else if (user.getState() == AuthUserState.LOCKED) {   // 帐号被锁
 			throw new LockedAccountException();
 		} else if (user.getState() == AuthUserState.INACTIVE) { // 帐号失效
 			throw new DisabledAccountException();
-		} else if (user.getState() == AuthUserState.EXPIRED) { // 帐号过期
+		} else if (user.getState() == AuthUserState.EXPIRED) {  // 帐号过期
 			throw new ExpiredCredentialsException();
 		}
 

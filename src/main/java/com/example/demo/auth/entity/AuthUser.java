@@ -41,6 +41,11 @@ public class AuthUser implements Serializable {
 	 * 昵称
 	 */
 	private String nickName;
+	
+	/**
+	 * 电子邮件，用于找回密码
+	 */
+	private String email;
 
 	/**
 	 * 密码，使用MD5加密
@@ -191,14 +196,22 @@ public class AuthUser implements Serializable {
 		this.roles = roles;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", password="
-				+ password + ", salt=" + salt + ", state=" + state + ", createdTime=" + createdTime + ", updateTime="
-				+ updateTime + ", roles=" + roles + "]";
+		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
+				+ ", password=" + password + ", salt=" + salt + ", state=" + state + ", createdTime=" + createdTime
+				+ ", updateTime=" + updateTime + ", roles=" + roles + "]";
 	}
 
 }
