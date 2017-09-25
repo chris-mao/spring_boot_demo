@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.example.demo.auth.AuthUserState;
 
 /**
@@ -26,6 +30,17 @@ public class AuthUser implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 初始密码
+	 */
+	public static final String Initial_Password = "Welcome123";
+
+	public AuthUser() {
+		super();
+		this.password = AuthUser.Initial_Password;
+		this.state = AuthUserState.ACTIVE;
+	}
 
 	/**
 	 * 用户编号
@@ -35,21 +50,30 @@ public class AuthUser implements Serializable {
 	/**
 	 * 登录名称，不允许重复
 	 */
+	@NotEmpty(message = "用户名不允许为空")
+	@Length(min = 4, max = 64, message = "用户名长度需在4位到64位之间")
 	private String userName;
 
 	/**
 	 * 昵称
 	 */
+	@NotEmpty(message = "昵称不允许为空")
+	@Length(min = 4, max = 64, message = "昵称长度需在4位到64位之间")
 	private String nickName;
 	
 	/**
 	 * 电子邮件，用于找回密码
 	 */
+	@NotEmpty(message = "电子邮件不允许为空")
+	@Email(message = "请输入正确的电子邮件")
+	@Length(max = 64, message = "电子邮件长度不能超过64位")
 	private String email;
 
 	/**
 	 * 密码，使用MD5加密
 	 */
+	@NotEmpty(message = "登录密码不允许为空")
+	@Length(min = 6, max = 64, message = "登录密码长度需在6位到64位之间")
 	private String password;
 
 	/**

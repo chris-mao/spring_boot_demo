@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head>
-<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>系统用户详情</title>
 </head>
 <body>
@@ -12,7 +12,9 @@
 			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
 				<div class="btn-toolbar pull-right hidden-print">
 					<div class="btn-group btn-group-sm">
-						<a class="btn btn-success" th:href="@{'/users/edit/' + ${user.userId}}">编辑</a> <a class="btn btn-success" th:href="@{/users}">返回列表</a>
+						<a class="btn btn-success"
+							th:href="@{'/users/' + ${user.userId} + '/edit'}">编辑</a> <a
+							class="btn btn-success" th:href="@{/users}">返回列表</a>
 					</div>
 				</div>
 				<div>

@@ -4,27 +4,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<div class="hidden-print row text-right" style="margin-bottom: 2rem;"
+	<div class="row hidden-print text-right" style="margin-bottom: 2rem;"
 		th:fragment="pagination(path, pageInfo)">
-		<div class="pull-right">
-			<em>共 <span th:text="${pageInfo.pages}"></span> 页 <span
+		<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12 pull-right">
+			<!-- <em>共 <span th:text="${pageInfo.pages}"></span> 页 <span
 				th:text="${pageInfo.total}"></span> 笔数据
-			</em>
+			</em> -->
 			<ul class="pagination pagination-sm">
 				<li th:if="${pageInfo.isFirstPage == false}"><a
-					th:href="@{${path}(pageNum=1)}"><span>首页</span></a></li>
+					th:href="@{${path}(pageNum=1)}"><span aria-hidden="true">首页</span></a></li>
 				<li th:if="${pageInfo.isFirstPage == true}" class="disabled"><a
-					href="javascript:void(0);"><span>首页</span></a></li>
+					href="javascript:void(0);"><span aria-hidden="true">首页</span></a></li>
 				<li
 					th:each="pageNo : ${#numbers.sequence(pageInfo.firstPage, pageInfo.lastPage)}">
 					<a th:href="@{${path}(pageNum=${pageNo})}"><span
 						th:text="${pageNo}"></span></a>
 				</li>
 				<li th:if="${pageInfo.isLastPage == false}"><a
-					th:href="@{${path}(pageNum=${pageInfo.pages})}"><span>末页</span></a>
-				</li>
+					th:href="@{${path}(pageNum=${pageInfo.pages})}"><span
+						aria-hidden="true">末页</span></a></li>
 				<li th:if="${pageInfo.isLastPage == true}" class="disabled"><a
-					href="javascript:void(0);"><span>末页</span></a></li>
+					href="javascript:void(0);"><span aria-hidden="true">末页</span></a></li>
 			</ul>
 		</div>
 	</div>

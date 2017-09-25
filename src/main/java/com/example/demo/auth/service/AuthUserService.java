@@ -18,7 +18,7 @@ import com.github.pagehelper.PageInfo;
  * @version 1.0
  *
  */
-public interface AuthUserService { 
+public interface AuthUserService {
 	
 	/**
 	 * 查询所有用户信息，不分页

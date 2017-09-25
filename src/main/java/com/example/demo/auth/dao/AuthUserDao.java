@@ -88,7 +88,7 @@ public interface AuthUserDao {
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Insert("INSERT INTO auth_user(user_name, nick_name, email, user_psd, salt, state, available, created_time) VALUES(#{userName}, #{nickName}, #{email}, #{password}, #{salt}, #{state}, 1, NOW())")
+	@Insert("INSERT INTO auth_user(user_name, nick_name, email, user_psd, salt, state, available, created_time) VALUES(#{userName}, #{nickName}, #{email}, MD5(#{password}), #{salt}, #{state}, 1, NOW())")
 	@Options(useGeneratedKeys = true, keyProperty = "userId")
 	public int insert(AuthUser user);
 
@@ -98,7 +98,7 @@ public interface AuthUserDao {
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, email = #{email}, state = #{state} WHERE user_id = #{userId}")
+	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, email = #{email} WHERE user_id = #{userId}")
 	public int udpate(AuthUser user);
 
 	/**

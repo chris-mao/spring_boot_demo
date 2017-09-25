@@ -60,6 +60,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/logout", "logout");
 		// 允许匿名访问css/js/img资源
 		filterChainDefinitionMap.put("/css/*", "anon");
+		filterChainDefinitionMap.put("/fonts/*", "anon");
 		filterChainDefinitionMap.put("/img/*", "anon");
 		filterChainDefinitionMap.put("/js/*", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
