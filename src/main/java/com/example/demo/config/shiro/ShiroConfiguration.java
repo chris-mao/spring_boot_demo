@@ -81,7 +81,7 @@ public class ShiroConfiguration {
 		// 设置realm
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
-		// securityManager.setCacheManager(ehCacheManager());
+		securityManager.setCacheManager(ehCacheManager());
 		return securityManager;
 	}
 
