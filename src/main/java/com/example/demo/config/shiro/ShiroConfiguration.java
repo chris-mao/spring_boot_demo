@@ -31,7 +31,7 @@ import com.example.demo.auth.JrShiroRealm;
  */
 @Configuration
 public class ShiroConfiguration {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
 
 	/**
@@ -45,13 +45,7 @@ public class ShiroConfiguration {
 		logger.info("ShiroConfiguration.shiroFilter() has been loaded");
 		ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
 		filterBean.setSecurityManager(securityManager);
-		// 登录页面，如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-		filterBean.setLoginUrl("/auth");
-		// 登录成功后要跳转的链接
-		filterBean.setSuccessUrl("/index");
-		// 未授权界面
-		filterBean.setUnauthorizedUrl("/unauthorized");
-		
+
 		// 配置过滤器
 		// authc:所有URL都必须通过认证才可以访问
 		// anon: 所有URL都可以匿名访问
@@ -65,6 +59,13 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/js/*", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+		// 登录页面
+		filterBean.setLoginUrl("/login");
+		// 登录成功后要跳转的链接
+		filterBean.setSuccessUrl("/index");
+		// 未授权界面
+		filterBean.setUnauthorizedUrl("/unauthorized");
 
 		return filterBean;
 	}
@@ -80,7 +81,7 @@ public class ShiroConfiguration {
 		// 设置realm
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
-		securityManager.setCacheManager(ehCacheManager());
+		// securityManager.setCacheManager(ehCacheManager());
 		return securityManager;
 	}
 

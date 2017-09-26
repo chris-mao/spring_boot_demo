@@ -3,8 +3,6 @@
  */
 package com.example.demo.auth.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -14,12 +12,11 @@ import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -33,51 +30,40 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class AuthController {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-	@GetMapping("/auth")
-	public String index(HttpServletRequest request, Map<String, Object> map) {
+	@GetMapping("/login")
+	public String index() {
 		return "auth/login";
 	}
 
-	@PostMapping("/auth")
-	public String doLogin(HttpServletRequest request, Map<String, Object> map) {
+	@PostMapping("/login")
+	public String doLogin(HttpServletRequest request, Model model) {
 		String msg = "";
-		String userName = request.getParameter("user_name");
-		String password = request.getParameter("password");
-		UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-
-		try {
-			System.out.println(token);
-			// token.setRememberMe(true);
-			Subject subject = SecurityUtils.getSubject();
-			subject.login(token);
-			if (subject.isAuthenticated()) {
-				return "redirect:/users";
+		String exception = (String) request.getAttribute("shiroLoginFailure");
+		if (exception != null) {
+			if (UnknownAccountException.class.getName().equals(exception)) {
+				msg = "您输入的帐号不存在！";
+			} else if (IncorrectCredentialsException.class.getName().equals(exception)) {
+				msg = "您输入的密码不正确！";
+			} else if (LockedAccountException.class.getName().equals(exception)) {
+				msg = "您的帐号已被锁定！";
+			} else if (ExpiredCredentialsException.class.getName().equals(exception)) {
+				msg = "您的帐号已过期！";
+			} else if (DisabledAccountException.class.getName().equals(exception)) {
+				msg = "您的帐号已被禁用！";
 			}
-		} catch (UnknownAccountException e) {
-			msg = "您输入的帐号不存在！";
-			logger.error(msg + " >>> " + e.getClass().getName());
-		} catch (IncorrectCredentialsException e) {
-			msg = "您输入的密码不正确！";
-			logger.error(msg + " >>> " + e.getClass().getName());
-		} catch (LockedAccountException e) {
-			msg = "您的帐号已被锁定！";
-			logger.error(msg + " >>> " + e.getClass().getName());
-		} catch (ExpiredCredentialsException e) {
-			msg = "您的帐号已过期！";
-			logger.error(msg + " >>> " + e.getClass().getName());
-		} catch (DisabledAccountException e) {
-			msg = "您的帐号已被禁用！";
-			logger.error(msg + " >>> " + e.getClass().getName());
-		} catch (AuthenticationException e) {
-			msg = "登录认证失败，原因不明！";
-			// e.printStackTrace();
-			logger.error(msg + " >>> " + e.getClass().getName());
+			else if (AuthenticationException.class.getName().equals(exception)) {
+				msg = "登录认证失败，原因不明！";
+			}
+			else {
+				msg = "登录异常！";
+			}
+			logger.error(msg + " >>> " + exception);
 		}
 
-		map.put("msg", msg);
+		model.addAttribute("msg", msg);
 		return "auth/login";
 	}
 
