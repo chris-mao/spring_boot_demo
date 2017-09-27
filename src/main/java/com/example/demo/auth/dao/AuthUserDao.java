@@ -16,8 +16,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.mapping.FetchType;
 
-import com.example.demo.auth.AuthUserState;
-import com.example.demo.auth.dao.handler.AuthUserStateTypeHandler;
+import com.example.demo.auth.AuthUserStateEnum;
+import com.example.demo.auth.dao.handler.AuthUserStateEnumTypeHandler;
 import com.example.demo.auth.entity.AuthUser;
 
 /**
@@ -42,7 +42,7 @@ public interface AuthUserDao {
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
-			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
+			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.example.demo.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -59,7 +59,7 @@ public interface AuthUserDao {
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
-			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
+			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.example.demo.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -76,7 +76,7 @@ public interface AuthUserDao {
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
-			@Result(property = "state", column = "state", javaType = AuthUserState.class, typeHandler = AuthUserStateTypeHandler.class),
+			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.example.demo.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -125,14 +125,14 @@ public interface AuthUserDao {
 	/**
 	 * 更新用户状态
 	 * 
-	 * @see AuthUserState
+	 * @see AuthUserStateEnum
 	 * 
 	 * @param id
 	 * @param state
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	@Update("UPDATE auth_user SET state = #{state} WHERE user_id = #{userId}")
-	public int changeState(@Param(value = "userId") Integer id, @Param(value = "state") AuthUserState state);
+	public int changeState(@Param(value = "userId") Integer id, @Param(value = "state") AuthUserStateEnum state);
 
 	/**
 	 * 添加新角色

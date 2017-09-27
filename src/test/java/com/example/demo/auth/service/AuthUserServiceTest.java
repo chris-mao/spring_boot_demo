@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 
@@ -74,7 +74,7 @@ public class AuthUserServiceTest {
 		user.setUserName(userName);
 		user.setNickName("haha");
 		user.setPassword("password");
-		user.setState(AuthUserState.LOCKED);
+		user.setState(AuthUserStateEnum.LOCKED);
 	    Assert.assertEquals(true, this.authUserService.insert(user));
 	    Assert.assertNotNull(user.getUserId());
 		Assert.assertNotNull(authUserService.findByName(userName));
@@ -88,7 +88,7 @@ public class AuthUserServiceTest {
 		Assert.assertNotNull(user);
 		
 		user.setUserName(newUserName);
-		user.setState(AuthUserState.EXPIRED);
+		user.setState(AuthUserStateEnum.EXPIRED);
 		Assert.assertEquals(true, authUserService.update(user));
 		Assert.assertNotNull(authUserService.findByName(newUserName));
 	}
@@ -113,8 +113,8 @@ public class AuthUserServiceTest {
 	
 	@Test
 	public void testChangeState() {
-		Assert.assertEquals(true, authUserService.changeState(1, AuthUserState.INACTIVE));
-		authUserService.changeState(1, AuthUserState.ACTIVE); //将状态改回去，方便下次测试使用
+		Assert.assertEquals(true, authUserService.changeState(1, AuthUserStateEnum.INACTIVE));
+		authUserService.changeState(1, AuthUserStateEnum.ACTIVE); //将状态改回去，方便下次测试使用
 	}
 	
 	@Test

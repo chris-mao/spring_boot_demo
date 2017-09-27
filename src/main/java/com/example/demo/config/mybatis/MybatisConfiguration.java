@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.github.pagehelper.PageHelper;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+
 /**
  * com.example.demo.config.mybatis PageHelperConfiguration
  *
@@ -37,6 +39,15 @@ public class MybatisConfiguration {
 		ph.setProperties(p);
 		return ph;
 			
+	}
+	
+	/**
+	 * 为Thymeleaf增加Shiro方言，以便能够在模板文件中使用Shiro标签
+	 * @return
+	 */
+	@Bean
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
 	}
 
 }

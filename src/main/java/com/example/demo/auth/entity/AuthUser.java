@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.AuthUserStateEnum;
 
 /**
  * com.example.demo.auth.entity AuthUser
@@ -39,7 +39,7 @@ public class AuthUser implements Serializable {
 	public AuthUser() {
 		super();
 		this.password = AuthUser.Initial_Password;
-		this.state = AuthUserState.ACTIVE;
+		this.state = AuthUserStateEnum.ACTIVE;
 	}
 
 	/**
@@ -83,13 +83,13 @@ public class AuthUser implements Serializable {
 
 	/**
 	 * 用户状态
-	 * @see AuthUserState 
+	 * @see AuthUserStateEnum 
 	 * Active     激活状态
 	 * Locked     帐户锁定
 	 * Expired    帐户过期
 	 * Inactive   帐户失效
 	 */
-	private AuthUserState state;
+	private AuthUserStateEnum state;
 
 	/**
 	 * 创建时间
@@ -139,7 +139,7 @@ public class AuthUser implements Serializable {
 	/**
 	 * @return the state
 	 */
-	public AuthUserState getState() {
+	public AuthUserStateEnum getState() {
 		return state;
 	}
 
@@ -147,7 +147,7 @@ public class AuthUser implements Serializable {
 	 * @param state
 	 *            the state to set
 	 */
-	public void setState(AuthUserState state) {
+	public void setState(AuthUserStateEnum state) {
 		this.state = state;
 	}
 

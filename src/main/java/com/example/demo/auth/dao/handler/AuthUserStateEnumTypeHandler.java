@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.AuthUserStateEnum;
 
 /**
  * com.example.demo.auth.dao.handler AuthUserStateTypeHandler
@@ -23,13 +23,13 @@ import com.example.demo.auth.AuthUserState;
  * @version 1.0
  *
  */
-public class AuthUserStateTypeHandler extends BaseTypeHandler<AuthUserState> {
+public class AuthUserStateEnumTypeHandler extends BaseTypeHandler<AuthUserStateEnum> {
 	
-	private Class<AuthUserState> typeClass;
+	private Class<AuthUserStateEnum> typeClass;
 	
-	private AuthUserState[] enums;
+	private AuthUserStateEnum[] enums;
 	
-	public AuthUserStateTypeHandler(Class<AuthUserState> typeClass) {
+	public AuthUserStateEnumTypeHandler(Class<AuthUserStateEnum> typeClass) {
 		if (null == typeClass) {
 			throw new IllegalArgumentException("Type argument cannot be null.");
 		}
@@ -41,32 +41,32 @@ public class AuthUserStateTypeHandler extends BaseTypeHandler<AuthUserState> {
 	}
 
 	@Override
-	public void setNonNullParameter(PreparedStatement ps, int i, AuthUserState parameter, JdbcType jdbcType) throws SQLException {
+	public void setNonNullParameter(PreparedStatement ps, int i, AuthUserStateEnum parameter, JdbcType jdbcType) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public AuthUserState getNullableResult(ResultSet rs, String columnName) throws SQLException {
+	public AuthUserStateEnum getNullableResult(ResultSet rs, String columnName) throws SQLException {
 		String stateName = rs.getString(columnName);
 		return rs.wasNull() ? null : translateToAuthUserStateType(stateName);
 	}
 
 	@Override
-	public AuthUserState getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+	public AuthUserStateEnum getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
 		String stateName = rs.getString(columnIndex);
 		return rs.wasNull() ? null : translateToAuthUserStateType(stateName);
 	}
 
 	@Override
-	public AuthUserState getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+	public AuthUserStateEnum getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
 		String stateName = cs.getString(columnIndex);
 		return cs.wasNull() ? null : translateToAuthUserStateType(stateName);
 	}
 	
-	private AuthUserState translateToAuthUserStateType(String state) {
-		AuthUserState result = null;
-		for(AuthUserState userState: this.enums) {
+	private AuthUserStateEnum translateToAuthUserStateType(String state) {
+		AuthUserStateEnum result = null;
+		for(AuthUserStateEnum userState: this.enums) {
 			if (userState.getText().equals(state)) {
 				result = userState;
 				break;

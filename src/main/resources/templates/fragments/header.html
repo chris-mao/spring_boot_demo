@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
@@ -13,40 +14,56 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" th:href="@{/}"> <img alt="Brand"
-					th:src="@{/img/zf2-logo.png}" style="margin-right: 1rem;" />JR
-					Soft
+				<a class="navbar-brand" th:href="@{/}"> <!-- <img alt="Brand"
+					th:src="@{/img/zf2-logo.png}" /> -->JR Soft
 				</a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-collapse-header"
 				role="navigation">
 				<ul class="nav navbar-nav navbar-left">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">User Name<b class="caret"></b>
-					</a></li>
+					<li class="dropdown"><a href="javascript:void(0);"
+						class="dropdown-toggle" data-toggle="dropdown"><shiro:principal
+								property="nickName" /><b class="caret"></b> </a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
+					<shiro:hasRole name="administrator">
+						<li class="dropdown"><a href="javascript:void(0);"
+							class="dropdown-toggle" data-toggle="dropdown">数据管理<b
+								class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<shiro:hasPermission name="authUser:list">
+									<li><a class="navbar-link" title="维护系统用户" href="#" th:href="@{/users}"><span
+											class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authRole:list">
+									<li><a class="navbar-link" title="维护系统角色" href="#" th:href="@{/roles}"><span
+											class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authPermission:list">
+									<li><a class="navbar-link" title="维护系统权限" href="#" th:href="@{/permissions}"><span
+											class="glyphicon glyphicon-wrench"></span>&nbsp;权限管理</a></li>
+								</shiro:hasPermission>
+							</ul></li>
+					</shiro:hasRole>
+
 					<li class="dropdown"><a href="javascript:void(0);"
 						class="dropdown-toggle" data-toggle="dropdown">系统操作<b
 							class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a class="navbar-link" title="修改登录密码"
-								href="#"><span
-									class="glyphicon glyphicon-cog"></span>&nbsp;修改密码</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a class="navbar-link" title="将界面语言设为英文"
-								href="#"><span
+							<li><a class="navbar-link" title="将界面语言设为英文" href="#"><span
 									class="glyphicon glyphicon-globe"></span>&nbsp;英语</a></li>
-							<li><a class="navbar-link" title="将界面语言设为简体中文"
-								href="E"><span
+							<li><a class="navbar-link" title="将界面语言设为简体中文" href="E"><span
 									class="glyphicon glyphicon-globe"></span>&nbsp;简体中文</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a class="navbar-link" title="使用其他帐号登录"
-								href="#"><span
+							<shiro:hasPermission name="authUser:list">
+								<li><a class="navbar-link" title="修改登录密码" href="#"><span
+										class="glyphicon glyphicon-cog"></span>&nbsp;修改密码</a></li>
+								<li role="separator" class="divider"></li>
+							</shiro:hasPermission>
+							<li><a class="navbar-link" title="使用其他帐号登录" href="#"><span
 									class="glyphicon glyphicon-log-in"></span>&nbsp;切换用户</a></li>
-							<li><a class="navbar-link" title="退出系统"
-								th:href="@{/logout}"><span
+							<li><a class="navbar-link" title="退出系统" th:href="@{/logout}"><span
 									class="glyphicon glyphicon-log-out"></span>&nbsp;退出系统</a></li>
 						</ul></li>
 				</ul>

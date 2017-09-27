@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.demo.auth.shiro;
 
 import javax.annotation.Resource;
 
@@ -17,14 +17,27 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
 
+/**
+ * com.example.demo.auth.shiro JrShiroRealm
+ *
+ * 实现系统用户身份认证，权限管理
+ * 
+ * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
+ *
+ * @version 1.0
+ *
+ */
 public class JrShiroRealm extends AuthorizingRealm {
-	
+
+	/**
+	 * 
+	 */
 	private final static Logger logger = LoggerFactory.getLogger(JrShiroRealm.class);
 
 	/**
@@ -33,11 +46,8 @@ public class JrShiroRealm extends AuthorizingRealm {
 	@Resource
 	private AuthUserService authUserService;
 
-	// @Resource
-	// private AuthPermissionService authPermissionService;
-
 	/**
-	 * 权限判断
+	 * 获取用户权限
 	 * 
 	 * @param principals
 	 * @return
@@ -84,14 +94,15 @@ public class JrShiroRealm extends AuthorizingRealm {
 
 		if (user == null) { // 没找到帐号
 			throw new UnknownAccountException();
-		} else if (user.getState() == AuthUserState.LOCKED) {   // 帐号被锁
+		} else if (user.getState() == AuthUserStateEnum.LOCKED) { // 帐号被锁
 			throw new LockedAccountException();
-		} else if (user.getState() == AuthUserState.INACTIVE) { // 帐号失效
+		} else if (user.getState() == AuthUserStateEnum.INACTIVE) { // 帐号失效
 			throw new DisabledAccountException();
-		} else if (user.getState() == AuthUserState.EXPIRED) {  // 帐号过期
+		} else if (user.getState() == AuthUserStateEnum.EXPIRED) { // 帐号过期
 			throw new ExpiredCredentialsException();
 		}
 
+		// AuthUserDecorator userDecorator = new AuthUserDecorator(user);
 		SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()), getName());
 		return authInfo;

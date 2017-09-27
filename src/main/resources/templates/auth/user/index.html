@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head>
@@ -19,8 +20,10 @@
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-				<a type="button" class="btn btn-sm btn-success pull-right"
-					title="创建新用户" th:href="@{/users/new}">创建新用户</a>
+				<shiro:hasPermission name="authUser:new">
+					<a type="button" class="btn btn-sm btn-success pull-right"
+						title="创建新用户" th:href="@{/users/new}">创建新用户</a>
+				</shiro:hasPermission>
 			</div>
 		</div>
 		<div class="row">

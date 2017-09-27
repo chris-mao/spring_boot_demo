@@ -11,7 +11,7 @@ package com.example.demo.auth;
  * @version 1.0
  *
  */
-public enum AuthUserState {
+public enum AuthUserStateEnum {
 	
 	ACTIVE(0, "Active"),
 	
@@ -25,7 +25,7 @@ public enum AuthUserState {
 
 	private String text;
 
-	AuthUserState(int code, String text) {
+	AuthUserStateEnum(int code, String text) {
 		this.code = code;
 		this.text = text;
 	}

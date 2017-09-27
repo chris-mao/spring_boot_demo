@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.auth.JrShiroRealm;
+import com.example.demo.auth.shiro.JrShiroRealm;
 
 /**
  * com.example.demo.config.shiro ShiroConfiguration

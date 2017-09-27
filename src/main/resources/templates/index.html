@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head>
@@ -9,6 +10,24 @@
 <body>
 	<div layout:fragment="content">
 		<p>Welcome to JR Soft</p>
+
+		<!-- <p th:text="${@authRoleServiceImpl.findAll()}"></p> -->
+		<table>
+			<tr>
+				<td>context中的attribute</td>
+				<!-- 检索ServletContext的属性'myContextAttribute' -->
+				<td th:text="${application.myContextAttribute}">42</td>
+			</tr>
+			<tr>
+				<td>attributes数量：</td>
+				<!-- 返回attributes的数量 -->
+				<td th:text="${application.size()}">42</td>
+			</tr>
+			<tr th:each="attr : ${application.keySet()}">
+				<td th:text="${attr}">javax.servlet.context.tempdir</td>
+				<td th:text="${application.get(attr)}">/tmp</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.dao.AuthUserDao;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
@@ -93,7 +93,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public boolean changeState(Integer id, AuthUserState state) {
+	public boolean changeState(Integer id, AuthUserStateEnum state) {
 		return 1 == this.authUserDao.changeState(id, state);
 	}
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.auth.AuthUserState;
+import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.auth.service.AuthUserService;
 import com.github.pagehelper.PageInfo;
@@ -101,7 +101,7 @@ public class AuthUserController {
 		if (null != authUser) {
 			model.addAttribute("authUser", authUser);
 		}
-		model.addAttribute("userStates", AuthUserState.values());
+		model.addAttribute("userStates", AuthUserStateEnum.values());
 		return "auth/user/edit";
 	}
 
