@@ -138,6 +138,22 @@ public class AuthUserController {
 		}
 		return "auth/user/save";
 	}
+	
+	/**
+	 * 修改登录密码
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/{id}/change-psd")
+	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+		AuthUser authUser = this.authUserService.findById(id);
+		if (null != authUser) {
+			model.addAttribute("authUser", authUser);
+		}
+		return "auth/user/change-psd";
+	}
 
 	/**
 	 * 删除系统用户

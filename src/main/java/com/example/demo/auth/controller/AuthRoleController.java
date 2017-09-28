@@ -26,6 +26,8 @@ import com.github.pagehelper.PageInfo;
 
 /**
  * com.example.demo.auth.controller AuthRoleController
+ * 
+ * 系统角色控制器类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

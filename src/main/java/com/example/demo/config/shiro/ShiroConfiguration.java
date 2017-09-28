@@ -54,9 +54,10 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/logout", "logout");
 		// 允许匿名访问css/js/img资源
 		filterChainDefinitionMap.put("/css/*", "anon");
-		filterChainDefinitionMap.put("/fonts/*", "anon");
 		filterChainDefinitionMap.put("/img/*", "anon");
 		filterChainDefinitionMap.put("/js/*", "anon");
+		//避免登录后下载favicon图标
+		filterChainDefinitionMap.put("/favicon.ico", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 

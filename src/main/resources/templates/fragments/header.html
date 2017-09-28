@@ -14,16 +14,13 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" th:href="@{/}"> <!-- <img alt="Brand"
-					th:src="@{/img/zf2-logo.png}" /> -->JR Soft
-				</a>
+				<a class="navbar-brand" th:href="@{/}"> JR Soft </a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-collapse-header"
 				role="navigation">
-				<ul class="nav navbar-nav navbar-left">
-					<li class="dropdown"><a href="javascript:void(0);"
-						class="dropdown-toggle" data-toggle="dropdown"><shiro:principal
-								property="nickName" /><b class="caret"></b> </a></li>
+				<ul shiro:authenticated="true" class="nav navbar-nav navbar-left">
+					<li><a href="javascript:void(0);"> <shiro:principal
+								property="nickName" /></a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -33,23 +30,24 @@
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<shiro:hasPermission name="authUser:list">
-									<li><a class="navbar-link" title="维护系统用户" href="#" th:href="@{/users}"><span
-											class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+									<li><a class="navbar-link" title="维护系统用户" href="#"
+										th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authRole:list">
-									<li><a class="navbar-link" title="维护系统角色" href="#" th:href="@{/roles}"><span
-											class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
+									<li><a class="navbar-link" title="维护系统角色" href="#"
+										th:href="@{/roles}"><span class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authPermission:list">
-									<li><a class="navbar-link" title="维护系统权限" href="#" th:href="@{/permissions}"><span
+									<li><a class="navbar-link" title="维护系统权限" href="#"
+										th:href="@{/permissions}"><span
 											class="glyphicon glyphicon-wrench"></span>&nbsp;权限管理</a></li>
 								</shiro:hasPermission>
 							</ul></li>
 					</shiro:hasRole>
 
-					<li class="dropdown"><a href="javascript:void(0);"
-						class="dropdown-toggle" data-toggle="dropdown">系统操作<b
-							class="caret"></b></a>
+					<li shiro:authenticated="true" class="dropdown"><a
+						href="javascript:void(0);" class="dropdown-toggle"
+						data-toggle="dropdown">系统操作<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a class="navbar-link" title="将界面语言设为英文" href="#"><span
 									class="glyphicon glyphicon-globe"></span>&nbsp;英语</a></li>
@@ -57,7 +55,7 @@
 									class="glyphicon glyphicon-globe"></span>&nbsp;简体中文</a></li>
 							<li role="separator" class="divider"></li>
 							<shiro:hasPermission name="authUser:list">
-								<li><a class="navbar-link" title="修改登录密码" href="#"><span
+								<li><a class="navbar-link" title="修改登录密码" href="#" th:href="@{'/users/' + 1 + '/change-psd'}"><span
 										class="glyphicon glyphicon-cog"></span>&nbsp;修改密码</a></li>
 								<li role="separator" class="divider"></li>
 							</shiro:hasPermission>

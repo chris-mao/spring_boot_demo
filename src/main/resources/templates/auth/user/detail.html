@@ -13,7 +13,10 @@
 				<div class="btn-toolbar pull-right hidden-print">
 					<div class="btn-group btn-group-sm">
 						<a class="btn btn-success"
-							th:href="@{'/users/' + ${user.userId} + '/edit'}">编辑</a> <a
+							th:href="@{'/users/' + ${user.userId} + '/edit'}">编辑</a>
+						<a class="btn btn-success"
+                            th:href="@{'/users/' + ${user.userId} + '/change-psd'}">修改密码</a>
+						<a
 							class="btn btn-success" th:href="@{/users}">返回列表</a>
 					</div>
 				</div>
