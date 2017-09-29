@@ -41,7 +41,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public List<AuthRole> findAll();
 
 	/**
@@ -55,7 +55,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public AuthRole findById(@Param(value = "id")Integer id);
 
 	/**
@@ -69,7 +69,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public AuthRole findByName(@Param(value = "name")String roleName);
 
 	/**
@@ -78,27 +78,14 @@ public interface AuthRoleDao {
 	 * @param userName
 	 * @return Set
 	 */
-	@Select("SELECT role_id, role_name, available, created_time, update_time FROM vw_auth_user_role WHERE user_id = #{id}")
+	@Select("call sp_findUserRoles(#{id})")
+//	@Select("SELECT role_id, role_name, available, created_time, update_time FROM vw_auth_user_role WHERE user_id = #{id}")
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public Set<AuthRole> findAllByUserId(@Param(value = "id")Integer userId);
-
-	/**
-	 * 根据用户名称查询其所拥有的角色清单
-	 * 
-	 * @param userName
-	 * @return Set
-	 */
-	@Select("SELECT role_id, role_name, available, created_time, update_time FROM vw_auth_user_role WHERE user_name = #{name}")
-	@Results({ @Result(property = "roleId", column = "role_id", id = true),
-			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_name", many = @Many(select = "com.example.demo.auth.dao.AuthPermissionDao.findAllByRoleName", fetchType = FetchType.LAZY) ) })
-	public Set<AuthRole> findAllByUser(@Param(value = "name")String userName);
 	
 	/**
 	 * 创建新角色

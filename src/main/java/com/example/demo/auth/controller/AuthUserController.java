@@ -147,6 +147,7 @@ public class AuthUserController {
 	 * @return
 	 */
 	@GetMapping("/{id}/change-psd")
+	@RequiresPermissions("authUser:change-password")
 	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
 		AuthUser authUser = this.authUserService.findById(id);
 		if (null != authUser) {

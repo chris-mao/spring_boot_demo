@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.example.demo.auth.shiro.JrShiroRealm;
 
 /**
@@ -56,7 +55,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/css/*", "anon");
 		filterChainDefinitionMap.put("/img/*", "anon");
 		filterChainDefinitionMap.put("/js/*", "anon");
-		//避免登录后下载favicon图标
+		// 避免登录后下载favicon图标
 		filterChainDefinitionMap.put("/favicon.ico", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

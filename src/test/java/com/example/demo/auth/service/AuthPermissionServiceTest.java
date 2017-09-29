@@ -27,6 +27,9 @@ import com.example.demo.auth.entity.AuthRole;
 public class AuthPermissionServiceTest {
 	
 	@Resource
+	private AuthRoleService authRoleService;
+	
+	@Resource
 	private AuthPermissionService authPermissionService;
 
 	@BeforeClass
@@ -39,7 +42,7 @@ public class AuthPermissionServiceTest {
 
 	@Test
 	public void testFindAll() {
-		Assert.assertEquals(21, authPermissionService.findAll().size());
+		Assert.assertEquals(51, authPermissionService.findAll().size());
 	}
 
 	@Test
@@ -98,8 +101,8 @@ public class AuthPermissionServiceTest {
 
 	@Test
 	public void testFindAllByRoleAuthRole() {
-		AuthRole role = new AuthRole();
-		role.setRoleName("csr");
+		AuthRole role = this.authRoleService.findByName("csr");
+		
 		Assert.assertEquals(29, this.authPermissionService.findAllByRole(role.getRoleName()).size());
 	}
 

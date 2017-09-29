@@ -82,12 +82,12 @@ public interface AuthPermissionDao {
 	public AuthPermission findByName(@Param(value = "name")String permissionName);
 	
 	/**
-	 * 按角色名称查询其所拥有的权限
+	 * 按角色ID查询其所拥有的权限
 	 * 
-	 * @param roleName
-	 * @return Set
+	 * @param roleId
+	 * @return
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM vw_auth_role_permission WHERE role_name = #{roleName}")
+	@Select("CALL sp_findRolePermissions(#{roleId})")
 	@Results({
 		@Result(property="permissionId", column="permission_id", id=true),
 		@Result(property="permissionName", column="permission_name"),
@@ -96,7 +96,7 @@ public interface AuthPermissionDao {
 		@Result(property="createdTime", column="created_time"),
 		@Result(property="updateTime", column="update_time")
 	})
-	public Set<AuthPermission> findAllByRoleName(@Param(value = "roleName")String roleName);
+	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId")Integer roleId);
 		
 	/**
 	 * 创建新权限

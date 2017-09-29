@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.auth.dao.AuthPermissionDao;
+import com.example.demo.auth.dao.AuthRoleDao;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.service.AuthPermissionService;
@@ -31,6 +32,9 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	
 	@Value("${pageSize}")
 	private int pageSize;
+	
+	@Resource
+	private AuthRoleDao authRoleDao;
 
 	@Resource
 	private AuthPermissionDao authPermissionDao;
@@ -72,7 +76,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
-		return authPermissionDao.findAllByRoleName(role.getRoleName());
+		return authPermissionDao.findAllByRoleId(role.getRoleId());
 	}
 
 	/*
@@ -84,7 +88,11 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(String roleName) {
-		return authPermissionDao.findAllByRoleName(roleName);
+		AuthRole role = this.authRoleDao.findByName(roleName);
+		if (null == role) {
+			return null;
+		}
+		return authPermissionDao.findAllByRoleId(role.getRoleId());
 	}
 
 	@Override

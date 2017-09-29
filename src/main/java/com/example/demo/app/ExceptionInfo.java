@@ -15,8 +15,6 @@ package com.example.demo.app;
  */
 public class ExceptionInfo {
 	
-	public final static Integer OK = 0;
-	
 	/**
 	 * 错误代码
 	 */
@@ -28,7 +26,7 @@ public class ExceptionInfo {
 	public String message;
 	
 	/**
-	 * exception message
+	 * 异常信息
 	 */
 	public String exMessage;
 	
@@ -38,7 +36,7 @@ public class ExceptionInfo {
 	public String developerMessage;
 	
 	/**
-	 * 请求的URL
+	 * 出错的URL地址
 	 */
 	public String url;
 	
@@ -48,7 +46,7 @@ public class ExceptionInfo {
 	public int httpStatus;
 	
 	/**
-	 * 出现错误的对象
+	 * 出现错误的数据对象
 	 */
 	public Object errorData;
 

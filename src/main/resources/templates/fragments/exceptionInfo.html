@@ -9,34 +9,34 @@
 			<fieldset>
 				<legend>错误信息摘要</legend>
 				<div class="able-responsive small">
-					<table class="table table-striped table-bordered table-condensed">
+					<table class="table table-striped table-bordered table-condensed" th:object="${exceptionInfo}">
 						<tr>
 							<th><label>错误代码</label></th>
-							<td><span th:text="${exceptionInfo.code}"></span></td>
+							<td><span th:text="*{code}"></span></td>
 						</tr>
 						<tr>
 							<th><label>错误描述</label></th>
-							<td><span th:text="${exceptionInfo.message}"></span></td>
+							<td><span th:text="*{message}"></span></td>
 						</tr>
 						<tr>
 							<th><label>异常描述</label></th>
-							<td><span th:text="${exceptionInfo.exMessage}"></span></td>
+							<td><span th:text="*{exMessage}"></span></td>
 						</tr>
 						<tr>
 							<th><label>修改建议</label></th>
-							<td><span th:text="${exceptionInfo.developerMessage}"></span></td>
+							<td><span th:text="*{developerMessage}"></span></td>
 						</tr>
 						<tr>
 							<th><label>请求地址</label></th>
-							<td><span th:text="${exceptionInfo.url}"></span></td>
+							<td><span th:text="*{url}"></span></td>
 						</tr>
 						<tr>
 							<th><label>响应代码</label></th>
-							<td><span th:text="${exceptionInfo.httpStatus}"></span></td>
+							<td><span th:text="*{httpStatus}"></span></td>
 						</tr>
 						<tr>
 							<th><label>数据对象</label></th>
-							<td><span th:text="${exceptionInfo.errorData}"></span></td>
+							<td><span th:text="*{errorData}"></span></td>
 						</tr>
 					</table>
 				</div>

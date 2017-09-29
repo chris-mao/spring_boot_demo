@@ -64,6 +64,7 @@ public class JrShiroRealm extends AuthorizingRealm {
 			authorizationInfo.addRole(role.getRoleName());
 			logger.info("读取角色[" + role.getRoleName() + "]关联的权限 --> JrShiroRealm.doGetAuthorizationInfo()");
 			for (AuthPermission permission : role.getPermissions()) {
+				logger.info("获取权限[" + permission.getPermissionName() + "]");
 				authorizationInfo.addStringPermission(permission.getPermissionName());
 			}
 		}
