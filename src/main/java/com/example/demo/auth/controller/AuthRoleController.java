@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.example.demo.auth.controller;
 
 import java.util.List;
@@ -25,9 +22,9 @@ import com.example.demo.auth.service.AuthRoleService;
 import com.github.pagehelper.PageInfo;
 
 /**
- * com.example.demo.auth.controller AuthRoleController
- * 
  * 系统角色控制器类
+ * 
+ * com.example.demo.auth.controller AuthRoleController
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

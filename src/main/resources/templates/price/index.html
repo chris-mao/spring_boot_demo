@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>客户列表</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row" style="margin-bottom: 12px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div class="input-group input-group-sm">
+                    <input class="form-control" type="search" id="search_text"
+                        name="search_text" placeholder="搜索内容" autofocus="autofocus" /> <span
+                        class="input-group-btn">
+                        <button type="button" class="btn btn-default" id="search_button">搜索</button>
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+                </div>
+        </div>
+        <!-- <div
+            th:replace="fragments/pagination::pagination(${'/customers'}, ${page})"></div> -->
+    </div>
+</body>
+</html>

@@ -87,7 +87,6 @@ public class AppExceptionHandler {
 		return AppExceptionHandler.UNAUTHORIZED_ERROR_VIEW;
 	}
 	
-	
 	@ExceptionHandler(UnavailableSecurityManagerException.class)
 	public String unauthorizedErrorHandler(HttpServletRequest req, HttpServletResponse res, Model model,
 			UnavailableSecurityManagerException e) {

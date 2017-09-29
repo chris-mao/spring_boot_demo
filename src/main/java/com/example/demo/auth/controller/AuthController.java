@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.example.demo.auth.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
+ * 身份认证控制器类
+ * 
  * com.example.demo.auth.controller AuthController
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
