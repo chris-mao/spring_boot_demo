@@ -45,7 +45,7 @@ public class ExceptionInfo {
 	/**
 	 * HTTP请求状态码
 	 */
-	public String httpStatus;
+	public int httpStatus;
 	
 	/**
 	 * 出现错误的对象
@@ -111,14 +111,14 @@ public class ExceptionInfo {
 	/**
 	 * @return the httpStatus
 	 */
-	public String getHttpStatus() {
+	public int getHttpStatus() {
 		return httpStatus;
 	}
 
 	/**
 	 * @param httpStatus the httpStatus to set
 	 */
-	public void setHttpStatus(String httpStatus) {
+	public void setHttpStatus(int httpStatus) {
 		this.httpStatus = httpStatus;
 	}
 

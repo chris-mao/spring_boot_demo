@@ -66,7 +66,7 @@ public class ShiroConfiguration {
 		// 登录成功后要跳转的链接
 		filterBean.setSuccessUrl("/index");
 		// 未授权界面
-		filterBean.setUnauthorizedUrl("/unauthorized");
+		filterBean.setUnauthorizedUrl("/403");
 
 		return filterBean;
 	}
