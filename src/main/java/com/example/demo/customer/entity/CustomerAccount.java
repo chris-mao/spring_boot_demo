@@ -1,0 +1,275 @@
+/**
+ * 
+ */
+package com.example.demo.customer.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.constraints.Max;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+/**
+ * 客户实体类
+ * 
+ * com.example.demo.customer.entity Customer
+ *
+ * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
+ *
+ * @version 1.0
+ *
+ */
+public class CustomerAccount implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private Integer customerId;
+
+	/**
+	 * 
+	 */
+	@NotEmpty(message = "")
+	@Max(max = 10, message = "")
+	private String accountNumber;
+
+	/**
+	 * 
+	 */
+	@NotEmpty(message = "")
+	private String custoemrName;
+
+	/**
+	 * 
+	 */
+	@NotEmpty(message = "")
+	@Length(min = 2, max = 32, message = "")
+	private String country;
+	
+	/**
+	 * 
+	 */
+	private CustomerSite billTo;
+	
+	/**
+	 * 
+	 */
+	private Set<CustomerSite> shipTo;
+	
+	/**
+	 * 
+	 */
+	private Set<CustomerSite> deliverTo;
+
+	/**
+	 * 创建时间
+	 */
+	private Date createdTime;
+
+	/**
+	 * 更新时间
+	 */
+	private Date updateTime;
+
+	/**
+	 * 是否有效
+	 */
+	private Boolean available;
+
+	/**
+	 * @return the customerId
+	 */
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	/**
+	 * @param customerId the customerId to set
+	 */
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	/**
+	 * @return the accountNumber
+	 */
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	/**
+	 * @param accountNumber the accountNumber to set
+	 */
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	/**
+	 * @return the custoemrName
+	 */
+	public String getCustoemrName() {
+		return custoemrName;
+	}
+
+	/**
+	 * @param custoemrName the custoemrName to set
+	 */
+	public void setCustoemrName(String custoemrName) {
+		this.custoemrName = custoemrName;
+	}
+
+	/**
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	/**
+	 * @return the billTo
+	 */
+	public CustomerSite getBillTo() {
+		return billTo;
+	}
+
+	/**
+	 * @param billTo the billTo to set
+	 */
+	public void setBillTo(CustomerSite billTo) {
+		this.billTo = billTo;
+	}
+
+	/**
+	 * @return the shipTo
+	 */
+	public Set<CustomerSite> getShipTo() {
+		return shipTo;
+	}
+
+	/**
+	 * @param shipTo the shipTo to set
+	 */
+	public void setShipTo(Set<CustomerSite> shipTo) {
+		this.shipTo = shipTo;
+	}
+
+	/**
+	 * @return the deliverTo
+	 */
+	public Set<CustomerSite> getDeliverTo() {
+		return deliverTo;
+	}
+
+	/**
+	 * @param deliverTo the deliverTo to set
+	 */
+	public void setDeliverTo(Set<CustomerSite> deliverTo) {
+		this.deliverTo = deliverTo;
+	}
+
+	/**
+	 * @return the createdTime
+	 */
+	public Date getCreatedTime() {
+		return createdTime;
+	}
+
+	/**
+	 * @param createdTime the createdTime to set
+	 */
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	/**
+	 * @return the updateTime
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	/**
+	 * @param updateTime the updateTime to set
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	/**
+	 * @return the available
+	 */
+	public Boolean getAvailable() {
+		return available;
+	}
+
+	/**
+	 * @param available the available to set
+	 */
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CustomerAccount [customerId=" + customerId + ", accountNumber=" + accountNumber + ", custoemrName="
+				+ custoemrName + ", country=" + country + ", billTo=" + billTo + ", shipTo=" + shipTo + ", deliverTo="
+				+ deliverTo + ", createdTime=" + createdTime + ", updateTime=" + updateTime + ", available=" + available
+				+ "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountNumber == null) ? 0 : accountNumber.hashCode());
+		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomerAccount other = (CustomerAccount) obj;
+		if (accountNumber == null) {
+			if (other.accountNumber != null)
+				return false;
+		} else if (!accountNumber.equals(other.accountNumber))
+			return false;
+		if (customerId == null) {
+			if (other.customerId != null)
+				return false;
+		} else if (!customerId.equals(other.customerId))
+			return false;
+		return true;
+	}
+
+}

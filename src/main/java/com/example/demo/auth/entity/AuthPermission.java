@@ -7,10 +7,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * com.example.demo.auth.entity AuthPermission
- * 
  * 权限实体类
  *
+ * com.example.demo.auth.entity AuthPermission
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -155,14 +155,41 @@ public class AuthPermission implements Serializable {
 				+ ", updateTime=" + updateTime + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((permissionId == null) ? 0 : permissionId.hashCode());
+		result = prime * result + ((permissionName == null) ? 0 : permissionName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		return this.getPermissionId() == ((AuthPermission) obj).getPermissionId();
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthPermission other = (AuthPermission) obj;
+		if (permissionId == null) {
+			if (other.permissionId != null)
+				return false;
+		} else if (!permissionId.equals(other.permissionId))
+			return false;
+		if (permissionName == null) {
+			if (other.permissionName != null)
+				return false;
+		} else if (!permissionName.equals(other.permissionName))
+			return false;
+		return true;
 	}
 
 }

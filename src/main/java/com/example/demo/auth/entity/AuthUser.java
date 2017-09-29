@@ -15,10 +15,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.example.demo.auth.AuthUserStateEnum;
 
 /**
- * com.example.demo.auth.entity AuthUser
- * 
  * 系统用户实体类
  *
+ * com.example.demo.auth.entity AuthUser
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -236,6 +236,43 @@ public class AuthUser implements Serializable {
 		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
 				+ ", password=" + password + ", salt=" + salt + ", state=" + state + ", createdTime=" + createdTime
 				+ ", updateTime=" + updateTime + ", roles=" + roles + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthUser other = (AuthUser) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		return true;
 	}
 
 }
