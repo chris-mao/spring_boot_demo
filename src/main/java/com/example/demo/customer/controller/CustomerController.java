@@ -39,7 +39,7 @@ public class CustomerController {
 	@RequiresPermissions("customer:list")
 	public String findAllCustomer(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<CustomerAccount> customers = this.customerService.findAll(pageNum);
-		model.addAttribute("customers", customers);
+		model.addAttribute("page", customers);
 		return "customer/index";
 	}
 	
