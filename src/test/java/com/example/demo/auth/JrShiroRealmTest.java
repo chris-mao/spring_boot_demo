@@ -1,6 +1,6 @@
 package com.example.demo.auth;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;

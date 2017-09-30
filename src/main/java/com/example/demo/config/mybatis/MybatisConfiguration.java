@@ -36,6 +36,7 @@ public class MybatisConfiguration {
 		p.setProperty("offsetAsPageNum", "true");
 		p.setProperty("rowBoundsWithCount", "true");
 		p.setProperty("reasonable", "true");
+		p.setProperty("logImpl", "STDOUT_LOGGING");//print sql statements
 		ph.setProperties(p);
 		return ph;
 			

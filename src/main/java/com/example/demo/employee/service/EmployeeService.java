@@ -5,7 +5,6 @@ package com.example.demo.employee.service;
 
 import java.util.List;
 
-import com.example.demo.auth.entity.AuthUser;
 import com.example.demo.employee.entity.Employee;
 import com.github.pagehelper.PageInfo;
 

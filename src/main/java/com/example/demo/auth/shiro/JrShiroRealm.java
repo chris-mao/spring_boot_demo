@@ -17,6 +17,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.entity.AuthPermission;
 import com.example.demo.auth.entity.AuthRole;

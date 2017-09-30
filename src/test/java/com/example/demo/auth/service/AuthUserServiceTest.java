@@ -3,6 +3,7 @@ package com.example.demo.auth.service;
 import javax.annotation.Resource;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.demo.auth.AuthUserStateEnum;
 import com.example.demo.auth.entity.AuthRole;
 import com.example.demo.auth.entity.AuthUser;
-
-import org.junit.Assert;
 
 /**
  * 

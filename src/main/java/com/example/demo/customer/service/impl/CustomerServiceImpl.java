@@ -5,10 +5,15 @@ package com.example.demo.customer.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.customer.dao.CustomerAccountDao;
 import com.example.demo.customer.entity.CustomerAccount;
-import com.example.demo.customer.service.CusotmerService;
+import com.example.demo.customer.service.CustomerService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -20,48 +25,52 @@ import com.github.pagehelper.PageInfo;
  *
  */
 @Service
-public class CustomerServiceImpl implements CusotmerService {
+public class CustomerServiceImpl implements CustomerService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
+	
+	@Resource
+	private CustomerAccountDao customerAccountDao;
 
 	@Override
 	public List<CustomerAccount> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.customerAccountDao.findAll();
 	}
 
 	@Override
 	public PageInfo<CustomerAccount> findAll(int pageNum) {
-		// TODO Auto-generated method stub
-		return null;
+		PageHelper.startPage(pageNum, this.pageSize, "customer_name");
+		return new PageInfo<CustomerAccount>(this.customerAccountDao.findAll());
 	}
 
 	@Override
 	public CustomerAccount findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.customerAccountDao.findById(id);
 	}
 
 	@Override
-	public CustomerAccount findByNumber(String customerNumber) {
-		// TODO Auto-generated method stub
-		return null;
+	public CustomerAccount findByAccountNumber(String accountNumber) {
+		return this.customerAccountDao.findByAccountNumber(accountNumber);
 	}
 
 	@Override
 	public List<CustomerAccount> findAllByCredential(String credential) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.customerAccountDao.findAllByCredential(credential);
 	}
 
 	@Override
-	public List<CustomerAccount> getQualifiedCustomers(int priceHeaderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CustomerAccount> findAllQualifiedCustomers(Integer priceHeaderId) {
+		return this.customerAccountDao.findAllQualifiedCustomers(priceHeaderId);
 	}
 
 	@Override
-	public List<CustomerAccount> getQualifiedCustomers(String priceListName) {
+	public List<CustomerAccount> findAllQualifiedCustomers(String priceListName) {
 		// TODO Auto-generated method stub
-		return null;
+		// TODO 将价格表名称转为ID再进行查询
+		//priceListName = "EMR CDU SP CON PRICE LIST SZ";
+		Integer priceHeaderId = 4733547;
+		return this.findAllQualifiedCustomers(priceHeaderId);
 	}
 
 }

@@ -16,7 +16,7 @@ import com.github.pagehelper.PageInfo;
  * @version 1.0
  *
  */
-public interface CusotmerService {
+public interface CustomerService {
 
 	/**
 	 * 查询所有客户数据，不分页
@@ -43,10 +43,10 @@ public interface CusotmerService {
 	/**
 	 * 根据客户Account Number查询客户数据
 	 * 
-	 * @param customerNumber
+	 * @param accountNumber
 	 * @return CustomerAccount
 	 */
-	public CustomerAccount findByNumber(String customerNumber);
+	public CustomerAccount findByAccountNumber(String accountNumber);
 
 	/**
 	 * 根据用户系统用户名获取客户信息
@@ -64,7 +64,7 @@ public interface CusotmerService {
 	 * @param priceHeaderId
 	 * @return
 	 */
-	public List<CustomerAccount> getQualifiedCustomers(int priceHeaderId);
+	public List<CustomerAccount> findAllQualifiedCustomers(Integer priceHeaderId);
 	
 	/**
 	 * 获取可以使用指定价格表的客户列表
@@ -72,6 +72,6 @@ public interface CusotmerService {
 	 * @param priceListName
 	 * @return
 	 */
-	public List<CustomerAccount> getQualifiedCustomers(String priceListName);
+	public List<CustomerAccount> findAllQualifiedCustomers(String priceListName);
 
 }

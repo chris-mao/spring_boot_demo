@@ -38,14 +38,14 @@ public class CustomerAccount implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message = "")
-	@Max(max = 10, message = "")
+	@Max(value = 10, message = "")
 	private String accountNumber;
 
 	/**
 	 * 
 	 */
 	@NotEmpty(message = "")
-	private String custoemrName;
+	private String customerName;
 
 	/**
 	 * 
@@ -57,7 +57,7 @@ public class CustomerAccount implements Serializable {
 	/**
 	 * 
 	 */
-	private CustomerSite billTo;
+	private Set<CustomerSite> billTo;
 	
 	/**
 	 * 
@@ -115,15 +115,15 @@ public class CustomerAccount implements Serializable {
 	/**
 	 * @return the custoemrName
 	 */
-	public String getCustoemrName() {
-		return custoemrName;
+	public String getCustomerName() {
+		return customerName;
 	}
 
 	/**
 	 * @param custoemrName the custoemrName to set
 	 */
-	public void setCustoemrName(String custoemrName) {
-		this.custoemrName = custoemrName;
+	public void setCustomerName(String custoemrName) {
+		this.customerName = custoemrName;
 	}
 
 	/**
@@ -143,14 +143,14 @@ public class CustomerAccount implements Serializable {
 	/**
 	 * @return the billTo
 	 */
-	public CustomerSite getBillTo() {
+	public Set<CustomerSite> getBillTo() {
 		return billTo;
 	}
 
 	/**
 	 * @param billTo the billTo to set
 	 */
-	public void setBillTo(CustomerSite billTo) {
+	public void setBillTo(Set<CustomerSite> billTo) {
 		this.billTo = billTo;
 	}
 
@@ -230,7 +230,7 @@ public class CustomerAccount implements Serializable {
 	@Override
 	public String toString() {
 		return "CustomerAccount [customerId=" + customerId + ", accountNumber=" + accountNumber + ", custoemrName="
-				+ custoemrName + ", country=" + country + ", billTo=" + billTo + ", shipTo=" + shipTo + ", deliverTo="
+				+ customerName + ", country=" + country + ", billTo=" + billTo + ", shipTo=" + shipTo + ", deliverTo="
 				+ deliverTo + ", createdTime=" + createdTime + ", updateTime=" + updateTime + ", available=" + available
 				+ "]";
 	}

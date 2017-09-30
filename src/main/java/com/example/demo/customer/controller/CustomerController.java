@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.customer.entity.CustomerAccount;
-import com.example.demo.customer.service.CusotmerService;
+import com.example.demo.customer.service.CustomerService;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -33,7 +33,7 @@ import com.github.pagehelper.PageInfo;
 public class CustomerController {
 	
 	@Resource
-	private CusotmerService customerService;
+	private CustomerService customerService;
 	
 	@GetMapping("")
 	@RequiresPermissions("customer:list")
