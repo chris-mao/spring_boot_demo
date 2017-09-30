@@ -5,11 +5,17 @@ package com.example.demo.price.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.price.dao.PriceListHeaderDao;
+import com.example.demo.price.dao.PriceListLineDao;
 import com.example.demo.price.entity.PriceListHeader;
 import com.example.demo.price.entity.PriceListLine;
 import com.example.demo.price.service.PriceService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -22,46 +28,49 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class PriceServiceImpl implements PriceService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
+	
+	@Resource
+	private PriceListHeaderDao priceListHeaderDao;
+	
+	@Resource
+	private PriceListLineDao priceListLineDao;
 
 	@Override
 	public List<PriceListHeader> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.priceListHeaderDao.findAll();
 	}
 
 	@Override
 	public PageInfo<PriceListHeader> findAll(int pageNum) {
-		// TODO Auto-generated method stub
-		return null;
+		PageHelper.startPage(pageNum, pageSize, "price_list_name");
+		return new PageInfo<PriceListHeader>(this.priceListHeaderDao.findAll());
 	}
 
 	@Override
 	public PriceListHeader findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.priceListHeaderDao.findById(id);
 	}
 
 	@Override
 	public PriceListHeader findByName(String priceListName) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.priceListHeaderDao.findByName(priceListName);
 	}
 
 	@Override
-	public List<PriceListHeader> getAvailablePriceListsByCustomerSite(int siteId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId) {
+		return this.priceListHeaderDao.findAllAvailablePriceListsByCustomerSite(siteId);
 	}
 
 	@Override
-	public List<PriceListHeader> getAvailablePriceListByCustomerSite(int siteId, int itemId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId, int itemId) {
+		return this.priceListHeaderDao.findAllAvailablePriceListsByCustomerSiteWithItem(siteId, itemId);
 	}
 
 	@Override
-	public List<PriceListLine> getAvailablePriceLines(int priceHeaderId, int itemId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PriceListLine> findAllAvailablePriceLines(int headerId, int itemId) {
+		return this.priceListLineDao.findAllAvailablePriceLines(headerId, itemId);
 	}
 }

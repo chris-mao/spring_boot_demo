@@ -5,10 +5,15 @@ package com.example.demo.employee.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.employee.dao.EmployeeDao;
 import com.example.demo.employee.entity.Employee;
 import com.example.demo.employee.service.EmployeeService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -21,14 +26,19 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	@Value("${pageSize}")
+	private int pageSize;
+	
+	@Resource
+	private EmployeeDao employeeDao;
 
 	/* (non-Javadoc)
 	 * @see com.example.demo.employee.service.EmployeeService#findAll()
 	 */
 	@Override
 	public List<Employee> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.employeeDao.findAll();
 	}
 
 	/* (non-Javadoc)
@@ -36,8 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public PageInfo<Employee> findAll(int pageNum) {
-		// TODO Auto-generated method stub
-		return null;
+		PageHelper.startPage(pageNum, this.pageSize, "employee_name");
+		return new PageInfo<Employee>(this.employeeDao.findAll());
 	}
 
 	/* (non-Javadoc)
@@ -45,8 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public Employee findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.employeeDao.findById(id);
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +63,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public List<Employee> findAllByCustomerNumber(String customerNumber) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -63,7 +71,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public List<Employee> findAllByCredential(String credential) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -72,8 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean insert(Employee employee) {
-		// TODO Auto-generated method stub
-		return false;
+		return 1 == this.employeeDao.insert(employee);
 	}
 
 	/* (non-Javadoc)
@@ -81,8 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean update(Employee employee) {
-		// TODO Auto-generated method stub
-		return false;
+		return 1 == this.employeeDao.udpate(employee);
 	}
 
 	/* (non-Javadoc)
@@ -90,8 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean delete(Integer id) {
-		// TODO Auto-generated method stub
-		return false;
+		return 1 == this.employeeDao.delete(id);
 	}
 
 }

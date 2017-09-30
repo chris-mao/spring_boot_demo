@@ -6,6 +6,8 @@ package com.example.demo.auth.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 权限实体类
  *
@@ -46,11 +48,13 @@ public class AuthPermission implements Serializable {
 	/**
 	 * 
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

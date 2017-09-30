@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.validation.constraints.Max;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * com.example.demo.customer.entity CustomerSite
@@ -64,11 +65,13 @@ public class CustomerSite implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

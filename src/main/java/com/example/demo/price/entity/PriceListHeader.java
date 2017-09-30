@@ -11,6 +11,7 @@ import javax.validation.constraints.Max;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 价格表头实体类
@@ -39,7 +40,7 @@ public class PriceListHeader implements Serializable {
 	 */
 	@NotEmpty(message = "")
 	@Max(value = 128, message = "")
-	private String priceListName;
+	private String name;
 
 	/**
 	 * 
@@ -52,11 +53,13 @@ public class PriceListHeader implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message = "")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startDate;
 
 	/**
 	 * 
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endDate;
 
 	/**
@@ -67,17 +70,14 @@ public class PriceListHeader implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-
-	/**
-	 * 是否有效
-	 */
-	private Boolean available;
 
 	/**
 	 * @return the headerId
@@ -97,14 +97,14 @@ public class PriceListHeader implements Serializable {
 	 * @return the priceListName
 	 */
 	public String getPriceListName() {
-		return priceListName;
+		return name;
 	}
 
 	/**
 	 * @param priceListName the priceListName to set
 	 */
 	public void setPriceListName(String priceListName) {
-		this.priceListName = priceListName;
+		this.name = priceListName;
 	}
 
 	/**
@@ -191,28 +191,14 @@ public class PriceListHeader implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	/**
-	 * @return the available
-	 */
-	public Boolean getAvailable() {
-		return available;
-	}
-
-	/**
-	 * @param available the available to set
-	 */
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "PriceListHeader [headerId=" + headerId + ", priceListName=" + priceListName + ", currency=" + currency
+		return "PriceListHeader [headerId=" + headerId + ", priceListName=" + name + ", currency=" + currency
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", lines=" + lines + ", createdTime="
-				+ createdTime + ", updateTime=" + updateTime + ", available=" + available + "]";
+				+ createdTime + ", updateTime=" + updateTime + "]";
 	}
 
 }

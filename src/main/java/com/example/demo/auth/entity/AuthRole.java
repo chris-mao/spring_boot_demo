@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 系统角色实体类
  *
@@ -38,11 +40,13 @@ public class AuthRole implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.validation.constraints.Max;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 员工实体类
@@ -35,42 +36,44 @@ public class Employee implements Serializable {
 	/**
 	 * 
 	 */
-	@NotEmpty(message = "")
-	@Max(value = 64, message = "")
+	@NotEmpty(message = "员工姓名不能为空")
+	@Max(value = 64, message = "员工姓名长度请不要超过64位")
 	private String employeeName;
 
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "")
+	@Max(value = 32, message = "电话号码长度请不要超过32位")
 	private String phone;
 	
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "")
+	@Max(value = 32, message = "传真号码长度请不要超过32位")
 	private String fax;
 	
 	/**
 	 * 
 	 */
-	@Max(value = 100, message = "")
+	@Max(value = 100, message = "电子邮箱长度请不要超过64位")
 	private String email;
 	
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "")
+	@Max(value = 32, message = "oracle帐号长度请不要超过32位")
 	private String oracleAccount;
 
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

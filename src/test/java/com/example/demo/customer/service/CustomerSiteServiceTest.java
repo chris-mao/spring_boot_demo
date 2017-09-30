@@ -25,14 +25,6 @@ public class CustomerSiteServiceTest {
 
 	// private static final String ACCOUNT_NUMBER = "1200079098";
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Test
 	public void testFindAllBillTo() {
 		Set<CustomerSite> sites = this.customerSiteService.findAllBillTo(CustomerSiteServiceTest.CUSTOMER_ID);

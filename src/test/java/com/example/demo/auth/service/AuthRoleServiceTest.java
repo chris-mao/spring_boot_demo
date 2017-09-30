@@ -33,14 +33,6 @@ public class AuthRoleServiceTest {
 	@Resource
 	private AuthPermissionService authPermissionService;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Test
 	public void testFindAll() {
 		Assert.assertEquals(4, authRoleService.findAll().size());

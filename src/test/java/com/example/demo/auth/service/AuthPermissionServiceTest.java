@@ -32,14 +32,6 @@ public class AuthPermissionServiceTest {
 	@Resource
 	private AuthPermissionService authPermissionService;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Test
 	public void testFindAll() {
 		Assert.assertEquals(51, authPermissionService.findAll().size());

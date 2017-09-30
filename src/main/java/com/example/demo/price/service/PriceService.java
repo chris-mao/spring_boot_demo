@@ -55,7 +55,7 @@ public interface PriceService {
 	 * @param siteId
 	 * @return
 	 */
-	public List<PriceListHeader> getAvailablePriceListsByCustomerSite(int siteId);
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId);
 	
 	/**
 	 * 获取客户有效的且含有指定物料的价格表清单
@@ -64,15 +64,15 @@ public interface PriceService {
 	 * @param itemId
 	 * @return
 	 */
-	public List<PriceListHeader> getAvailablePriceListByCustomerSite(int siteId, int itemId);
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId, int itemId);
 	
 	/**
 	 * 在指定价格表中获取指定产品的销售价格
 	 * 
-	 * @param priceHeaderId
+	 * @param headerId
 	 * @param itemId
 	 * @return
 	 */
-	public List<PriceListLine> getAvailablePriceLines(int priceHeaderId, int itemId);
+	public List<PriceListLine> findAllAvailablePriceLines(int headerId, int itemId);
 
 }

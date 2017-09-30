@@ -40,20 +40,6 @@ public class CustomerServiceTest {
 	private static final Integer PRICE_HEADER_ID = 4733547;
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
 	 * Test method for {@link com.example.demo.customer.service.impl.CustomerServiceImpl#findAll()}.
 	 */
 	@Test

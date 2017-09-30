@@ -4,9 +4,11 @@
 package com.example.demo.price.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 价格表行实体类
@@ -24,12 +26,6 @@ public class PriceListLine implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * 
-	 */
-	@NotEmpty(message="")
-	private Integer headerId;
 	
 	/**
 	 * 
@@ -64,54 +60,39 @@ public class PriceListLine implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message="")
-	private Integer minOrderQuantity;
+	private BigInteger minOrderQuantity;
 	
 	/**
 	 * 
 	 */
 	@NotEmpty(message="")
-	private Integer maxOrderQuantity;
+	private BigInteger maxOrderQuantity;
 
 	/**
 	 * 
 	 */
 	@NotEmpty(message = "")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startDate;
 
 	/**
 	 * 
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endDate;
 	
 
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-
-	/**
-	 * 是否有效
-	 */
-	private Boolean available;
-
-	/**
-	 * @return the headerId
-	 */
-	public Integer getHeaderId() {
-		return headerId;
-	}
-
-	/**
-	 * @param headerId the headerId to set
-	 */
-	public void setHeaderId(Integer headerId) {
-		this.headerId = headerId;
-	}
 
 	/**
 	 * @return the inventoryItemId
@@ -186,28 +167,28 @@ public class PriceListLine implements Serializable {
 	/**
 	 * @return the minOrderQuantity
 	 */
-	public Integer getMinOrderQuantity() {
+	public BigInteger getMinOrderQuantity() {
 		return minOrderQuantity;
 	}
 
 	/**
 	 * @param minOrderQuantity the minOrderQuantity to set
 	 */
-	public void setMinOrderQuantity(Integer minOrderQuantity) {
+	public void setMinOrderQuantity(BigInteger minOrderQuantity) {
 		this.minOrderQuantity = minOrderQuantity;
 	}
 
 	/**
 	 * @return the maxOrderQuantity
 	 */
-	public Integer getMaxOrderQuantity() {
+	public BigInteger getMaxOrderQuantity() {
 		return maxOrderQuantity;
 	}
 
 	/**
 	 * @param maxOrderQuantity the maxOrderQuantity to set
 	 */
-	public void setMaxOrderQuantity(Integer maxOrderQuantity) {
+	public void setMaxOrderQuantity(BigInteger maxOrderQuantity) {
 		this.maxOrderQuantity = maxOrderQuantity;
 	}
 
@@ -267,30 +248,16 @@ public class PriceListLine implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	/**
-	 * @return the available
-	 */
-	public Boolean getAvailable() {
-		return available;
-	}
-
-	/**
-	 * @param available the available to set
-	 */
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "PriceListLine [headerId=" + headerId + ", inventoryItemId=" + inventoryItemId + ", inventoryItemName="
+		return "PriceListLine [inventoryItemId=" + inventoryItemId + ", inventoryItemName="
 				+ inventoryItemName + ", inventoryItemDescription=" + inventoryItemDescription + ", uom=" + uom
 				+ ", unitPrice=" + unitPrice + ", minOrderQuantity=" + minOrderQuantity + ", maxOrderQuantity="
 				+ maxOrderQuantity + ", startDate=" + startDate + ", endDate=" + endDate + ", createdTime="
-				+ createdTime + ", updateTime=" + updateTime + ", available=" + available + "]";
+				+ createdTime + ", updateTime=" + updateTime + "]";
 	}
 
 }
