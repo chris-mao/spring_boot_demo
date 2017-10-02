@@ -28,13 +28,13 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class PriceServiceImpl implements PriceService {
-	
+
 	@Value("${pageSize}")
 	private int pageSize;
-	
+
 	@Resource
 	private PriceListHeaderDao priceListHeaderDao;
-	
+
 	@Resource
 	private PriceListLineDao priceListLineDao;
 
@@ -72,5 +72,17 @@ public class PriceServiceImpl implements PriceService {
 	@Override
 	public List<PriceListLine> findAllAvailablePriceLines(int headerId, int itemId) {
 		return this.priceListLineDao.findAllAvailablePriceLines(headerId, itemId);
+	}
+
+	@Override
+	public List<PriceListLine> findAllPriceLinesByHeaderId(int headerId) {
+		return this.priceListLineDao.findAllByHeaderId(headerId);
+	}
+
+	@Override
+	public List<PriceListLine> findAllPriceLinesByName(String priceListName) {
+		// PriceListHeader header =
+		// this.priceListHeaderDao.findByName(priceListName);
+		return this.priceListLineDao.findAllByName(priceListName);
 	}
 }

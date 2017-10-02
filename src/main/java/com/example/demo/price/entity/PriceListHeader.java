@@ -63,7 +63,12 @@ public class PriceListHeader implements Serializable {
 	private Date endDate;
 
 	/**
+	 * 价格表中所行信息，考虑到性能问题，没有在DAO层实现加载价格行数据
+	 * 请使用PriceSerivce中的findAllPriceLinesByHeaderId 或是 
+	 * findAllPriceLinesByName方法获取价格行数据
 	 * 
+	 * @see findAllPriceLinesByHeaderId
+	 * @see findAllPriceLinesByName
 	 */
 	private List<PriceListLine> lines;
 

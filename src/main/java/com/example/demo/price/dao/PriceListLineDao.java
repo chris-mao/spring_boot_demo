@@ -23,10 +23,10 @@ import com.example.demo.price.entity.PriceListLine;
 public interface PriceListLineDao {
 
 	/**
-	 * 获取有效的价格表行信息
+	 * 根据价格表ID查询价格表行数据
 	 * 
 	 * @param headerId
-	 * @return
+	 * @return List
 	 */
 	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = #{header_id}")
 	@Results({ @Result(property = "inventoryItemId", column = "item_id"),
@@ -40,14 +40,34 @@ public interface PriceListLineDao {
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
 	public List<PriceListLine> findAllByHeaderId(@Param(value = "header_id") Integer headerId);
+	
+	/**
+	 * 根据价格表名称查询价格表行数据
+	 * 
+	 * @param priceListName
+	 * @return List
+	 */
+	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = (SELECT header_id FROM price_list_header WHERE price_list_name = #{name})")
+	@Results({ @Result(property = "inventoryItemId", column = "item_id"),
+//			@Result(property = "inventoryItemName", column = "model_name"),
+//			@Result(property = "inventoryItemDescription", column = "model_desc"),
+			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
+			@Result(property = "startDate", column = "start_date_active"),
+			@Result(property = "endDate", column = "end_date_active"),
+			@Result(property = "minOrderQuantity", column = "qty_from"),
+			@Result(property = "maxOrderQuantity", column = "qty_to"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<PriceListLine> findAllByName(@Param(value = "name") String priceListName);
 
 	/**
 	 * 在指定的价格表中获取指定产品的销售价格
 	 * 
 	 * @param headerId
 	 * @param itemId
-	 * @return
+	 * @return List
 	 */
+	@Select("CALL sp_findAvailableSellingPrice(#{header_id}, #{item_id})")
 	@Results({ @Result(property = "inventoryItemId", column = "model_id"),
 			@Result(property = "inventoryItemName", column = "model_name"),
 			@Result(property = "inventoryItemDescription", column = "model_desc"),
