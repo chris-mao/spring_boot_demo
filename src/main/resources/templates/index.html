@@ -9,16 +9,12 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<p>Welcome to JR Soft</p>
-
-		<!-- 已认证通过的用户。不包含已记住的用户，这是与user标签的区别所在。 -->
-		<div shiro:authenticated="true">
-			<!-- 输出当前用户信息，通常为登录帐号信息。 -->
-			<p>
+		<div class="jumbotron">
+			<h1 class="text-primary" shiro:authenticated="true">
 				Hello,
 				<shiro:principal property="nickName" />
-				, how are you today?
-			</p>
+			</h1>
+			<p>how are you today?</p>
 		</div>
 
 		<!-- <p th:text="${@authRoleServiceImpl.findAll()}"></p> -->

@@ -4,9 +4,11 @@
 package com.jrsoft.customer.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.customer.entity.CustomerAccount;
+import com.jrsoft.customer.entity.CustomerSite;
 
 /**
  * com.jrsoft.customer.service CusotmerService
@@ -73,5 +75,52 @@ public interface CustomerService {
 	 * @return
 	 */
 	public List<CustomerAccount> findAllQualifiedCustomers(String priceListName);
+	
+
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllBillTo(Integer customerId);
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @param operationUnitId
+	 * @return
+	 */
+	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId);
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllShipTo(Integer customerId);
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @param operationUnitId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId);
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllDeliverTo(Integer customerId);
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @param operationUnitId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllDeliverTo(Integer customerId, Integer operationUnitId);
 
 }

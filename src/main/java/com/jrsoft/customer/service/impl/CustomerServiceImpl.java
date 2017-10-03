@@ -4,6 +4,7 @@
 package com.jrsoft.customer.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.customer.dao.CustomerAccountDao;
+import com.jrsoft.customer.dao.CustomerSiteDao;
 import com.jrsoft.customer.entity.CustomerAccount;
+import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
 
 /**
@@ -32,6 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Resource
 	private CustomerAccountDao customerAccountDao;
+	
+	@Resource
+	private CustomerSiteDao customerSiteDao;
 
 	@Override
 	public List<CustomerAccount> findAll() {
@@ -71,6 +77,54 @@ public class CustomerServiceImpl implements CustomerService {
 		//priceListName = "EMR CDU SP CON PRICE LIST SZ";
 		Integer priceHeaderId = 4733547;
 		return this.findAllQualifiedCustomers(priceHeaderId);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findBillTo(java.lang.Integer)
+	 */
+	@Override
+	public Set<CustomerSite> findAllBillTo(Integer customerId) {
+		return this.customerSiteDao.findAllBillTo(customerId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findBillTo(java.lang.Integer, java.lang.Integer)
+	 */
+	@Override
+	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId) {
+		return this.customerSiteDao.findOperationUnitBillTo(customerId, operationUnitId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(java.lang.Integer)
+	 */
+	@Override
+	public Set<CustomerSite> findAllShipTo(Integer customerId) {
+		return this.customerSiteDao.findAllShipTo(customerId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(java.lang.Integer, java.lang.Integer)
+	 */
+	@Override
+	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId) {
+		return this.customerSiteDao.findOperationUnitShipTo(customerId, operationUnitId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(java.lang.Integer)
+	 */
+	@Override
+	public Set<CustomerSite> findAllDeliverTo(Integer customerId) {
+		return this.customerSiteDao.findAllDeliverTo(customerId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(java.lang.Integer, java.lang.Integer)
+	 */
+	@Override
+	public Set<CustomerSite> findAllDeliverTo(Integer customerId, Integer operationUnitId) {
+		return this.customerSiteDao.findOperationUnitDeliverTo(customerId, operationUnitId);
 	}
 
 }
