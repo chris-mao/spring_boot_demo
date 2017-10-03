@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-				<shiro:hasPermission name="authUser:new">
+				<shiro:hasPermission name="authrole:new">
 					<a type="button" class="btn btn-sm btn-success pull-right"
 						title="创建新角色" th:href="@{/roles/new}">创建新角色</a>
 				</shiro:hasPermission>
@@ -33,23 +33,15 @@
 						<tr>
 							<th>#</th>
 							<th>角色名称</th>
-							<th>显示昵称</th>
-							<th>电子邮件</th>
-							<th>状态</th>
-							<th>加密盐</th>
 							<th>创建日期</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr data-th-each="user, state: ${page.list}"
-							data-th-object="${user}">
-							<td><a data-th-href="@{'/users/' + *{userId}}"
-								data-th-text="*{userId}"></a></td>
-							<td data-th-text="*{userName}"></td>
-							<td data-th-text="*{nickName}"></td>
-							<td data-th-text="*{email}"></td>
-							<td data-th-text="*{state}"></td>
-							<td data-th-text="*{salt}"></td>
+						<tr data-th-each="role, state: ${page.list}"
+							data-th-object="${role}">
+							<td><a data-th-href="@{'/roles/' + *{roleId}}"
+								data-th-text="*{roleId}"></a></td>
+							<td data-th-text="*{roleName}"></td>
 							<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
 						</tr>
 					</tbody>
@@ -57,7 +49,7 @@
 			</div>
 		</div>
 		<div
-			th:replace="fragments/pagination::pagination(${'/users'}, ${page})"></div>
+			th:replace="fragments/pagination::pagination(${'/roles'}, ${page})"></div>
 	</div>
 </body>
 </html>

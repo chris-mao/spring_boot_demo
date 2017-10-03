@@ -3,7 +3,7 @@ server:
   port: 8088
 #实体类扫描的包名
 mybatis:
-  type-aliases-package: com.example.demo.*.entity
+  type-aliases-package: com.jrsoft.*.entity
 #数据源配置
 spring:
   datasource:
