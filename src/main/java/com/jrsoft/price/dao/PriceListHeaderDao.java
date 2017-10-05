@@ -43,14 +43,14 @@ public interface PriceListHeaderDao {
 	 * @param id
 	 * @return List
 	 */
-	@Select("SELECT DISTINCT header_id, price_list_name, currency, start_date_active, end_date_active, created_time, update_time FROM price_list_header WHERE header_id = #{header_id}")
+	@Select("SELECT DISTINCT header_id, price_list_name, currency, start_date_active, end_date_active FROM price_list_header WHERE header_id = #{header_id}")
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "edDate", column = "end_date_active"),
+			@Result(property = "endDate", column = "end_date_active")})
 //			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDao.findAllByHeaderId", fetchType = FetchType.LAZY) ),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+//			@Result(property = "createdTime", column = "created_time"),
+//			@Result(property = "updateTime", column = "update_time") })
 	public PriceListHeader findById(@Param(value = "header_id") Integer id);
 
 	/**
@@ -63,10 +63,10 @@ public interface PriceListHeaderDao {
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "endDate", column = "end_date_active"),
+			@Result(property = "endDate", column = "end_date_active")})
 //			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDao.findAllByHeaderId", fetchType = FetchType.LAZY) ),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+//			@Result(property = "createdTime", column = "created_time"),
+//			@Result(property = "updateTime", column = "update_time") })
 	public PriceListHeader findByName(@Param(value = "price_name") String priceListName);
 
 	/**

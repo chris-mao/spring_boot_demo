@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"
+		th:fragment="topSearch">
+		<div class="input-group input-group-sm">
+			<input class="form-control" type="search" id="search_text"
+				name="search_text" placeholder="搜索内容" autofocus="autofocus" /> <span
+				class="input-group-btn">
+				<button type="button" class="btn btn-default" id="search_button">搜索</button>
+			</span>
+		</div>
+	</div>
+</body>
+</html>

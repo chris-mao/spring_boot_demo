@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.mapping.FetchType;
+
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.handler.AuthUserStateEnumTypeHandler;
 import com.jrsoft.auth.entity.AuthUser;

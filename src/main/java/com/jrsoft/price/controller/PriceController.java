@@ -3,6 +3,8 @@
  */
 package com.jrsoft.price.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.customer.service.CustomerService;
 import com.jrsoft.price.entity.PriceListHeader;
+import com.jrsoft.price.entity.PriceListLine;
 import com.jrsoft.price.service.PriceService;
 
 /**
@@ -31,24 +35,29 @@ import com.jrsoft.price.service.PriceService;
 @Controller
 @RequestMapping("/prices")
 public class PriceController {
-	
+
 	@Resource
 	private PriceService priceService;
-	
+
+	@Resource
+	private CustomerService customerService;
+
 	@GetMapping("")
 	@RequiresPermissions("price:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<PriceListHeader> customers = this.priceService.findAll(pageNum);
-		model.addAttribute("customers", customers);
+		PageInfo<PriceListHeader> page = this.priceService.findAll(pageNum);
+		model.addAttribute("page", page);
 		return "price/index";
 	}
-	
+
 	@GetMapping("/{id}")
 	@RequiresPermissions("price:detail")
 	public String findPriceList(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
-		PriceListHeader customer = this.priceService.findById(id);
-		if (null != customer) {
-			model.addAttribute("customer", customer);
+		PriceListHeader priceHeader = this.priceService.findById(id);
+		if (null != priceHeader) {
+			model.addAttribute("priceHeader", priceHeader);
+			model.addAttribute("lines", priceService.findAllPriceLinesByHeaderId(id));
+			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader.getHeaderId()));
 		}
 		return "price/detail";
 	}

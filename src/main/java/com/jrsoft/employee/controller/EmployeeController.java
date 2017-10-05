@@ -29,7 +29,7 @@ import com.jrsoft.employee.service.EmployeeService;
  *
  */
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/employeese")
 public class EmployeeController {
 	
 	@Resource
@@ -39,7 +39,7 @@ public class EmployeeController {
 	@RequiresPermissions("employee:list")
 	public String findAllEmployee(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<Employee> employeese = this.employeeService.findAll(pageNum);
-		model.addAttribute("employeese", employeese);
+		model.addAttribute("page", employeese);
 		return "employee/index";
 	}
 	

@@ -6,8 +6,7 @@ package com.jrsoft.auth.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +26,13 @@ import com.jrsoft.auth.service.AuthUserService;
  * @version 1.0
  *
  */
-@Service("AuthUserService")
+@Service
 public class AuthUserServiceImpl implements AuthUserService {
-	
+
 	@Value("${pageSize}")
 	private int pageSize;
-	
-	@Resource
+
+	@Autowired
 	private AuthUserDao authUserDao;
 
 	@Override

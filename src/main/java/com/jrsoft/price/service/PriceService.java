@@ -4,8 +4,10 @@
 package com.jrsoft.price.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.price.entity.PriceListHeader;
 import com.jrsoft.price.entity.PriceListLine;
 
@@ -57,6 +59,8 @@ public interface PriceService {
 	 * @return List
 	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId);
+	
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(Set<CustomerSite> billTo);
 	
 	/**
 	 * 获取客户有效的且含有指定物料的价格表清单
