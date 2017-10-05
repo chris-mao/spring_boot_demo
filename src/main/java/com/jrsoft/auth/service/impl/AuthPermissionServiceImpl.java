@@ -29,10 +29,10 @@ import com.jrsoft.auth.service.AuthPermissionService;
  */
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
-	
+
 	@Value("${pageSize}")
 	private int pageSize;
-	
+
 	@Resource
 	private AuthRoleDao authRoleDao;
 
@@ -48,30 +48,28 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	public List<AuthPermission> findAll() {
 		return authPermissionDao.findAll();
 	}
-	
+
 	@Override
 	public PageInfo<AuthPermission> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, this.pageSize);
 		return new PageInfo<AuthPermission>(authPermissionDao.findAll());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jrsoft.auth.service.AuthPermissionService#findByName(java.lang.
-	 * String)
-	 */
 	@Override
-	public AuthPermission findByName(String permissionName) {
-		return authPermissionDao.findByName(permissionName);
+	public AuthPermission findOne(AuthPermission permission) {
+		if (null != permission.getPermissionId()) {
+			return this.authPermissionDao.findById(permission.getPermissionId());
+		}
+		if (null != permission.getPermissionName()) {
+			return authPermissionDao.findByName(permission.getPermissionName());
+		}
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.auth.service.AuthPermissionService#findAllByRole(com.
+	 * @see com.jrsoft.auth.service.AuthPermissionService#findAllByRole(com.
 	 * jrsoft.auth.entity.AuthRole)
 	 */
 	@Override
@@ -82,8 +80,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.auth.service.AuthPermissionService#findAllByRole(java.
+	 * @see com.jrsoft.auth.service.AuthPermissionService#findAllByRole(java.
 	 * lang.String)
 	 */
 	@Override
@@ -108,11 +105,6 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public boolean delete(Integer id) {
 		return 1 == this.authPermissionDao.delete(id);
-	}
-
-	@Override
-	public AuthPermission findById(Integer id) {
-		return this.authPermissionDao.findById(id);
 	}
 
 }

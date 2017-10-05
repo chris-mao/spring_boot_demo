@@ -64,7 +64,9 @@ public class AuthRoleController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("authRole:detail")
 	public String findRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
-		AuthRole role = this.authRoleService.findById(id);
+		AuthRole r = new AuthRole();
+		r.setRoleId(id);
+		AuthRole role = this.authRoleService.findOne(r);
 		if (null == role) {
 			throw new DataNotFoundException();
 		}
@@ -96,11 +98,13 @@ public class AuthRoleController {
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authRole:edit")
 	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
-		AuthRole authRole = this.authRoleService.findById(id);
-		if (null == authRole) {
+		AuthRole r = new AuthRole();
+		r.setRoleId(id);
+		AuthRole role = this.authRoleService.findOne(r);
+		if (null == role) {
 			throw new DataNotFoundException();
 		}
-			model.addAttribute("authRole", authRole);
+			model.addAttribute("authRole", role);
 		return "auth/role/edit";
 	}
 	

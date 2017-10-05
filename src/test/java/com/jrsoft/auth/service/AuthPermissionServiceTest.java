@@ -25,10 +25,10 @@ import com.jrsoft.auth.service.AuthRoleService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AuthPermissionServiceTest {
-	
+
 	@Resource
 	private AuthRoleService authRoleService;
-	
+
 	@Resource
 	private AuthPermissionService authPermissionService;
 
@@ -38,23 +38,24 @@ public class AuthPermissionServiceTest {
 	}
 
 	@Test
-	public void testFindById() {
-		AuthPermission permission = authPermissionService.findById(1);
+	public void testFindOne() {
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(1);
+		AuthPermission permission = authPermissionService.findOne(p);
 		System.out.println(permission);
+		Assert.assertNotNull(permission);
+		p.setPermissionName("Application\\Controller\\Index\\index");
+		permission = authPermissionService.findOne(p);
 		Assert.assertNotNull(permission);
 	}
 
 	@Test
-	public void testFindByName() {
-		AuthPermission permission = authPermissionService.findByName("Application\\Controller\\Index\\index");
-		Assert.assertNotNull(permission);
-	}
-	
-	@Test
 	public void testInsert() {
-		AuthPermission permission = null;
 		final String permissionName = "new permission";
-		permission = authPermissionService.findByName(permissionName);
+		AuthPermission p = new AuthPermission();
+		p.setPermissionName(permissionName);
+
+		AuthPermission permission = authPermissionService.findOne(p);
 		if (null != permission) {
 			authPermissionService.delete(permission.getPermissionId());
 		}
@@ -63,38 +64,46 @@ public class AuthPermissionServiceTest {
 		permission.setAvailable(true);
 		permission.setPermissionName(permissionName);
 		permission.setPermissionUrl("/aa/bb");
-	    Assert.assertEquals(true, this.authPermissionService.insert(permission));
-	    Assert.assertNotNull(permission.getPermissionId());
-		Assert.assertNotNull(authPermissionService.findByName(permissionName));
+		Assert.assertEquals(true, this.authPermissionService.insert(permission));
+		Assert.assertNotNull(permission.getPermissionId());
+		Assert.assertNotNull(authPermissionService.findOne(p));
 	}
-	
+
 	@Test
 	public void testUpdate() {
 		final String permissionName = "new permission";
 		final String newPermissionName = "new permission 123";
-		AuthPermission permission = authPermissionService.findByName(permissionName);
+		AuthPermission p = new AuthPermission();
+		p.setPermissionName(permissionName);
+
+		AuthPermission permission = authPermissionService.findOne(p);
 		Assert.assertNotNull(permission);
-		
+
 		permission.setPermissionName(newPermissionName);
 		permission.setAvailable(false);
 		Assert.assertEquals(true, authPermissionService.update(permission));
-		Assert.assertNotNull(authPermissionService.findByName(newPermissionName));
+		p.setPermissionName(newPermissionName);
+		Assert.assertNotNull(authPermissionService.findOne(p));
 	}
-	
+
 	@Test
 	public void testDelete() {
 		final String permissionName = "new permission 123";
-		AuthPermission permission = authPermissionService.findByName(permissionName);
+		AuthPermission p = new AuthPermission();
+		p.setPermissionName(permissionName);
+		AuthPermission permission = authPermissionService.findOne(p);
 		Assert.assertNotNull(permission);
-		
+
 		authPermissionService.delete(permission.getPermissionId());
-		Assert.assertNull(authPermissionService.findByName(permissionName));
+		Assert.assertNull(authPermissionService.findOne(p));
 	}
 
 	@Test
 	public void testFindAllByRoleAuthRole() {
-		AuthRole role = this.authRoleService.findByName("csr");
-		
+		AuthRole r = new AuthRole();
+		r.setRoleName("csr");
+		AuthRole role = this.authRoleService.findOne(r);
+
 		Assert.assertEquals(29, this.authPermissionService.findAllByRole(role.getRoleName()).size());
 	}
 

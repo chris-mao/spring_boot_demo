@@ -37,20 +37,11 @@ public interface AuthRoleService {
 	public PageInfo<AuthRole> findAll(int pageNum);
 	
 	/**
-	 * 按角色编号查询
-	 * 
-	 * @param id
+	 * 按角色编号或是名称查询
+	 * @param role
 	 * @return AuthRole
 	 */
-	public AuthRole findById(Integer id);
-	
-	/**
-	 * 按角色名称查询
-	 * 
-	 * @param roleName
-	 * @return AuthRole
-	 */
-	public AuthRole findByName(String roleName);
+	public AuthRole findOne(AuthRole role);
 	
 	/**
 	 * 根据用户查询其所拥有的有效角色清单
@@ -59,14 +50,6 @@ public interface AuthRoleService {
 	 * @return Set
 	 */
 	public Set<AuthRole> findAllByUser(AuthUser user);
-	
-	/**
-	 * 根据用户名称查询其所拥有的角色清单
-	 * 
-	 * @param userName
-	 * @return Set
-	 */
-	public Set<AuthRole> findAllByUser(String userName);
 	
 	/**
 	 * 创建新角色

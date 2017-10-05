@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
+import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.price.entity.PriceListHeader;
 
 /**
  * com.jrsoft.customer.service CusotmerService
@@ -34,21 +37,14 @@ public interface CustomerService {
 	 * @return PageInfo
 	 */
 	public PageInfo<CustomerAccount> findAll(int pageNum);
-
+	
 	/**
+	 * 按客户编号或是名称查询
 	 * 
-	 * @param id
-	 * @return
-	 */
-	public CustomerAccount findById(Integer id);
-
-	/**
-	 * 根据客户Account Number查询客户数据
-	 * 
-	 * @param accountNumber
+	 * @param customer
 	 * @return CustomerAccount
 	 */
-	public CustomerAccount findByAccountNumber(String accountNumber);
+	public CustomerAccount findOne(CustomerAccount customer);
 
 	/**
 	 * 根据用户系统用户名获取客户信息
@@ -56,35 +52,31 @@ public interface CustomerService {
 	 * @param credential
 	 * @return List
 	 */
-	public List<CustomerAccount> findAllByCredential(String credential);
+	public List<CustomerAccount> findAllByCredential(AuthUser credential);
 
-	// public List<CustomerAccount> findAllByEmployee();
-	
 	/**
-	 * 获取可以使用指定价格表的客户列表
+	 * 根据价格表ID或是名称获取可以使用指定价格表的客户列表
 	 * 
-	 * @param priceHeaderId
-	 * @return
+	 * @param priceHeader
+	 * @return List
 	 */
-	public List<CustomerAccount> findAllQualifiedCustomers(Integer priceHeaderId);
-	
-	/**
-	 * 获取可以使用指定价格表的客户列表
-	 * 
-	 * @param priceListName
-	 * @return
-	 */
-	public List<CustomerAccount> findAllQualifiedCustomers(String priceListName);
-	
+	public List<CustomerAccount> findAllQualifiedCustomers(PriceListHeader priceHeader);
 
-	
+	/**
+	 * 根据员工ID或是名称获取指定员工对应负责的客户列表
+	 * 
+	 * @param emp
+	 * @return List
+	 */
+	public List<CustomerAccount> findAllByEmployee(Employee emp);
+
 	/**
 	 * 
 	 * @param customerId
 	 * @return
 	 */
 	public Set<CustomerSite> findAllBillTo(Integer customerId);
-	
+
 	/**
 	 * 
 	 * @param customerId
@@ -92,14 +84,14 @@ public interface CustomerService {
 	 * @return
 	 */
 	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId);
-	
+
 	/**
 	 * 
 	 * @param customerId
 	 * @return
 	 */
 	public Set<CustomerSite> findAllShipTo(Integer customerId);
-	
+
 	/**
 	 * 
 	 * @param customerId
@@ -107,14 +99,14 @@ public interface CustomerService {
 	 * @return
 	 */
 	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId);
-	
+
 	/**
 	 * 
 	 * @param customerId
 	 * @return
 	 */
 	public Set<CustomerSite> findAllDeliverTo(Integer customerId);
-	
+
 	/**
 	 * 
 	 * @param customerId

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.dao.CustomerAccountDao;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.employee.dao.EmployeeDao;
@@ -28,17 +29,19 @@ import com.jrsoft.employee.service.EmployeeService;
  */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-	
+
 	@Value("${pageSize}")
 	private int pageSize;
-	
+
 	@Resource
 	private EmployeeDao employeeDao;
-	
+
 	@Resource
 	private CustomerAccountDao customerDao;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.jrsoft.employee.service.EmployeeService#findAll()
 	 */
 	@Override
@@ -46,7 +49,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return this.employeeDao.findAll();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.jrsoft.employee.service.EmployeeService#findAll(int)
 	 */
 	@Override
@@ -55,48 +60,60 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return new PageInfo<Employee>(this.employeeDao.findAll());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#findById(java.lang.Integer)
-	 */
 	@Override
-	public Employee findById(Integer id) {
-		return this.employeeDao.findById(id);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#findAllByCustomerNumber(java.lang.String)
-	 */
-	@Override
-	public List<Employee> findAllByCustomerNumber(String customerNumber) {
-		return employeeDao.findAllByCustomer(customerNumber, 0);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#findAllByCredential(java.lang.String)
-	 */
-	@Override
-	public List<Employee> findAllByCredential(String credential) {
+	public Employee findOne(Employee emp) {
+		if (null != emp.getEmployeeId()) {
+			return this.employeeDao.findById(emp.getEmployeeId());
+		}
+		if (null != emp.getEmployeeName()) {
+			return this.employeeDao.findByName(emp.getEmployeeName());
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#insert(com.jrsoft.employee.entity.Employee)
+	@Override
+	public List<Employee> findAllByCustomer(CustomerAccount customer) {
+		if (null != customer.getAccountNumber()) {
+			return employeeDao.findAllByCustomer(customer.getAccountNumber(), 0);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Employee> findAllByCredential(AuthUser credential) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jrsoft.employee.service.EmployeeService#insert(com.jrsoft.employee.
+	 * entity.Employee)
 	 */
 	@Override
 	public boolean insert(Employee employee) {
 		return 1 == this.employeeDao.insert(employee);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#update(com.jrsoft.employee.entity.Employee)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jrsoft.employee.service.EmployeeService#update(com.jrsoft.employee.
+	 * entity.Employee)
 	 */
 	@Override
 	public boolean update(Employee employee) {
 		return 1 == this.employeeDao.udpate(employee);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.jrsoft.employee.service.EmployeeService#delete(java.lang.Integer)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jrsoft.employee.service.EmployeeService#delete(java.lang.Integer)
 	 */
 	@Override
 	public boolean delete(Integer id) {

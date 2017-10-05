@@ -31,7 +31,7 @@ import com.jrsoft.auth.service.AuthRoleService;
  */
 @Service
 public class AuthRoleServiceImpl implements AuthRoleService {
-	
+
 	@Value("${pageSize}")
 	private int pageSize;
 
@@ -53,40 +53,32 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public AuthRole findByName(String roleName) {
-		return authRoleDao.findByName(roleName);
+	public AuthRole findOne(AuthRole role) {
+		if (null != role.getRoleId()) {
+			return authRoleDao.findById(role.getRoleId());
+		}
+		if (null != role.getRoleName()) {
+			return authRoleDao.findByName(role.getRoleName());
+		}
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.auth.service.AuthRoleService#findByUser(com.jrsoft
+	 * @see com.jrsoft.auth.service.AuthRoleService#findByUser(com.jrsoft
 	 * .auth.entity.AuthUser)
 	 */
 	@Override
 	public Set<AuthRole> findAllByUser(AuthUser user) {
-		return authRoleDao.findAllByUserId(user.getUserId());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthRoleService#findByUser(java.lang.
-	 * String)
-	 */
-	@Override
-	public Set<AuthRole> findAllByUser(String userName) {
-		AuthUser user = this.authUserDao.findByName(userName);
-		if (null == user) {
-			return null;
+		if (null != user.getUserId()) {
+			return authRoleDao.findAllByUserId(user.getUserId());
 		}
-		return authRoleDao.findAllByUserId(user.getUserId());
-	}
-
-	@Override
-	public AuthRole findById(Integer id) {
-		return authRoleDao.findById(id);
+		if (null != user.getUserName()) {
+			AuthUser u = this.authUserDao.findByName(user.getUserName());
+			return this.authRoleDao.findAllByUserId(u.getUserId());
+		}
+		return null;
 	}
 
 	@Override

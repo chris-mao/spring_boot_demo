@@ -66,7 +66,9 @@ public class AuthUserController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
 	public String findUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		AuthUser user = this.authUserService.findById(id);
+		AuthUser u = new AuthUser();
+		u.setUserId(id);
+		AuthUser user = this.authUserService.findOne(u);
 		if (null == user) {
 			throw new DataNotFoundException();
 		}
@@ -100,11 +102,13 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:edit")
 	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthUser authUser = this.authUserService.findById(id);
-		if (null == authUser) {
+		AuthUser u = new AuthUser();
+		u.setUserId(id);
+		AuthUser user = this.authUserService.findOne(u);
+		if (null == user) {
 			throw new DataNotFoundException();
 		}
-		model.addAttribute("authUser", authUser);
+		model.addAttribute("authUser", user);
 		model.addAttribute("userStates", AuthUserStateEnum.values());
 		return "auth/user/edit";
 	}
@@ -155,11 +159,13 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:change-password")
 	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthUser authUser = this.authUserService.findById(id);
-		if (null == authUser) {
+		AuthUser u = new AuthUser();
+		u.setUserId(id);
+		AuthUser user = this.authUserService.findOne(u);
+		if (null == user) {
 			throw new DataNotFoundException();
 		}
-		model.addAttribute("authUser", authUser);
+		model.addAttribute("authUser", user);
 		return "auth/user/change-psd";
 	}
 

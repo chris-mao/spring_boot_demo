@@ -34,22 +34,14 @@ public interface AuthUserService {
 	 * @return PageInfo
 	 */
 	public PageInfo<AuthUser> findAll(int pageNum);
-
+	
 	/**
-	 * 按ID查询数据
+	 * 按用户编号或是名称查询
 	 * 
-	 * @param id
-	 * @return
+	 * @param user
+	 * @return AuthUser
 	 */
-	public AuthUser findById(Integer id);
-
-	/**
-	 * 按名称查询数据
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public AuthUser findByName(String name);
+	public AuthUser findOne(AuthUser user);
 	
 	/**
 	 * 创建新用户

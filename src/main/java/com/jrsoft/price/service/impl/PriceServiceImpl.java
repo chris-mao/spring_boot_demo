@@ -54,24 +54,15 @@ public class PriceServiceImpl implements PriceService {
 	}
 
 	@Override
-	public PriceListHeader findById(Integer id) {
-		return this.priceListHeaderDao.findById(id);
-	}
-
-	@Override
-	public PriceListHeader findByName(String priceListName) {
-		return this.priceListHeaderDao.findByName(priceListName);
-	}
-
-	@Override
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId) {
 		return this.priceListHeaderDao.findAllAvailablePriceListsByCustomerSite(siteId);
 	}
 
 	@Override
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(Set<CustomerSite> billTo) {
-		if (null == billTo) return null;
-		
+		if (null == billTo)
+			return null;
+
 		CustomerSite billToSite = null;
 		List<PriceListHeader> result = new ArrayList<PriceListHeader>();
 		Iterator<CustomerSite> iterator = billTo.iterator();
@@ -79,7 +70,7 @@ public class PriceServiceImpl implements PriceService {
 			billToSite = iterator.next();
 			result.addAll(findAllAvailablePriceListsByCustomerSite(billToSite.getSiteId()));
 		}
-		
+
 		return result;
 	}
 
@@ -94,14 +85,25 @@ public class PriceServiceImpl implements PriceService {
 	}
 
 	@Override
-	public List<PriceListLine> findAllPriceLinesByHeaderId(int headerId) {
-		return this.priceListLineDao.findAllByHeaderId(headerId);
+	public List<PriceListLine> findAllPriceLines(PriceListHeader priceHeader) {
+		// TODO Auto-generated method stub
+		if (null != priceHeader.getHeaderId()) {
+			return this.priceListLineDao.findAllByHeaderId(priceHeader.getHeaderId());
+		}
+		if (null != priceHeader.getName()) {
+			return this.priceListLineDao.findAllByName(priceHeader.getName());
+		}
+		return null;
 	}
 
 	@Override
-	public List<PriceListLine> findAllPriceLinesByName(String priceListName) {
-		// PriceListHeader header =
-		// this.priceListHeaderDao.findByName(priceListName);
-		return this.priceListLineDao.findAllByName(priceListName);
+	public PriceListHeader findOne(PriceListHeader priceHeader) {
+		if (null != priceHeader.getHeaderId()) {
+			return this.priceListHeaderDao.findById(priceHeader.getHeaderId());
+		}
+		if (null != priceHeader.getName()) {
+			return this.priceListHeaderDao.findByName(priceHeader.getName());
+		}
+		return null;
 	}
 }

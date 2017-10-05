@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
+import com.jrsoft.customer.service.CustomerService;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
 
@@ -36,6 +37,9 @@ public class EmployeeController {
 	 */
 	@Resource
 	private EmployeeService employeeService;
+	
+	@Resource
+	private CustomerService customerService;
 
 	/**
 	 * 
@@ -44,7 +48,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@GetMapping("")
-	@RequiresPermissions("employee:list")
+//	@RequiresPermissions("employee:list")
 	public String findAllEmployee(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<Employee> employeese = this.employeeService.findAll(pageNum);
 		model.addAttribute("page", employeese);
@@ -59,13 +63,17 @@ public class EmployeeController {
 	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}")
-	@RequiresPermissions("employee:detail")
+//	@RequiresPermissions("employee:detail")
 	public String findEmployee(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		Employee employee = this.employeeService.findById(id);
+		Employee e = new Employee();
+		e.setEmployeeId(id);
+		Employee employee = this.employeeService.findOne(e);
 		if (null == employee) {
 			throw new DataNotFoundException();
 		}
 		model.addAttribute("employee", employee);
+		model.addAttribute("customers", customerService.findAllByEmployee(employee));
+		
 		return "employee/detail";
 	}
 

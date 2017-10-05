@@ -34,22 +34,14 @@ public interface AuthPermissionService {
 	 * @return PageInfo
 	 */
 	public PageInfo<AuthPermission> findAll(int pageNum);
-
+	
 	/**
-	 * 按权限编号查询
+	 * 按权限编号或是名称查询
 	 * 
-	 * @param id
+	 * @param permission
 	 * @return AuthPermission
 	 */
-	public AuthPermission findById(Integer id);
-
-	/**
-	 * 按权限名称查询
-	 * 
-	 * @param permissionName
-	 * @return AuthPermission
-	 */
-	public AuthPermission findByName(String permissionName);
+	public AuthPermission findOne(AuthPermission permission);
 
 	/**
 	 * 创建新权限

@@ -6,6 +6,8 @@ package com.jrsoft.employee.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.employee.entity.Employee;
 
 /**
@@ -32,13 +34,14 @@ public interface EmployeeService {
 	 * @return PageInfo
 	 */
 	public PageInfo<Employee> findAll(int pageNum);
-
+	
 	/**
+	 * 按员工编号或是名称查询
 	 * 
-	 * @param id
-	 * @return
+	 * @param emp
+	 * @return Employee
 	 */
-	public Employee findById(Integer id);
+	public Employee findOne(Employee emp);
 
 	/**
 	 * 根据客户Account Number查询对应的员工信息
@@ -46,7 +49,7 @@ public interface EmployeeService {
 	 * @param customerNumber
 	 * @return List
 	 */
-	public List<Employee> findAllByCustomerNumber(String customerNumber);
+	public List<Employee> findAllByCustomer(CustomerAccount customer);
 
 	/**
 	 * 根据用户系统用户名获取员工信息
@@ -54,7 +57,7 @@ public interface EmployeeService {
 	 * @param credential
 	 * @return List
 	 */
-	public List<Employee> findAllByCredential(String credential);
+	public List<Employee> findAllByCredential(AuthUser credential);
 	
 	/**
 	 * 创建新员工

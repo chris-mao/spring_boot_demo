@@ -35,22 +35,14 @@ public interface PriceService {
 	 * @return PageInfo
 	 */
 	public PageInfo<PriceListHeader> findAll(int pageNum);
-
+	
 	/**
-	 * 根据价格表ID查询价格表头数据
+	 * 按价格表编号或是名称查询
 	 * 
-	 * @param id 价格表Id
+	 * @param priceHeader
 	 * @return PriceListHeader
 	 */
-	public PriceListHeader findById(Integer id);
-
-	/**
-	 * 根据价格表名称查询价格表数据
-	 * 
-	 * @param priceListName 价格表名称
-	 * @return PriceListHeader
-	 */
-	public PriceListHeader findByName(String priceListName);
+	public PriceListHeader findOne(PriceListHeader priceHeader);
 	
 	/**
 	 * 获取客户的有效的价格表清单
@@ -74,17 +66,10 @@ public interface PriceService {
 	/**
 	 * 获取价格表中的价格数据
 	 * 
-	 * @param headerId 价格表Id
+	 * @param priceHeader
 	 * @return List
 	 */
-	public List<PriceListLine> findAllPriceLinesByHeaderId(int headerId);
-	
-	/**
-	 * 
-	 * @param priceListName 价格表名称
-	 * @return List
-	 */
-	public List<PriceListLine> findAllPriceLinesByName(String priceListName);
+	public List<PriceListLine> findAllPriceLines(PriceListHeader priceHeader);
 	
 	/**
 	 * 在指定价格表中获取指定产品的销售价格

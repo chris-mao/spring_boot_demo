@@ -91,7 +91,9 @@ public class JrShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();
-		AuthUser user = authUserService.findByName(userName);
+		AuthUser user = new AuthUser();
+		user.setUserName(userName);
+		user = authUserService.findOne(user);
 		logger.info("身份验证" + "[" + userName + "] " + "-->JrShiroRealm.doGetAuthorizationInfo()");
 
 		if (user == null) { // 没找到帐号

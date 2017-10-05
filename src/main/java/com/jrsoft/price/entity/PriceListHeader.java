@@ -99,20 +99,6 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @return the priceListName
-	 */
-	public String getPriceListName() {
-		return name;
-	}
-
-	/**
-	 * @param priceListName the priceListName to set
-	 */
-	public void setPriceListName(String priceListName) {
-		this.name = priceListName;
-	}
-
-	/**
 	 * @return the currency
 	 */
 	public String getCurrency() {

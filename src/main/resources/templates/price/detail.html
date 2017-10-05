@@ -60,20 +60,19 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
-                <fieldset>
-                    <legend>此价格表应用于以下客户</legend>
-                    <div th:if="${#lists.isEmpty(customers)}">
-                        <p class="text-center text-warning" style="padding-bottom: 2rem;">
-                            哇喔〜〜〜，目前此价格表还没分配给任何客户。</p>
-                    </div>
-                    <div th:unless="${#lists.isEmpty(customers)}"
-                        th:replace="customer/index::showCustomers(${customers})"></div>
-                </fieldset>
-            </div>
-        </div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
+				<fieldset>
+					<legend>此价格表应用于以下客户</legend>
+					<div th:unless="${#lists.isEmpty(customers)}"
+						th:replace="customer/index::showCustomers(${customers})"></div>
+                    <p class="text-center text-warning"
+                        style="padding-top: 1rem; padding-bottom: 2rem;"
+                        th:if="${#lists.isEmpty(customers)}">哇喔〜〜〜，目前此价格表还没分配给任何客户。</p>
+				</fieldset>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

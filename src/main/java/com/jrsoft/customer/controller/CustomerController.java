@@ -75,14 +75,16 @@ public class CustomerController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("customer:detail")
 	public String findCustomer(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		CustomerAccount customer = this.customerService.findById(id);
+		CustomerAccount c = new CustomerAccount();
+		c.setCustomerId(id);
+		CustomerAccount customer = this.customerService.findOne(c);
 		if (null == customer) {
 			throw new DataNotFoundException();
 		}
 
 		model.addAttribute("customer", customer);
 		// 获取客户对应的客服及销售人员
-		model.addAttribute("employeese", employeeService.findAllByCustomerNumber(customer.getAccountNumber()));
+		model.addAttribute("employeese", employeeService.findAllByCustomer(customer));
 		// 获取BILL TO上可用的价格清单
 		model.addAttribute("priceList", priceService.findAllAvailablePriceListsByCustomerSite(customer.getBillTo()));
 		return "customer/detail";

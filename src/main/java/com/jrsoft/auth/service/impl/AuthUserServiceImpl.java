@@ -51,24 +51,15 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return new PageInfo<AuthUser>(authUserDao.findAll());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthUserService#findById()
-	 */
 	@Override
-	public AuthUser findById(Integer id) {
-		return authUserDao.findById(id);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthUserService#findByName()
-	 */
-	@Override
-	public AuthUser findByName(String userName) {
-		return authUserDao.findByName(userName);
+	public AuthUser findOne(AuthUser user) {
+		if (null != user.getUserId()) {
+			return authUserDao.findById(user.getUserId());
+		}
+		if (null != user.getUserName()) {
+			return authUserDao.findByName(user.getUserName());
+		}
+		return null;
 	}
 
 	@Override

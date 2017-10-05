@@ -69,13 +69,15 @@ public class PriceController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("price:detail")
 	public String findPriceList(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		PriceListHeader priceHeader = this.priceService.findById(id);
+		PriceListHeader h = new PriceListHeader();
+		h.setHeaderId(id);
+		PriceListHeader priceHeader = this.priceService.findOne(h);
 		if (null == priceHeader) {
 			throw new DataNotFoundException();
 		}
 		model.addAttribute("priceHeader", priceHeader);
-		model.addAttribute("lines", priceService.findAllPriceLinesByHeaderId(id));
-		model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader.getHeaderId()));
+		model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
+		model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
 		return "price/detail";
 	}
 

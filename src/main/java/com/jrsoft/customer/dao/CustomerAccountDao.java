@@ -91,6 +91,18 @@ public interface CustomerAccountDao {
 			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
 	public List<CustomerAccount> findAllByCredential(@Param(value = "user_name") String credential);
 
+	@Select("SELECT customer_id, customer_number, customer_name, country, available, created_time, update_time FROM customer WHERE customer_id IN (SELECT customer_id FROM employee_customer WHERE employee_id= #{emp_id})")
+	@Results({ @Result(property = "customerId", column = "customer_id", id = true),
+			@Result(property = "accountNumber", column = "customer_number"),
+			@Result(property = "customerName", column = "customer_name"),
+			@Result(property = "country", column = "country"), @Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time"),
+			@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllBillTo", fetchType = FetchType.LAZY) ),
+			@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllShipTo", fetchType = FetchType.LAZY) ),
+			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
+	public List<CustomerAccount> findALlByEmployeeId(@Param(value = "emp_id") Integer employeeId);
+
 	/**
 	 * 
 	 * @param priceHeaderId
@@ -98,14 +110,14 @@ public interface CustomerAccountDao {
 	 */
 	@Select("CALL sp_findQualifiedCustomers(#{header_id})")
 	@Results({ @Result(property = "customerId", column = "customer_id", id = true),
-		@Result(property = "accountNumber", column = "customer_number"),
-		@Result(property = "customerName", column = "customer_name"),
-		@Result(property = "country", column = "country"), @Result(property = "available", column = "available"),
-		@Result(property = "createdTime", column = "created_time"),
-		@Result(property = "updateTime", column = "update_time"),
-		@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllBillTo", fetchType = FetchType.LAZY) ),
-		@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllShipTo", fetchType = FetchType.LAZY) ),
-		@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
+			@Result(property = "accountNumber", column = "customer_number"),
+			@Result(property = "customerName", column = "customer_name"),
+			@Result(property = "country", column = "country"), @Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time"),
+			@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllBillTo", fetchType = FetchType.LAZY) ),
+			@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllShipTo", fetchType = FetchType.LAZY) ),
+			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
 	public List<CustomerAccount> findAllQualifiedCustomers(@Param(value = "header_id") Integer priceHeaderId);
 
 }

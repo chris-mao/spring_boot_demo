@@ -65,7 +65,9 @@ public class AuthPermissionController {
 	@RequiresPermissions("authPermission:detail")
 	public String findPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthPermission permission = this.authPermissionService.findById(id);
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(id);
+		AuthPermission permission = this.authPermissionService.findOne(p);
 		if (null == permission) {
 			throw new DataNotFoundException();
 		}
@@ -91,7 +93,9 @@ public class AuthPermissionController {
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authPermission:edit")
 	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
-		AuthPermission permission = this.authPermissionService.findById(id);
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(id);
+		AuthPermission permission = this.authPermissionService.findOne(p);
 		if (null == permission) {
 			throw new DataNotFoundException();
 		}
