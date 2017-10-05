@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
 
@@ -34,10 +35,10 @@ import com.jrsoft.auth.service.AuthPermissionService;
 @Controller
 @RequestMapping("/permissions")
 public class AuthPermissionController {
-	
+
 	@Resource
 	private AuthPermissionService authPermissionService;
-	
+
 	/**
 	 * 
 	 * @param pageNum
@@ -51,48 +52,53 @@ public class AuthPermissionController {
 		model.addAttribute("page", page);
 		return "auth/permission/index";
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authPermission:detail")
-	public String findPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String findPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
 		AuthPermission permission = this.authPermissionService.findById(id);
-		if (null != permission) {
-			model.addAttribute("permission", permission);
+		if (null == permission) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("permission", permission);
 		return "auth/permission/detail";
 	}
-	
+
 	@GetMapping("/new")
 	@RequiresPermissions("authPermission:new")
 	public String newPermission(Model model) {
 		model.addAttribute("permission", new AuthPermission());
 		return "auth/permission/new";
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException 
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authPermission:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
 		AuthPermission permission = this.authPermissionService.findById(id);
-		if (null != permission) {
-			model.addAttribute("permission", permission);
+		if (null == permission) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("permission", permission);
 		return "auth/permission/edit";
 	}
-	
+
 	/**
 	 * 
 	 * @param permission
@@ -103,7 +109,8 @@ public class AuthPermissionController {
 	 */
 	@PostMapping("/save")
 	@RequiresPermissions("authPermission:save")
-	public String savePermission(@Valid AuthPermission permission, HttpServletRequest request, BindingResult result, Model model) {
+	public String savePermission(@Valid AuthPermission permission, HttpServletRequest request, BindingResult result,
+			Model model) {
 		model.addAttribute("permission", permission);
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
@@ -125,7 +132,7 @@ public class AuthPermissionController {
 		}
 		return "auth/role/save";
 	}
-	
+
 	/**
 	 * 
 	 * @param id

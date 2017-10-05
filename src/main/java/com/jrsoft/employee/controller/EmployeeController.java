@@ -4,8 +4,6 @@
 package com.jrsoft.employee.controller;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
 
@@ -31,10 +30,19 @@ import com.jrsoft.employee.service.EmployeeService;
 @Controller
 @RequestMapping("/employeese")
 public class EmployeeController {
-	
+
+	/**
+	 * 
+	 */
 	@Resource
 	private EmployeeService employeeService;
-	
+
+	/**
+	 * 
+	 * @param pageNum
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("")
 	@RequiresPermissions("employee:list")
 	public String findAllEmployee(@RequestParam(defaultValue = "1") int pageNum, Model model) {
@@ -42,14 +50,22 @@ public class EmployeeController {
 		model.addAttribute("page", employeese);
 		return "employee/index";
 	}
-	
+
+	/**
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws DataNotFoundException
+	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("employee:detail")
-	public String findEmployee(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String findEmployee(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		Employee employee = this.employeeService.findById(id);
-		if (null != employee) {
-			model.addAttribute("employee", employee);
+		if (null == employee) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("employee", employee);
 		return "employee/detail";
 	}
 

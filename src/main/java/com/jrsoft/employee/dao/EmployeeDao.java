@@ -56,9 +56,13 @@ public interface EmployeeDao {
 			@Result(property = "updateTime", column = "update_time") })
 	public Employee findByName(@Param(value = "emp_name") String employeeName);
 
-	public List<Employee> findAllByCustomer(@Param(value = "account_number") String accountNumber);
-
-	public List<Employee> findAllByCustomer(@Param(value = "account_number") String accountNumber,
+	@Select("CALL sp_findEmployeesByCustomer(#{customer_number}, #{ou_id})")
+	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
+			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
+			@Result(property = "fax", column = "fax"), @Result(property = "email", column = "email"),
+			@Result(property = "oracleAccount", column = "oracle_account"),
+			@Result(property = "available", column = "available") })
+	public List<Employee> findAllByCustomer(@Param(value = "customer_number") String customerNumber,
 			@Param(value = "ou_id") Integer operationUnitId);
 
 	/**

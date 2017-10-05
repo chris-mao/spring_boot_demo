@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthUserService;
@@ -58,17 +59,18 @@ public class AuthUserController {
 	 * 查看用户详情
 	 * 
 	 * @param id
-	 * @param request
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
-	public String findUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String findUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		AuthUser user = this.authUserService.findById(id);
-		if (null != user) {
-			model.addAttribute("user", user);
+		if (null == user) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("user", user);
 		return "auth/user/detail";
 	}
 
@@ -92,14 +94,17 @@ public class AuthUserController {
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authUser:edit")
-	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
 		AuthUser authUser = this.authUserService.findById(id);
-		if (null != authUser) {
-			model.addAttribute("authUser", authUser);
+		if (null == authUser) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("authUser", authUser);
 		model.addAttribute("userStates", AuthUserStateEnum.values());
 		return "auth/user/edit";
 	}
@@ -137,21 +142,24 @@ public class AuthUserController {
 		}
 		return "auth/user/save";
 	}
-	
+
 	/**
 	 * 修改登录密码
 	 * 
 	 * @param id
 	 * @param request
 	 * @return
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}/change-psd")
 	@RequiresPermissions("authUser:change-password")
-	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
 		AuthUser authUser = this.authUserService.findById(id);
-		if (null != authUser) {
-			model.addAttribute("authUser", authUser);
+		if (null == authUser) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("authUser", authUser);
 		return "auth/user/change-psd";
 	}
 

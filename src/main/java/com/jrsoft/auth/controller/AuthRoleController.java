@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthRoleService;
 
@@ -58,14 +59,17 @@ public class AuthRoleController {
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException 
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authRole:detail")
-	public String findRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String findRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
 		AuthRole role = this.authRoleService.findById(id);
-		if (null != role) {
-			model.addAttribute("role", role);
+		if (null == role) {
+			throw new DataNotFoundException();
 		}
+		
+			model.addAttribute("role", role);
 		return "auth/role/detail";
 	}
 	
@@ -81,13 +85,22 @@ public class AuthRoleController {
 		return "auth/role/new";
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws DataNotFoundException
+	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authRole:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
 		AuthRole authRole = this.authRoleService.findById(id);
-		if (null != authRole) {
-			model.addAttribute("authRole", authRole);
+		if (null == authRole) {
+			throw new DataNotFoundException();
 		}
+			model.addAttribute("authRole", authRole);
 		return "auth/role/edit";
 	}
 	

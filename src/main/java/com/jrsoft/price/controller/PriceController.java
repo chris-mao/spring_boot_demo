@@ -3,11 +3,7 @@
  */
 package com.jrsoft.price.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.customer.service.CustomerService;
 import com.jrsoft.price.entity.PriceListHeader;
-import com.jrsoft.price.entity.PriceListLine;
 import com.jrsoft.price.service.PriceService;
 
 /**
@@ -36,12 +32,24 @@ import com.jrsoft.price.service.PriceService;
 @RequestMapping("/prices")
 public class PriceController {
 
+	/**
+	 * 
+	 */
 	@Resource
 	private PriceService priceService;
 
+	/**
+	 * 
+	 */
 	@Resource
 	private CustomerService customerService;
 
+	/**
+	 * 
+	 * @param pageNum
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("")
 	@RequiresPermissions("price:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
@@ -50,15 +58,24 @@ public class PriceController {
 		return "price/index";
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws DataNotFoundException
+	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("price:detail")
-	public String findPriceList(@PathVariable("id") Integer id, HttpServletRequest request, Model model) {
+	public String findPriceList(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		PriceListHeader priceHeader = this.priceService.findById(id);
-		if (null != priceHeader) {
-			model.addAttribute("priceHeader", priceHeader);
-			model.addAttribute("lines", priceService.findAllPriceLinesByHeaderId(id));
-			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader.getHeaderId()));
+		if (null == priceHeader) {
+			throw new DataNotFoundException();
 		}
+		model.addAttribute("priceHeader", priceHeader);
+		model.addAttribute("lines", priceService.findAllPriceLinesByHeaderId(id));
+		model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader.getHeaderId()));
 		return "price/detail";
 	}
 

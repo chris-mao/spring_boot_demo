@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.customer.dao.CustomerAccountDao;
+import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.employee.dao.EmployeeDao;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
@@ -32,6 +34,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Resource
 	private EmployeeDao employeeDao;
+	
+	@Resource
+	private CustomerAccountDao customerDao;
 
 	/* (non-Javadoc)
 	 * @see com.jrsoft.employee.service.EmployeeService#findAll()
@@ -63,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public List<Employee> findAllByCustomerNumber(String customerNumber) {
-		return null;
+		return employeeDao.findAllByCustomer(customerNumber, 0);
 	}
 
 	/* (non-Javadoc)

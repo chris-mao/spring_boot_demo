@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft;
+package com.jrsoft.app.exception;
 
 /**
  * com.jrsoft.app ExceptionInfo

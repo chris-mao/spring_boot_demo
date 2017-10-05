@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft;
+package com.jrsoft.app.exception.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +11,9 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.jrsoft.app.exception.DataNotFoundException;
+import com.jrsoft.app.exception.ExceptionInfo;
 
 /**
  * com.jrsoft.app AppExceptionHandler
@@ -102,6 +105,19 @@ public class AppExceptionHandler {
 		model.addAttribute("exceptionInfo", info);
 
 		return AppExceptionHandler.PAGE_NOT_FOUND_ERROR_VIEW;
+	}
+	
+	@ExceptionHandler(DataNotFoundException.class)
+	public String dataNotFoundErrorHandler(HttpServletRequest req, HttpServletResponse res, Model model, Exception e) {
+		ExceptionInfo info = new ExceptionInfo();
+		info.setCode(110);
+		info.setMessage("Opps〜〜没有相匹配的数据");
+		info.setExMessage(e.getMessage());
+		info.setUrl(req.getRequestURL().toString());
+		info.setDeveloperMessage("请确认用户使用的数据ID是否有效");
+		model.addAttribute("exceptionInfo", info);
+
+		return AppExceptionHandler.DEFAULT_ERROR_VIEW;
 	}
 
 }
