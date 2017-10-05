@@ -34,7 +34,7 @@ public class AuthPermissionServiceTest {
 
 	@Test
 	public void testFindAll() {
-		Assert.assertEquals(51, authPermissionService.findAll().size());
+		Assert.assertEquals(71, authPermissionService.findAll().size());
 	}
 
 	@Test

@@ -10,6 +10,8 @@ import java.util.Date;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.jrsoft.inventory.entity.Item;
+
 /**
  * 价格表行实体类
  * 
@@ -28,21 +30,9 @@ public class PriceListLine implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * 工厂型号
 	 */
-	@NotEmpty(message="")
-	private Integer inventoryItemId;
-	
-	/**
-	 * 
-	 */
-	@NotEmpty(message="")
-	private String inventoryItemName;
-	
-	/**
-	 * 
-	 */
-	private String inventoryItemDescription;
+	private Item inventoryItem;
 	
 	/**
 	 * 
@@ -93,48 +83,6 @@ public class PriceListLine implements Serializable {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-
-	/**
-	 * @return the inventoryItemId
-	 */
-	public Integer getInventoryItemId() {
-		return inventoryItemId;
-	}
-
-	/**
-	 * @param inventoryItemId the inventoryItemId to set
-	 */
-	public void setInventoryItemId(Integer inventoryItemId) {
-		this.inventoryItemId = inventoryItemId;
-	}
-
-	/**
-	 * @return the inventoryItemName
-	 */
-	public String getInventoryItemName() {
-		return inventoryItemName;
-	}
-
-	/**
-	 * @param inventoryItemName the inventoryItemName to set
-	 */
-	public void setInventoryItemName(String inventoryItemName) {
-		this.inventoryItemName = inventoryItemName;
-	}
-
-	/**
-	 * @return the inventoryItemDescription
-	 */
-	public String getInventoryItemDescription() {
-		return inventoryItemDescription;
-	}
-
-	/**
-	 * @param inventoryItemDescription the inventoryItemDescription to set
-	 */
-	public void setInventoryItemDescription(String inventoryItemDescription) {
-		this.inventoryItemDescription = inventoryItemDescription;
-	}
 
 	/**
 	 * @return the uom
@@ -248,16 +196,23 @@ public class PriceListLine implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+	public Item getInventoryItem() {
+		return inventoryItem;
+	}
+
+	public void setInventoryItem(Item inventoryItem) {
+		this.inventoryItem = inventoryItem;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "PriceListLine [inventoryItemId=" + inventoryItemId + ", inventoryItemName="
-				+ inventoryItemName + ", inventoryItemDescription=" + inventoryItemDescription + ", uom=" + uom
-				+ ", unitPrice=" + unitPrice + ", minOrderQuantity=" + minOrderQuantity + ", maxOrderQuantity="
-				+ maxOrderQuantity + ", startDate=" + startDate + ", endDate=" + endDate + ", createdTime="
-				+ createdTime + ", updateTime=" + updateTime + "]";
+		return "PriceListLine [inventoryItem=" + inventoryItem + ", uom=" + uom + ", unitPrice=" + unitPrice
+				+ ", minOrderQuantity=" + minOrderQuantity + ", maxOrderQuantity=" + maxOrderQuantity + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", createdTime=" + createdTime + ", updateTime=" + updateTime
+				+ "]";
 	}
 
 }

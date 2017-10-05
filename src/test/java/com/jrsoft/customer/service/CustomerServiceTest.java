@@ -15,9 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
+import com.jrsoft.price.entity.PriceListHeader;
 
 /**
  * com.jrsoft.customer.service CustomerServiceTest
@@ -66,7 +68,9 @@ public class CustomerServiceTest {
 	 */
 	@Test
 	public void testFindById() {
-		CustomerAccount customer = this.customerService.findById(CUSTOMER_ID);
+		CustomerAccount ca = new CustomerAccount();
+		ca.setCustomerId(CUSTOMER_ID);
+		CustomerAccount customer = this.customerService.findOne(ca);
 		Assert.assertNotNull(customer);
 		System.out.println(customer);
 	}
@@ -76,21 +80,27 @@ public class CustomerServiceTest {
 	 */
 	@Test
 	public void testFindByAccountNumber() {
-		CustomerAccount customer = this.customerService.findByAccountNumber(ACCOUNT_NUMBER);
+		CustomerAccount ca = new CustomerAccount();
+		ca.setAccountNumber(ACCOUNT_NUMBER);
+		CustomerAccount customer = this.customerService.findOne(ca);
 		Assert.assertNotNull(customer);
 		System.out.println(customer);
 	}
 	
 	@Test
 	public void testFindByCredential() {
-		List<CustomerAccount> customers = this.customerService.findAllByCredential(ACCOUNT_NUMBER);
+		AuthUser user = new AuthUser();
+		user.setUserName(ACCOUNT_NUMBER);
+		List<CustomerAccount> customers = this.customerService.findAllByCredential(user);
 		Assert.assertNotNull(customers);
 		Assert.assertEquals(1, customers.size());
 	}
 	
 	@Test
 	public void testFindAllQualifiedCustomersInt() {
-		List<CustomerAccount> customers = this.customerService.findAllQualifiedCustomers(PRICE_HEADER_ID);
+		PriceListHeader priceHeader = new PriceListHeader();
+		priceHeader.setHeaderId(PRICE_HEADER_ID);
+		List<CustomerAccount> customers = this.customerService.findAllQualifiedCustomers(priceHeader);
 		Assert.assertNotNull(customers);
 		Assert.assertEquals(27, customers.size());
 	}

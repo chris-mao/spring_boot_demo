@@ -10,10 +10,10 @@
 <body>
 	<div layout:fragment="content">
 		<div class="row">
-			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
-				<fieldset>
-					<legend> 基本信息 </legend>
-					<div>
+			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">基本信息</div>
+					<div class="panel-body">
 						<ul class="data-list">
 							<li><label>员工姓名</label> <span
 								th:utext="${employee.employeeName}">employee_name</span></li>
@@ -31,21 +31,21 @@
 							</li>
 						</ul>
 					</div>
-				</fieldset>
+				</div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
-				<fieldset>
-					<legend>我的客户</legend>
+				<div class="panel panel-success">
+                    <div class="panel-heading">我的客户</div>
 					<div th:unless="${#lists.isEmpty(customers)}"
 						th:replace="customer/index::showCustomers(${customers})"></div>
 					<p class="text-center text-warning"
 						style="padding-top: 1rem; padding-bottom: 2rem;"
 						th:if="${#lists.isEmpty(customers)}">哇喔~~,
 						您的名下没有分配作何客户，快去主管那里认领一些吧。</p>
-				</fieldset>
+				</div>
 			</div>
 		</div>
 	</div>

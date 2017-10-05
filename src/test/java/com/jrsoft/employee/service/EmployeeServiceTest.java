@@ -39,12 +39,14 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testFindById() {
-		Employee emp = employeeService.findById(1);
+	public void testFindByEmployee() {
+		Employee e = new Employee();
+		e.setEmployeeId(1);
+		Employee emp = employeeService.findOne(e);
 		Assert.assertNotNull(emp);
 	}
 
-	public void testFindAllByCustomerNumber() {
+	public void testFindAllByCustomer() {
 		fail("Not yet implemented"); // TODO
 	}
 

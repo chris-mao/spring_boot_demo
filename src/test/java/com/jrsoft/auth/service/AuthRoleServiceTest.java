@@ -58,7 +58,7 @@ public class AuthRoleServiceTest {
 	public void testFindAllByUserAuthUser() {
 		AuthUser user = new AuthUser();
 		user.setUserName("cmao");
-		Assert.assertEquals(2, authRoleService.findAllByUser(user).size());
+		Assert.assertEquals(1, authRoleService.findAllByUser(user).size());
 	}
 
 	@Test
@@ -70,9 +70,11 @@ public class AuthRoleServiceTest {
 
 	@Test
 	public void testInsert() {
+		AuthRole r = new AuthRole();
 		AuthRole role = null;
 		final String roleName = "new role";
-		role = authRoleService.findByName(roleName);
+		r.setRoleName(roleName);
+		role = authRoleService.findOne(r);
 		if (null != role) {
 			authRoleService.delete(role.getRoleId());
 		}
@@ -82,36 +84,44 @@ public class AuthRoleServiceTest {
 		role.setRoleName(roleName);
 		Assert.assertEquals(true, this.authRoleService.insert(role));
 		Assert.assertNotNull(role.getRoleId());
-		Assert.assertNotNull(authRoleService.findByName(roleName));
+		Assert.assertNotNull(authRoleService.findOne(role));
 	}
 
 	@Test
 	public void testUpdate() {
+		AuthRole r = new AuthRole();
 		final String roleName = "new role";
 		final String newRoleName = "new role 123";
-		AuthRole role = authRoleService.findByName(roleName);
+		r.setRoleName(roleName);
+		AuthRole role = authRoleService.findOne(r);
 		Assert.assertNotNull(role);
 
 		role.setRoleName(newRoleName);
 		role.setAvailable(false);
 		Assert.assertEquals(true, authRoleService.update(role));
-		Assert.assertNotNull(authRoleService.findByName(newRoleName));
+		Assert.assertNotNull(authRoleService.findOne(role));
 	}
 
 	@Test
 	public void testDelete() {
+		AuthRole r = new AuthRole();
 		final String roleName = "new role 123";
-		AuthRole role = authRoleService.findByName(roleName);
+		r.setRoleName(roleName);
+		AuthRole role = authRoleService.findOne(r);
 		Assert.assertNotNull(role);
 
 		authRoleService.delete(role.getRoleId());
-		Assert.assertNull(authRoleService.findByName(roleName));
+		Assert.assertNull(authRoleService.findOne(role));
 	}
 
 	@Test
 	public void testAddPermission() {
-		AuthRole role = this.authRoleService.findById(1);// administrator role
-		AuthPermission permission = this.authPermissionService.findById(36);
+		AuthRole r = new AuthRole();
+		r.setRoleId(1);
+		AuthRole role = this.authRoleService.findOne(r);// administrator role
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(36);
+		AuthPermission permission = this.authPermissionService.findOne(p);
 
 		// 添加未分配的权限，应该返回true
 		Assert.assertEquals(true, this.authRoleService.addPermission(role, permission));
@@ -121,8 +131,12 @@ public class AuthRoleServiceTest {
 
 	@Test
 	public void testRemovePermission() {
-		AuthRole role = this.authRoleService.findById(1);// administrator role
-		AuthPermission permission = this.authPermissionService.findById(36);
+		AuthRole r = new AuthRole();
+		r.setRoleId(1);
+		AuthRole role = this.authRoleService.findOne(r);// administrator role
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(36);
+		AuthPermission permission = this.authPermissionService.findOne(p);
 
 		// 移除已分配的权限，应该返回true
 		Assert.assertEquals(true, this.authRoleService.removePermission(role, permission));

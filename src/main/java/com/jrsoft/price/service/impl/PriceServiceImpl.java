@@ -86,7 +86,6 @@ public class PriceServiceImpl implements PriceService {
 
 	@Override
 	public List<PriceListLine> findAllPriceLines(PriceListHeader priceHeader) {
-		// TODO Auto-generated method stub
 		if (null != priceHeader.getHeaderId()) {
 			return this.priceListLineDao.findAllByHeaderId(priceHeader.getHeaderId());
 		}

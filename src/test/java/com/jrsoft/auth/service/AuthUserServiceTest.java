@@ -40,14 +40,18 @@ public class AuthUserServiceTest {
 
 	@Test
 	public void testFindById() {
-		AuthUser user = this.authUserService.findById(1);
+		AuthUser u = new AuthUser();
+		u.setUserId(1);
+		AuthUser user = this.authUserService.findOne(u);
 		Assert.assertNotNull(user);
 		Assert.assertEquals("admin", user.getUserName());
 	}
 
 	@Test
 	public void testFindByName() {
-		AuthUser user = this.authUserService.findByName("admin");
+		AuthUser u = new AuthUser();
+		u.setUserName("admin");
+		AuthUser user = this.authUserService.findOne(u);
 		Assert.assertNotNull(user);
 		Assert.assertEquals("admin", user.getUserName());
 	}
@@ -56,7 +60,9 @@ public class AuthUserServiceTest {
 	public void testInsert() {
 		AuthUser user = null;
 		final String userName = "new user";
-		user = authUserService.findByName(userName);
+		AuthUser u = new AuthUser();
+		u.setUserName(userName);
+		user = authUserService.findOne(u);
 		if (null != user) {
 			authUserService.delete(user.getUserId());
 		}
@@ -68,30 +74,34 @@ public class AuthUserServiceTest {
 		user.setState(AuthUserStateEnum.LOCKED);
 	    Assert.assertEquals(true, this.authUserService.insert(user));
 	    Assert.assertNotNull(user.getUserId());
-		Assert.assertNotNull(authUserService.findByName(userName));
+		Assert.assertNotNull(authUserService.findOne(user));
 	}
 
 	@Test
 	public void testUpdate() {
 		final String userName = "new user";
 		final String newUserName = "new user 123";
-		AuthUser user = authUserService.findByName(userName);
+		AuthUser u = new AuthUser();
+		u.setUserName(userName);
+		AuthUser user = authUserService.findOne(u);
 		Assert.assertNotNull(user);
 		
 		user.setUserName(newUserName);
 		user.setState(AuthUserStateEnum.EXPIRED);
 		Assert.assertEquals(true, authUserService.update(user));
-		Assert.assertNotNull(authUserService.findByName(newUserName));
+		Assert.assertNotNull(authUserService.findOne(user));
 	}
 	
 	@Test
 	public void testDelete() {
 		final String userName = "new user 123";
-		AuthUser user = authUserService.findByName(userName);
+		AuthUser u = new AuthUser();
+		u.setUserName(userName);
+		AuthUser user = authUserService.findOne(u);
 		Assert.assertNotNull(user);
 		
 		authUserService.delete(user.getUserId());
-		Assert.assertNull(authUserService.findByName(userName));
+		Assert.assertNull(authUserService.findOne(u));
 	}
 
 	@Test
@@ -110,8 +120,12 @@ public class AuthUserServiceTest {
 	
 	@Test
 	public void testAddRole() {
-		AuthUser user = this.authUserService.findByName("cmao");
-		AuthRole role = this.authRoleService.findById(3);//customer role
+		AuthUser u = new AuthUser();
+		u.setUserName("cmao");
+		AuthUser user = this.authUserService.findOne(u);
+		AuthRole r = new AuthRole();
+		r.setRoleId(3);
+		AuthRole role = this.authRoleService.findOne(r);//customer role
 		
 		//添加未关联的角色，应该返回true
 		Assert.assertEquals(true, this.authUserService.addRole(user, role));		
@@ -121,8 +135,12 @@ public class AuthUserServiceTest {
 	
 	@Test
 	public void testRemoveRole() {
-		AuthUser user = this.authUserService.findByName("cmao");
-		AuthRole role = this.authRoleService.findById(3);//customer role
+		AuthUser u = new AuthUser();
+		u.setUserName("cmao");
+		AuthUser user = this.authUserService.findOne(u);
+		AuthRole r = new AuthRole();
+		r.setRoleId(3);
+		AuthRole role = this.authRoleService.findOne(r);//customer role
 		
 		//移除已关联的角色，应该返回true
 		Assert.assertEquals(true, this.authUserService.removeRole(user, role));

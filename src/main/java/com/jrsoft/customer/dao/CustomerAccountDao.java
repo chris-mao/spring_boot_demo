@@ -28,7 +28,7 @@ public interface CustomerAccountDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT customer_id, customer_number, customer_name, country, available, created_time, update_time FROM customer")
+	@Select("SELECT customer_id, customer_number, customer_name, country, available, created_time, update_time FROM customer ORDER BY customer_name")
 	@Results({ @Result(property = "customerId", column = "customer_id", id = true),
 			@Result(property = "accountNumber", column = "customer_number"),
 			@Result(property = "customerName", column = "customer_name"),
@@ -91,7 +91,7 @@ public interface CustomerAccountDao {
 			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDao.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
 	public List<CustomerAccount> findAllByCredential(@Param(value = "user_name") String credential);
 
-	@Select("SELECT customer_id, customer_number, customer_name, country, available, created_time, update_time FROM customer WHERE customer_id IN (SELECT customer_id FROM employee_customer WHERE employee_id= #{emp_id})")
+	@Select("SELECT customer_id, customer_number, customer_name, country, available, created_time, update_time FROM customer WHERE customer_id IN (SELECT customer_id FROM employee_customer WHERE employee_id= #{emp_id}) ORDER BY customer_name")
 	@Results({ @Result(property = "customerId", column = "customer_id", id = true),
 			@Result(property = "accountNumber", column = "customer_number"),
 			@Result(property = "customerName", column = "customer_name"),

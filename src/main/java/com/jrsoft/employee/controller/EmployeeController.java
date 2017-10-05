@@ -48,7 +48,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@GetMapping("")
-//	@RequiresPermissions("employee:list")
+	@RequiresPermissions("employee:list")
 	public String findAllEmployee(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<Employee> employeese = this.employeeService.findAll(pageNum);
 		model.addAttribute("page", employeese);
@@ -63,7 +63,7 @@ public class EmployeeController {
 	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}")
-//	@RequiresPermissions("employee:detail")
+	@RequiresPermissions("employee:detail")
 	public String findEmployee(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		Employee e = new Employee();
 		e.setEmployeeId(id);

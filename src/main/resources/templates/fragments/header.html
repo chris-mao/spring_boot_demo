@@ -29,31 +29,36 @@
 							class="dropdown-toggle" data-toggle="dropdown">数据管理<b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<shiro:hasPermission name="authUser:list">
-									<li><a class="navbar-link" title="维护系统用户" href="#"
-										th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
-								</shiro:hasPermission>
+                                <shiro:hasPermission name="authPermission:list">
+                                    <li><a class="navbar-link" title="维护系统权限" href="#"
+                                        th:href="@{/permissions}"><span
+                                            class="glyphicon glyphicon-wrench"></span>&nbsp;权限管理</a></li>
+                                </shiro:hasPermission>
 								<shiro:hasPermission name="authRole:list">
 									<li><a class="navbar-link" title="维护系统角色" href="#"
 										th:href="@{/roles}"><span class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
 								</shiro:hasPermission>
-								<shiro:hasPermission name="authPermission:list">
-									<li><a class="navbar-link" title="维护系统权限" href="#"
-										th:href="@{/permissions}"><span
-											class="glyphicon glyphicon-wrench"></span>&nbsp;权限管理</a></li>
-								</shiro:hasPermission>
+                                <shiro:hasPermission name="authUser:list">
+                                    <li><a class="navbar-link" title="维护系统用户" href="#"
+                                        th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+                                </shiro:hasPermission>
 								<shiro:hasPermission name="customer:list">
 									<li role="separator" class="divider"></li>
 									<li><a class="navbar-link" title="维护系统客户" href="#"
 										th:href="@{/customers}"><span
 											class="glyphicon glyphicon-wrench"></span>&nbsp;客户管理</a></li>
 								</shiro:hasPermission>
-
 								<shiro:hasPermission name="employee:list">
 									<li><a class="navbar-link" title="维护系统员工" href="#"
-										th:href="@{/employees}"><span
+										th:href="@{/employeese}"><span
 											class="glyphicon glyphicon-wrench"></span>&nbsp;员工管理</a></li>
 								</shiro:hasPermission>
+                                <shiro:hasPermission name="price:list">
+                                    <li role="separator" class="divider"></li>
+                                    <li><a class="navbar-link" title="查看系统中有效的销售价格表" href="#"
+                                        th:href="@{/prices}"><span
+                                            class="glyphicon glyphicon-wrench"></span>&nbsp;销售价格表</a></li>
+                                </shiro:hasPermission>
 							</ul></li>
 					</shiro:hasRole>
 

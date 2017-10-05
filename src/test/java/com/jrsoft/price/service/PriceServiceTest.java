@@ -43,16 +43,20 @@ public class PriceServiceTest {
 
 	@Test
 	public void testFindById() {
-		PriceListHeader header = priceService.findById(HEADER_ID);
+		PriceListHeader plh = new PriceListHeader();
+		plh.setHeaderId(HEADER_ID);
+		PriceListHeader header = priceService.findOne(plh);
 		Assert.assertNotNull(header);
 		System.out.println(header);
 	}
 
 	@Test
 	public void testFindByName() {
-		PriceListHeader header = this.priceService.findByName(PRICE_LIST_NAME);
+		PriceListHeader plh = new PriceListHeader();
+		plh.setName(PRICE_LIST_NAME);
+		PriceListHeader header = this.priceService.findOne(plh);
 		Assert.assertNotNull(header);
-		Assert.assertEquals(header.getPriceListName(), PRICE_LIST_NAME);
+		Assert.assertEquals(header.getName(), PRICE_LIST_NAME);
 	}
 
 	@Test
@@ -81,14 +85,18 @@ public class PriceServiceTest {
 	
 	@Test
 	public void testFindAllPriceLinesByHeaderId() {
-		List<PriceListLine> lines = this.priceService.findAllPriceLinesByHeaderId(HEADER_ID);
+		PriceListHeader plh = new PriceListHeader();
+		plh.setHeaderId(HEADER_ID);
+		List<PriceListLine> lines = this.priceService.findAllPriceLines(plh);
 		Assert.assertNotNull(lines);
 		Assert.assertEquals(12, lines.size());
 	}
 	
 	@Test
 	public void testFindAllPriceLinesByName() {
-		List<PriceListLine> lines = this.priceService.findAllPriceLinesByName(PRICE_LIST_NAME);
+		PriceListHeader plh = new PriceListHeader();
+		plh.setName(PRICE_LIST_NAME);
+		List<PriceListLine> lines = this.priceService.findAllPriceLines(plh);
 		Assert.assertNotNull(lines);
 		Assert.assertEquals(12, lines.size());
 	}
