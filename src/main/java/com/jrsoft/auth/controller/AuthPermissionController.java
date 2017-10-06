@@ -45,7 +45,7 @@ public class AuthPermissionController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("")
+	@GetMapping({"", "/index"})
 	@RequiresPermissions("authPermission:list")
 	public String findAllPermission(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<AuthPermission> page = this.authPermissionService.findAll(pageNum);

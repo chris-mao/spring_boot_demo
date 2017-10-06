@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.auth.dao.AuthPermissionDao;
-import com.jrsoft.auth.dao.AuthRoleDao;
+import com.jrsoft.auth.dao.AuthPermissionDAO;
+import com.jrsoft.auth.dao.AuthRoleDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthPermissionService;
@@ -34,10 +34,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	private int pageSize;
 
 	@Resource
-	private AuthRoleDao authRoleDao;
+	private AuthRoleDAO authRoleDAO;
 
 	@Resource
-	private AuthPermissionDao authPermissionDao;
+	private AuthPermissionDAO authPermissionDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -46,22 +46,22 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public List<AuthPermission> findAll() {
-		return authPermissionDao.findAll();
+		return authPermissionDAO.findAll();
 	}
 
 	@Override
 	public PageInfo<AuthPermission> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, this.pageSize);
-		return new PageInfo<AuthPermission>(authPermissionDao.findAll());
+		return new PageInfo<AuthPermission>(authPermissionDAO.findAll());
 	}
 
 	@Override
 	public AuthPermission findOne(AuthPermission permission) {
 		if (null != permission.getPermissionId()) {
-			return this.authPermissionDao.findById(permission.getPermissionId());
+			return this.authPermissionDAO.findById(permission.getPermissionId());
 		}
 		if (null != permission.getPermissionName()) {
-			return authPermissionDao.findByName(permission.getPermissionName());
+			return authPermissionDAO.findByName(permission.getPermissionName());
 		}
 		return null;
 	}
@@ -74,7 +74,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
-		return authPermissionDao.findAllByRoleId(role.getRoleId());
+		return authPermissionDAO.findAllByRoleId(role.getRoleId());
 	}
 
 	/*
@@ -85,26 +85,26 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(String roleName) {
-		AuthRole role = this.authRoleDao.findByName(roleName);
+		AuthRole role = this.authRoleDAO.findByName(roleName);
 		if (null == role) {
 			return null;
 		}
-		return authPermissionDao.findAllByRoleId(role.getRoleId());
+		return authPermissionDAO.findAllByRoleId(role.getRoleId());
 	}
 
 	@Override
 	public boolean insert(AuthPermission permission) {
-		return 1 == this.authPermissionDao.insert(permission);
+		return 1 == this.authPermissionDAO.insert(permission);
 	}
 
 	@Override
 	public boolean update(AuthPermission permission) {
-		return 1 == this.authPermissionDao.udpate(permission);
+		return 1 == this.authPermissionDAO.udpate(permission);
 	}
 
 	@Override
 	public boolean delete(Integer id) {
-		return 1 == this.authPermissionDao.delete(id);
+		return 1 == this.authPermissionDAO.delete(id);
 	}
 
 }

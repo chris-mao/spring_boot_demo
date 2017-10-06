@@ -50,7 +50,7 @@ public class PriceController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("")
+	@GetMapping({"", "/index"})
 	@RequiresPermissions("price:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<PriceListHeader> page = this.priceService.findAll(pageNum);

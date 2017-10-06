@@ -58,7 +58,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/js/*", "anon");
 		// 避免登录后下载favicon图标
 		filterChainDefinitionMap.put("/favicon.ico", "anon");
-		filterChainDefinitionMap.put("/**", "authc");
+		filterChainDefinitionMap.put("/**", "authc, perms");
 		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		// 登录页面
@@ -79,10 +79,12 @@ public class ShiroConfiguration {
 	@Bean
 	public SecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		// 设置realm
+		// 注入realm
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
 		securityManager.setCacheManager(ehCacheManager());
+		// 注入session管理器
+		// securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
 
@@ -134,4 +136,12 @@ public class ShiroConfiguration {
 		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
 		return cacheManager;
 	}
+
+	// @Bean
+	// public DefaultWebSessionManager sessionManager() {
+	// DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+	// sessionManager.getSessionIdCookie().setDomain("jrsoft.com");
+	// sessionManager.setTimeout(null, 30);
+	// return sessionManager;
+	// }
 }

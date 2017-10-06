@@ -20,13 +20,13 @@ import com.jrsoft.inventory.entity.Item;
  * @version 1.0
  *
  */
-public interface ItemDao {
+public interface ItemDAO {
 
 	/**
 	 * 
 	 * @return
 	 */
-	@Select("SELECT DISTINCT model_id, model_name, model_desc, chinese_desc, source, available, created_time, update_time FROM model ORDER BY model_name")
+	@Select("SELECT DISTINCT model_id, model_name, model_desc, chinese_desc, source, available, created_time, update_time FROM model ORDER BY source, model_name")
 	@Results({ @Result(property = "itemId", column = "model_id", id = true),
 			@Result(property = "itemName", column = "model_name"),
 			@Result(property = "itemDescription", column = "model_desc"),

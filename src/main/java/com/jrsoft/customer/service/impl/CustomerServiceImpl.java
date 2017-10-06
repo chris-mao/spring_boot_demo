@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.customer.dao.CustomerAccountDao;
-import com.jrsoft.customer.dao.CustomerSiteDao;
+import com.jrsoft.customer.dao.CustomerAccountDAO;
+import com.jrsoft.customer.dao.CustomerSiteDAO;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
-import com.jrsoft.employee.dao.EmployeeDao;
+import com.jrsoft.employee.dao.EmployeeDAO;
 import com.jrsoft.employee.entity.Employee;
-import com.jrsoft.price.dao.PriceListHeaderDao;
+import com.jrsoft.price.dao.PriceListHeaderDAO;
 import com.jrsoft.price.entity.PriceListHeader;
 
 /**
@@ -42,61 +42,61 @@ public class CustomerServiceImpl implements CustomerService {
 	 * 
 	 */
 	@Resource
-	private CustomerAccountDao customerAccountDao;
+	private CustomerAccountDAO customerAccountDAO;
 
 	/**
 	 * 
 	 */
 	@Resource
-	private CustomerSiteDao customerSiteDao;
+	private CustomerSiteDAO customerSiteDAO;
 
 	/**
 	 * 
 	 */
 	@Resource
-	private EmployeeDao employddDao;
+	private EmployeeDAO employddDAO;
 
 	/**
 	 * 
 	 */
 	@Resource
-	private PriceListHeaderDao priceHeaderDao;
+	private PriceListHeaderDAO priceHeaderDAO;
 
 	@Override
 	public List<CustomerAccount> findAll() {
-		return this.customerAccountDao.findAll();
+		return this.customerAccountDAO.findAll();
 	}
 
 	@Override
 	public PageInfo<CustomerAccount> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, this.pageSize, "customer_name");
-		return new PageInfo<CustomerAccount>(this.customerAccountDao.findAll());
+		return new PageInfo<CustomerAccount>(this.customerAccountDAO.findAll());
 	}
 
 	@Override
 	public CustomerAccount findOne(CustomerAccount customer) {
 		if (null != customer.getCustomerId()) {
-			return this.customerAccountDao.findById(customer.getCustomerId());
+			return this.customerAccountDAO.findById(customer.getCustomerId());
 		}
 		if (null != customer.getAccountNumber()) {
-			return this.customerAccountDao.findByAccountNumber(customer.getAccountNumber());
+			return this.customerAccountDAO.findByAccountNumber(customer.getAccountNumber());
 		}
 		return null;
 	}
 
 	@Override
 	public List<CustomerAccount> findAllByCredential(AuthUser credential) {
-		return this.customerAccountDao.findAllByCredential(credential.getUserName());
+		return this.customerAccountDAO.findAllByCredential(credential.getUserName());
 	}
 
 	@Override
 	public List<CustomerAccount> findAllQualifiedCustomers(PriceListHeader priceHeader) {
 		if (null != priceHeader.getHeaderId()) {
-			return customerAccountDao.findAllQualifiedCustomers(priceHeader.getHeaderId());
+			return customerAccountDAO.findAllQualifiedCustomers(priceHeader.getHeaderId());
 		}
 		if (null != priceHeader.getName()) {
-			PriceListHeader thePriceHeader = this.priceHeaderDao.findByName(priceHeader.getName());
-			return customerAccountDao.findAllQualifiedCustomers(thePriceHeader.getHeaderId());
+			PriceListHeader thePriceHeader = this.priceHeaderDAO.findByName(priceHeader.getName());
+			return customerAccountDAO.findAllQualifiedCustomers(thePriceHeader.getHeaderId());
 		}
 		return null;
 	}
@@ -110,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Set<CustomerSite> findAllBillTo(Integer customerId) {
-		return this.customerSiteDao.findAllBillTo(customerId);
+		return this.customerSiteDAO.findAllBillTo(customerId);
 	}
 
 	/*
@@ -122,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId) {
-		return this.customerSiteDao.findOperationUnitBillTo(customerId, operationUnitId);
+		return this.customerSiteDAO.findOperationUnitBillTo(customerId, operationUnitId);
 	}
 
 	/*
@@ -134,7 +134,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Set<CustomerSite> findAllShipTo(Integer customerId) {
-		return this.customerSiteDao.findAllShipTo(customerId);
+		return this.customerSiteDAO.findAllShipTo(customerId);
 	}
 
 	/*
@@ -146,7 +146,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId) {
-		return this.customerSiteDao.findOperationUnitShipTo(customerId, operationUnitId);
+		return this.customerSiteDAO.findOperationUnitShipTo(customerId, operationUnitId);
 	}
 
 	/*
@@ -158,7 +158,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Set<CustomerSite> findAllDeliverTo(Integer customerId) {
-		return this.customerSiteDao.findAllDeliverTo(customerId);
+		return this.customerSiteDAO.findAllDeliverTo(customerId);
 	}
 
 	/*
@@ -170,13 +170,13 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Set<CustomerSite> findAllDeliverTo(Integer customerId, Integer operationUnitId) {
-		return this.customerSiteDao.findOperationUnitDeliverTo(customerId, operationUnitId);
+		return this.customerSiteDAO.findOperationUnitDeliverTo(customerId, operationUnitId);
 	}
 
 	@Override
 	public List<CustomerAccount> findAllByEmployee(Employee emp) {
 		if (null != emp.getEmployeeId()) {
-			return this.customerAccountDao.findALlByEmployeeId(emp.getEmployeeId());
+			return this.customerAccountDAO.findALlByEmployeeId(emp.getEmployeeId());
 		}
 		return null;
 	}

@@ -30,7 +30,7 @@ import com.jrsoft.auth.entity.AuthUser;
  * @version 1.0
  *
  */
-public interface AuthUserDao {
+public interface AuthUserDAO {
 
 	/**
 	 * 查询所有用户信息
@@ -45,7 +45,7 @@ public interface AuthUserDao {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
 	public List<AuthUser> findAll();
 
 	/**
@@ -62,7 +62,7 @@ public interface AuthUserDao {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
 	public AuthUser findById(@Param(value = "id") Integer id);
 
 	/**
@@ -79,7 +79,7 @@ public interface AuthUserDao {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDao.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
 	public AuthUser findByName(@Param(value = "name") String userName);
 
 	/**

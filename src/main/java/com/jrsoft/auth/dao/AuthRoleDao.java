@@ -29,7 +29,7 @@ import com.jrsoft.auth.entity.AuthRole;
  * @version 1.0
  *
  */
-public interface AuthRoleDao {
+public interface AuthRoleDAO {
 
 	/**
 	 * 查询所有角色信息
@@ -41,7 +41,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public List<AuthRole> findAll();
 
 	/**
@@ -55,7 +55,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public AuthRole findById(@Param(value = "id")Integer id);
 
 	/**
@@ -69,7 +69,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public AuthRole findByName(@Param(value = "name")String roleName);
 
 	/**
@@ -84,7 +84,7 @@ public interface AuthRoleDao {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDao.findAllByRoleId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType = FetchType.LAZY) ) })
 	public Set<AuthRole> findAllByUserId(@Param(value = "id")Integer userId);
 	
 	/**

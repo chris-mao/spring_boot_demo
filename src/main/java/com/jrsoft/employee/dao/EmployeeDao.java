@@ -24,7 +24,7 @@ import com.jrsoft.employee.entity.Employee;
  * @version 1.0
  *
  */
-public interface EmployeeDao {
+public interface EmployeeDAO {
 
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),

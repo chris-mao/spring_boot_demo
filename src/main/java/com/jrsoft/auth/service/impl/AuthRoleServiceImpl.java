@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.auth.dao.AuthRoleDao;
-import com.jrsoft.auth.dao.AuthUserDao;
+import com.jrsoft.auth.dao.AuthRoleDAO;
+import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
@@ -36,29 +36,29 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	private int pageSize;
 
 	@Resource
-	private AuthUserDao authUserDao;
+	private AuthUserDAO authUserDAO;
 
 	@Resource
-	private AuthRoleDao authRoleDao;
+	private AuthRoleDAO authRoleDAO;
 
 	@Override
 	public List<AuthRole> findAll() {
-		return authRoleDao.findAll();
+		return authRoleDAO.findAll();
 	}
 
 	@Override
 	public PageInfo<AuthRole> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, pageSize);
-		return new PageInfo<AuthRole>(authRoleDao.findAll());
+		return new PageInfo<AuthRole>(authRoleDAO.findAll());
 	}
 
 	@Override
 	public AuthRole findOne(AuthRole role) {
 		if (null != role.getRoleId()) {
-			return authRoleDao.findById(role.getRoleId());
+			return authRoleDAO.findById(role.getRoleId());
 		}
 		if (null != role.getRoleName()) {
-			return authRoleDao.findByName(role.getRoleName());
+			return authRoleDAO.findByName(role.getRoleName());
 		}
 		return null;
 	}
@@ -72,35 +72,35 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	@Override
 	public Set<AuthRole> findAllByUser(AuthUser user) {
 		if (null != user.getUserId()) {
-			return authRoleDao.findAllByUserId(user.getUserId());
+			return authRoleDAO.findAllByUserId(user.getUserId());
 		}
 		if (null != user.getUserName()) {
-			AuthUser u = this.authUserDao.findByName(user.getUserName());
-			return this.authRoleDao.findAllByUserId(u.getUserId());
+			AuthUser u = this.authUserDAO.findByName(user.getUserName());
+			return this.authRoleDAO.findAllByUserId(u.getUserId());
 		}
 		return null;
 	}
 
 	@Override
 	public boolean insert(AuthRole role) {
-		return 1 == authRoleDao.insert(role);
+		return 1 == authRoleDAO.insert(role);
 	}
 
 	@Override
 	public boolean update(AuthRole role) {
-		return 1 == authRoleDao.udpate(role);
+		return 1 == authRoleDAO.udpate(role);
 
 	}
 
 	@Override
 	public boolean delete(Integer id) {
-		return 1 == authRoleDao.delete(id);
+		return 1 == authRoleDAO.delete(id);
 	}
 
 	@Override
 	public boolean addPermission(AuthRole role, AuthPermission permission) {
 		if (true == role.getPermissions().add(permission)) {
-			return 1 == this.authRoleDao.addPermission(role.getRoleId(), permission.getPermissionId());
+			return 1 == this.authRoleDAO.addPermission(role.getRoleId(), permission.getPermissionId());
 		}
 		return false;
 	}
@@ -112,7 +112,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 			AuthPermission p = it.next();
 			if (p.equals(permission)) {
 				it.remove();
-				return 1 == this.authRoleDao.removePermission(role.getRoleId(), permission.getPermissionId());
+				return 1 == this.authRoleDAO.removePermission(role.getRoleId(), permission.getPermissionId());
 			}
 		}
 		return false;

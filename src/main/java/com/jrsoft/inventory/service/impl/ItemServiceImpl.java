@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.inventory.dao.ItemDao;
+import com.jrsoft.inventory.dao.ItemDAO;
 import com.jrsoft.inventory.entity.Item;
 import com.jrsoft.inventory.service.ItemService;
 
@@ -31,33 +31,33 @@ public class ItemServiceImpl implements ItemService {
 	private int pageSize;
 
 	@Resource
-	private ItemDao itemDao;
+	private ItemDAO itemDAO;
 
 	@Override
 	public List<Item> findAll() {
-		return this.itemDao.findAll();
+		return this.itemDAO.findAll();
 	}
 
 	@Override
 	public PageInfo<Item> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, pageSize);
-		return new PageInfo<Item>(this.itemDao.findAll());
+		return new PageInfo<Item>(this.itemDAO.findAll());
 	}
 
 	@Override
 	public Item findOne(Item item) {
 		if (null != item.getItemId()) {
-			return this.itemDao.findById(item.getItemId());
+			return this.itemDAO.findById(item.getItemId());
 		}
 		if (null != item.getItemName()) {
-			return this.itemDao.findByName(item.getItemName());
+			return this.itemDAO.findByName(item.getItemName());
 		}
 		return null;
 	}
 
 	@Override
 	public List<Item> findAllBySource(String source) {
-		return this.itemDao.findAllBySource(source);
+		return this.itemDAO.findAllBySource(source);
 	}
 
 }

@@ -20,7 +20,7 @@ import com.jrsoft.customer.entity.CustomerSite;
  * @version 1.0
  *
  */
-public interface CustomerSiteDao {
+public interface CustomerSiteDAO {
 
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'BILL_TO' AND customer_id = #{id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),

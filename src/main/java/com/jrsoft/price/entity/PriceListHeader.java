@@ -64,7 +64,7 @@ public class PriceListHeader implements Serializable {
 
 	/**
 	 * 价格表中所行信息，考虑到性能问题，没有在DAO层实现加载价格行数据
-	 * 请使用PriceSerivce中的findAllPriceLinesByHeaderId 或是 
+	 * 请使用PriceSerivce中的findAllPriceLinesByHeaderId 或是
 	 * findAllPriceLinesByName方法获取价格行数据
 	 * 
 	 * @see findAllPriceLinesByHeaderId
@@ -92,7 +92,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param headerId the headerId to set
+	 * @param headerId
+	 *            the headerId to set
 	 */
 	public void setHeaderId(Integer headerId) {
 		this.headerId = headerId;
@@ -106,7 +107,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param currency the currency to set
+	 * @param currency
+	 *            the currency to set
 	 */
 	public void setCurrency(String currency) {
 		this.currency = currency;
@@ -120,7 +122,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param startDate the startDate to set
+	 * @param startDate
+	 *            the startDate to set
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -134,7 +137,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param endDate the endDate to set
+	 * @param endDate
+	 *            the endDate to set
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
@@ -148,7 +152,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param lines the lines to set
+	 * @param lines
+	 *            the lines to set
 	 */
 	public void setLines(List<PriceListLine> lines) {
 		this.lines = lines;
@@ -162,7 +167,8 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param createdTime the createdTime to set
+	 * @param createdTime
+	 *            the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -176,13 +182,16 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -200,10 +209,52 @@ public class PriceListHeader implements Serializable {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((headerId == null) ? 0 : headerId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PriceListHeader other = (PriceListHeader) obj;
+		if (headerId == null) {
+			if (other.headerId != null)
+				return false;
+		} else if (!headerId.equals(other.headerId))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 }

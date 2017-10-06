@@ -22,7 +22,7 @@ import com.jrsoft.price.entity.PriceListLine;
  * @version 1.0
  *
  */
-public interface PriceListLineDao {
+public interface PriceListLineDAO {
 
 	/**
 	 * 根据价格表ID查询价格表行数据
@@ -32,7 +32,7 @@ public interface PriceListLineDao {
 	 */
 	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = #{header_id}")
 	@Results({
-			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDao.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),
@@ -50,7 +50,7 @@ public interface PriceListLineDao {
 	 */
 	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = (SELECT header_id FROM price_list_header WHERE price_list_name = #{name})")
 	@Results({
-			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDao.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),
@@ -69,7 +69,7 @@ public interface PriceListLineDao {
 	 */
 	@Select("CALL sp_findAvailableSellingPrice(#{header_id}, #{item_id})")
 	@Results({
-			@Result(property = "inventoryItem", column = "model_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDao.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryItem", column = "model_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),

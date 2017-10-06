@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.AuthUserStateEnum;
-import com.jrsoft.auth.dao.AuthUserDao;
+import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthUserService;
@@ -33,11 +33,11 @@ public class AuthUserServiceImpl implements AuthUserService {
 	private int pageSize;
 
 	@Autowired
-	private AuthUserDao authUserDao;
+	private AuthUserDAO authUserDAO;
 
 	@Override
 	public List<AuthUser> findAll() {
-		return authUserDao.findAll();
+		return authUserDAO.findAll();
 	}
 
 	/*
@@ -48,49 +48,49 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public PageInfo<AuthUser> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, pageSize, "user_name");
-		return new PageInfo<AuthUser>(authUserDao.findAll());
+		return new PageInfo<AuthUser>(authUserDAO.findAll());
 	}
 
 	@Override
 	public AuthUser findOne(AuthUser user) {
 		if (null != user.getUserId()) {
-			return authUserDao.findById(user.getUserId());
+			return authUserDAO.findById(user.getUserId());
 		}
 		if (null != user.getUserName()) {
-			return authUserDao.findByName(user.getUserName());
+			return authUserDAO.findByName(user.getUserName());
 		}
 		return null;
 	}
 
 	@Override
 	public boolean insert(AuthUser user) {
-		return 1 == this.authUserDao.insert(user);
+		return 1 == this.authUserDAO.insert(user);
 	}
 
 	@Override
 	public boolean update(AuthUser user) {
-		return 1 == this.authUserDao.udpate(user);
+		return 1 == this.authUserDAO.udpate(user);
 	}
 
 	@Override
 	public boolean delete(Integer id) {
-		return 1 == this.authUserDao.delete(id);
+		return 1 == this.authUserDAO.delete(id);
 	}
 
 	@Override
 	public boolean changePassword(Integer id, String oldPassword, String newPassword) {
-		return 1 == this.authUserDao.changePassword(id, oldPassword, newPassword);
+		return 1 == this.authUserDAO.changePassword(id, oldPassword, newPassword);
 	}
 
 	@Override
 	public boolean changeState(Integer id, AuthUserStateEnum state) {
-		return 1 == this.authUserDao.changeState(id, state);
+		return 1 == this.authUserDAO.changeState(id, state);
 	}
 
 	@Override
 	public boolean addRole(AuthUser user, AuthRole role) {
 		if (true == user.getRoles().add(role)) {
-			return 1 == this.authUserDao.addRole(user.getUserId(), role.getRoleId());
+			return 1 == this.authUserDAO.addRole(user.getUserId(), role.getRoleId());
 		}
 		return false;
 	}
@@ -102,7 +102,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 			AuthRole r = it.next();
 			if (r.equals(role)) {
 				it.remove();
-				return 1 == this.authUserDao.removeRole(user.getUserId(), role.getRoleId());
+				return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
 			}
 		}
 		return false;

@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.customer.dao.CustomerAccountDao;
+import com.jrsoft.customer.dao.CustomerAccountDAO;
 import com.jrsoft.customer.entity.CustomerAccount;
-import com.jrsoft.employee.dao.EmployeeDao;
+import com.jrsoft.employee.dao.EmployeeDAO;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
 
@@ -34,10 +34,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private int pageSize;
 
 	@Resource
-	private EmployeeDao employeeDao;
+	private EmployeeDAO employeeDAO;
 
 	@Resource
-	private CustomerAccountDao customerDao;
+	private CustomerAccountDAO customerDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -46,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public List<Employee> findAll() {
-		return this.employeeDao.findAll();
+		return this.employeeDAO.findAll();
 	}
 
 	/*
@@ -57,16 +57,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public PageInfo<Employee> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, this.pageSize, "employee_name");
-		return new PageInfo<Employee>(this.employeeDao.findAll());
+		return new PageInfo<Employee>(this.employeeDAO.findAll());
 	}
 
 	@Override
 	public Employee findOne(Employee emp) {
 		if (null != emp.getEmployeeId()) {
-			return this.employeeDao.findById(emp.getEmployeeId());
+			return this.employeeDAO.findById(emp.getEmployeeId());
 		}
 		if (null != emp.getEmployeeName()) {
-			return this.employeeDao.findByName(emp.getEmployeeName());
+			return this.employeeDAO.findByName(emp.getEmployeeName());
 		}
 		return null;
 	}
@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> findAllByCustomer(CustomerAccount customer) {
 		if (null != customer.getAccountNumber()) {
-			return employeeDao.findAllByCustomer(customer.getAccountNumber(), 0);
+			return employeeDAO.findAllByCustomer(customer.getAccountNumber(), 0);
 		}
 		return null;
 	}
@@ -94,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean insert(Employee employee) {
-		return 1 == this.employeeDao.insert(employee);
+		return 1 == this.employeeDAO.insert(employee);
 	}
 
 	/*
@@ -106,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean update(Employee employee) {
-		return 1 == this.employeeDao.udpate(employee);
+		return 1 == this.employeeDAO.udpate(employee);
 	}
 
 	/*
@@ -117,7 +117,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean delete(Integer id) {
-		return 1 == this.employeeDao.delete(id);
+		return 1 == this.employeeDAO.delete(id);
 	}
 
 }

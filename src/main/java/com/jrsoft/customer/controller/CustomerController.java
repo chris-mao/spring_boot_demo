@@ -57,7 +57,7 @@ public class CustomerController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("")
+	@GetMapping({"", "/index"})
 	@RequiresPermissions("customer:list")
 	public String findAllCustomer(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<CustomerAccount> customers = this.customerService.findAll(pageNum);

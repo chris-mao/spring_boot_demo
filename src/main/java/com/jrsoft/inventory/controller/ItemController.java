@@ -33,8 +33,8 @@ public class ItemController {
 	@Resource
 	private ItemService itemService;
 	
-	@GetMapping("")
-//	@RequiresPermissions("item:list")
+	@GetMapping({"", "/index"})
+	@RequiresPermissions("item:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<Item> page = this.itemService.findAll(pageNum);
 		model.addAttribute("page", page);

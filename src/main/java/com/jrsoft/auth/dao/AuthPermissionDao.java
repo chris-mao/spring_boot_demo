@@ -27,7 +27,7 @@ import com.jrsoft.auth.entity.AuthPermission;
  * @version 1.0
  *
  */
-public interface AuthPermissionDao {
+public interface AuthPermissionDAO {
 	
 	/**
 	 * 查询所有权限

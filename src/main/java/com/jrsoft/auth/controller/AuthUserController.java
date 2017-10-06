@@ -47,7 +47,7 @@ public class AuthUserController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("")
+	@GetMapping({"", "/index"})
 	@RequiresPermissions("authUser:list")
 	public String findAllUser(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum);
