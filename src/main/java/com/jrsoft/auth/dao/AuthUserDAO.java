@@ -37,7 +37,7 @@ public interface AuthUserDAO {
 	 * 
 	 * @return List
 	 */
-	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user ORDER BY user_name")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
@@ -93,12 +93,13 @@ public interface AuthUserDAO {
 	public int insert(AuthUser user);
 
 	/**
-	 * 更新用户信息，不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
+	 * 更新用户信息
+	 * 不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
 	 * 
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, email = #{email} WHERE user_id = #{userId}")
+	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, state= #{state}, email = #{email} WHERE user_id = #{userId}")
 	public int udpate(AuthUser user);
 
 	/**
@@ -121,18 +122,6 @@ public interface AuthUserDAO {
 	@Update("UPDATE auth_user SET user_psd = MD5(#{newPassword}) WHERE user_id = #{id} AND user_psd = MD5(#{oldPassword})")
 	public int changePassword(@Param(value = "id") Integer id, @Param(value = "oldPassword") String oldPassword,
 			@Param(value = "newPassword") String newPassword);
-
-	/**
-	 * 更新用户状态
-	 * 
-	 * @see AuthUserStateEnum
-	 * 
-	 * @param id
-	 * @param state
-	 * @return boolean 更新成功返回true，否则返回false
-	 */
-	@Update("UPDATE auth_user SET state = #{state} WHERE user_id = #{userId}")
-	public int changeState(@Param(value = "userId") Integer id, @Param(value = "state") AuthUserStateEnum state);
 
 	/**
 	 * 添加新角色

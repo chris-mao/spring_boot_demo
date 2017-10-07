@@ -21,8 +21,9 @@
 						<input type="text" class="form-control input-sm"
 							th:field="*{userName}" maxLength="64" required="required"
 							requireText="请输入登录用户名" placeHolder="登录用户名" autofocus="autofocus" />
-						<small class="text-warning"
-							th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></small>
+						<small class="help-block">用户名长度需在6到64位之间</small> <small
+							class="text-warning" th:if="${#fields.hasErrors('userName')}"
+							th:errors="*{userName}"></small>
 					</div>
 				</div>
 				<div class="form-group"
@@ -33,6 +34,7 @@
 						<input type="text" class="form-control input-sm"
 							th:field="*{nickName}" maxLength="64" required="required"
 							requireText="请输入昵称" placeHolder="用户昵称" /> <small
+							class="help-block">用户昵称长度需在2到64位之间</small> <small
 							class="text-warning" th:if="${#fields.hasErrors('nickName')}"
 							th:errors="*{nickName}"></small>
 					</div>
@@ -45,22 +47,9 @@
 						<input type="email" class="form-control input-sm"
 							th:field="*{email}" maxLength="64" required="required"
 							requireText="请输入电子邮件" placeHolder="电子邮件" /> <small
-							class="text-warning" th:if="${#fields.hasErrors('email')}"
+							class="help-block">此邮箱用于找回密码，请勿必设置为您的常用邮箱（邮箱长度不能超过64个字符）</small>
+						<small class="text-warning" th:if="${#fields.hasErrors('email')}"
 							th:errors="*{email}"></small>
-					</div>
-				</div>
-				<div class="form-group"
-					th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
-					<label for="password"
-						class="col-lg-2 col-md-2 col-sm-2 hidden-xs control-label">初始密码</label>
-					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-						<input type="password" class="form-control input-sm"
-							th:field="*{password}" value="Welcome123" maxLength="64"
-							required="required" requireText="请输入初始密码" placeHolder="初始密码" />
-						<small class="help-block">默认初始密码是<strong
-							style='margin-left: 0.3rem;'>Welcome123</strong></small> <small
-							class="text-warning" th:if="${#fields.hasErrors('password')}"
-							th:errors="*{password}"></small>
 					</div>
 				</div>
 				<div class="row">

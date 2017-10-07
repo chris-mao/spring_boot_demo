@@ -78,17 +78,6 @@ public interface AuthUserService {
 	public boolean changePassword(Integer id, String oldPassword, String newPassword);
 	
 	/**
-	 * 更新用户状态
-	 * 
-	 * @see AuthUserStateEnum
-	 * 
-	 * @param id
-	 * @param state
-	 * @return boolean 更新成功返回true，否则返回false
-	 */
-	public boolean changeState(Integer id, AuthUserStateEnum state);
-	
-	/**
 	 * 添加新角色
 	 * 
 	 * @param user

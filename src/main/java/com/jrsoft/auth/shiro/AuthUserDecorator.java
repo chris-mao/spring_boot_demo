@@ -48,6 +48,11 @@ public class AuthUserDecorator {
 	 * 
 	 */
 	private List<CustomerAccount> customerList = null;
+	
+	/**
+	 * 
+	 */
+	private CustomerSite activeSite = null;
 
 	/**
 	 * 
@@ -133,8 +138,20 @@ public class AuthUserDecorator {
 				billToSiteList.addAll(customer.getBillTo());
 			}
 			logger.info("读到 " + billToSiteList.size() + " 个BILL TO地址");
+			//如果仅有一个Bill to Site，则将其设为active
+			if (this.billToSiteList.size() == 1) {
+				this.setActiveSite(this.billToSiteList.iterator().next());
+			}
 		}
 		return billToSiteList;
+	}
+
+	public CustomerSite getActiveSite() {
+		return activeSite;
+	}
+
+	public void setActiveSite(CustomerSite activeSite) {
+		this.activeSite = activeSite;
 	}
 
 	/**

@@ -23,11 +23,12 @@
 						data-toggle="dropdown"> <shiro:principal property="nickName" /><b
 							class="caret"></b>
 					</a>
-						<ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
+					    <!-- <ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
 							<li th:each="site: ${session.userDecorator.billToSiteList}"
 								th:object="${site}"><a class="navbar-link" href="#"
 								onclick="switchSite(0);" th:text="*{operationUnitName}"></a></li>
-						</ul></li>
+						</ul> -->
+					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

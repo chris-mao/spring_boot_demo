@@ -59,7 +59,7 @@ public class AuthUser implements Serializable {
 	 * 昵称
 	 */
 	@NotEmpty(message = "昵称不允许为空")
-	@Length(min = 4, max = 64, message = "昵称长度需在4位到64位之间")
+	@Length(min = 2, max = 64, message = "昵称长度需在2位到64位之间")
 	private String nickName;
 	
 	/**

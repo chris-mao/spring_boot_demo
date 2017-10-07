@@ -42,8 +42,7 @@ public class AuthUserStateEnumTypeHandler extends BaseTypeHandler<AuthUserStateE
 
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i, AuthUserStateEnum parameter, JdbcType jdbcType) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		ps.setString(i, parameter.getText());
 	}
 
 	@Override

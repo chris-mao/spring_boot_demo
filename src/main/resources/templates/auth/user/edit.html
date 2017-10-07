@@ -31,8 +31,9 @@
 						<input type="text" class="form-control input-sm"
 							th:field="*{nickName}" maxLength="64" required="required"
 							requireText="请输入昵称" placeHolder="用户昵称" autofocus="autofocus" />
-						<small class="text-warning"
-							th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}"></small>
+						<small class="help-block">用户昵称长度需在2到64位之间</small> <small
+							class="text-warning" th:if="${#fields.hasErrors('nickName')}"
+							th:errors="*{nickName}"></small>
 					</div>
 				</div>
 				<div class="form-group"
@@ -43,8 +44,21 @@
 						<input type="text" class="form-control input-sm"
 							th:field="*{email}" maxLength="64" required="required"
 							requireText="请输入电子邮件" placeHolder="电子邮件" /> <small
-							class="text-warning" th:if="${#fields.hasErrors('email')}"
+							class="help-block">此邮箱用于找回密码，请勿必设置为您的常用邮箱（邮箱长度不能超过64个字符）</small>
+						<small class="text-warning" th:if="${#fields.hasErrors('email')}"
 							th:errors="*{email}"></small>
+					</div>
+				</div>
+				<div class="form-group"
+					th:classappend="${#fields.hasErrors('state')} ? 'has-error'">
+					<label for="state"
+						class="col-lg-2 col-md-2 col-sm-2 hidden-xs control-label">用户状态</label>
+					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+						<select class="form-control input-sm" th:field="*{state}">
+							<option th:each="text: ${states}" th:value="${text}"
+								th:text="${text}" th:select="${state}=${text}"></option>
+						</select> <small class="text-warning" th:if="${#fields.hasErrors('state')}"
+							th:errors="*{state}"></small>
 					</div>
 				</div>
 				<div class="row">

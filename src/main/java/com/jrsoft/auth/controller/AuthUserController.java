@@ -1,5 +1,6 @@
 package com.jrsoft.auth.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
@@ -41,13 +43,30 @@ public class AuthUserController {
 	private AuthUserService authUserService;
 
 	/**
+	 * 按ID查询用户，如果用户不存在则抛出DataNotFoundException异常
+	 * 
+	 * @param id
+	 * @return AuthUser
+	 * @throws DataNotFoundException
+	 */
+	private AuthUser findUser(Integer id) throws DataNotFoundException {
+		AuthUser u = new AuthUser();
+		u.setUserId(id);
+		AuthUser user = this.authUserService.findOne(u);
+		if (null == user) {
+			throw new DataNotFoundException();
+		}
+		return user;
+	}
+
+	/**
 	 * 系统用户列表
 	 * 
 	 * @param pageNum
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({"", "/index"})
+	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authUser:list")
 	public String findAllUser(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum);
@@ -65,14 +84,8 @@ public class AuthUserController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
-	public String findUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		AuthUser u = new AuthUser();
-		u.setUserId(id);
-		AuthUser user = this.authUserService.findOne(u);
-		if (null == user) {
-			throw new DataNotFoundException();
-		}
-		model.addAttribute("user", user);
+	public String viewUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
+		model.addAttribute("user", findUser(id));
 		return "auth/user/detail";
 	}
 
@@ -102,13 +115,16 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:edit")
 	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthUser u = new AuthUser();
-		u.setUserId(id);
-		AuthUser user = this.authUserService.findOne(u);
-		if (null == user) {
-			throw new DataNotFoundException();
+		AuthUser user = findUser(id);
+
+		// 将用户状态枚举值转为字符串
+		List<String> states = new ArrayList<String>();
+		for (AuthUserStateEnum userState : AuthUserStateEnum.values()) {
+			states.add(userState.getText().toUpperCase());
 		}
+
 		model.addAttribute("authUser", user);
+		model.addAttribute("states", states);
 		model.addAttribute("userStates", AuthUserStateEnum.values());
 		return "auth/user/edit";
 	}
@@ -116,15 +132,17 @@ public class AuthUserController {
 	/**
 	 * 保存用户信息
 	 * 
+	 * 这里有个坑：参数BindingResult result 必须根在要验证的对象参数之后，否则会抛出异常！
+	 * 
 	 * @param authUser
-	 * @param request
 	 * @param result
+	 * @param request
 	 * @param model
 	 * @return
 	 */
 	@PostMapping("/save")
 	@RequiresPermissions("authUser:save")
-	public String saveUser(@Valid AuthUser authUser, HttpServletRequest request, BindingResult result, Model model) {
+	public String saveUser(@Valid AuthUser authUser, BindingResult result, HttpServletRequest request, Model model) {
 		model.addAttribute("authUser", authUser);
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
@@ -139,12 +157,31 @@ public class AuthUserController {
 			}
 		}
 		if ("insert".equals(request.getParameter("action"))) {
+			if (this.authUserService.findOne(authUser) != null) { // 用户名已存在
+				result.rejectValue("userName", "duplicate", "此用户名已被使用，请使用其他用户名");
+				return "auth/user/new";
+			}
 			this.authUserService.insert(authUser);
 		}
 		if ("update".equals(request.getParameter("action"))) {
 			this.authUserService.update(authUser);
+			return "redirect:/users/" + authUser.getUserId();
 		}
 		return "auth/user/save";
+	}
+
+	/**
+	 * 删除系统用户
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/{id}/del")
+	@RequiresPermissions("authUser:delete")
+	public String deleteUser(@PathVariable("id") Integer id, HttpServletRequest request) {
+		this.authUserService.delete(id);
+		return "redirect:/users";
 	}
 
 	/**
@@ -159,28 +196,29 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:change-password")
 	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthUser u = new AuthUser();
-		u.setUserId(id);
-		AuthUser user = this.authUserService.findOne(u);
-		if (null == user) {
-			throw new DataNotFoundException();
-		}
-		model.addAttribute("authUser", user);
+		model.addAttribute("authUser", findUser(id));
 		return "auth/user/change-psd";
 	}
 
 	/**
-	 * 删除系统用户
-	 * 
+	 * 保存修改后的密码，如果修改成功返跳转到用户详情页面，否则还留在当前页面
 	 * @param id
 	 * @param request
+	 * @param model
 	 * @return
+	 * @throws DataNotFoundException
 	 */
-	@PostMapping("/{id}/del")
-	@RequiresPermissions("authUser:delete")
-	public String deleteUser(@PathVariable("id") Integer id, HttpServletRequest request) {
-		this.authUserService.delete(id);
-		return "redirect:/users";
+	@PostMapping("/{id}/change-psd")
+	public String savePassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
+		String oldPassword = request.getParameter("old_password");
+		String newPassword = request.getParameter("password");
+		if (true == this.authUserService.changePassword(id, oldPassword, newPassword)) {
+			return "redirect:/users/" + id;
+		}
+		
+		model.addAttribute("msg", "旧密码不正确，请重新输入");
+		return chanegPassword(id, request, model);
 	}
 
 }

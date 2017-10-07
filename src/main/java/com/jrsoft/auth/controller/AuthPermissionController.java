@@ -45,7 +45,7 @@ public class AuthPermissionController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({"", "/index"})
+	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authPermission:list")
 	public String findAllPermission(@RequestParam(defaultValue = "1") int pageNum, Model model) {
 		PageInfo<AuthPermission> page = this.authPermissionService.findAll(pageNum);
@@ -88,11 +88,12 @@ public class AuthPermissionController {
 	 * @param request
 	 * @param model
 	 * @return
-	 * @throws DataNotFoundException 
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authPermission:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
+	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
 		AuthPermission p = new AuthPermission();
 		p.setPermissionId(id);
 		AuthPermission permission = this.authPermissionService.findOne(p);
@@ -113,7 +114,7 @@ public class AuthPermissionController {
 	 */
 	@PostMapping("/save")
 	@RequiresPermissions("authPermission:save")
-	public String savePermission(@Valid AuthPermission permission, HttpServletRequest request, BindingResult result,
+	public String savePermission(@Valid AuthPermission permission, BindingResult result, HttpServletRequest request,
 			Model model) {
 		model.addAttribute("permission", permission);
 		if (result.hasErrors()) {

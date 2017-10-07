@@ -113,12 +113,6 @@ public class AuthUserServiceTest {
 	}
 	
 	@Test
-	public void testChangeState() {
-		Assert.assertEquals(true, authUserService.changeState(1, AuthUserStateEnum.INACTIVE));
-		authUserService.changeState(1, AuthUserStateEnum.ACTIVE); //将状态改回去，方便下次测试使用
-	}
-	
-	@Test
 	public void testAddRole() {
 		AuthUser u = new AuthUser();
 		u.setUserName("cmao");

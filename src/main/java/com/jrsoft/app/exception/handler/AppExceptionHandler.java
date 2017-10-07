@@ -58,7 +58,6 @@ public class AppExceptionHandler {
 		info.setMessage("出错啦〜〜");
 		info.setExMessage(e.getMessage());
 		info.setUrl(req.getRequestURL().toString());
-		// info.setHttpStatus(HttpServletResponse.SC_FORBIDDEN);
 		info.setDeveloperMessage(e.toString());
 		model.addAttribute("exceptionInfo", info);
 
@@ -114,6 +113,7 @@ public class AppExceptionHandler {
 		info.setMessage("Opps〜〜没有相匹配的数据");
 		info.setExMessage(e.getMessage());
 		info.setUrl(req.getRequestURL().toString());
+		info.setHttpStatus(HttpServletResponse.SC_NO_CONTENT);
 		info.setDeveloperMessage("请确认用户使用的数据ID是否有效");
 		model.addAttribute("exceptionInfo", info);
 

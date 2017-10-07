@@ -118,7 +118,7 @@ public class AuthRoleController {
 	 */
 	@PostMapping("/save")
 	@RequiresPermissions("authRole:save")
-	public String saveRole(@Valid AuthRole authRole, HttpServletRequest request, BindingResult result, Model model) {
+	public String saveRole(@Valid AuthRole authRole, BindingResult result, HttpServletRequest request, Model model) {
 		model.addAttribute("authRole", authRole);
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();

@@ -12,16 +12,16 @@ package com.jrsoft.auth;
  *
  */
 public enum AuthUserStateEnum {
-	
+
 	ACTIVE(0, "Active"),
-	
+
 	LOCKED(1, "Locked"),
-	
+
 	EXPIRED(2, "Expired"),
-	
+
 	INACTIVE(3, "Inactive");
 
-    private int code;
+	private int code;
 
 	private String text;
 
@@ -43,5 +43,4 @@ public enum AuthUserStateEnum {
 	public String getText() {
 		return text;
 	}
-
 }

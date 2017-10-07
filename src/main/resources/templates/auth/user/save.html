@@ -8,7 +8,12 @@
 </head>
 <body>
 	<div layout:fragment="content">
-	<p>用户数据成功保存，您可以继续<a th:href="@{/users/new}">添加新用户</a>，或是<a th:href="@{/users}">返回用户列表</a>。</p>
+		<div class='alert alert-success text-center'>
+			<p>
+				用户数据成功保存，您可以继续<a th:href="@{/users/new}">添加新用户</a>，或是<a
+					th:href="@{/users}">返回用户列表</a>。
+			</p>
+		</div>
 	</div>
 </body>
 </html>

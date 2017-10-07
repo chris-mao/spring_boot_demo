@@ -114,8 +114,9 @@ public class JrShiroRealm extends AuthorizingRealm {
 			throw new ExpiredCredentialsException();
 		}
 
-		AuthUserDecorator userDecorator = new AuthUserDecorator(user, customerService);
-		SecurityUtils.getSubject().getSession().setAttribute("userDecorator", userDecorator);
+		// AuthUserDecorator userDecorator = new AuthUserDecorator(user,
+		// customerService);
+		// SecurityUtils.getSubject().getSession().setAttribute("userDecorator", userDecorator);
 
 		SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()), getName());

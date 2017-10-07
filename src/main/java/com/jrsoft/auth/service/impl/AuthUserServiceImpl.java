@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
@@ -47,7 +46,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	 */
 	@Override
 	public PageInfo<AuthUser> findAll(int pageNum) {
-		PageHelper.startPage(pageNum, pageSize, "user_name");
+		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.findAll());
 	}
 
@@ -80,11 +79,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public boolean changePassword(Integer id, String oldPassword, String newPassword) {
 		return 1 == this.authUserDAO.changePassword(id, oldPassword, newPassword);
-	}
-
-	@Override
-	public boolean changeState(Integer id, AuthUserStateEnum state) {
-		return 1 == this.authUserDAO.changeState(id, state);
 	}
 
 	@Override
