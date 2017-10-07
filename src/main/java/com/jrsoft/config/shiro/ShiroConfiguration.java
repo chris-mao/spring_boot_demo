@@ -72,7 +72,7 @@ public class ShiroConfiguration {
 	}
 
 	/**
-	 * shiro安全管理器，主要用于身份认证的管理，缓存管理，cookie管理
+	 * shiro安全管理器，主要用于身份认证的管理，缓存管理
 	 * 
 	 * @return
 	 */
@@ -83,8 +83,6 @@ public class ShiroConfiguration {
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
 		securityManager.setCacheManager(ehCacheManager());
-		// 注入session管理器
-		// securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
 
@@ -136,12 +134,4 @@ public class ShiroConfiguration {
 		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
 		return cacheManager;
 	}
-
-	// @Bean
-	// public DefaultWebSessionManager sessionManager() {
-	// DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-	// sessionManager.getSessionIdCookie().setDomain("jrsoft.com");
-	// sessionManager.setTimeout(null, 30);
-	// return sessionManager;
-	// }
 }

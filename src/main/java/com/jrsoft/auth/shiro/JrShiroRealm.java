@@ -2,6 +2,7 @@ package com.jrsoft.auth.shiro;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,6 +24,7 @@ import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthUserService;
+import com.jrsoft.customer.service.CustomerService;
 
 /**
  * com.jrsoft.auth.shiro JrShiroRealm
@@ -46,6 +48,12 @@ public class JrShiroRealm extends AuthorizingRealm {
 	 */
 	@Resource
 	private AuthUserService authUserService;
+	
+	/**
+	 * 
+	 */
+	@Resource
+	private CustomerService customerService;
 
 	/**
 	 * 获取用户权限
@@ -57,15 +65,15 @@ public class JrShiroRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		AuthUser user = (AuthUser) principals.getPrimaryPrincipal();
-		logger.info("读取用户[" + user.getUserName() + "]权限 --> JrShiroRealm.doGetAuthorizationInfo()");
+		logger.info("==> 读取用户[" + user.getUserName() + "]权限...");
 
 		// 获取用户录属的角色及相应权限
-		logger.info("读取用户[" + user.getUserName() + "]关联的角色 --> JrShiroRealm.doGetAuthorizationInfo()");
+		logger.info("==> 读取用户[" + user.getUserName() + "]关联的角色...");
 		for (AuthRole role : user.getRoles()) {
 			authorizationInfo.addRole(role.getRoleName());
-			logger.info("读取角色[" + role.getRoleName() + "]关联的权限 --> JrShiroRealm.doGetAuthorizationInfo()");
+			logger.info("==> 读取角色[" + role.getRoleName() + "]关联的权限...");
 			for (AuthPermission permission : role.getPermissions()) {
-				logger.info("获取权限[" + permission.getPermissionName() + "]");
+				logger.info("==> 获取权限[" + permission.getPermissionName() + "]");
 				authorizationInfo.addStringPermission(permission.getPermissionName());
 			}
 		}
@@ -94,7 +102,7 @@ public class JrShiroRealm extends AuthorizingRealm {
 		AuthUser user = new AuthUser();
 		user.setUserName(userName);
 		user = authUserService.findOne(user);
-		logger.info("身份验证" + "[" + userName + "] " + "-->JrShiroRealm.doGetAuthorizationInfo()");
+		logger.info("==> 开始身份验证" + "[" + userName + "] " + "==> " + user);
 
 		if (user == null) { // 没找到帐号
 			throw new UnknownAccountException();
@@ -106,7 +114,9 @@ public class JrShiroRealm extends AuthorizingRealm {
 			throw new ExpiredCredentialsException();
 		}
 
-		// AuthUserDecorator userDecorator = new AuthUserDecorator(user);
+		AuthUserDecorator userDecorator = new AuthUserDecorator(user, customerService);
+		SecurityUtils.getSubject().getSession().setAttribute("userDecorator", userDecorator);
+
 		SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()), getName());
 		return authInfo;

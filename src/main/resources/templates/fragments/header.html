@@ -19,8 +19,15 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse-header"
 				role="navigation">
 				<ul shiro:authenticated="true" class="nav navbar-nav navbar-left">
-					<li><a href="javascript:void(0);"> <shiro:principal
-								property="nickName" /></a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <shiro:principal property="nickName" /><b
+							class="caret"></b>
+					</a>
+						<ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
+							<li th:each="site: ${session.userDecorator.billToSiteList}"
+								th:object="${site}"><a class="navbar-link" href="#"
+								onclick="switchSite(0);" th:text="*{operationUnitName}"></a></li>
+						</ul></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

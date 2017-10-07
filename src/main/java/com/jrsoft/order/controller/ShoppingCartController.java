@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.jrsoft.order.service.ShoppingCartService;
 
 /**
- * 
  * 购物车管理控制器类
  * 
  * com.jrsoft.order.controller ShoppingCartController
@@ -30,24 +29,44 @@ public class ShoppingCartController {
 	@Resource
 	private ShoppingCartService shoppingCartService;
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping({"", "/index"})
 	public String showShoppingCart() {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@PostMapping("/add")
 	public String putItemIntoShoppingCart() {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String removeItemFromShoppingCart() {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String updateExistItem() {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String checkOutFromShoppingCart() {
 		return null;
 	}

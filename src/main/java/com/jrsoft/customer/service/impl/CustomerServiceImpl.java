@@ -86,6 +86,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerAccount> findAllByCredential(AuthUser credential) {
+		if (null == credential.getUserName()) {
+			return null;
+		}
 		return this.customerAccountDAO.findAllByCredential(credential.getUserName());
 	}
 
