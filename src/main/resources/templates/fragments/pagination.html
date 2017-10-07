@@ -12,16 +12,16 @@
 			</em> -->
 			<ul class="pagination pagination-sm">
 				<li th:if="${pageInfo.isFirstPage == false}"><a
-					th:href="@{${path}(pageNum=1)}"><span aria-hidden="true">首页</span></a></li>
+					th:href="@{${path}(page=1)}"><span aria-hidden="true">首页</span></a></li>
 				<li th:if="${pageInfo.isFirstPage == true}" class="disabled"><a
 					href="javascript:void(0);"><span aria-hidden="true">首页</span></a></li>
 				<li
 					th:each="pageNo : ${#numbers.sequence(pageInfo.firstPage, pageInfo.lastPage)}">
-					<a th:href="@{${path}(pageNum=${pageNo})}"><span
+					<a th:href="@{${path}(page=${pageNo})}"><span
 						th:text="${pageNo}"></span></a>
 				</li>
 				<li th:if="${pageInfo.isLastPage == false}"><a
-					th:href="@{${path}(pageNum=${pageInfo.pages})}"><span
+					th:href="@{${path}(page=${pageInfo.pages})}"><span
 						aria-hidden="true">末页</span></a></li>
 				<li th:if="${pageInfo.isLastPage == true}" class="disabled"><a
 					href="javascript:void(0);"><span aria-hidden="true">末页</span></a></li>

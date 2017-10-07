@@ -43,14 +43,14 @@ public class EmployeeController {
 
 	/**
 	 * 
-	 * @param pageNum
+	 * @param page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({"", "/index"})
 	@RequiresPermissions("employee:list")
-	public String findAllEmployee(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<Employee> employeese = this.employeeService.findAll(pageNum);
+	public String findAllEmployee(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<Employee> employeese = this.employeeService.findAll(page);
 		model.addAttribute("page", employeese);
 		return "employee/index";
 	}

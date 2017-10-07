@@ -35,9 +35,9 @@ public class ItemController {
 	
 	@GetMapping({"", "/index"})
 	@RequiresPermissions("item:list")
-	public String findAllPriceList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<Item> page = this.itemService.findAll(pageNum);
-		model.addAttribute("page", page);
+	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<Item> items = this.itemService.findAll(page);
+		model.addAttribute("page", items);
 		return "item/index";
 	}
 

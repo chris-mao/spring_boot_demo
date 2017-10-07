@@ -19,47 +19,60 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
-				<table class="table table-striped table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>登录名称</th>
-							<th>显示昵称</th>
-							<th>电子邮件</th>
-							<th>状态</th>
-							<th>加密盐</th>
-							<th>创建日期</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr data-th-each="user, state: ${page.list}"
-							data-th-object="${user}">
-							<td><a data-th-href="@{'/users/' + *{userId}}"
-								data-th-text="*{userName}"></a></td>
-							<td data-th-text="*{nickName}"></td>
-							<td data-th-text="*{email}"></td>
-							<td data-th-text="*{state}"></td>
-							<td data-th-text="*{salt}"></td>
-							<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
-							<td>
-								<div class="btn-toolbar pull-right hidden-print">
-									<div class="btn-group btn-group-xs">
-										<a class="btn btn-success" title="修改用户资料"
-											th:href="@{'/users/' + *{userId} + '/edit'}">编辑</a> <a
-											class="btn btn-success" title="修改登录密码"
-											th:href="@{'/users/' + *{userId} + '/change-psd'}">修改密码</a> <a
-											class="btn btn-danger" title="删除该用户" th:href="@{'/users/' + *{userId} + '/del'}">删除</a>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+				<div th:unless="${#lists.isEmpty(page.list)}"
+					th:replace="auth/user/index::showUsers(${page.list})"></div>
+				<div
+					th:replace="fragments/pagination::pagination(${'/users'}, ${page})"></div>
 			</div>
 		</div>
-		<div
-			th:replace="fragments/pagination::pagination(${'/users'}, ${page})"></div>
+	</div>
+
+	<div class="table-responsive" th:fragment="showUsers(userList)">
+		<table class="table table-striped table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>登录名称</th>
+					<th>显示昵称</th>
+					<th>电子邮件</th>
+					<th>状态</th>
+					<th>加密盐</th>
+					<th>创建日期</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-th-each="user, state: ${page.list}"
+					data-th-object="${user}">
+					<td><a data-th-href="@{'/users/' + *{userId}}"
+						data-th-text="*{userName}"></a></td>
+					<td data-th-text="*{nickName}"></td>
+					<td><a data-th-text="*{email}"
+						th:href="@{'mailto:' + *{email}}"></a></td>
+					<td data-th-text="*{state}"></td>
+					<td data-th-text="*{salt}"></td>
+					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+					<td>
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<shiro:hasPermission name="authUser:edit">
+									<a class="btn btn-default" title="修改用户资料"
+										th:href="@{'/users/' + *{userId} + '/edit'}">编辑</a>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authUser:change-password">
+									<a class="btn btn-default" title="修改登录密码"
+										th:href="@{'/users/' + *{userId} + '/change-psd'}">修改密码</a>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authUser:delete">
+									<a class="btn btn-danger" title="删除该用户"
+										th:href="@{'/users/' + *{userId} + '/del'}">删除</a>
+								</shiro:hasPermission>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

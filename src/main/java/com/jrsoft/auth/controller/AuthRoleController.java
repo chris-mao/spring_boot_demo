@@ -41,15 +41,15 @@ public class AuthRoleController {
 	
 	/**
 	 * 
-	 * @param pageNum
+	 * @param page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({"", "/index"})
 	@RequiresPermissions("authRole:list")
-	public String findAllRole(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<AuthRole> page = this.authRoleService.findAll(pageNum);
-		model.addAttribute("page", page);
+	public String findAllRole(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
+		model.addAttribute("page", roles);
 		return "auth/role/index";
 	}
 	

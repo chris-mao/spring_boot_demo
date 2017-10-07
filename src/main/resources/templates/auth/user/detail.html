@@ -12,13 +12,19 @@
 			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
 				<div class="btn-toolbar pull-right hidden-print">
 					<div class="btn-group btn-group-sm">
-						<a class="btn btn-success"
-							th:href="@{'/users/' + ${user.userId} + '/edit'}">编辑</a> <a
-							class="btn btn-warning"
-							th:href="@{'/users/' + ${user.userId} + '/change-psd'}">修改密码</a>
-						<a class="btn btn-danger" title="删除该用户"
-							th:href="@{'/users/' + ${user.userId} + '/del'}">删除</a> <a
-							class="btn btn-success" th:href="@{/users}">返回列表</a>
+						<shiro:hasPermission name="authUser:edit">
+							<a class="btn btn-success"
+								th:href="@{'/users/' + ${user.userId} + '/edit'}">编辑</a>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="authUser:change-password">
+							<a class="btn btn-warning"
+								th:href="@{'/users/' + ${user.userId} + '/change-psd'}">修改密码</a>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="authUser:delete">
+							<a class="btn btn-danger" title="删除该用户"
+								th:href="@{'/users/' + ${user.userId} + '/del'}">删除</a>
+						</shiro:hasPermission>
+						<a class="btn btn-success" th:href="@{/users}">返回列表</a>
 					</div>
 				</div>
 				<div>

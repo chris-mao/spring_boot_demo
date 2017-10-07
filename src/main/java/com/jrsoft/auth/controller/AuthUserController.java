@@ -62,15 +62,15 @@ public class AuthUserController {
 	/**
 	 * 系统用户列表
 	 * 
-	 * @param pageNum
+	 * @param page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authUser:list")
-	public String findAllUser(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<AuthUser> page = this.authUserService.findAll(pageNum);
-		model.addAttribute("page", page);
+	public String findAllUser(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<AuthUser> users = this.authUserService.findAll(page);
+		model.addAttribute("page", users);
 		return "auth/user/index";
 	}
 

@@ -53,14 +53,14 @@ public class CustomerController {
 
 	/**
 	 * 
-	 * @param pageNum
+	 * @param page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({"", "/index"})
 	@RequiresPermissions("customer:list")
-	public String findAllCustomer(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-		PageInfo<CustomerAccount> customers = this.customerService.findAll(pageNum);
+	public String findAllCustomer(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<CustomerAccount> customers = this.customerService.findAll(page);
 		model.addAttribute("page", customers);
 		return "customer/index";
 	}
