@@ -35,46 +35,55 @@ import com.jrsoft.auth.service.AuthRoleService;
 @Controller
 @RequestMapping("/roles")
 public class AuthRoleController {
-	
+
 	@Resource
 	private AuthRoleService authRoleService;
-	
+
 	/**
-	 * 
-	 * @param page
-	 * @param model
-	 * @return
-	 */
-	@GetMapping({"", "/index"})
-	@RequiresPermissions("authRole:list")
-	public String findAllRole(@RequestParam(defaultValue = "1") int page, Model model) {
-		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
-		model.addAttribute("page", roles);
-		return "auth/role/index";
-	}
-	
-	/**
-	 * 
 	 * @param id
-	 * @param request
-	 * @param model
 	 * @return
-	 * @throws DataNotFoundException 
+	 * @throws DataNotFoundException
 	 */
-	@GetMapping("/{id}")
-	@RequiresPermissions("authRole:detail")
-	public String findRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
+	private AuthRole findRole(Integer id) throws DataNotFoundException {
 		AuthRole r = new AuthRole();
 		r.setRoleId(id);
 		AuthRole role = this.authRoleService.findOne(r);
 		if (null == role) {
 			throw new DataNotFoundException();
 		}
-		
-			model.addAttribute("role", role);
+		return role;
+	}
+
+	/**
+	 * 
+	 * @param page
+	 * @param model
+	 * @return
+	 */
+	@GetMapping({ "", "/index" })
+	@RequiresPermissions("authRole:list")
+	public String roleList(@RequestParam(defaultValue = "1") int page, Model model) {
+		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
+		model.addAttribute("page", roles);
+		return "auth/role/index";
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws DataNotFoundException
+	 */
+	@GetMapping("/{id}")
+	@RequiresPermissions("authRole:detail")
+	public String viewRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
+		model.addAttribute("role", findRole(id));
 		return "auth/role/detail";
 	}
-	
+
 	/**
 	 * 
 	 * @param model
@@ -86,7 +95,7 @@ public class AuthRoleController {
 		model.addAttribute("authRole", new AuthRole());
 		return "auth/role/new";
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -97,17 +106,12 @@ public class AuthRoleController {
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authRole:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model) throws DataNotFoundException {
-		AuthRole r = new AuthRole();
-		r.setRoleId(id);
-		AuthRole role = this.authRoleService.findOne(r);
-		if (null == role) {
-			throw new DataNotFoundException();
-		}
-			model.addAttribute("authRole", role);
+	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+			throws DataNotFoundException {
+		model.addAttribute("authRole", findRole(id));
 		return "auth/role/edit";
 	}
-	
+
 	/**
 	 * 
 	 * @param authRole
@@ -133,6 +137,10 @@ public class AuthRoleController {
 			}
 		}
 		if ("insert".equals(request.getParameter("action"))) {
+			if (this.authRoleService.findOne(authRole) != null) { // 角色名已存在
+				result.rejectValue("roleName", "duplicate", "此角色名已被使用，请使用其他角色名称");
+				return "auth/role/new";
+			}
 			this.authRoleService.insert(authRole);
 		}
 		if ("update".equals(request.getParameter("action"))) {
@@ -140,14 +148,14 @@ public class AuthRoleController {
 		}
 		return "auth/role/save";
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/del/{id}")
+	@GetMapping("/{id}/del")
 	@RequiresPermissions("authRole:delete")
 	public String deleteRole(@PathVariable("id") Integer id, HttpServletRequest request) {
 		this.authRoleService.delete(id);

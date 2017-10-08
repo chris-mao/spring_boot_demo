@@ -68,7 +68,7 @@ public class AuthUserController {
 	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authUser:list")
-	public String findAllUser(@RequestParam(defaultValue = "1") int page, Model model) {
+	public String userList(@RequestParam(defaultValue = "1") int page, Model model) {
 		PageInfo<AuthUser> users = this.authUserService.findAll(page);
 		model.addAttribute("page", users);
 		return "auth/user/index";

@@ -60,7 +60,7 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * 
 	 */
-	private Boolean checkOut;
+	private boolean checkOut = true;
 
 	/**
 	 * @return the customerSite
@@ -149,14 +149,14 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * @return the checkOut
 	 */
-	public Boolean getCheckOut() {
+	public boolean getCheckOut() {
 		return checkOut;
 	}
 
 	/**
 	 * @param checkOut the checkOut to set
 	 */
-	public void setCheckOut(Boolean checkOut) {
+	public void setCheckOut(boolean checkOut) {
 		this.checkOut = checkOut;
 	}
 

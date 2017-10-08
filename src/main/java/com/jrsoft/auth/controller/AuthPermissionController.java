@@ -40,6 +40,21 @@ public class AuthPermissionController {
 	private AuthPermissionService authPermissionService;
 
 	/**
+	 * @param id
+	 * @return
+	 * @throws DataNotFoundException
+	 */
+	private AuthPermission findPermission(Integer id) throws DataNotFoundException {
+		AuthPermission p = new AuthPermission();
+		p.setPermissionId(id);
+		AuthPermission permission = this.authPermissionService.findOne(p);
+		if (null == permission) {
+			throw new DataNotFoundException();
+		}
+		return permission;
+	}
+
+	/**
 	 * 
 	 * @param page
 	 * @param model
@@ -47,7 +62,7 @@ public class AuthPermissionController {
 	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authPermission:list")
-	public String findAllPermission(@RequestParam(defaultValue = "1") int page, Model model) {
+	public String permissionList(@RequestParam(defaultValue = "1") int page, Model model) {
 		PageInfo<AuthPermission> permissions = this.authPermissionService.findAll(page);
 		model.addAttribute("page", permissions);
 		return "auth/permission/index";
@@ -63,22 +78,16 @@ public class AuthPermissionController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authPermission:detail")
-	public String findPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String viewPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthPermission p = new AuthPermission();
-		p.setPermissionId(id);
-		AuthPermission permission = this.authPermissionService.findOne(p);
-		if (null == permission) {
-			throw new DataNotFoundException();
-		}
-		model.addAttribute("permission", permission);
+		model.addAttribute("authPermission", findPermission(id));
 		return "auth/permission/detail";
 	}
 
 	@GetMapping("/new")
 	@RequiresPermissions("authPermission:new")
 	public String newPermission(Model model) {
-		model.addAttribute("permission", new AuthPermission());
+		model.addAttribute("authPermission", new AuthPermission());
 		return "auth/permission/new";
 	}
 
@@ -94,13 +103,7 @@ public class AuthPermissionController {
 	@RequiresPermissions("authPermission:edit")
 	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		AuthPermission p = new AuthPermission();
-		p.setPermissionId(id);
-		AuthPermission permission = this.authPermissionService.findOne(p);
-		if (null == permission) {
-			throw new DataNotFoundException();
-		}
-		model.addAttribute("permission", permission);
+		model.addAttribute("authPermission", findPermission(id));
 		return "auth/permission/edit";
 	}
 
@@ -116,26 +119,30 @@ public class AuthPermissionController {
 	@RequiresPermissions("authPermission:save")
 	public String savePermission(@Valid AuthPermission permission, BindingResult result, HttpServletRequest request,
 			Model model) {
-		model.addAttribute("permission", permission);
+		model.addAttribute("authPermission", permission);
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
 			for (ObjectError error : list) {
 				System.out.println(error.getCode() + "---" + error.getArguments() + "---" + error.getDefaultMessage());
 			}
 			if ("insert".equals(request.getParameter("action"))) {
-				return "auth/role/new";
+				return "auth/permission/new";
 			}
 			if ("update".equals(request.getParameter("action"))) {
-				return "auth/role/edit";
+				return "auth/permission/edit";
 			}
 		}
 		if ("insert".equals(request.getParameter("action"))) {
+			if (this.authPermissionService.findOne(permission) != null) { // 权限名已存在
+				result.rejectValue("roleName", "duplicate", "此权限名已被使用，请使用其他权限名称");
+				return "auth/permission/new";
+			}
 			this.authPermissionService.insert(permission);
 		}
 		if ("update".equals(request.getParameter("action"))) {
 			this.authPermissionService.update(permission);
 		}
-		return "auth/role/save";
+		return "auth/permission/save";
 	}
 
 	/**
@@ -144,7 +151,7 @@ public class AuthPermissionController {
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/{id}/del")
+	@GetMapping("/{id}/del")
 	@RequiresPermissions("authPermission:delete")
 	public String deletePermission(@PathVariable("id") Integer id, HttpServletRequest request) {
 		this.authPermissionService.delete(id);

@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -35,6 +37,8 @@ public class AuthRole implements Serializable {
 	/**
 	 * 角色名称，不允许重复
 	 */
+	@NotEmpty(message = "角色名称不允许为空")
+	@Length(min = 3, max = 64, message = "角色名称长度需在3位到64位之间")
 	private String roleName;
 
 	/**
@@ -52,7 +56,7 @@ public class AuthRole implements Serializable {
 	/**
 	 * 是否有效
 	 */
-	private Boolean available = Boolean.FALSE;
+	private boolean available = true;
 	
 	private Set<AuthPermission> permissions = new HashSet<AuthPermission>();
 
@@ -86,11 +90,11 @@ public class AuthRole implements Serializable {
 		this.roleName = roleName;
 	}
 
-	public Boolean getAvailable() {
+	public boolean getAvailable() {
 		return available;
 	}
 
-	public void setAvailable(Boolean available) {
+	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 

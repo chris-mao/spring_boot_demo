@@ -6,6 +6,8 @@ package com.jrsoft.auth.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -33,17 +35,20 @@ public class AuthPermission implements Serializable {
 	/**
 	 * 
 	 */
+	@NotEmpty(message = "权限名称不允许为空")
+	@Length(min = 6, max = 64, message = "权限名称长度需在6位到64位之间")
 	private String permissionName;
 
 	/**
 	 * 
 	 */
+	@Length(max = 128, message = "资源路径长度不能超过128位")
 	private String permissionUrl;
 
 	/**
 	 * 
 	 */
-	private Boolean available = Boolean.FALSE;
+	private boolean available = true;
 
 	/**
 	 * 
@@ -105,7 +110,7 @@ public class AuthPermission implements Serializable {
 	/**
 	 * @return the available
 	 */
-	public Boolean getAvailable() {
+	public boolean getAvailable() {
 		return available;
 	}
 
@@ -113,7 +118,7 @@ public class AuthPermission implements Serializable {
 	 * @param available
 	 *            the available to set
 	 */
-	public void setAvailable(Boolean available) {
+	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 

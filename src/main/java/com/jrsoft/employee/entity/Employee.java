@@ -79,7 +79,7 @@ public class Employee implements Serializable {
 	/**
 	 * 是否有效
 	 */
-	private Boolean available;
+	private boolean available;
 
 	/**
 	 * @return the employeeId
@@ -196,14 +196,14 @@ public class Employee implements Serializable {
 	/**
 	 * @return the available
 	 */
-	public Boolean getAvailable() {
+	public boolean getAvailable() {
 		return available;
 	}
 
 	/**
 	 * @param available the available to set
 	 */
-	public void setAvailable(Boolean available) {
+	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 

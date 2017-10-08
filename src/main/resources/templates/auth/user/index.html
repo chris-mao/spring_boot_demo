@@ -42,7 +42,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-th-each="user, state: ${page.list}"
+				<tr data-th-each="user, state: ${userList}"
 					data-th-object="${user}">
 					<td><a data-th-href="@{'/users/' + *{userId}}"
 						data-th-text="*{userName}"></a></td>

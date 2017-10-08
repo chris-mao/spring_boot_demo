@@ -36,7 +36,7 @@ public interface AuthRoleDAO {
 	 * 
 	 * @return List
 	 */
-	@Select("SELECT role_id, role_name, available, created_time, update_time FROM auth_role")
+	@Select("SELECT role_id, role_name, available, created_time, update_time FROM auth_role ORDER BY role_name")
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),

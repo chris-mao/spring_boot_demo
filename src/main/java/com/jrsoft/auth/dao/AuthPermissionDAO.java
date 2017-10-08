@@ -34,7 +34,7 @@ public interface AuthPermissionDAO {
 	 * 
 	 * @return List
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM auth_permission")
+	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM auth_permission  ORDER BY permission_name")
 	@Results({
 		@Result(property="permissionId", column="permission_id", id=true),
 		@Result(property="permissionName", column="permission_name"),
