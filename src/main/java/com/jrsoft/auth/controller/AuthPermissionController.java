@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
@@ -40,6 +41,8 @@ public class AuthPermissionController {
 	private AuthPermissionService authPermissionService;
 
 	/**
+	 * 按ID查询权限，如果权限不存在则抛出DataNotFoundException异常
+	 * 
 	 * @param id
 	 * @return
 	 * @throws DataNotFoundException
@@ -55,6 +58,7 @@ public class AuthPermissionController {
 	}
 
 	/**
+	 * 系统权限列表
 	 * 
 	 * @param page
 	 * @param model
@@ -69,6 +73,7 @@ public class AuthPermissionController {
 	}
 
 	/**
+	 * 查看权限详情
 	 * 
 	 * @param id
 	 * @param request
@@ -84,6 +89,12 @@ public class AuthPermissionController {
 		return "auth/permission/detail";
 	}
 
+	/**
+	 * 创建新权限
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/new")
 	@RequiresPermissions("authPermission:new")
 	public String newPermission(Model model) {
@@ -92,6 +103,7 @@ public class AuthPermissionController {
 	}
 
 	/**
+	 * 编辑权限
 	 * 
 	 * @param id
 	 * @param request
@@ -108,6 +120,7 @@ public class AuthPermissionController {
 	}
 
 	/**
+	 * 保存权限，新增权限之前会判断权限名称是否已存在
 	 * 
 	 * @param permission
 	 * @param request
@@ -146,6 +159,9 @@ public class AuthPermissionController {
 	}
 
 	/**
+	 * 删除权限
+	 * 
+	 * todo:删除之前需要判断权限是否还有角色或是用户使用到该权限
 	 * 
 	 * @param id
 	 * @param request
@@ -156,6 +172,12 @@ public class AuthPermissionController {
 	public String deletePermission(@PathVariable("id") Integer id, HttpServletRequest request) {
 		this.authPermissionService.delete(id);
 		return "redirect:/permissions";
+	}
+	
+	@GetMapping("/json")
+	@ResponseBody
+	public List<AuthPermission> jsonData() {
+		return this.authPermissionService.findAll();
 	}
 
 }

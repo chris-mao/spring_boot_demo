@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
@@ -40,6 +41,8 @@ public class AuthRoleController {
 	private AuthRoleService authRoleService;
 
 	/**
+	 * 按ID查询角色，如果角色不存在则抛出DataNotFoundException异常
+	 * 
 	 * @param id
 	 * @return
 	 * @throws DataNotFoundException
@@ -55,6 +58,7 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 系统角色列表
 	 * 
 	 * @param page
 	 * @param model
@@ -69,6 +73,7 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 查看角色详情
 	 * 
 	 * @param id
 	 * @param request
@@ -85,6 +90,7 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 创建新角色
 	 * 
 	 * @param model
 	 * @return
@@ -97,6 +103,7 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 编辑角色
 	 * 
 	 * @param id
 	 * @param request
@@ -113,6 +120,7 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 保存角色，新增角色之前会判断角色名称是否已存在
 	 * 
 	 * @param authRole
 	 * @param request
@@ -150,6 +158,9 @@ public class AuthRoleController {
 	}
 
 	/**
+	 * 删除角色
+	 * 
+	 * todo: 删除之前需要判断角色是否还有用户使用该权限
 	 * 
 	 * @param id
 	 * @param request
@@ -160,6 +171,12 @@ public class AuthRoleController {
 	public String deleteRole(@PathVariable("id") Integer id, HttpServletRequest request) {
 		this.authRoleService.delete(id);
 		return "redirect:/roles";
+	}
+	
+	@ResponseBody
+	@GetMapping("/json")
+	public List<AuthRole> jsonData() {
+		return this.authRoleService.findAll();
 	}
 
 }

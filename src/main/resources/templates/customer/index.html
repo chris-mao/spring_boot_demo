@@ -43,7 +43,7 @@
 			<tbody>
 				<tr data-th-each="customer, state: ${customerList}"
 					data-th-object="${customer}">
-					<td><a data-th-href="@{'/customers/' + *{customerId}}"
+					<td><a data-th-href="@{/customers/{id}(id=*{customerId})}"
 						data-th-text="*{accountNumber}"></a></td>
 					<td data-th-text="*{country}"></td>
 					<td data-th-text="*{customerName}"></td>

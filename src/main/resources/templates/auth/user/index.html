@@ -57,15 +57,15 @@
 							<div class="btn-group btn-group-xs">
 								<shiro:hasPermission name="authUser:edit">
 									<a class="btn btn-default" title="修改用户资料"
-										th:href="@{'/users/' + *{userId} + '/edit'}">编辑</a>
+										th:href="@{/users/{id}/edit(id=*{userId})}">编辑</a>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authUser:change-password">
 									<a class="btn btn-default" title="修改登录密码"
-										th:href="@{'/users/' + *{userId} + '/change-psd'}">修改密码</a>
+										th:href="@{/users/{id}/change-psd(id=*{userId})}">修改密码</a>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authUser:delete">
 									<a class="btn btn-danger" title="删除该用户"
-										th:href="@{'/users/' + *{userId} + '/del'}">删除</a>
+										th:href="@{/users/{id}/del(id=*{userId})}">删除</a>
 								</shiro:hasPermission>
 							</div>
 						</div>

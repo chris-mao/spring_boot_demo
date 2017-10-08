@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * 系统角色实体类
  *
@@ -22,6 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version 1.0
  *
  */
+@JsonIgnoreProperties({"handler"})
 public class AuthRole implements Serializable {
 
 	/**

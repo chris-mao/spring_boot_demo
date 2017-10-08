@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>系统角色详情</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+				<div class="btn-toolbar pull-right hidden-print">
+					<div class="btn-group btn-group-xs">
+						<shiro:hasPermission name="authUser:edit">
+							<a class="btn btn-default"
+								th:href="@{/roles/{id}/edit(id=${role.roleId})}">编辑</a>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="authUser:delete">
+							<a class="btn btn-danger" title="删除该角色"
+								th:href="@{/roles/{id}/del(id=${role.roleId})}">删除</a>
+						</shiro:hasPermission>
+						<a class="btn btn-default" th:href="@{/roles}">返回列表</a>
+					</div>
+				</div>
+				<div>
+					<table class="table table-responsive table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>角色名称</th>
+								<th>角色可用</th>
+								<th>创建日期</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-th-object="${role}">
+								<td data-th-text="*{roleId}"></td>
+								<td data-th-text="*{roleName}"></td>
+								<td data-th-text="*{available}"></td>
+								<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				已分配权限
+				<div class="btn-toolbar pull-right hidden-print">
+					<div class="btn-group btn-group-xs">
+						<button class="btn btn-default" title="关联系统权限到当前角色"
+							data-toggle="modal" data-target="#modal_dialog">分配权限</button>
+					</div>
+				</div>
+			</div>
+			<div th:if="${not #lists.isEmpty(role.permissions)}"
+				th:replace="auth/permission/index::showPermissions(${role.permissions})"></div>
+			<p class="text-center text-warning"
+				style="padding-top: 1rem; padding-bottom: 2rem;"
+				th:if="${#lists.isEmpty(role.permissions)}">
+				<small>哇喔〜〜〜，该角色尚未分配任何权限，请点击右上角 <code>分配权限</code>按钮为其分配权限。
+				</small>
+			</p>
+		</div>
+		
+		<div th:replace="fragments/modalDialog::showModalDialog('选择系统权限')"></div>
+
+	</div>
+</body>
+</html>

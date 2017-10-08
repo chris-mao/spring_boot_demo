@@ -55,11 +55,11 @@
 							<div class="btn-group btn-group-xs">
 								<shiro:hasPermission name="authPermission:edit">
 									<a class="btn btn-default" title="修改权限"
-										th:href="@{'/permissions/' + *{permissionId} + '/edit'}">编辑</a>
+										th:href="@{/permissions/{id}/edit(id=*{permissionId})}">编辑</a>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authPermission:delete">
 									<a class="btn btn-danger" title="删除该权限"
-										th:href="@{'/permissions/' + *{permissionId} + '/del'}">删除</a>
+										th:href="@{/permissions/{id}/del(id=*{permissionId})}">删除</a>
 								</shiro:hasPermission>
 							</div>
 						</div>

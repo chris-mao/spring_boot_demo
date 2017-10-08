@@ -44,7 +44,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="employee : ${employeeList}" th:object="${employee}">
-					<td><a href="#" th:href="@{'/employeese/' + *{employeeId}}"
+					<td><a href="#" th:href="@{/employeese/{id}(id=*{employeeId})}"
 						th:text="*{employeeName}"> </a></td>
 					<td th:text="*{phone}"></td>
 					<td th:text="*{fax}"></td>

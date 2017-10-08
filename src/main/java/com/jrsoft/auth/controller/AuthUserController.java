@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
@@ -130,7 +130,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 保存用户信息
+	 * 保存用户信息，新增用户之前会判断用户名是否已存在
 	 * 
 	 * 这里有个坑：参数BindingResult result 必须根在要验证的对象参数之后，否则会抛出异常！
 	 * 
@@ -173,6 +173,8 @@ public class AuthUserController {
 	/**
 	 * 删除系统用户
 	 * 
+	 * todo: 删除之前需要判断用户是否被关联到相应的客户或是员工
+	 * 
 	 * @param id
 	 * @param request
 	 * @return
@@ -202,6 +204,7 @@ public class AuthUserController {
 
 	/**
 	 * 保存修改后的密码，如果修改成功返跳转到用户详情页面，否则还留在当前页面
+	 * 
 	 * @param id
 	 * @param request
 	 * @param model
@@ -219,6 +222,12 @@ public class AuthUserController {
 		
 		model.addAttribute("msg", "旧密码不正确，请重新输入");
 		return chanegPassword(id, request, model);
+	}
+	
+	@GetMapping("/json")
+	@ResponseBody
+	public List<AuthUser> jsonData() {
+		return this.authUserService.findAll();
 	}
 
 }

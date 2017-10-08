@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div class="modal fade" role="dialog" tabIndex="-1" id="modal_dialog"
+		aria-labelledby="modal_label" aria-hidden="true"
+		data-backdrop="static"
+		th:fragment="showModalDialog(dialogTitle, dataLoadUrl)">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="modal_label" th:utext="${dialogTitle}">模态窗体标题</h4>
+				</div>
+				<div class="modal-body" id="modal_content_div"></div>
+				<div id="" class="modal-footer">
+					<button type="button" class="btn btn-default btn-xs"
+						data-dismiss="modal" title="关闭窗体，不保存操作">关闭</button>
+					<button type="button" class="btn btn-primary btn-xs"
+						id="save_button" title="保存当前操作并关闭窗体">保存</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$("#modal_dialog").on("show.bs.modal", function(e) {
+				//$("#modal_content_div").html(${dataLoadUrl});
+				$.ajax({type: "get", url: ${dataLoadUrl}, cache: false, dataType: 'json', success: function(data){
+					alert(data);
+				}});
+			});
+			$("#modal_dialog").on("hidden.bs.modal", function(e) {
+				$("#modal_content_div").empty();
+			});
+		</script>
+	</div>
+</body>
+</html>

@@ -41,7 +41,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="priceHeader : ${priceList}" th:object="${priceHeader}">
-					<td><a href="#" th:href="@{'/prices/' + *{headerId}}"
+					<td><a href="#" th:href="@{/prices/{id}(id=*{headerId})}"
 						th:text="*{name}"> </a></td>
 					<td th:text="*{currency}"></td>
 					<td th:text="*{#dates.format(startDate, 'yyyy-MM-dd')}"></td>
