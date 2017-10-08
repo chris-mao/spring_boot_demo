@@ -66,7 +66,26 @@
 			</p>
 		</div>
 		
-		<div th:replace="fragments/modalDialog::showModalDialog('选择系统权限')"></div>
+		<input type="hidden" id="data-load-url" th:value="@{'/permissions/json'}" />
+        <div th:replace="fragments/modalDialog::showModalDialog('选择系统权限')"></div>
+        <script type="text/javascript">
+            $("#modal_dialog").on("show.bs.modal", function(e) {
+                $.ajax({
+                    type : 'get',
+                    url : $("#data-load-url").val(),
+                    cache : false,
+                    dataType : 'json',
+                    success : function(data) {
+                        var html = '<ul class="list-group">'; 
+                        $.each(data, function(key, obj) {
+                            html += '<li class="list-group-item"><label><input type="checkbox" value="' + obj.permissionId + '" />&nbsp;' + obj.permissionName + '</label></li>';
+                        });
+                        html += '</ul>';
+                        $("#modal_content_div").append(html);
+                    }
+                });
+            });
+        </script>
 
 	</div>
 </body>
