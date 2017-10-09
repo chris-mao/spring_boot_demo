@@ -85,6 +85,11 @@ public class AuthUser implements Serializable {
 	private String salt;
 
 	/**
+	 * 是否有效
+	 */
+	private boolean available = true;
+
+	/**
 	 * 用户状态
 	 * @see AuthUserStateEnum 
 	 * Active     激活状态
@@ -201,6 +206,14 @@ public class AuthUser implements Serializable {
 		this.nickName = nickName;
 	}
 
+	public boolean getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
 	public Date getCreatedTime() {
 		return createdTime;
 	}
@@ -231,16 +244,6 @@ public class AuthUser implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
-				+ ", password=" + password + ", salt=" + salt + ", state=" + state + ", createdTime=" + createdTime
-				+ ", updateTime=" + updateTime + ", roles=" + roles + "]";
 	}
 
 	/* (non-Javadoc)
@@ -278,6 +281,16 @@ public class AuthUser implements Serializable {
 		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
+				+ ", password=" + password + ", salt=" + salt + ", available=" + available + ", state=" + state
+				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + ", roles=" + roles + "]";
 	}
 
 }

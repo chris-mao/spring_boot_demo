@@ -37,6 +37,7 @@
 								<th>电子邮件</th>
 								<th>状态</th>
 								<th>加密盐</th>
+								<th>用户有效</th>
 								<th>创建日期</th>
 							</tr>
 						</thead>
@@ -48,6 +49,7 @@
 								<td data-th-text="*{email}"></td>
 								<td data-th-text="*{state}"></td>
 								<td data-th-text="*{salt}"></td>
+								<td data-th-text="*{available}"></td>
 								<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
 							</tr>
 						</tbody>

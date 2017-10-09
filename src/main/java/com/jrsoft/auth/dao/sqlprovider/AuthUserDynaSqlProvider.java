@@ -17,7 +17,7 @@ public class AuthUserDynaSqlProvider {
 	
 	public String findAllSql(boolean onlyAvailable) {
 		return new SQL(){{
-			SELECT("user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time");
+			SELECT("user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time");
 			FROM("auth_user");
 			if (onlyAvailable) {
 				WHERE("available = true");

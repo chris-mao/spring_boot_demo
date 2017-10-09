@@ -47,6 +47,7 @@ public interface AuthUserDAO {
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
+			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -58,12 +59,13 @@ public interface AuthUserDAO {
 	 * @param id
 	 * @return AuthUser
 	 */
-	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_id = #{id}")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time FROM auth_user WHERE user_id = #{id}")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
+			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -75,12 +77,13 @@ public interface AuthUserDAO {
 	 * @param userName
 	 * @return AuthUser
 	 */
-	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user WHERE user_name = #{name}")
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time FROM auth_user WHERE user_name = #{name}")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
 			@Result(property = "salt", column = "salt"),
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
+			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
@@ -103,7 +106,7 @@ public interface AuthUserDAO {
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
-	@Update("UPDATE auth_user SET user_name = #{userName}, nick_name = #{nickName}, state= #{state}, email = #{email} WHERE user_id = #{userId}")
+	@Update("UPDATE auth_user SET nick_name = #{nickName}, available = #{available}, state= #{state}, email = #{email} WHERE user_id = #{userId}")
 	public int udpate(AuthUser user);
 
 	/**
