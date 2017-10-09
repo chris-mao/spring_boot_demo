@@ -36,18 +36,18 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public List<AuthUser> findAll() {
-		return authUserDAO.findAll();
+		return authUserDAO.findAll(false);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthUserService#findAll()
-	 */
 	@Override
 	public PageInfo<AuthUser> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, pageSize);
-		return new PageInfo<AuthUser>(authUserDAO.findAll());
+		return new PageInfo<AuthUser>(authUserDAO.findAll(false));
+	}
+
+	@Override
+	public List<AuthUser> findAllAvailableUser() {
+		return authUserDAO.findAll(true);
 	}
 
 	@Override

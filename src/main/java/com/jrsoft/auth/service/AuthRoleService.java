@@ -37,6 +37,13 @@ public interface AuthRoleService {
 	public PageInfo<AuthRole> findAll(int pageNum);
 	
 	/**
+	 * 查询所有有效的角色信息
+	 * 
+	 * @return List
+	 */
+	public List<AuthRole> findAllAvailable();
+	
+	/**
 	 * 按角色编号或是名称查询
 	 * @param role
 	 * @return AuthRole

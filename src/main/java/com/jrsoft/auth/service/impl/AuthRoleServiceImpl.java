@@ -43,13 +43,18 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
 	@Override
 	public List<AuthRole> findAll() {
-		return authRoleDAO.findAll();
+		return authRoleDAO.findAll(false);
 	}
 
 	@Override
 	public PageInfo<AuthRole> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, pageSize);
-		return new PageInfo<AuthRole>(authRoleDAO.findAll());
+		return new PageInfo<AuthRole>(authRoleDAO.findAll(false));
+	}
+
+	@Override
+	public List<AuthRole> findAllAvailable() {
+		return authRoleDAO.findAll(true);
 	}
 
 	@Override

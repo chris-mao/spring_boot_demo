@@ -36,6 +36,13 @@ public interface AuthPermissionService {
 	public PageInfo<AuthPermission> findAll(int pageNum);
 	
 	/**
+	 * 查询所有有效的权限信息
+	 * 
+	 * @return List
+	 */
+	public List<AuthPermission> findAllAvailable();
+	
+	/**
 	 * 按权限编号或是名称查询
 	 * 
 	 * @param permission

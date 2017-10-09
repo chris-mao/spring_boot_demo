@@ -176,7 +176,7 @@ public class AuthRoleController {
 	@ResponseBody
 	@GetMapping("/json")
 	public List<AuthRole> jsonData() {
-		return this.authRoleService.findAll();
+		return this.authRoleService.findAllAvailable();
 	}
 
 }

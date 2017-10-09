@@ -14,9 +14,11 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.mapping.FetchType;
 
+import com.jrsoft.auth.dao.sqlprovider.AuthRoleDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthRole;
 
 /**
@@ -34,15 +36,17 @@ public interface AuthRoleDAO {
 	/**
 	 * 查询所有角色信息
 	 * 
+	 * @param onlyAvailable true仅查询所有可用角色，否则查询所有角色
+	 * 
 	 * @return List
 	 */
-	@Select("SELECT role_id, role_name, available, created_time, update_time FROM auth_role ORDER BY role_name")
+	@SelectProvider(method = "findAllSql", type = AuthRoleDynaSqlProvider.class)
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "permissions", column = "role_id", many = @Many(select = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType = FetchType.LAZY) ) })
-	public List<AuthRole> findAll();
+	public List<AuthRole> findAll(@Param(value = "available") boolean onlyAvailable);
 
 	/**
 	 * 按角色编号查询

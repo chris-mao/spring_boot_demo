@@ -46,13 +46,18 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public List<AuthPermission> findAll() {
-		return authPermissionDAO.findAll();
+		return authPermissionDAO.findAll(false);
 	}
 
 	@Override
 	public PageInfo<AuthPermission> findAll(int pageNum) {
 		PageHelper.startPage(pageNum, this.pageSize);
-		return new PageInfo<AuthPermission>(authPermissionDAO.findAll());
+		return new PageInfo<AuthPermission>(authPermissionDAO.findAll(false));
+	}
+
+	@Override
+	public List<AuthPermission> findAllAvailable() {
+		return authPermissionDAO.findAll(true);
 	}
 
 	@Override

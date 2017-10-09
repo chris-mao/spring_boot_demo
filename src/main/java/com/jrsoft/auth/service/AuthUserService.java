@@ -36,6 +36,13 @@ public interface AuthUserService {
 	public PageInfo<AuthUser> findAll(int pageNum);
 	
 	/**
+	 * 查询所有有效的用户信息
+	 * 
+	 * @return List
+	 */
+	public List<AuthUser> findAllAvailableUser();
+	
+	/**
 	 * 按用户编号或是名称查询
 	 * 
 	 * @param user

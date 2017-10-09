@@ -13,8 +13,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 
+import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthPermission;
 
 /**
@@ -32,9 +34,11 @@ public interface AuthPermissionDAO {
 	/**
 	 * 查询所有权限
 	 * 
+	 * @param onlyAvailable true仅查询所有可用权限，否则查询所有权限
+	 * 
 	 * @return List
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM auth_permission  ORDER BY permission_name")
+	@SelectProvider(method = "findAllSql", type = AuthPermissionDynaSqlProvider.class)
 	@Results({
 		@Result(property="permissionId", column="permission_id", id=true),
 		@Result(property="permissionName", column="permission_name"),
@@ -43,7 +47,7 @@ public interface AuthPermissionDAO {
 		@Result(property="createdTime", column="created_time"),
 		@Result(property="updateTime", column="update_time")
 	})
-	public List<AuthPermission> findAll();
+	public List<AuthPermission> findAll(@Param(value = "available") boolean onlyAvailable);
 	
 	/**
 	 * 按权限编号查询

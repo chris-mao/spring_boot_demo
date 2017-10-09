@@ -13,11 +13,13 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.mapping.FetchType;
 
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.handler.AuthUserStateEnumTypeHandler;
+import com.jrsoft.auth.dao.sqlprovider.AuthUserDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthUser;
 
 /**
@@ -35,9 +37,11 @@ public interface AuthUserDAO {
 	/**
 	 * 查询所有用户信息
 	 * 
+	 * @param onlyAvailable true仅查询所有可用用户，否则查询所有用户
+	 * 
 	 * @return List
 	 */
-	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, created_time, update_time FROM auth_user ORDER BY user_name")
+	@SelectProvider(method = "findAllSql", type = AuthUserDynaSqlProvider.class)
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
 			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
@@ -46,7 +50,7 @@ public interface AuthUserDAO {
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time"),
 			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
-	public List<AuthUser> findAll();
+	public List<AuthUser> findAll(@Param(value = "available") boolean onlyAvailable);
 
 	/**
 	 * 根据用户编号查询用户信息
