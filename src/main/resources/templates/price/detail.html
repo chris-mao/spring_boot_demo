@@ -42,7 +42,7 @@
 										th:text="*{#numbers.formatDecimal(unitPrice,0,2)}"></td>
 									<td th:text="${priceHeader.currency}"></td>
 									<td th:text="*{#dates.format(startDate, 'yyyy-MM-dd')}">start_date_active</td>
-									<td th:text="*{endDate}">end_date_active</td>
+									<td><span th:if="*{endDate}" th:text="*{#dates.format(endDate, 'yyyy-MM-dd')}"></span></td>
 								</tr>
 							</tbody>
 						</table>

@@ -71,19 +71,7 @@ public class PriceListHeader implements Serializable {
 	 * @see findAllPriceLinesByName
 	 */
 	private List<PriceListLine> lines;
-
-	/**
-	 * 创建时间
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createdTime;
-
-	/**
-	 * 更新时间
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
-
+	
 	/**
 	 * @return the headerId
 	 */
@@ -159,36 +147,6 @@ public class PriceListHeader implements Serializable {
 		this.lines = lines;
 	}
 
-	/**
-	 * @return the createdTime
-	 */
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	/**
-	 * @param createdTime
-	 *            the createdTime to set
-	 */
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	/**
-	 * @param updateTime
-	 *            the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -197,8 +155,7 @@ public class PriceListHeader implements Serializable {
 	@Override
 	public String toString() {
 		return "PriceListHeader [headerId=" + headerId + ", priceListName=" + name + ", currency=" + currency
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", lines=" + lines + ", createdTime="
-				+ createdTime + ", updateTime=" + updateTime + "]";
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", lines=" + lines + "]";
 	}
 
 	/**
