@@ -120,7 +120,7 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">接洽人员</div>
 					<div th:if="${not #lists.isEmpty(employeese)}"
-						th:replace="employee/index::showEmployeese(${employeese})"></div>
+						th:replace="employee/index::showEmployeese(${employeese}, false)"></div>
 					<p class="text-center text-warning"
 						style="padding-top: 1rem; padding-bottom: 2rem;"
 						th:if="${#lists.isEmpty(employeese)}">哇喔〜〜〜，目前系统中还没有为您指定接洽人员。</p>

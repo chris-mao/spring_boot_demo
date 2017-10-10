@@ -91,7 +91,9 @@ public class AuthUserController {
 	public String viewUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		AuthUser user = findUser(id);
 		model.addAttribute("user", user);
+		//获取用户角色
 		model.addAttribute("myRoles", authRoleService.findAllByUser(user));
+		//获取所有有效角色
 		model.addAttribute("roles", this.authRoleService.findAllAvailable());
 		return "auth/user/detail";
 	}
@@ -175,6 +177,11 @@ public class AuthUserController {
 			return "redirect:/users/" + authUser.getUserId();
 		}
 		return "auth/user/save";
+	}
+	
+	@GetMapping("/{id}/roles")
+	public String assignRoles(@PathVariable("id") Integer id, HttpServletRequest request) {
+		return null;
 	}
 
 	/**

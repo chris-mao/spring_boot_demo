@@ -6,7 +6,8 @@
 <body>
 	<div class="modal fade" role="dialog" tabIndex="-1" id="modal_dialog"
 		aria-labelledby="modal_label" aria-hidden="true"
-		data-backdrop="static" th:fragment="showModalDialog(dialogTitle)">
+		data-backdrop="static"
+		th:fragment="showModalDialog(dialogTitle, selectedItems, allItems)">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -15,7 +16,13 @@
 					<h4 class="modal-title" id="modal_label" th:utext="${dialogTitle}">模态窗体标题</h4>
 				</div>
 				<div class="modal-body" id="modal_content_div"
-					style="height: 360px; overflow-y: scroll"></div>
+					style="height: 360px; overflow-y: scroll">
+					<ul class="list-group">
+						<li class="list-group-item" th:each="item: ${allItems}"
+							th:object="${item}"><label><input type="checkbox"
+							th:value="*{roleId}" th:checked="${#lists.contains(selectedItems, item)}" />&nbsp;&nbsp;<span th:utext="*{roleName}"></span></label></li>
+					</ul>
+				</div>
 				<div id="" class="modal-footer">
 					<button type="button" class="btn btn-default btn-sm"
 						data-dismiss="modal" title="关闭窗体，不保存操作">关闭</button>

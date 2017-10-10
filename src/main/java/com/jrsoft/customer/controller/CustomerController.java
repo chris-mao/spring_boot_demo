@@ -60,6 +60,7 @@ public class CustomerController {
 	@GetMapping({"", "/index"})
 	@RequiresPermissions("customer:list")
 	public String findAllCustomer(@RequestParam(defaultValue = "1") int page, Model model) {
+		//todo: 当前用户如果是管理员，则显示所有客户列表；如果是客户，则跳转到详情页面显示他自己的信息
 		PageInfo<CustomerAccount> customers = this.customerService.findAll(page);
 		model.addAttribute("page", customers);
 		return "customer/index";
@@ -74,7 +75,7 @@ public class CustomerController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("customer:detail")
-	public String findCustomer(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
+	public String viewCustomer(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		CustomerAccount c = new CustomerAccount();
 		c.setCustomerId(id);
 		CustomerAccount customer = this.customerService.findOne(c);

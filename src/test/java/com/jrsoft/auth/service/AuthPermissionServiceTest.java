@@ -102,15 +102,15 @@ public class AuthPermissionServiceTest {
 	public void testFindAllByRoleAuthRole() {
 		AuthRole r = new AuthRole();
 		r.setRoleName("csr");
-		AuthRole role = this.authRoleService.findOne(r);
 
-		Assert.assertEquals(29, this.authPermissionService.findAllByRole(role.getRoleName()).size());
+		Assert.assertEquals(29, this.authPermissionService.findAllByRole(r).size());
 	}
 
 	@Test
 	public void testFindAllByRoleString() {
-		final String roleName = "csr";
-		Assert.assertEquals(29, this.authPermissionService.findAllByRole(roleName).size());
+		AuthRole r = new AuthRole();
+		r.setRoleName("csr");
+		Assert.assertEquals(29, this.authPermissionService.findAllByRole(r).size());
 	}
 
 }

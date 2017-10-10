@@ -50,9 +50,10 @@ public class PriceController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({"", "/index"})
+	@GetMapping({ "", "/index" })
 	@RequiresPermissions("price:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model) {
+		// todo: 当前用户如果是管理员，则显示所有价格列表；如果是客户，则显示他自己的价格列表，如果客户仅有一个价格表，则直接转到详情页面
 		PageInfo<PriceListHeader> prices = this.priceService.findAll(page);
 		model.addAttribute("page", prices);
 		return "price/index";
