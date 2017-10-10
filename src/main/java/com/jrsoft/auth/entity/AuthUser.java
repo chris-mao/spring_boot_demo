@@ -5,9 +5,6 @@ package com.jrsoft.auth.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -26,14 +23,13 @@ import com.jrsoft.auth.AuthUserStateEnum;
  * @version 1.0
  *
  */
-@JsonIgnoreProperties({"handler"})
 public class AuthUser implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 初始密码
 	 */
@@ -63,7 +59,7 @@ public class AuthUser implements Serializable {
 	@NotEmpty(message = "昵称不允许为空")
 	@Length(min = 2, max = 64, message = "昵称长度需在2位到64位之间")
 	private String nickName;
-	
+
 	/**
 	 * 电子邮件，用于找回密码
 	 */
@@ -91,11 +87,8 @@ public class AuthUser implements Serializable {
 
 	/**
 	 * 用户状态
-	 * @see AuthUserStateEnum 
-	 * Active     激活状态
-	 * Locked     帐户锁定
-	 * Expired    帐户过期
-	 * Inactive   帐户失效
+	 * 
+	 * @see AuthUserStateEnum Active 激活状态 Locked 帐户锁定 Expired 帐户过期 Inactive 帐户失效
 	 */
 	private AuthUserStateEnum state;
 
@@ -110,11 +103,6 @@ public class AuthUser implements Serializable {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-
-	/**
-	 * 用户拥有的角色
-	 */
-	private Set<AuthRole> roles = new HashSet<AuthRole>();
 
 	/**
 	 * @return the userId
@@ -230,14 +218,6 @@ public class AuthUser implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Set<AuthRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<AuthRole> roles) {
-		this.roles = roles;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -246,7 +226,9 @@ public class AuthUser implements Serializable {
 		this.email = email;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -258,7 +240,9 @@ public class AuthUser implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -283,14 +267,16 @@ public class AuthUser implements Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
 				+ ", password=" + password + ", salt=" + salt + ", available=" + available + ", state=" + state
-				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + ", roles=" + roles + "]";
+				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
 	}
 
 }

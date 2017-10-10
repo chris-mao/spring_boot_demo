@@ -31,7 +31,7 @@ import com.jrsoft.auth.service.AuthPermissionService;
 public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Resource
 	private AuthRoleDAO authRoleDAO;
@@ -79,22 +79,17 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
-		return authPermissionDAO.findAllByRoleId(role.getRoleId());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthPermissionService#findAllByRole(java.
-	 * lang.String)
-	 */
-	@Override
-	public Set<AuthPermission> findAllByRole(String roleName) {
-		AuthRole role = this.authRoleDAO.findByName(roleName);
-		if (null == role) {
-			return null;
+		if (null != role.getRoleId()) {
+			return authPermissionDAO.findAllByRoleId(role.getRoleId());
 		}
-		return authPermissionDAO.findAllByRoleId(role.getRoleId());
+		if (null != role.getRoleName()) {
+			AuthRole r = authRoleDAO.findByName(role.getRoleName());
+			if (null == r) {
+				return null;
+			}
+			return authPermissionDAO.findAllByRoleId(r.getRoleId());
+		}
+		return null;
 	}
 
 	@Override

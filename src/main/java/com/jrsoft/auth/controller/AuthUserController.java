@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 
 /**
@@ -41,6 +42,9 @@ public class AuthUserController {
 
 	@Resource
 	private AuthUserService authUserService;
+	
+	@Resource
+	private AuthRoleService authRoleService;
 
 	/**
 	 * 按ID查询用户，如果用户不存在则抛出DataNotFoundException异常
@@ -85,7 +89,10 @@ public class AuthUserController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
 	public String viewUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
-		model.addAttribute("user", findUser(id));
+		AuthUser user = findUser(id);
+		model.addAttribute("user", user);
+		model.addAttribute("myRoles", authRoleService.findAllByUser(user));
+		model.addAttribute("roles", this.authRoleService.findAllAvailable());
 		return "auth/user/detail";
 	}
 

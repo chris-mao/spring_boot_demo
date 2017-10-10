@@ -6,7 +6,6 @@ package com.jrsoft.auth.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 

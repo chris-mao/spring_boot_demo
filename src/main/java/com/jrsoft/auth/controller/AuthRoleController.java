@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 
 /**
@@ -39,6 +40,9 @@ public class AuthRoleController {
 
 	@Resource
 	private AuthRoleService authRoleService;
+	
+	@Resource
+	private AuthPermissionService authPermissionService;
 
 	/**
 	 * 按ID查询角色，如果角色不存在则抛出DataNotFoundException异常
@@ -85,7 +89,10 @@ public class AuthRoleController {
 	@RequiresPermissions("authRole:detail")
 	public String viewRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		model.addAttribute("role", findRole(id));
+		AuthRole role = findRole(id);
+		model.addAttribute("role", role);
+		model.addAttribute("myPermissions", authPermissionService.findAllByRole(role));
+		model.addAttribute("permissions", authPermissionService.findAllAvailable());
 		return "auth/role/detail";
 	}
 

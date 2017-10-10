@@ -15,6 +15,12 @@ import org.apache.ibatis.jdbc.SQL;
  */
 public class AuthUserDynaSqlProvider {
 	
+	/**
+	 * 根据参数动态生成查询系统用户的SQL语句
+	 * 
+	 * @param onlyAvailable
+	 * @return
+	 */
 	public String findAllSql(boolean onlyAvailable) {
 		return new SQL(){{
 			SELECT("user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time");

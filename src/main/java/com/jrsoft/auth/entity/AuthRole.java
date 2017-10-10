@@ -5,14 +5,9 @@ package com.jrsoft.auth.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * 系统角色实体类
@@ -24,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @version 1.0
  *
  */
-@JsonIgnoreProperties({"handler"})
 public class AuthRole implements Serializable {
 
 	/**
@@ -60,8 +54,6 @@ public class AuthRole implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
-	
-	private Set<AuthPermission> permissions = new HashSet<AuthPermission>();
 
 	/**
 	 * @return the roleId
@@ -131,30 +123,20 @@ public class AuthRole implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	/**
-	 * @return the permissions
-	 */
-	public Set<AuthPermission> getPermissions() {
-		return permissions;
-	}
-
-	/**
-	 * @param permissions the permissions to set
-	 */
-	public void setPermissions(Set<AuthPermission> permissions) {
-		this.permissions = permissions;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "AuthRole [roleId=" + roleId + ", roleName=" + roleName + ", createdTime=" + createdTime
-				+ ", updateTime=" + updateTime + ", available=" + available + ", permissions=" + permissions + "]";
+				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -166,7 +148,9 @@ public class AuthRole implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

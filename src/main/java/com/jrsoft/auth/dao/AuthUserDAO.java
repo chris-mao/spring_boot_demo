@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -15,8 +14,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.mapping.FetchType;
-
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.handler.AuthUserStateEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthUserDynaSqlProvider;
@@ -37,7 +34,8 @@ public interface AuthUserDAO {
 	/**
 	 * 查询所有用户信息
 	 * 
-	 * @param onlyAvailable true仅查询所有可用用户，否则查询所有用户
+	 * @param onlyAvailable
+	 *            true仅查询所有可用用户，否则查询所有用户
 	 * 
 	 * @return List
 	 */
@@ -49,8 +47,10 @@ public interface AuthUserDAO {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "updateTime", column = "update_time") })
+	// @Result(property = "roles", column = "user_id", many = @Many(select =
+	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
+	// FetchType.LAZY) ) })
 	public List<AuthUser> findAll(@Param(value = "available") boolean onlyAvailable);
 
 	/**
@@ -67,8 +67,10 @@ public interface AuthUserDAO {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "updateTime", column = "update_time") })
+	// @Result(property = "roles", column = "user_id", many = @Many(select =
+	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
+	// FetchType.LAZY) ) })
 	public AuthUser findById(@Param(value = "id") Integer id);
 
 	/**
@@ -85,8 +87,10 @@ public interface AuthUserDAO {
 			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time"),
-			@Result(property = "roles", column = "user_id", many = @Many(select = "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "updateTime", column = "update_time") })
+	// @Result(property = "roles", column = "user_id", many = @Many(select =
+	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
+	// FetchType.LAZY) ) })
 	public AuthUser findByName(@Param(value = "name") String userName);
 
 	/**
@@ -100,8 +104,7 @@ public interface AuthUserDAO {
 	public int insert(AuthUser user);
 
 	/**
-	 * 更新用户信息
-	 * 不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
+	 * 更新用户信息 不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
 	 * 
 	 * @param user
 	 * @return 返回受影响的行数

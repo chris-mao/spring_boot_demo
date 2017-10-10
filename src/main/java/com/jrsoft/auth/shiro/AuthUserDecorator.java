@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
@@ -103,14 +102,6 @@ public class AuthUserDecorator {
 	 */
 	public String getEmail() {
 		return authUser.getEmail();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Set<AuthRole> getRoles() {
-		return authUser.getRoles();
 	}
 
 	/**

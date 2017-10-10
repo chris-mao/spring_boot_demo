@@ -3,7 +3,6 @@
  */
 package com.jrsoft.auth.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import com.jrsoft.auth.service.AuthUserService;
 public class AuthUserServiceImpl implements AuthUserService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Autowired
 	private AuthUserDAO authUserDAO;
@@ -83,23 +82,12 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public boolean addRole(AuthUser user, AuthRole role) {
-		if (true == user.getRoles().add(role)) {
-			return 1 == this.authUserDAO.addRole(user.getUserId(), role.getRoleId());
-		}
-		return false;
+		return 1 == this.authUserDAO.addRole(user.getUserId(), role.getRoleId());
 	}
 
 	@Override
 	public boolean removeRole(AuthUser user, AuthRole role) {
-		Iterator<AuthRole> it = user.getRoles().iterator();
-		while (it.hasNext()) {
-			AuthRole r = it.next();
-			if (r.equals(role)) {
-				it.remove();
-				return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
-			}
-		}
-		return false;
+		return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
 	}
 
 }

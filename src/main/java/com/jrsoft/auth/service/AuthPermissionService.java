@@ -26,7 +26,7 @@ public interface AuthPermissionService {
 	 * @return List
 	 */
 	public List<AuthPermission> findAll();
-	
+
 	/**
 	 * 查询所有权限，分页
 	 * 
@@ -34,14 +34,14 @@ public interface AuthPermissionService {
 	 * @return PageInfo
 	 */
 	public PageInfo<AuthPermission> findAll(int pageNum);
-	
+
 	/**
 	 * 查询所有有效的权限信息
 	 * 
 	 * @return List
 	 */
 	public List<AuthPermission> findAllAvailable();
-	
+
 	/**
 	 * 按权限编号或是名称查询
 	 * 
@@ -75,23 +75,10 @@ public interface AuthPermissionService {
 	public boolean delete(Integer id);
 
 	/**
-	 * 按角色查询其所拥有的权限
+	 * 按角色编号或是角色名称查询其所拥有的权限
 	 * 
 	 * @param role
 	 * @return Set
 	 */
 	public Set<AuthPermission> findAllByRole(AuthRole role);
-
-	/**
-	 * 按角色名称查询其所拥有的权限
-	 * 
-	 * @param roleName
-	 * @return Set
-	 */
-	public Set<AuthPermission> findAllByRole(String roleName);
-
-	// public Set<AuthPermission> findAllByUser(AuthUser user);
-
-	// public Set<AuthPermission> findAllByUser(String userName);
-
 }

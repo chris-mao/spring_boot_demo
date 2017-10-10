@@ -1,8 +1,9 @@
 package com.jrsoft.auth.shiro;
 
+import java.util.Set;
+
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,6 +24,8 @@ import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.service.AuthPermissionService;
+import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.customer.service.CustomerService;
 
@@ -49,6 +52,12 @@ public class JrShiroRealm extends AuthorizingRealm {
 	@Resource
 	private AuthUserService authUserService;
 	
+	@Resource
+	private AuthRoleService authRoleService;
+	
+	@Resource
+	private AuthPermissionService authPermissionService;
+	
 	/**
 	 * 
 	 */
@@ -69,10 +78,12 @@ public class JrShiroRealm extends AuthorizingRealm {
 
 		// 获取用户录属的角色及相应权限
 		logger.info("==> 读取用户[" + user.getUserName() + "]关联的角色...");
-		for (AuthRole role : user.getRoles()) {
+		Set<AuthRole> roles = authRoleService.findAllByUser(user);
+		for (AuthRole role : roles) {
 			authorizationInfo.addRole(role.getRoleName());
 			logger.info("==> 读取角色[" + role.getRoleName() + "]关联的权限...");
-			for (AuthPermission permission : role.getPermissions()) {
+			Set<AuthPermission> permissions = authPermissionService.findAllByRole(role);
+			for (AuthPermission permission : permissions) {
 				logger.info("==> 获取权限[" + permission.getPermissionName() + "]");
 				authorizationInfo.addStringPermission(permission.getPermissionName());
 			}

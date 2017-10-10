@@ -3,7 +3,6 @@
  */
 package com.jrsoft.auth.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +32,7 @@ import com.jrsoft.auth.service.AuthRoleService;
 public class AuthRoleServiceImpl implements AuthRoleService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Resource
 	private AuthUserDAO authUserDAO;
@@ -81,6 +80,9 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		}
 		if (null != user.getUserName()) {
 			AuthUser u = this.authUserDAO.findByName(user.getUserName());
+			if (null == u) {
+				return null;
+			}
 			return this.authRoleDAO.findAllByUserId(u.getUserId());
 		}
 		return null;
@@ -104,23 +106,12 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
 	@Override
 	public boolean addPermission(AuthRole role, AuthPermission permission) {
-		if (true == role.getPermissions().add(permission)) {
-			return 1 == this.authRoleDAO.addPermission(role.getRoleId(), permission.getPermissionId());
-		}
-		return false;
+		return 1 == this.authRoleDAO.addPermission(role.getRoleId(), permission.getPermissionId());
 	}
 
 	@Override
 	public boolean removePermission(AuthRole role, AuthPermission permission) {
-		Iterator<AuthPermission> it = role.getPermissions().iterator();
-		while (it.hasNext()) {
-			AuthPermission p = it.next();
-			if (p.equals(permission)) {
-				it.remove();
-				return 1 == this.authRoleDAO.removePermission(role.getRoleId(), permission.getPermissionId());
-			}
-		}
-		return false;
+		return 1 == this.authRoleDAO.removePermission(role.getRoleId(), permission.getPermissionId());
 	}
 
 }

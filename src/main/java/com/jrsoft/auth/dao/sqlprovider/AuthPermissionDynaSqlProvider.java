@@ -15,6 +15,12 @@ import org.apache.ibatis.jdbc.SQL;
  */
 public class AuthPermissionDynaSqlProvider {
 
+	/**
+	 * 根据参数动态生成查询系统权限的SQL语句
+	 * 
+	 * @param onlyAvailable
+	 * @return
+	 */
 	public String findAllSql(boolean onlyAvailable) {
 		return new SQL() {
 			{
