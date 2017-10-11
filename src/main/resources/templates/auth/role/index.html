@@ -37,7 +37,8 @@
 				<tr>
 					<th>角色名称</th>
 					<th>角色可用</th>
-					<th>创建日期</th>
+					<th>创建时间</th>
+					<th>更新时间</th>
 					<th th:if="${editable}"></th>
 				</tr>
 			</thead>
@@ -47,7 +48,8 @@
 					<td><a data-th-href="@{'/roles/' + *{roleId}}"
                         data-th-text="*{roleName}"></a></td>
 					<td data-th-text="*{available}"></td>
-					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+                    <td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+                    <td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 					<td th:if="${editable}">
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">

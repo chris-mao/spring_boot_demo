@@ -39,7 +39,8 @@
 					<th>权限名称</th>
 					<th>资源路径</th>
 					<th>权限可用</th>
-					<th>创建日期</th>
+					<th>创建时间</th>
+                    <th>更新时间</th>
 					<th th:if="${editable}"></th>
 				</tr>
 			</thead>
@@ -49,7 +50,8 @@
 					<td data-th-text="*{permissionName}"></td>
 					<td data-th-text="*{permissionUrl}"></td>
 					<td data-th-text="*{available}"></td>
-					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+					<td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+					<td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 					<td th:if="${editable}">
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">

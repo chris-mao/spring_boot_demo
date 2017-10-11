@@ -36,8 +36,8 @@
 					<th>国家</th>
 					<th>客户名称</th>
 					<th>有效</th>
-					<th>创建日期</th>
-					<th>更新日期</th>
+					<th>创建时间</th>
+					<th>更新时间</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,8 +48,8 @@
 					<td data-th-text="*{country}"></td>
 					<td data-th-text="*{customerName}"></td>
 					<td data-th-text="*{available}"></td>
-					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
-					<td data-th-text="*{#dates.format(updateTime, 'yyyy-MM-dd')}"></td>
+					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+					<td data-th-text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 				</tr>
 			</tbody>
 		</table>

@@ -22,9 +22,9 @@
 							<li><label>客户名称</label> <span
 								th:text="${customer.customerName}"></span></li>
 							<li><label>创建时间</label> <span
-								th:text="${#dates.format(customer.createdTime, 'yyyy-MM-dd')}"></span></li>
+								th:text="${#dates.format(customer.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
 							<li><label>更新时间</label> <span
-								th:text="${#dates.format(customer.updateTime, 'yyyy-MM-dd')}"></span></li>
+								th:text="${#dates.format(customer.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
 
 						</ul>
 					</div>
@@ -43,6 +43,7 @@
 									<th>业务工厂</th>
 									<th>详细地址</th>
 									<th>创建时间</th>
+									<th>更新时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -50,7 +51,8 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -71,6 +73,7 @@
 									<th>业务工厂</th>
 									<th>详细地址</th>
 									<th>创建时间</th>
+                                    <th>更新时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -78,7 +81,8 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -99,6 +103,7 @@
 									<th>业务工厂</th>
 									<th>详细地址</th>
 									<th>创建时间</th>
+                                    <th>更新时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -106,7 +111,8 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>

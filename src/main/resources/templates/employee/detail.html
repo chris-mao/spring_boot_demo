@@ -25,9 +25,9 @@
 							</li>
 							<li><label>Oracle帐号</label> <span
 								th:text="${employee.oracleAccount}">oracle_account</span></li>
-							<li><label>创建时间</label> <span th:text="${createdTime}">created_time</span>
+							<li><label>创建时间</label> <span th:text="${#dates.format(employee.createdTime, 'yyyy-MM-dd HH:mm:ss')}">created_time</span>
 							</li>
-							<li><label>更新时间</label> <span th:text="${upateTime}">update_time</span>
+							<li><label>更新时间</label> <span th:text="${#dates.format(employee.updateTime, 'yyyy-MM-dd HH:mm:ss')}">update_time</span>
 							</li>
 						</ul>
 					</div>

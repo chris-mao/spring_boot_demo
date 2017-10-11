@@ -36,9 +36,9 @@
 					<th>显示昵称</th>
 					<th>电子邮件</th>
 					<th>状态</th>
-					<th>加密盐</th>
 					<th>用户有效</th>
-					<th>创建日期</th>
+					<th>创建时间</th>
+					<th>更新时间</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -51,9 +51,9 @@
 					<td><a data-th-text="*{email}"
 						th:href="@{'mailto:' + *{email}}"></a></td>
 					<td data-th-text="*{state}"></td>
-					<td data-th-text="*{salt}"></td>
 					<td data-th-text="*{available}"></td>
-					<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
+                    <td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+                    <td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 					<td>
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
