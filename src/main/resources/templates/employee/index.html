@@ -45,24 +45,27 @@
 			</thead>
 			<tbody>
 				<tr th:each="employee : ${employeeList}" th:object="${employee}">
-					<td><a href="#" th:href="@{/employeese/{id}(id=*{employeeId})}"
+					<td><a href="#"
+						th:href="@{/employeese/{id}(id=*{employeeId})}"
 						th:text="*{employeeName}"> </a></td>
 					<td th:text="*{phone}"></td>
 					<td th:text="*{fax}"></td>
 					<td th:text="*{email}"></td>
 					<td th:if="${editable}">
-                        <div class="btn-toolbar pull-right hidden-print">
-                            <div class="btn-group btn-group-xs">
-                                <shiro:hasPermission name="employee:edit">
-                                    <a class="btn btn-default" title="修改员工"
-                                        th:href="@{/employees/{id}/edit(id=*{employeeId})}">编辑</a>
-                                </shiro:hasPermission>
-                                <shiro:hasPermission name="employee:delete">
-                                    <a class="btn btn-danger" title="删除该员工"
-                                        th:href="@{/employees/{id}/del(id=*{employeeId})}">删除</a>
-                                </shiro:hasPermission>
-                            </div>
-                        </div></td>
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<shiro:hasPermission name="employee:edit">
+									<a class="btn btn-default" title="修改员工"
+										th:href="@{/employees/{id}/edit(id=*{employeeId})}">编辑</a>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="employee:delete">
+									<a class="btn btn-danger" title="删除该员工"
+										onclick="if(confirm('确定删除?')==false)return false;"
+										th:href="@{/employees/{id}/del(id=*{employeeId})}">删除</a>
+								</shiro:hasPermission>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>

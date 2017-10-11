@@ -43,8 +43,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-th-each="user, state: ${userList}"
-					data-th-object="${user}">
+				<tr data-th-each="user, state: ${userList}" data-th-object="${user}">
 					<td><a data-th-href="@{'/users/' + *{userId}}"
 						data-th-text="*{userName}"></a></td>
 					<td data-th-text="*{nickName}"></td>
@@ -52,8 +51,10 @@
 						th:href="@{'mailto:' + *{email}}"></a></td>
 					<td data-th-text="*{state}"></td>
 					<td data-th-text="*{available}"></td>
-                    <td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
-                    <td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+					<td><span th:if="*{createdTime}"
+						th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+					<td><span th:if="*{updateTime}"
+						th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 					<td>
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
@@ -67,6 +68,7 @@
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authUser:delete">
 									<a class="btn btn-danger" title="删除该用户"
+										onclick="if(confirm('确定删除?')==false)return false;"
 										th:href="@{/users/{id}/del(id=*{userId})}">删除</a>
 								</shiro:hasPermission>
 							</div>

@@ -40,7 +40,7 @@
 					<th>资源路径</th>
 					<th>权限可用</th>
 					<th>创建时间</th>
-                    <th>更新时间</th>
+					<th>更新时间</th>
 					<th th:if="${editable}"></th>
 				</tr>
 			</thead>
@@ -50,8 +50,10 @@
 					<td data-th-text="*{permissionName}"></td>
 					<td data-th-text="*{permissionUrl}"></td>
 					<td data-th-text="*{available}"></td>
-					<td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
-					<td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+					<td><span th:if="*{createdTime}"
+						th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+					<td><span th:if="*{updateTime}"
+						th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 					<td th:if="${editable}">
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
@@ -61,6 +63,7 @@
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authPermission:delete">
 									<a class="btn btn-danger" title="删除该权限"
+										onclick="if(confirm('确定删除?')==false)return false;"
 										th:href="@{/permissions/{id}/del(id=*{permissionId})}">删除</a>
 								</shiro:hasPermission>
 							</div>
