@@ -14,6 +14,11 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">基本信息</div>
 					<div class="panel-body">
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<a class="btn btn-default" th:href="@{/customers}">返回列表</a>
+							</div>
+						</div>
 						<ul class="data-list">
 							<li><label>客户代码</label> <span
 								th:text="${customer.accountNumber}"></span></li>
@@ -51,8 +56,10 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-									<td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -73,7 +80,7 @@
 									<th>业务工厂</th>
 									<th>详细地址</th>
 									<th>创建时间</th>
-                                    <th>更新时间</th>
+									<th>更新时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -81,8 +88,10 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -103,7 +112,7 @@
 									<th>业务工厂</th>
 									<th>详细地址</th>
 									<th>创建时间</th>
-                                    <th>更新时间</th>
+									<th>更新时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -111,8 +120,10 @@
 									<td th:text="*{siteId}"></td>
 									<td th:text="*{operationUnitId} + '- ' + *{operationUnitName}"></td>
 									<td th:text="*{address}"></td>
-									<td th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td
+										th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -129,7 +140,9 @@
 						th:replace="employee/index::showEmployeese(${employeese}, false)"></div>
 					<p class="text-center text-warning"
 						style="padding-top: 1rem; padding-bottom: 2rem;"
-						th:if="${#lists.isEmpty(employeese)}">哇喔〜〜〜，目前系统中还没有为您指定接洽人员。</p>
+						th:if="${#lists.isEmpty(employeese)}">
+						<small>哇喔〜〜〜，目前系统中还没有为您指定接洽人员。</small>
+					</p>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 table-responsive">
@@ -139,7 +152,9 @@
 						th:replace="price/index::showPriceList(${priceList})"></div>
 					<p class="text-center text-warning"
 						style="padding-top: 1rem; padding-bottom: 2rem;"
-						th:if="${#lists.isEmpty(priceList)}">太遗憾了，目前系统中还没有为您指定可用的价格表。</p>
+						th:if="${#lists.isEmpty(priceList)}">
+						<small>太遗憾了，目前系统中还没有为您指定可用的价格表。</small>
+					</p>
 				</div>
 			</div>
 		</div>

@@ -9,51 +9,41 @@
 <body>
 	<div layout:fragment="content">
 		<div class="row">
-			<div class="table-responsive col-lg-12 col-md-12 col-sm-12 xol-xs-12">
-				<div class="btn-toolbar pull-right hidden-print">
-					<div class="btn-group btn-group-xs">
-						<shiro:hasPermission name="authUser:edit">
-							<a class="btn btn-default"
-								th:href="@{/users/{id}/edit(id=${user.userId})}">编辑</a>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="authUser:change-password">
-							<a class="btn btn-warning"
-								th:href="@{/users/{id}/change-psd(id=${user.userId})}">修改密码</a>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="authUser:delete">
-							<a class="btn btn-danger" title="删除该用户"
-								th:href="@{/users/{id}/del(id=${user.userId})}">删除</a>
-						</shiro:hasPermission>
-						<a class="btn btn-default" th:href="@{/users}">返回列表</a>
+			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">基本信息</div>
+					<div class="panel-body">
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<shiro:hasPermission name="authUser:edit">
+									<a class="btn btn-default"
+										th:href="@{/users/{id}/edit(id=${user.userId})}">编辑</a>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authUser:change-password">
+									<a class="btn btn-warning"
+										th:href="@{/users/{id}/change-psd(id=${user.userId})}">修改密码</a>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="authUser:delete">
+									<a class="btn btn-danger" title="删除该用户"
+										onclick="if(confirm('确定删除?')==false)return false;"
+										th:href="@{/users/{id}/del(id=${user.userId})}">删除</a>
+								</shiro:hasPermission>
+								<a class="btn btn-default" th:href="@{/users}">返回列表</a>
+							</div>
+						</div>
+						<ul class="data-list" data-th-object="${user}">
+							<li><label>登录名称</label> <span th:text="*{userName}"></span></li>
+							<li><label>显示昵称</label> <span th:text="*{nickName}"></span></li>
+							<li><label>电子邮件</label> <span th:text="*{email}"></span></li>
+							<li><label>状态</label> <span th:text="*{state}"></span></li>
+							<li><label>创建时间</label> <span
+								th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
+							<li><label>更新时间</label> <span
+								th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
+							<li><label>用户有效</label> <input type="checkbox"
+								th:field="*{available}" /></li>
+						</ul>
 					</div>
-				</div>
-				<div>
-					<table class="table table-responsive table-striped table-condensed">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>登录名称</th>
-								<th>显示昵称</th>
-								<th>电子邮件</th>
-								<th>状态</th>
-								<th>加密盐</th>
-								<th>用户有效</th>
-								<th>创建日期</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr data-th-object="${user}">
-								<td data-th-text="*{userId}"></td>
-								<td data-th-text="*{userName}"></td>
-								<td data-th-text="*{nickName}"></td>
-								<td data-th-text="*{email}"></td>
-								<td data-th-text="*{state}"></td>
-								<td data-th-text="*{salt}"></td>
-								<td data-th-text="*{available}"></td>
-								<td data-th-text="*{#dates.format(createdTime, 'yyyy-MM-dd')}"></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>
@@ -93,7 +83,7 @@
 						<ul class="list-group">
 							<li class="list-group-item" th:each="role: ${roles}"
 								th:object="${role}"><label><input type="checkbox"
-									th:value="*{roleId}" 
+									th:value="*{roleId}"
 									th:checked="${#lists.contains(myRoles, role)}" />&nbsp;&nbsp;<span
 									th:utext="*{roleName}"></span></label></li>
 						</ul>
@@ -107,28 +97,31 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" id="save-data-url" th:value="@{/users/{id}/roles(id=${user.userId})}" />
-		
-        <script type="text/javascript">
-            $("#modal_dialog").on("hidden.bs.modal", function(e) {
-                var roles = new Array();
-                $(".list-group li input:checkbox").each(function() {
-                	if ($(this).prop("checked") == true) {
-                		roles.push($(this).val());
-                	}
-                });
-                alert(roles.join(","));
-                $.ajax({
-                    type : 'post',
-                    url : $("#save-data-url").val(),
-                    dataType : 'json',
-                    data:[{"roles":roles.join(",")}],
-                    success : function(data) {
-                        //
-                    }
-                });
-            });
-        </script>
+		<input type="hidden" id="save-data-url"
+			th:value="@{/users/{id}/roles(id=${user.userId})}" />
+
+		<script type="text/javascript">
+			$("#modal_dialog").on("hidden.bs.modal", function(e) {
+				var roles = new Array();
+				$(".list-group li input:checkbox").each(function() {
+					if ($(this).prop("checked") == true) {
+						roles.push($(this).val());
+					}
+				});
+				alert(roles.join(","));
+				$.ajax({
+					type : 'post',
+					url : $("#save-data-url").val(),
+					dataType : 'json',
+					data : [ {
+						"roles" : roles.join(",")
+					} ],
+					success : function(data) {
+						//
+					}
+				});
+			});
+		</script>
 	</div>
 </body>
 </html>
