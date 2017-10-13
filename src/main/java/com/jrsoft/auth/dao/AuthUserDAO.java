@@ -140,7 +140,7 @@ public interface AuthUserDAO {
 	 * @param roleId
 	 * @return
 	 */
-	@Insert("INSERT IGNORE auth_user_role(user_id, role_id, available, start_date) VALUE(#{userId}, #{roleId}, 1, NOW())")
+	@Insert("INSERT IGNORE auth_user_role(user_id, role_id, available, start_date, created_time) VALUE(#{userId}, #{roleId}, 1, CURDATE(), NOW())")
 	public int addRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
 
 	/**
@@ -152,4 +152,11 @@ public interface AuthUserDAO {
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
 	public int removeRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
+	
+	/**
+	 * 移除指定用户的所有角色
+	 * @param userId
+	 */
+	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId}")
+	public void removeAllRoles(@Param(value = "userId") Integer userId);
 }

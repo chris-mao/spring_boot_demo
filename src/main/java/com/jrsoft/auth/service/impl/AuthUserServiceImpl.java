@@ -90,4 +90,12 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
 	}
 
+	@Override
+	public void removeAllRoles(AuthUser user) {
+		if (null != user.getUserId()) {
+			this.authUserDAO.removeAllRoles(user.getUserId());
+		}
+
+	}
+
 }

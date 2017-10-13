@@ -114,4 +114,11 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		return 1 == this.authRoleDAO.removePermission(role.getRoleId(), permission.getPermissionId());
 	}
 
+	@Override
+	public void removeAllPermissions(AuthRole role) {
+		if (null != role.getRoleId()) {
+			this.authRoleDAO.removeAllPermissions(role.getRoleId());
+		}
+	}
+
 }

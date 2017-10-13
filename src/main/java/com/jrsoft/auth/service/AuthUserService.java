@@ -100,4 +100,11 @@ public interface AuthUserService {
 	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean removeRole(AuthUser user, AuthRole role);
+	
+	/**
+	 * 移除指定用户的所有角色
+	 * 
+	 * @param user
+	 */
+	public void removeAllRoles(AuthUser user);
 }

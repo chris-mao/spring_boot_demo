@@ -1,5 +1,6 @@
 package com.jrsoft.auth.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,12 +15,14 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
+import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
@@ -164,6 +167,33 @@ public class AuthRoleController {
 			this.authRoleService.update(authRole);
 		}
 		return "auth/role/save";
+	}
+	
+	/**
+	 * 分配权限到指定角色，先将该角色所有权限删除，再重新分配
+	 * 
+	 * Ajax调用
+	 * 
+	 * @param id
+	 * @param permissionIds
+	 * @return
+	 */
+	@PostMapping("/{id}/permissions")
+	@ResponseBody
+	public String assignRoles(@PathVariable("id") Integer id, @RequestBody List<Integer> permissionIds) {
+		System.out.println("权限分配：ROLE ==> " + id + "   PERMISSIONS ==>" + permissionIds.toString());
+
+		AuthRole role = new AuthRole();
+		AuthPermission permission = new AuthPermission();
+		role.setRoleId(id);
+		this.authRoleService.removeAllPermissions(role);
+
+		Iterator<Integer> iterator = permissionIds.iterator();
+		while (iterator.hasNext()) {
+			permission.setPermissionId(iterator.next());
+			authRoleService.addPermission(role, permission);
+		}
+		return "ok";
 	}
 
 	/**

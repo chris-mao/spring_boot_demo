@@ -86,11 +86,9 @@ public interface AuthRoleDAO {
 	 * @param userName
 	 * @return Set
 	 */
-	// @SelectProvider(method = "findAllRolesByUserId", type =
+	// @SelectProvider(method = "findAllByUserIdSql", type =
 	// AuthRoleDynaSqlProvider.class)
 	@Select("CALL sp_findUserRoles(#{id})")
-	// @Select("SELECT role_id, role_name, available, created_time, update_time
-	// FROM vw_auth_user_role WHERE user_id = #{id}")
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
@@ -135,7 +133,7 @@ public interface AuthRoleDAO {
 	 * @param permissionId
 	 * @return
 	 */
-	@Insert("INSERT IGNORE auth_role_permission(role_id, permission_id, available, start_date) VALUE(#{roleId}, #{permissionId}, 1, NOW())")
+	@Insert("INSERT IGNORE auth_role_permission(role_id, permission_id, available, start_date, created_time) VALUE(#{roleId}, #{permissionId}, 1, CURDATE(), NOW())")
 	public int addPermission(@Param(value = "roleId") Integer roleId,
 			@Param(value = "permissionId") Integer permissionId);
 
@@ -149,5 +147,13 @@ public interface AuthRoleDAO {
 	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId} AND permission_id = #{permissionId}")
 	public int removePermission(@Param(value = "roleId") Integer roleId,
 			@Param(value = "permissionId") Integer permissionId);
+	
+	/**
+	 * 移除指定角色上所有权限
+	 * 
+	 * @param roleId
+	 */
+	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId}")
+	public void removeAllPermissions(@Param(value = "roleId") Integer roleId);
 
 }

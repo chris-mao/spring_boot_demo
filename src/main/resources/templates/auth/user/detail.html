@@ -5,14 +5,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>系统用户详情</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap-switch.min.css}" />
+<script type="text/javascript" th:src="@{/js/bootstrap-switch.min.js}"></script>
+<script>
+	$(document).ready(function() {
+		$('input:checkbox').bootstrapSwitch();
+	});
+</script>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+			<div class="col-lg-6 col-md-6 col-sm-12 xol-xs-12">
 				<div class="panel panel-success">
-					<div class="panel-heading">基本信息</div>
-					<div class="panel-body">
+					<div class="panel-heading">
+						基本信息
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
 								<shiro:hasPermission name="authUser:edit">
@@ -31,41 +38,54 @@
 								<a class="btn btn-default" th:href="@{/users}">返回列表</a>
 							</div>
 						</div>
-						<ul class="data-list" data-th-object="${user}">
+					</div>
+					<div class="panel-body">
+						<ul class="data-list" th:object="${user}">
 							<li><label>登录名称</label> <span th:text="*{userName}"></span></li>
 							<li><label>显示昵称</label> <span th:text="*{nickName}"></span></li>
-							<li><label>电子邮件</label> <span th:text="*{email}"></span></li>
+							<li><label>电子邮件</label> <a th:text="*{email}"
+								th:href="@{'mailto:' + *{email}}"></a></li>
 							<li><label>状态</label> <span th:text="*{state}"></span></li>
 							<li><label>创建时间</label> <span
 								th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
 							<li><label>更新时间</label> <span
 								th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
-							<li><label>用户有效</label> <input type="checkbox"
-								th:field="*{available}" /></li>
+							<li><label>用户有效</label>
+								<div
+									class="bootstrap-switch bootstrap-switch-mini bootstrap-switch-readonly"
+									data-on-text="有效" data-off-text="禁用">
+									<input type="checkbox" th:field="*{available}"
+										checked="checked" readonly="readonly" />
+								</div></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="panel panel-success">
-			<div class="panel-heading">
-				已分配角色
-				<div class="btn-toolbar pull-right hidden-print">
-					<div class="btn-group btn-group-xs">
-						<button class="btn btn-default" data-toggle="modal"
-							data-target="#modal_dialog">添加／删除角色</button>
+			<div class="col-lg-6 col-md-6 col-sm-12 xol-xs-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						已分配角色
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<button class="btn btn-default" data-toggle="modal"
+									data-target="#modal_dialog">添加／删除角色</button>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group" th:if="${not #lists.isEmpty(myRoles)}">
+							<li class="list-group-item" th:each="role: ${myRoles}"
+								th:object="${role}"><label th:utext="*{roleName}"></label></li>
+						</ul>
+						<p class="text-center text-warning"
+							style="padding-top: 1rem; padding-bottom: 2rem;"
+							th:if="${#lists.isEmpty(myRoles)}">
+							<small>哇喔〜〜〜，该用户尚未分配任何角色，请点击右上角<code>添加／删除角色</code>按钮为其添加角色。
+							</small>
+						</p>
 					</div>
 				</div>
 			</div>
-			<div th:if="${not #lists.isEmpty(myRoles)}"
-				th:replace="auth/role/index::showRoles(${myRoles}, false)"></div>
-			<p class="text-center text-warning"
-				style="padding-top: 1rem; padding-bottom: 2rem;"
-				th:if="${#lists.isEmpty(myRoles)}">
-				<small>哇喔〜〜〜，该用户尚未分配任何角色，请点击右上角<code>添加／删除角色</code>按钮为其添加角色。
-				</small>
-			</p>
 		</div>
 
 		<div class="modal fade" role="dialog" tabIndex="-1" id="modal_dialog"
@@ -82,10 +102,11 @@
 						style="height: 360px; overflow-y: scroll">
 						<ul class="list-group">
 							<li class="list-group-item" th:each="role: ${roles}"
-								th:object="${role}"><label><input type="checkbox"
-									th:value="*{roleId}"
-									th:checked="${#lists.contains(myRoles, role)}" />&nbsp;&nbsp;<span
-									th:utext="*{roleName}"></span></label></li>
+								th:object="${role}"><label th:utext="*{roleName}"></label>
+								<div class="bootstrap-switch bootstrap-switch-mini pull-right">
+									<input type="checkbox" th:value="*{roleId}"
+										th:checked="${#lists.contains(myRoles, role)}" />
+								</div></li>
 						</ul>
 					</div>
 					<div id="" class="modal-footer">
@@ -99,28 +120,32 @@
 		</div>
 		<input type="hidden" id="save-data-url"
 			th:value="@{/users/{id}/roles(id=${user.userId})}" />
-
 		<script type="text/javascript">
-			$("#modal_dialog").on("hidden.bs.modal", function(e) {
-				var roles = new Array();
-				$(".list-group li input:checkbox").each(function() {
-					if ($(this).prop("checked") == true) {
-						roles.push($(this).val());
-					}
-				});
-				alert(roles.join(","));
-				$.ajax({
-					type : 'post',
-					url : $("#save-data-url").val(),
-					dataType : 'json',
-					data : [ {
-						"roles" : roles.join(",")
-					} ],
-					success : function(data) {
-						//
-					}
-				});
-			});
+			$("#save_button").click(
+					function() {
+						var roles = new Array();
+						$("#modal_content_div .list-group li input:checkbox")
+								.each(function() {
+									if ($(this).prop("checked") == true) {
+										roles.push($(this).val());
+									}
+								});
+						$.ajax({
+							type : "post",
+							url : $("#save-data-url").val(),
+							data : JSON.stringify(roles),
+							contentType : "application/json;charset=utf-8",
+							success : function(data) {
+								window.location.reload();
+							},
+							error : function(data, s) {
+								console.log("请求错误");
+								console.log(data);
+								console.log(s);
+							}
+						});
+						$("#modal_dialog").modal("hide");
+					});
 		</script>
 	</div>
 </body>

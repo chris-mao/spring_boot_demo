@@ -99,4 +99,11 @@ public interface AuthRoleService {
 	 * @return 成功返回true,否则返回false
 	 */
 	public boolean removePermission(AuthRole role, AuthPermission permission);
+	
+	/**
+	 * 移除指定角色上所有权限
+	 * 
+	 * @param role
+	 */
+	public void removeAllPermissions(AuthRole role);
 }

@@ -1,8 +1,8 @@
 package com.jrsoft.auth.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -15,13 +15,14 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
+import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
@@ -42,7 +43,7 @@ public class AuthUserController {
 
 	@Resource
 	private AuthUserService authUserService;
-	
+
 	@Resource
 	private AuthRoleService authRoleService;
 
@@ -91,9 +92,9 @@ public class AuthUserController {
 	public String viewUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
 		AuthUser user = findUser(id);
 		model.addAttribute("user", user);
-		//获取用户角色
+		// 获取用户角色
 		model.addAttribute("myRoles", authRoleService.findAllByUser(user));
-		//获取所有有效角色
+		// 获取所有有效角色
 		model.addAttribute("roles", this.authRoleService.findAllAvailable());
 		return "auth/user/detail";
 	}
@@ -178,10 +179,33 @@ public class AuthUserController {
 		}
 		return "auth/user/save";
 	}
-	
-	@GetMapping("/{id}/roles")
-	public String assignRoles(@PathVariable("id") Integer id, HttpServletRequest request) {
-		return null;
+
+	/**
+	 * 分配角色到指定用户，先将该用户所有角色删除，再重新分配
+	 * 
+	 * Ajax调用
+	 * 
+	 * @param id
+	 * @param roleIds
+	 * @return
+	 */
+	@PostMapping("/{id}/roles")
+	@ResponseBody
+	public String assignRoles(@PathVariable("id") Integer id, @RequestBody List<Integer> roleIds) {
+		System.out.println("角色分配：USER ==> " + id + "   ROLES ==>" + roleIds.toString());
+
+		AuthUser user = new AuthUser();
+		AuthRole role = new AuthRole();
+		user.setUserId(id);
+		this.authUserService.removeAllRoles(user);
+
+		Iterator<Integer> iterator = roleIds.iterator();
+		while (iterator.hasNext()) {
+			role.setRoleId(iterator.next());
+			authUserService.addRole(user, role);
+		}
+		
+		return "ok";
 	}
 
 	/**
@@ -233,11 +257,11 @@ public class AuthUserController {
 		if (true == this.authUserService.changePassword(id, oldPassword, newPassword)) {
 			return "redirect:/users/" + id;
 		}
-		
+
 		model.addAttribute("msg", "旧密码不正确，请重新输入");
 		return chanegPassword(id, request, model);
 	}
-	
+
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthUser> jsonData() {
