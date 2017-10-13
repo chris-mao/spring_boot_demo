@@ -30,16 +30,14 @@ public interface PriceListLineDAO {
 	 * @param headerId
 	 * @return List
 	 */
-	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = #{header_id}")
+	@Select("SELECT DISTINCT line_id, item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to FROM price_list_line WHERE header_id = #{header_id} ORDER BY start_date_active")
 	@Results({
-			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryModel", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.InventoryModelDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),
 			@Result(property = "minOrderQuantity", column = "qty_from"),
-			@Result(property = "maxOrderQuantity", column = "qty_to"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "maxOrderQuantity", column = "qty_to") })
 	public List<PriceListLine> findAllByHeaderId(@Param(value = "header_id") Integer headerId);
 
 	/**
@@ -48,16 +46,14 @@ public interface PriceListLineDAO {
 	 * @param priceListName
 	 * @return List
 	 */
-	@Select("SELECT item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to, created_time, update_time FROM price_list_line WHERE header_id = (SELECT header_id FROM price_list_header WHERE price_list_name = #{name})")
+	@Select("SELECT DISTINCT line_id, item_id, uom, unit_price, start_date_active, end_date_active, qty_from, qty_to FROM vw_price_list_line WHERE header_id = (SELECT header_id FROM price_list_header WHERE price_list_name = #{name}) ORDER BY start_date_active")
 	@Results({
-			@Result(property = "inventoryItem", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryModel", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.InventoryModelDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),
 			@Result(property = "minOrderQuantity", column = "qty_from"),
-			@Result(property = "maxOrderQuantity", column = "qty_to"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "maxOrderQuantity", column = "qty_to") })
 	public List<PriceListLine> findAllByName(@Param(value = "name") String priceListName);
 
 	/**
@@ -69,14 +65,12 @@ public interface PriceListLineDAO {
 	 */
 	@Select("CALL sp_findAvailableSellingPrice(#{header_id}, #{item_id})")
 	@Results({
-			@Result(property = "inventoryItem", column = "model_id", one = @One(select = "com.jrsoft.inventory.dao.ItemDAO.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "inventoryModel", column = "item_id", one = @One(select = "com.jrsoft.inventory.dao.InventoryModelDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "unitPrice", column = "unit_price"), @Result(property = "uom", column = "uom"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active"),
 			@Result(property = "minOrderQuantity", column = "qty_from"),
-			@Result(property = "maxOrderQuantity", column = "qty_to"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "maxOrderQuantity", column = "qty_to") })
 	public List<PriceListLine> findAllAvailablePriceLines(@Param(value = "header_id") Integer headerId,
 			@Param(value = "item_id") Integer itemId);
 

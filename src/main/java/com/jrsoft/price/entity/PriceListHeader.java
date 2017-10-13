@@ -31,33 +31,34 @@ public class PriceListHeader implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * 价格表头编号
 	 */
+	@NotEmpty(message="")
 	private Integer headerId;
 
 	/**
-	 * 
+	 * 价格表名称
 	 */
 	@NotEmpty(message = "")
 	@Max(value = 128, message = "")
 	private String name;
 
 	/**
-	 * 
+	 * 价格表币别
 	 */
 	@NotEmpty(message = "")
 	@Length(min = 3, max = 10, message = "")
 	private String currency;
 
 	/**
-	 * 
+	 * 价格表生效日期
 	 */
 	@NotEmpty(message = "")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startDate;
 
 	/**
-	 * 
+	 * 价格表失效日期
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endDate;

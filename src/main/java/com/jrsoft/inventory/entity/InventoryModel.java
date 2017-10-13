@@ -4,6 +4,7 @@
 package com.jrsoft.inventory.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.validation.constraints.Max;
@@ -12,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * com.jrsoft.inventory.entity Item
+ * com.jrsoft.inventory.entity model
  * 
  * 库存型号实体类
  *
@@ -21,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version 1.0
  *
  */
-public class Item implements Serializable {
+public class InventoryModel implements Serializable {
 
 	/**
 	 * 
@@ -29,34 +30,29 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * 工厂型号编号
 	 */
-	private Integer itemId;
+	private BigInteger modelId;
 
 	/**
-	 * 
+	 * 工厂型号名称
 	 */
 	@NotEmpty(message = "工厂型号名称不允许为空")
 	@Max(value = 64, message = "工厂型号最大长度不能超过64位")
-	private String itemName;
+	private String modelName;
 
 	/**
-	 * 
+	 * 工厂型号短描述
 	 */
 	@Max(value = 128, message = "工厂型号描述最大长度不能超过128位")
-	private String itemDescription;
+	private String modelDescription;
 
 	/**
-	 * 
+	 * 工厂型号长描述
 	 */
 	@Max(value = 1024, message = "工厂型号中文描述最大长度不能超过1024位")
-	private String itemChineseDescription;
-
-	/**
-	 * 库存组织
-	 */
-	private String source;
-
+	private String modelChineseDescription;
+	
 	/**
 	 * 创建时间
 	 */
@@ -75,63 +71,63 @@ public class Item implements Serializable {
 	private boolean available = true;
 
 	/**
-	 * @return the itemId
+	 * @return the modelId
 	 */
-	public Integer getItemId() {
-		return itemId;
+	public BigInteger getModelId() {
+		return modelId;
 	}
 
 	/**
-	 * @param itemId
-	 *            the itemId to set
+	 * @param modelId
+	 *            the modelId to set
 	 */
-	public void setItemId(Integer itemId) {
-		this.itemId = itemId;
+	public void setModelId(BigInteger modelId) {
+		this.modelId = modelId;
 	}
 
 	/**
-	 * @return the itemName
+	 * @return the modelName
 	 */
-	public String getItemName() {
-		return itemName;
+	public String getModelName() {
+		return modelName;
 	}
 
 	/**
-	 * @param itemName
-	 *            the itemName to set
+	 * @param modelName
+	 *            the modelName to set
 	 */
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
 	}
 
 	/**
-	 * @return the itemDescription
+	 * @return the modelDescription
 	 */
-	public String getItemDescription() {
-		return itemDescription;
+	public String getModelDescription() {
+		return modelDescription;
 	}
 
 	/**
-	 * @param itemDescription
-	 *            the itemDescription to set
+	 * @param modelDescription
+	 *            the modelDescription to set
 	 */
-	public void setItemDescription(String itemDescription) {
-		this.itemDescription = itemDescription;
+	public void setModelDescription(String modelDescription) {
+		this.modelDescription = modelDescription;
 	}
 
 	/**
-	 * @return the itemChineseDescription
+	 * @return the modelChineseDescription
 	 */
-	public String getItemChineseDescription() {
-		return itemChineseDescription;
+	public String getModelChineseDescription() {
+		return modelChineseDescription;
 	}
 
 	/**
-	 * @param itemChineseDescription
-	 *            the itemChineseDescription to set
+	 * @param modelChineseDescription
+	 *            the modelChineseDescription to set
 	 */
-	public void setItemChineseDescription(String itemChineseDescription) {
-		this.itemChineseDescription = itemChineseDescription;
+	public void setModelChineseDescription(String modelChineseDescription) {
+		this.modelChineseDescription = modelChineseDescription;
 	}
 
 	/**
@@ -186,8 +182,8 @@ public class Item implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", itemDescription=" + itemDescription
-				+ ", itemChineseDescription=" + itemChineseDescription + ", createdTime=" + createdTime
+		return "InventoryModel [modelId=" + modelId + ", modelName=" + modelName + ", modelDescription=" + modelDescription
+				+ ", modelChineseDescription=" + modelChineseDescription + ", createdTime=" + createdTime
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
@@ -200,8 +196,8 @@ public class Item implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
-		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+		result = prime * result + ((modelId == null) ? 0 : modelId.hashCode());
+		result = prime * result + ((modelName == null) ? 0 : modelName.hashCode());
 		return result;
 	}
 
@@ -218,26 +214,18 @@ public class Item implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Item other = (Item) obj;
-		if (itemId == null) {
-			if (other.itemId != null)
+		InventoryModel other = (InventoryModel) obj;
+		if (modelId == null) {
+			if (other.modelId != null)
 				return false;
-		} else if (!itemId.equals(other.itemId))
+		} else if (!modelId.equals(other.modelId))
 			return false;
-		if (itemName == null) {
-			if (other.itemName != null)
+		if (modelName == null) {
+			if (other.modelName != null)
 				return false;
-		} else if (!itemName.equals(other.itemName))
+		} else if (!modelName.equals(other.modelName))
 			return false;
 		return true;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
 	}
 
 }

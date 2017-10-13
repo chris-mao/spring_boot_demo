@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.inventory.entity.Item;
-import com.jrsoft.inventory.service.ItemService;
+import com.jrsoft.inventory.entity.InventoryModel;
+import com.jrsoft.inventory.service.InventoryModelService;
 
 /**
  * 工厂型号控制器类
@@ -27,18 +27,18 @@ import com.jrsoft.inventory.service.ItemService;
  *
  */
 @Controller
-@RequestMapping("/items")
-public class ItemController {
+@RequestMapping("/models")
+public class InventoryModelController {
 	
 	@Resource
-	private ItemService itemService;
+	private InventoryModelService inventoryModelService;
 	
 	@GetMapping({"", "/index"})
-	@RequiresPermissions("item:list")
+	@RequiresPermissions("model:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model) {
-		PageInfo<Item> items = this.itemService.findAll(page);
+		PageInfo<InventoryModel> items = inventoryModelService.findAll(page);
 		model.addAttribute("page", items);
-		return "item/index";
+		return "model/index";
 	}
 
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.jrsoft.inventory.entity.Item;
+import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
  * 价格表行实体类
@@ -30,59 +30,51 @@ public class PriceListLine implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 工厂型号
+	 * 价格表行编号
 	 */
-	private Item inventoryItem;
+	private Integer lineId;
 	
 	/**
-	 * 
+	 * 工厂型号实体类
 	 */
-	@NotEmpty(message="")
+	private InventoryModel inventoryModel;
+
+	/**
+	 * 报价单位
+	 */
+	@NotEmpty(message = "")
 	private String uom;
-	
+
 	/**
-	 * 
+	 * 销售单价
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private Double unitPrice;
-	
+
 	/**
-	 * 
+	 * 最小订购量，-222表示无最小订购量
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private BigInteger minOrderQuantity;
-	
+
 	/**
-	 * 
+	 * 最大订购量，-222表示无最大订购量
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private BigInteger maxOrderQuantity;
 
 	/**
-	 * 
+	 * 销售价格生效日期
 	 */
 	@NotEmpty(message = "")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 
 	/**
-	 * 
+	 * 销售价格失效日期
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
-	
-
-	/**
-	 * 创建时间
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createdTime;
-
-	/**
-	 * 更新时间
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
 
 	/**
 	 * @return the uom
@@ -92,7 +84,8 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param uom the uom to set
+	 * @param uom
+	 *            the uom to set
 	 */
 	public void setUom(String uom) {
 		this.uom = uom;
@@ -106,7 +99,8 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param unitPrice the unitPrice to set
+	 * @param unitPrice
+	 *            the unitPrice to set
 	 */
 	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
@@ -120,7 +114,8 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param minOrderQuantity the minOrderQuantity to set
+	 * @param minOrderQuantity
+	 *            the minOrderQuantity to set
 	 */
 	public void setMinOrderQuantity(BigInteger minOrderQuantity) {
 		this.minOrderQuantity = minOrderQuantity;
@@ -134,7 +129,8 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param maxOrderQuantity the maxOrderQuantity to set
+	 * @param maxOrderQuantity
+	 *            the maxOrderQuantity to set
 	 */
 	public void setMaxOrderQuantity(BigInteger maxOrderQuantity) {
 		this.maxOrderQuantity = maxOrderQuantity;
@@ -148,7 +144,8 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param startDate the startDate to set
+	 * @param startDate
+	 *            the startDate to set
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -162,46 +159,27 @@ public class PriceListLine implements Serializable {
 	}
 
 	/**
-	 * @param endDate the endDate to set
+	 * @param endDate
+	 *            the endDate to set
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
-	/**
-	 * @return the createdTime
-	 */
-	public Date getCreatedTime() {
-		return createdTime;
+	public Integer getLineId() {
+		return lineId;
 	}
 
-	/**
-	 * @param createdTime the createdTime to set
-	 */
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
+	public void setLineId(Integer lineId) {
+		this.lineId = lineId;
 	}
 
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
+	public InventoryModel getInventoryModel() {
+		return inventoryModel;
 	}
 
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public Item getInventoryItem() {
-		return inventoryItem;
-	}
-
-	public void setInventoryItem(Item inventoryItem) {
-		this.inventoryItem = inventoryItem;
+	public void setInventoryModel(InventoryModel inventoryModel) {
+		this.inventoryModel = inventoryModel;
 	}
 
 	/* (non-Javadoc)
@@ -209,10 +187,9 @@ public class PriceListLine implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PriceListLine [inventoryItem=" + inventoryItem + ", uom=" + uom + ", unitPrice=" + unitPrice
-				+ ", minOrderQuantity=" + minOrderQuantity + ", maxOrderQuantity=" + maxOrderQuantity + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", createdTime=" + createdTime + ", updateTime=" + updateTime
-				+ "]";
+		return "PriceListLine [lineId=" + lineId + ", inventoryModel=" + inventoryModel + ", uom=" + uom
+				+ ", unitPrice=" + unitPrice + ", minOrderQuantity=" + minOrderQuantity + ", maxOrderQuantity="
+				+ maxOrderQuantity + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
 }

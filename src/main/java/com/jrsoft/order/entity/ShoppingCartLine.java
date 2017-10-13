@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.jrsoft.customer.entity.CustomerSite;
-import com.jrsoft.inventory.entity.Item;
+import com.jrsoft.inventory.entity.InventoryModel;
 import com.jrsoft.price.entity.PriceListHeader;
 
 /**
@@ -35,7 +35,7 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * 
 	 */
-	private Item inventoryItem;
+	private InventoryModel inventoryItem;
 	
 	/**
 	 * 
@@ -79,14 +79,14 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * @return the inventoryItem
 	 */
-	public Item getInventoryItem() {
+	public InventoryModel getInventoryItem() {
 		return inventoryItem;
 	}
 
 	/**
 	 * @param inventoryItem the inventoryItem to set
 	 */
-	public void setInventoryItem(Item inventoryItem) {
+	public void setInventoryItem(InventoryModel inventoryItem) {
 		this.inventoryItem = inventoryItem;
 	}
 

@@ -12,13 +12,15 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
 				<div class="panel panel-success">
-					<div class="panel-heading">基本信息</div>
-					<div class="panel-body">
+					<div class="panel-heading">
+						基本信息
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
 								<a class="btn btn-default" th:href="@{/customers}">返回列表</a>
 							</div>
 						</div>
+					</div>
+					<div class="panel-body">
 						<ul class="data-list">
 							<li><label>客户代码</label> <span
 								th:text="${customer.accountNumber}"></span></li>

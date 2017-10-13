@@ -30,25 +30,24 @@ import com.jrsoft.auth.entity.AuthPermission;
  *
  */
 public interface AuthPermissionDAO {
-	
+
 	/**
 	 * 查询所有权限
 	 * 
-	 * @param onlyAvailable true仅查询所有可用权限，否则查询所有权限
+	 * @param onlyAvailable
+	 *            true仅查询所有可用权限，否则查询所有权限
 	 * 
 	 * @return List
 	 */
 	@SelectProvider(method = "findAllSql", type = AuthPermissionDynaSqlProvider.class)
-	@Results({
-		@Result(property="permissionId", column="permission_id", id=true),
-		@Result(property="permissionName", column="permission_name"),
-		@Result(property="permissionUrl", column="permission_url"),
-		@Result(property="available", column="available"),
-		@Result(property="createdTime", column="created_time"),
-		@Result(property="updateTime", column="update_time")
-	})
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
 	public List<AuthPermission> findAll(@Param(value = "available") boolean onlyAvailable);
-	
+
 	/**
 	 * 按权限编号查询
 	 * 
@@ -56,16 +55,14 @@ public interface AuthPermissionDAO {
 	 * @return AuthPermission
 	 */
 	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM auth_permission WHERE permission_id = #{id}")
-	@Results({
-		@Result(property="permissionId", column="permission_id", id=true),
-		@Result(property="permissionName", column="permission_name"),
-		@Result(property="permissionUrl", column="permission_url"),
-		@Result(property="available", column="available"),
-		@Result(property="createdTime", column="created_time"),
-		@Result(property="updateTime", column="update_time")
-	})
-	public AuthPermission findById(@Param(value = "id")Integer id);
-	
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public AuthPermission findById(@Param(value = "id") Integer id);
+
 	/**
 	 * 按权限名称查询
 	 * 
@@ -73,16 +70,14 @@ public interface AuthPermissionDAO {
 	 * @return AuthPermission
 	 */
 	@Select("SELECT permission_id, permission_name, permission_url, available, created_time, update_time FROM auth_permission WHERE permission_name = #{name}")
-	@Results({
-		@Result(property="permissionId", column="permission_id", id=true),
-		@Result(property="permissionName", column="permission_name"),
-		@Result(property="permissionUrl", column="permission_url"),
-		@Result(property="available", column="available"),
-		@Result(property="createdTime", column="created_time"),
-		@Result(property="updateTime", column="update_time")
-	})
-	public AuthPermission findByName(@Param(value = "name")String permissionName);
-	
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public AuthPermission findByName(@Param(value = "name") String permissionName);
+
 	/**
 	 * 按角色ID查询其所拥有的权限
 	 * 
@@ -90,16 +85,14 @@ public interface AuthPermissionDAO {
 	 * @return
 	 */
 	@Select("CALL sp_findRolePermissions(#{roleId})")
-	@Results({
-		@Result(property="permissionId", column="permission_id", id=true),
-		@Result(property="permissionName", column="permission_name"),
-		@Result(property="permissionUrl", column="permission_url"),
-		@Result(property="available", column="available"),
-		@Result(property="createdTime", column="created_time"),
-		@Result(property="updateTime", column="update_time")
-	})
-	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId")Integer roleId);
-		
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId") Integer roleId);
+
 	/**
 	 * 创建新权限
 	 * 
@@ -107,9 +100,9 @@ public interface AuthPermissionDAO {
 	 * @return 受影响的行数
 	 */
 	@Insert("INSERT INTO auth_permission(permission_name, permission_url, available, created_time) VALUES(#{permissionName}, #{permissionUrl}, #{available}, NOW())")
-	@Options(useGeneratedKeys = true, keyProperty="permissionId")
+	@Options(useGeneratedKeys = true, keyProperty = "permissionId")
 	public int insert(AuthPermission permission);
-	
+
 	/**
 	 * 更新权限
 	 * 
@@ -118,7 +111,7 @@ public interface AuthPermissionDAO {
 	 */
 	@Update("UPDATE auth_permission SET permission_name = #{permissionName}, permission_url = #{permissionUrl}, available = #{available} WHERE permission_id = #{permissionId}")
 	public int udpate(AuthPermission permission);
-	
+
 	/**
 	 * 删除权限
 	 * 
@@ -126,5 +119,5 @@ public interface AuthPermissionDAO {
 	 * @return 受影响的行数
 	 */
 	@Delete("DELETE FROM auth_permission WHERE permission_id = #{id}")
-	public int delete(@Param(value = "id")Integer id);
+	public int delete(@Param(value = "id") Integer id);
 }

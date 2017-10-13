@@ -3,8 +3,6 @@
  */
 package com.jrsoft.inventory.service;
 
-import static org.junit.Assert.*;
-
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -14,9 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.employee.entity.Employee;
-import com.jrsoft.inventory.entity.Item;
-import com.jrsoft.inventory.service.impl.ItemServiceImpl;
+import com.jrsoft.inventory.entity.InventoryModel;
+import com.jrsoft.inventory.service.impl.InventoryModelServiceImpl;
 
 /**
  * com.jrsoft.inventory.service ItemServiceTest
@@ -28,10 +25,10 @@ import com.jrsoft.inventory.service.impl.ItemServiceImpl;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ItemServiceTest extends ItemServiceImpl {
+public class ItemServiceTest extends InventoryModelServiceImpl {
 	
 	@Resource
-	private ItemService itemService;
+	private InventoryModelService itemService;
 
 //	@Test
 	public void testFindAll() {
@@ -40,7 +37,7 @@ public class ItemServiceTest extends ItemServiceImpl {
 	
 	@Test
 	public void testFindAllInt() {
-		PageInfo<Item> page = itemService.findAll(1);
+		PageInfo<InventoryModel> page = itemService.findAll(1);
 		Assert.assertNotNull(page);
 		Assert.assertEquals(true, page.isIsFirstPage());
 		Assert.assertEquals(15, page.getList().size());
@@ -48,8 +45,8 @@ public class ItemServiceTest extends ItemServiceImpl {
 	
 	@Test
 	public void testFindOne() {
-		Item item = new Item();
-		item.setItemName("3465300");
+		InventoryModel item = new InventoryModel();
+		item.setModelName("3465300");
 		Assert.assertNotNull(itemService.findOne(item));
 	}
 	

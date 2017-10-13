@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.jrsoft.inventory.entity.Item;
+import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
  * @author chrismao
@@ -30,7 +30,7 @@ public class OrderLine implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message="")
-	private Item inventoryItem;
+	private InventoryModel inventoryItem;
 
 	/**
 	 * 
@@ -60,14 +60,14 @@ public class OrderLine implements Serializable {
 	/**
 	 * @return the inventoryItem
 	 */
-	public Item getInventoryItem() {
+	public InventoryModel getInventoryItem() {
 		return inventoryItem;
 	}
 
 	/**
 	 * @param inventoryItem the inventoryItem to set
 	 */
-	public void setInventoryItem(Item inventoryItem) {
+	public void setInventoryItem(InventoryModel inventoryItem) {
 		this.inventoryItem = inventoryItem;
 	}
 

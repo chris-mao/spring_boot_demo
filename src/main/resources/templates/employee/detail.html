@@ -6,14 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>员工详情</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap-switch.min.css}" />
+<script type="text/javascript" th:src="@{/js/bootstrap-switch.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('input:checkbox').bootstrapSwitch();
+    });
+</script>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 xol-xs-12">
 				<div class="panel panel-success">
-					<div class="panel-heading">基本信息</div>
-					<div class="panel-body">
+					<div class="panel-heading">
+						基本信息
 						<div class="btn-toolbar pull-right hidden-print">
 							<div class="btn-group btn-group-xs">
 								<shiro:hasPermission name="employee:edit">
@@ -21,32 +28,39 @@
 										th:href="@{/employeese/{id}/edit(id=${employee.employeeId})}">编辑</a>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="employee:delete">
-									<a class="btn btn-danger" title="删除该角色"
+									<a class="btn btn-danger" title="删除该员工"
 										onclick="if(confirm('确定删除?')==false)return false;"
 										th:href="@{/employeese/{id}/del(id=${employee.employeeId})}">删除</a>
 								</shiro:hasPermission>
 								<a class="btn btn-default" th:href="@{/employeese}">返回列表</a>
 							</div>
 						</div>
-						<ul class="data-list">
+					</div>
+					<div class="panel-body">
+						<ul class="data-list" th:object="${employee}">
 							<li><label>员工姓名</label> <span
-								th:utext="${employee.employeeName}">employee_name</span></li>
-							<li><label>联系电话</label> <span th:text="${employee.phone}">phone</span>
+								th:utext="*{employeeName}">employee_name</span></li>
+							<li><label>联系电话</label> <span th:text="*{phone}">phone</span>
 							</li>
-							<li><label>传真号码</label> <span th:text="${employee.fax}">fax</span>
+							<li><label>传真号码</label> <span th:text="*{fax}">fax</span>
 							</li>
-							<li><label>电子邮件</label> <span th:text="${employee.email}">email</span>
+							<li><label>电子邮件</label> <span th:text="*{email}">email</span>
 							</li>
 							<li><label>Oracle帐号</label> <span
-								th:text="${employee.oracleAccount}">oracle_account</span></li>
+								th:text="*{oracleAccount}">oracle_account</span></li>
 							<li><label>创建时间</label> <span
-								th:text="${#dates.format(employee.createdTime, 'yyyy-MM-dd HH:mm:ss')}">created_time</span>
+								th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}">created_time</span>
 							</li>
 							<li><label>更新时间</label> <span
-								th:text="${#dates.format(employee.updateTime, 'yyyy-MM-dd HH:mm:ss')}">update_time</span>
+								th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}">update_time</span>
 							</li>
-							<li><label>员工有效</label> <input type="checkbox"
-								th:field="${employee.available}" /></li>
+							<li><label>员工有效</label>
+                                <div
+                                    class="bootstrap-switch bootstrap-switch-mini bootstrap-switch-readonly"
+                                    data-on-text="有效" data-off-text="禁用">
+                                    <input type="checkbox" th:field="*{available}"
+                                        checked="checked" readonly="readonly" />
+                                </div></li>
 						</ul>
 					</div>
 				</div>
@@ -56,13 +70,22 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
 				<div class="panel panel-success">
-					<div class="panel-heading">我的客户</div>
+					<div class="panel-heading">
+						我的客户
+						<div class="btn-toolbar pull-right hidden-print">
+							<div class="btn-group btn-group-xs">
+								<button class="btn btn-default" data-toggle="modal"
+									data-target="#modal_dialog">添加／删除客户</button>
+							</div>
+						</div>
+					</div>
 					<div th:unless="${#lists.isEmpty(customers)}"
 						th:replace="customer/index::showCustomers(${customers})"></div>
 					<p class="text-center text-warning"
 						style="padding-top: 1rem; padding-bottom: 2rem;"
-						th:if="${#lists.isEmpty(customers)}"><small>哇喔~~,
-						您的名下没有分配作何客户，快去主管那里认领一些吧。</small></p>
+						th:if="${#lists.isEmpty(customers)}">
+						<small>哇喔~~, 您的名下没有分配作何客户，快去主管那里认领一些吧。</small>
+					</p>
 				</div>
 			</div>
 		</div>

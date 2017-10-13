@@ -6,7 +6,7 @@ package com.jrsoft.inventory.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import com.jrsoft.inventory.entity.Item;
+import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
  * com.jrsoft.inventory.service ItemService
@@ -16,33 +16,33 @@ import com.jrsoft.inventory.entity.Item;
  * @version 1.0
  *
  */
-public interface ItemService {
+public interface InventoryModelService {
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public List<Item> findAll();
+	public List<InventoryModel> findAll();
 	
 	/**
 	 * 
 	 * @param pageNum
 	 * @return
 	 */
-	public PageInfo<Item> findAll(int pageNum);
+	public PageInfo<InventoryModel> findAll(int pageNum);
 	
 	/**
 	 * 
 	 * @param item
 	 * @return
 	 */
-	public Item findOne(Item item);
+	public InventoryModel findOne(InventoryModel item);
 	
 	/**
 	 * 
 	 * @param source
 	 * @return
 	 */
-	public List<Item> findAllBySource(String source);
+	public List<InventoryModel> findAllBySource(String source);
 
 }
