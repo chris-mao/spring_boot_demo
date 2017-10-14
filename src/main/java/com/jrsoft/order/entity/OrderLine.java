@@ -30,12 +30,12 @@ public class OrderLine implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message="")
-	private InventoryModel inventoryItem;
+	private InventoryModel inventoryModel;
 
 	/**
 	 * 
 	 */
-	private String customerItem;
+	private String customerModel;
 
 	/**
 	 * 
@@ -60,29 +60,29 @@ public class OrderLine implements Serializable {
 	/**
 	 * @return the inventoryItem
 	 */
-	public InventoryModel getInventoryItem() {
-		return inventoryItem;
+	public InventoryModel getInventoryModel() {
+		return inventoryModel;
 	}
 
 	/**
 	 * @param inventoryItem the inventoryItem to set
 	 */
-	public void setInventoryItem(InventoryModel inventoryItem) {
-		this.inventoryItem = inventoryItem;
+	public void setInventoryModel(InventoryModel inventoryModel) {
+		this.inventoryModel = inventoryModel;
 	}
 
 	/**
 	 * @return the customerItem
 	 */
-	public String getCustomerItem() {
-		return customerItem;
+	public String getCustomerModel() {
+		return customerModel;
 	}
 
 	/**
 	 * @param customerItem the customerItem to set
 	 */
-	public void setCustomerItem(String customerItem) {
-		this.customerItem = customerItem;
+	public void setCustomerModel(String customerModel) {
+		this.customerModel = customerModel;
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class OrderLine implements Serializable {
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		return "OrderLine [inventoryItem=" + inventoryItem + ", customerItem=" + customerItem + ", qty=" + qty
+		return "OrderLine [inventoryModel=" + inventoryModel + ", customerModel=" + customerModel + ", qty=" + qty
 				+ ", sellingPrice=" + NumberFormat.getInstance().format(sellingPrice) + ", requestDate=" + sdf.format(requestDate) + "]";
 	}
 

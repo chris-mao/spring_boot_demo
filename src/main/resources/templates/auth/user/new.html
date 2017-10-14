@@ -21,7 +21,7 @@
 						<input type="text" class="form-control input-sm"
 							th:field="*{userName}" maxLength="64" required="required"
 							requireText="请输入登录用户名" placeHolder="登录用户名" autofocus="autofocus" />
-						<small class="help-block">用户名长度需在6到64位之间</small> <small
+						<small class="help-block">用户名长度需在4到64位之间</small> <small
 							class="text-warning" th:if="${#fields.hasErrors('userName')}"
 							th:errors="*{userName}"></small>
 					</div>

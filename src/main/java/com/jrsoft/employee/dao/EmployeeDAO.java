@@ -92,5 +92,32 @@ public interface EmployeeDAO {
 	 */
 	@Delete("DELETE FROM employee WHERE employee_id = #{id}")
 	public int delete(@Param(value = "id") Integer id);
+	
+	/**
+	 * 添加新客户
+	 * 
+	 * @param employeeId
+	 * @param customerId
+	 * @return
+	 */
+	@Insert("INSERT IGNORE employee_customer(employee_id, customer_id, created_time) VALUE(#{employeeId}, #{customerId}, NOW())")
+	public int addCustomer(@Param(value = "employeeId") Integer employeeId, @Param(value = "customerId") Integer customerId);
+
+	/**
+	 * 移除已关联客户
+	 * 
+	 * @param employeeId
+	 * @param customerId
+	 * @return
+	 */
+	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId} AND customer_id = #{customerId}")
+	public int removeCustomer(@Param(value = "employeeId") Integer employeeId, @Param(value = "customerId") Integer customerId);
+	
+	/**
+	 * 移除指定员工的所有客户
+	 * @param employeeId
+	 */
+	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId}")
+	public void removeAllCustomers(@Param(value = "employeeId") Integer employeeId);
 
 }

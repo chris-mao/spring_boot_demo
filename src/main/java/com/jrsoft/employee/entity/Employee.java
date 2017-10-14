@@ -6,8 +6,7 @@ package com.jrsoft.employee.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.Max;
-
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,31 +36,31 @@ public class Employee implements Serializable {
 	 * 
 	 */
 	@NotEmpty(message = "员工姓名不能为空")
-	@Max(value = 64, message = "员工姓名长度请不要超过64位")
+	@Length(min = 4, max = 64, message = "员工姓名长度需在4位到64位之间")
 	private String employeeName;
 
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "电话号码长度请不要超过32位")
+	@Length(min = 6, max = 32, message = "电话号码长度需在6位到32位之间")
 	private String phone;
-	
+
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "传真号码长度请不要超过32位")
+	@Length(min = 6, max = 32, message = "传真号码长度需在6位到32位之间")
 	private String fax;
-	
+
 	/**
 	 * 
 	 */
-	@Max(value = 100, message = "电子邮箱长度请不要超过64位")
+	@Length(min = 12, max = 64, message = "电子邮箱长度需在12位到64位之间")
 	private String email;
-	
+
 	/**
 	 * 
 	 */
-	@Max(value = 32, message = "oracle帐号长度请不要超过32位")
+	@Length(max = 32, message = "oracle帐号长度需在4位到32位之间")
 	private String oracleAccount;
 
 	/**
@@ -79,7 +78,7 @@ public class Employee implements Serializable {
 	/**
 	 * 是否有效
 	 */
-	private boolean available;
+	private boolean available = true;
 
 	/**
 	 * @return the employeeId
@@ -89,7 +88,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param employeeId the employeeId to set
+	 * @param employeeId
+	 *            the employeeId to set
 	 */
 	public void setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
@@ -103,7 +103,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param employeeName the employeeName to set
+	 * @param employeeName
+	 *            the employeeName to set
 	 */
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
@@ -117,7 +118,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param phone the phone to set
+	 * @param phone
+	 *            the phone to set
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -131,7 +133,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param fax the fax to set
+	 * @param fax
+	 *            the fax to set
 	 */
 	public void setFax(String fax) {
 		this.fax = fax;
@@ -145,7 +148,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -159,7 +163,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param oracleAccount the oracleAccount to set
+	 * @param oracleAccount
+	 *            the oracleAccount to set
 	 */
 	public void setOracleAccount(String oracleAccount) {
 		this.oracleAccount = oracleAccount;
@@ -173,7 +178,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param createdTime the createdTime to set
+	 * @param createdTime
+	 *            the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -187,7 +193,8 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
@@ -201,13 +208,16 @@ public class Employee implements Serializable {
 	}
 
 	/**
-	 * @param available the available to set
+	 * @param available
+	 *            the available to set
 	 */
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -217,7 +227,9 @@ public class Employee implements Serializable {
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -229,7 +241,9 @@ public class Employee implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

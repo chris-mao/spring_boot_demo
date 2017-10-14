@@ -31,7 +31,7 @@ import com.jrsoft.employee.service.EmployeeService;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Resource
 	private EmployeeDAO employeeDAO;
@@ -118,6 +118,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean delete(Integer id) {
 		return 1 == this.employeeDAO.delete(id);
+	}
+
+	@Override
+	public boolean addCustomer(Employee employee, CustomerAccount customer) {
+		if (null == employee.getEmployeeId()) {
+			return false;
+		}
+		if (null == customer.getCustomerId()) {
+			return false;
+		}
+		return 1 == this.employeeDAO.addCustomer(employee.getEmployeeId(), customer.getCustomerId());
+	}
+
+	@Override
+	public boolean removeCustomer(Employee employee, CustomerAccount customer) {
+		if (null == employee.getEmployeeId()) {
+			return false;
+		}
+		if (null == customer.getCustomerId()) {
+			return false;
+		}
+		return 1 == this.employeeDAO.removeCustomer(employee.getEmployeeId(), customer.getCustomerId());
+	}
+
+	@Override
+	public void removeAllCustomers(Employee employee) {
+		if (null != employee.getEmployeeId()) {
+			this.employeeDAO.removeAllCustomers(employee.getEmployeeId());
+		}
 	}
 
 }

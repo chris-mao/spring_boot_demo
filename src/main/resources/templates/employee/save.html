@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>保存员工信息</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class='alert alert-success text-center'>
+			<p>
+				员工数据成功保存，您可以继续<a th:href="@{/employeese/new}">添加新员工</a>，或是<a
+					th:href="@{/employeese}">返回员工列表</a>。
+			</p>
+		</div>
+	</div>
+</body>
+</html>

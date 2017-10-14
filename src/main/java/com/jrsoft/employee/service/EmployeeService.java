@@ -81,5 +81,30 @@ public interface EmployeeService {
 	 * @return boolean 删除成功返回true，否则返回false
 	 */
 	public boolean delete(Integer id);
+	
+	/**
+	 * 添加新客户
+	 * 
+	 * @param employee
+	 * @param customer
+	 * @return boolean 成功返回true，否则返回false
+	 */
+	public boolean addCustomer(Employee employee, CustomerAccount customer);
+	
+	/**
+	 * 移除客户
+	 * 
+	 * @param employee
+	 * @param customer
+	 * @return boolean 成功返回true，否则返回false
+	 */
+	public boolean removeCustomer(Employee employee, CustomerAccount customer);
+	
+	/**
+	 * 移除指定员工的所有客户
+	 * 
+	 * @param employee
+	 */
+	public void removeAllCustomers(Employee employee);
 
 }
