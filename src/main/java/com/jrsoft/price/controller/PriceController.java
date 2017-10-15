@@ -3,8 +3,15 @@
  */
 package com.jrsoft.price.controller;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Resource;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
+import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.service.AuthRoleService;
+import com.jrsoft.customer.entity.CustomerAccount;
+import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
+import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.employee.service.EmployeeService;
 import com.jrsoft.price.entity.PriceListHeader;
 import com.jrsoft.price.service.PriceService;
 
@@ -46,20 +59,85 @@ public class PriceController {
 
 	/**
 	 * 
+	 */
+	@Resource
+	private EmployeeService employeeService;
+
+	private PageInfo<PriceListHeader> findCustomerPrice(List<CustomerAccount> customers) throws DataNotFoundException {
+		if ((null == customers) || (0 == customers.size())) {
+			throw new DataNotFoundException("当前登录帐号未曾绑定任何客户资料，无法进一步加载客户的价格表数据！");
+		}
+
+		CustomerAccount customer;
+		Set<CustomerSite> billTo = null;
+		Iterator<CustomerAccount> iter = customers.iterator();
+		while (iter.hasNext()) {
+			customer = iter.next();
+			// 查询客户所有的BILL TO
+			if (null == billTo) {
+				billTo = customerService.findAllBillTo(customer.getCustomerId());
+			} else {
+				billTo.addAll(customerService.findAllBillTo(customer.getCustomerId()));
+			}
+		}
+		// 根据BILL TO查询所有可用价格表
+		return new PageInfo<PriceListHeader>(priceService.findAllAvailablePriceListsByCustomerSite(billTo));
+	}
+
+	/**
+	 * 价格表列表页面
+	 * 
+	 * 根据当前登录帐号的角色列出允许查看的价格表列表
+	 * <ul>
+	 * <li>系统管理员：列出所有价格表</li>
+	 * <li>销售代表或是客服代表：仅列出该代表负责的客户的价格表</li>
+	 * <li>销售客户：仅列出与当前登录帐号绑定的客户的价格表，如果仅有一个价格表，则直接跳转到价格表详情页面</li>
+	 * </ul>
+	 * 
 	 * @param page
 	 * @param model
 	 * @return
+	 * @throws DataNotFoundException
 	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("price:list")
-	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model) {
-		// todo: 当前用户如果是管理员，则显示所有价格列表；如果是客户，则显示他自己的价格列表，如果客户仅有一个价格表，则直接转到详情页面
-		PageInfo<PriceListHeader> prices = this.priceService.findAll(page);
-		model.addAttribute("page", prices);
+	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model)
+			throws DataNotFoundException {
+		Subject credential = SecurityUtils.getSubject();
+		AuthUser user = (AuthUser) credential.getPrincipal();
+
+		if (true == credential.hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看所有价格表
+			PageInfo<PriceListHeader> prices = priceService.findAll(page);
+			model.addAttribute("page", prices);
+		} else if (true == credential.hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表
+			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
+			List<CustomerAccount> customers = customerService.findAllByCredential(user);
+			PageInfo<PriceListHeader> priceLists = findCustomerPrice(customers);
+			if (1 == priceLists.getList().size()) {
+				return "redirect:/prices/" + priceLists.getList().iterator().next().getHeaderId();
+			}
+			model.addAttribute("page", priceLists);
+		} else if ((true == credential.hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
+				|| (true == credential.hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
+			Employee emp = employeeService.findOneByCredential(user);
+			if (null == emp) {
+				model.addAttribute("page", new PageInfo<PriceListHeader>());
+			} else {
+				model.addAttribute("page", findCustomerPrice(customerService.findAllByEmployee(emp)));
+			}
+		}
 		return "price/index";
 	}
 
 	/**
+	 * 价格表详情页面
+	 * 
+	 * 根据当前登录帐号的角色判断是否允许查看
+	 * <ul>
+	 * <li>系统管理员：查看所有客户的价格表详情</li>
+	 * <li>销售代表或是客服代表：仅允许查看该代表负责的客户的价格表详情</li>
+	 * <li>销售客户：仅允许查看与当前登录帐号绑定的客户的价格表详情</li>
+	 * </ul>
 	 * 
 	 * @param id
 	 * @param request
@@ -72,7 +150,7 @@ public class PriceController {
 	public String findPriceList(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		PriceListHeader h = new PriceListHeader();
 		h.setHeaderId(id);
-		PriceListHeader priceHeader = this.priceService.findOne(h);
+		PriceListHeader priceHeader = priceService.findOne(h);
 		if (null == priceHeader) {
 			throw new DataNotFoundException("您指定的价格表不存在！ID：" + id);
 		}

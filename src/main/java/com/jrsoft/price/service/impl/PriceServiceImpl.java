@@ -68,6 +68,7 @@ public class PriceServiceImpl implements PriceService {
 		Iterator<CustomerSite> iterator = billTo.iterator();
 		while (iterator.hasNext()) {
 			billToSite = iterator.next();
+			System.out.println("Bill To Site ==> " + billToSite.getSiteId());
 			result.addAll(findAllAvailablePriceListsByCustomerSite(billToSite.getSiteId()));
 		}
 

@@ -46,7 +46,7 @@ public class AuthRoleServiceTest {
 		Assert.assertNotNull(role);
 		Assert.assertEquals("administrator", role.getRoleName());
 
-		r.setRoleId(null);
+		r.setRoleId(0);
 		r.setRoleName("csr");
 		role = authRoleService.findOne(r);
 		Assert.assertNotNull(role);
