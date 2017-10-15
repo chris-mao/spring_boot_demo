@@ -30,7 +30,7 @@ public class AuthPermission implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer permissionId;
+	private int permissionId;
 
 	/**
 	 * 
@@ -65,7 +65,7 @@ public class AuthPermission implements Serializable {
 	/**
 	 * @return the permissionId
 	 */
-	public Integer getPermissionId() {
+	public int getPermissionId() {
 		return permissionId;
 	}
 
@@ -73,7 +73,7 @@ public class AuthPermission implements Serializable {
 	 * @param permissionId
 	 *            the permissionId to set
 	 */
-	public void setPermissionId(Integer permissionId) {
+	public void setPermissionId(int permissionId) {
 		this.permissionId = permissionId;
 	}
 
@@ -171,7 +171,7 @@ public class AuthPermission implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((permissionId == null) ? 0 : permissionId.hashCode());
+		result = prime * result + permissionId;
 		result = prime * result + ((permissionName == null) ? 0 : permissionName.hashCode());
 		return result;
 	}
@@ -188,10 +188,7 @@ public class AuthPermission implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AuthPermission other = (AuthPermission) obj;
-		if (permissionId == null) {
-			if (other.permissionId != null)
-				return false;
-		} else if (!permissionId.equals(other.permissionId))
+		if (permissionId != other.permissionId)
 			return false;
 		if (permissionName == null) {
 			if (other.permissionName != null)

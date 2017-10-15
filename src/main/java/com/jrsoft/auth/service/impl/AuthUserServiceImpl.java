@@ -51,7 +51,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public AuthUser findOne(AuthUser user) {
-		if (null != user.getUserId()) {
+		if (0 != user.getUserId()) {
 			return authUserDAO.findById(user.getUserId());
 		}
 		if (null != user.getUserName()) {
@@ -71,12 +71,12 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public boolean delete(Integer id) {
+	public boolean delete(int id) {
 		return 1 == this.authUserDAO.delete(id);
 	}
 
 	@Override
-	public boolean changePassword(Integer id, String oldPassword, String newPassword) {
+	public boolean changePassword(int id, String oldPassword, String newPassword) {
 		return 1 == this.authUserDAO.changePassword(id, oldPassword, newPassword);
 	}
 
@@ -92,7 +92,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public void removeAllRoles(AuthUser user) {
-		if (null != user.getUserId()) {
+		if (0 != user.getUserId()) {
 			this.authUserDAO.removeAllRoles(user.getUserId());
 		}
 

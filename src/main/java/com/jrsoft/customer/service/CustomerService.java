@@ -75,7 +75,7 @@ public interface CustomerService {
 	 * @param customerId
 	 * @return
 	 */
-	public Set<CustomerSite> findAllBillTo(Integer customerId);
+	public Set<CustomerSite> findAllBillTo(int customerId);
 
 	/**
 	 * 
@@ -83,29 +83,14 @@ public interface CustomerService {
 	 * @param operationUnitId
 	 * @return
 	 */
-	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId);
+	public CustomerSite findBillTo(int customerId, int operationUnitId);
 
 	/**
 	 * 
 	 * @param customerId
 	 * @return
 	 */
-	public Set<CustomerSite> findAllShipTo(Integer customerId);
-
-	/**
-	 * 
-	 * @param customerId
-	 * @param operationUnitId
-	 * @return
-	 */
-	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId);
-
-	/**
-	 * 
-	 * @param customerId
-	 * @return
-	 */
-	public Set<CustomerSite> findAllDeliverTo(Integer customerId);
+	public Set<CustomerSite> findAllShipTo(int customerId);
 
 	/**
 	 * 
@@ -113,6 +98,21 @@ public interface CustomerService {
 	 * @param operationUnitId
 	 * @return
 	 */
-	public Set<CustomerSite> findAllDeliverTo(Integer customerId, Integer operationUnitId);
+	public Set<CustomerSite> findAllShipTo(int customerId, int operationUnitId);
+
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllDeliverTo(int customerId);
+
+	/**
+	 * 
+	 * @param customerId
+	 * @param operationUnitId
+	 * @return
+	 */
+	public Set<CustomerSite> findAllDeliverTo(int customerId, int operationUnitId);
 
 }

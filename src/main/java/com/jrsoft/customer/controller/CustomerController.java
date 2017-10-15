@@ -109,7 +109,7 @@ public class CustomerController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("customer:detail")
-	public String viewCustomer(@PathVariable("id") Integer id, Model model)
+	public String viewCustomer(@PathVariable("id") int id, Model model)
 			throws UnauthorizedException, DataNotFoundException {
 
 		// 判断客户列表中是否存在某个客户的id与指定的id相匹配

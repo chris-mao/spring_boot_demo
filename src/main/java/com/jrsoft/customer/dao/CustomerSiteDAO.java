@@ -31,7 +31,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findAllBillTo(@Param(value = "id") Integer customerId);
+	public Set<CustomerSite> findAllBillTo(@Param(value = "id") int customerId);
 
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'SHIP_TO' AND customer_id = #{id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),
@@ -42,7 +42,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findAllShipTo(@Param(value = "id") Integer customerId);
+	public Set<CustomerSite> findAllShipTo(@Param(value = "id") int customerId);
 
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'DELIVER_TO' AND customer_id = #{id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),
@@ -53,7 +53,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findAllDeliverTo(@Param(value = "id") Integer customerId);
+	public Set<CustomerSite> findAllDeliverTo(@Param(value = "id") int customerId);
 
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'BILL_TO' AND customer_id = #{customer_id} AND ou_id = #{ou_id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),
@@ -64,7 +64,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public CustomerSite findOperationUnitBillTo(@Param(value = "customer_id") Integer customerId, @Param(value = "ou_id") Integer operationUnitId);
+	public CustomerSite findOperationUnitBillTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
 	
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'SHIP_TO' AND customer_id = #{customer_id} AND ou_id = #{ou_id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),
@@ -75,7 +75,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findOperationUnitShipTo(@Param(value = "customer_id") Integer customerId, @Param(value = "ou_id") Integer operationUnitId);
+	public Set<CustomerSite> findOperationUnitShipTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
 	
 	@Select("SELECT customer_id, site_id, ou_id, ou_name, site_purpose, site_address, available, created_time, update_time FROM customer_sites WHERE site_purpose = 'DELIVER_TO' AND customer_id = #{customer_id} AND ou_id = #{ou_id}")
 	@Results({ @Result(property = "customerId", column = "customer_id"),
@@ -86,6 +86,6 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findOperationUnitDeliverTo(@Param(value = "customer_id") Integer customerId, @Param(value = "ou_id") Integer operationUnitId);
+	public Set<CustomerSite> findOperationUnitDeliverTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
 
 }

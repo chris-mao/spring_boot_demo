@@ -29,7 +29,7 @@ public class AuthRole implements Serializable {
 	/**
 	 * 角色编号
 	 */
-	private Integer roleId;
+	private int roleId;
 
 	/**
 	 * 角色名称，不允许重复
@@ -58,7 +58,7 @@ public class AuthRole implements Serializable {
 	/**
 	 * @return the roleId
 	 */
-	public Integer getRoleId() {
+	public int getRoleId() {
 		return roleId;
 	}
 
@@ -66,7 +66,7 @@ public class AuthRole implements Serializable {
 	 * @param roleId
 	 *            the roleId to set
 	 */
-	public void setRoleId(Integer roleId) {
+	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
 
@@ -134,23 +134,19 @@ public class AuthRole implements Serializable {
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+		result = prime * result + roleId;
 		result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -162,10 +158,7 @@ public class AuthRole implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AuthRole other = (AuthRole) obj;
-		if (roleId == null) {
-			if (other.roleId != null)
-				return false;
-		} else if (!roleId.equals(other.roleId))
+		if (roleId != other.roleId)
 			return false;
 		if (roleName == null) {
 			if (other.roleName != null)

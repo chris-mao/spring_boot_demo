@@ -76,7 +76,7 @@ public class AuthUserDecorator {
 	 * 
 	 * @return
 	 */
-	public Integer getUserId() {
+	public int getUserId() {
 		return authUser.getUserId();
 	}
 

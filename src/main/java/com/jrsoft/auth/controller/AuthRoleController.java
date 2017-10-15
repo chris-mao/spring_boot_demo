@@ -54,7 +54,7 @@ public class AuthRoleController {
 	 * @return
 	 * @throws DataNotFoundException
 	 */
-	private AuthRole findRole(Integer id) throws DataNotFoundException {
+	private AuthRole findRole(int id) throws DataNotFoundException {
 		AuthRole r = new AuthRole();
 		r.setRoleId(id);
 		AuthRole role = this.authRoleService.findOne(r);
@@ -90,7 +90,7 @@ public class AuthRoleController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authRole:detail")
-	public String viewRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String viewRole(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		AuthRole role = findRole(id);
 		model.addAttribute("role", role);
@@ -125,7 +125,7 @@ public class AuthRoleController {
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authRole:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String editRole(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		model.addAttribute("authRole", findRole(id));
 		return "auth/role/edit";
@@ -180,7 +180,7 @@ public class AuthRoleController {
 	 */
 	@PostMapping("/{id}/permissions")
 	@ResponseBody
-	public String assignRoles(@PathVariable("id") Integer id, @RequestBody List<Integer> permissionIds) {
+	public String assignRoles(@PathVariable("id") int id, @RequestBody List<Integer> permissionIds) {
 		System.out.println("权限分配：ROLE ==> " + id + "   PERMISSIONS ==>" + permissionIds.toString());
 
 		AuthRole role = new AuthRole();
@@ -207,7 +207,7 @@ public class AuthRoleController {
 	 */
 	@GetMapping("/{id}/del")
 	@RequiresPermissions("authRole:delete")
-	public String deleteRole(@PathVariable("id") Integer id, HttpServletRequest request) {
+	public String deleteRole(@PathVariable("id") int id, HttpServletRequest request) {
 		this.authRoleService.delete(id);
 		return "redirect:/roles";
 	}

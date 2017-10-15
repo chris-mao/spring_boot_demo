@@ -18,7 +18,7 @@ public class ExceptionInfo {
 	/**
 	 * 错误代码
 	 */
-	public Integer code;
+	public int code;
 	
 	/**
 	 * 错误信息
@@ -53,14 +53,14 @@ public class ExceptionInfo {
 	/**
 	 * @return the code
 	 */
-	public Integer getCode() {
+	public int getCode() {
 		return code;
 	}
 
 	/**
 	 * @param code the code to set
 	 */
-	public void setCode(Integer code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

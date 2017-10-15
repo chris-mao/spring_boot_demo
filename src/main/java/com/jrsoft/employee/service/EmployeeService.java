@@ -80,7 +80,7 @@ public interface EmployeeService {
 	 * @param id
 	 * @return boolean 删除成功返回true，否则返回false
 	 */
-	public boolean delete(Integer id);
+	public boolean delete(int id);
 	
 	/**
 	 * 添加新客户

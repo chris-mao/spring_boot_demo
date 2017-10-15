@@ -62,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee findOne(Employee emp) {
-		if (null != emp.getEmployeeId()) {
+		if (0 != emp.getEmployeeId()) {
 			return this.employeeDAO.findById(emp.getEmployeeId());
 		}
 		if (null != emp.getEmployeeName()) {
@@ -81,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee findOneByCredential(AuthUser credential) {
-		if (null == credential.getUserId()) {
+		if (0 == credential.getUserId()) {
 			return null;
 		}
 		return this.employeeDAO.findOneByUserId(credential.getUserId());
@@ -115,19 +115,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.employee.service.EmployeeService#delete(java.lang.Integer)
+	 * com.jrsoft.employee.service.EmployeeService#delete(java.lang.int)
 	 */
 	@Override
-	public boolean delete(Integer id) {
+	public boolean delete(int id) {
 		return 1 == this.employeeDAO.delete(id);
 	}
 
 	@Override
 	public boolean addCustomer(Employee employee, CustomerAccount customer) {
-		if (null == employee.getEmployeeId()) {
+		if (0 == employee.getEmployeeId()) {
 			return false;
 		}
-		if (null == customer.getCustomerId()) {
+		if (0 == customer.getCustomerId()) {
 			return false;
 		}
 		return 1 == this.employeeDAO.addCustomer(employee.getEmployeeId(), customer.getCustomerId());
@@ -135,10 +135,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean removeCustomer(Employee employee, CustomerAccount customer) {
-		if (null == employee.getEmployeeId()) {
+		if (0 == employee.getEmployeeId()) {
 			return false;
 		}
-		if (null == customer.getCustomerId()) {
+		if (0 == customer.getCustomerId()) {
 			return false;
 		}
 		return 1 == this.employeeDAO.removeCustomer(employee.getEmployeeId(), customer.getCustomerId());
@@ -146,7 +146,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void removeAllCustomers(Employee employee) {
-		if (null != employee.getEmployeeId()) {
+		if (0 != employee.getEmployeeId()) {
 			this.employeeDAO.removeAllCustomers(employee.getEmployeeId());
 		}
 	}

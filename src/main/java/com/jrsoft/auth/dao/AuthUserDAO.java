@@ -71,7 +71,7 @@ public interface AuthUserDAO {
 	// @Result(property = "roles", column = "user_id", many = @Many(select =
 	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
 	// FetchType.LAZY) ) })
-	public AuthUser findById(@Param(value = "id") Integer id);
+	public AuthUser findById(@Param(value = "id") int id);
 
 	/**
 	 * 根据用户名称查询用户信息
@@ -119,7 +119,7 @@ public interface AuthUserDAO {
 	 * @return 返回受影响的行数
 	 */
 	@Delete("DELETE FROM auth_user WHERE user_id = #{id}")
-	public int delete(@Param(value = "id") Integer id);
+	public int delete(@Param(value = "id") int id);
 
 	/**
 	 * 修改登录密码
@@ -130,7 +130,7 @@ public interface AuthUserDAO {
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	@Update("UPDATE auth_user SET user_psd = MD5(#{newPassword}) WHERE user_id = #{id} AND user_psd = MD5(#{oldPassword})")
-	public int changePassword(@Param(value = "id") Integer id, @Param(value = "oldPassword") String oldPassword,
+	public int changePassword(@Param(value = "id") int id, @Param(value = "oldPassword") String oldPassword,
 			@Param(value = "newPassword") String newPassword);
 
 	/**
@@ -141,7 +141,7 @@ public interface AuthUserDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE auth_user_role(user_id, role_id, available, start_date, created_time) VALUE(#{userId}, #{roleId}, 1, CURDATE(), NOW())")
-	public int addRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
+	public int addRole(@Param(value = "userId") int userId, @Param(value = "roleId") int roleId);
 
 	/**
 	 * 移除已关联角色
@@ -151,12 +151,12 @@ public interface AuthUserDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
-	public int removeRole(@Param(value = "userId") Integer userId, @Param(value = "roleId") Integer roleId);
+	public int removeRole(@Param(value = "userId") int userId, @Param(value = "roleId") int roleId);
 	
 	/**
 	 * 移除指定用户的所有角色
 	 * @param userId
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId}")
-	public void removeAllRoles(@Param(value = "userId") Integer userId);
+	public void removeAllRoles(@Param(value = "userId") int userId);
 }

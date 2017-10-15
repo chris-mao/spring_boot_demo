@@ -44,7 +44,7 @@ public interface EmployeeDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Employee findById(@Param(value = "id") Integer id);
+	public Employee findById(@Param(value = "id") int id);
 
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE employee_name = #{emp_name}")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
@@ -63,7 +63,7 @@ public interface EmployeeDAO {
 			@Result(property = "oracleAccount", column = "oracle_account"),
 			@Result(property = "available", column = "available") })
 	public List<Employee> findAllByCustomer(@Param(value = "customer_number") String customerNumber,
-			@Param(value = "ou_id") Integer operationUnitId);
+			@Param(value = "ou_id") int operationUnitId);
 
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE user_id = #{user_id}")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
@@ -73,7 +73,7 @@ public interface EmployeeDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Employee findOneByUserId(@Param(value = "user_id") Integer userId);
+	public Employee findOneByUserId(@Param(value = "user_id") int userId);
 
 	/**
 	 * 创建新用户
@@ -101,7 +101,7 @@ public interface EmployeeDAO {
 	 * @return 返回受影响的行数
 	 */
 	@Delete("DELETE FROM employee WHERE employee_id = #{id}")
-	public int delete(@Param(value = "id") Integer id);
+	public int delete(@Param(value = "id") int id);
 
 	/**
 	 * 添加新客户
@@ -111,8 +111,8 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE employee_customer(employee_id, customer_id, created_time) VALUE(#{employeeId}, #{customerId}, NOW())")
-	public int addCustomer(@Param(value = "employeeId") Integer employeeId,
-			@Param(value = "customerId") Integer customerId);
+	public int addCustomer(@Param(value = "employeeId") int employeeId,
+			@Param(value = "customerId") int customerId);
 
 	/**
 	 * 移除已关联客户
@@ -122,8 +122,8 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId} AND customer_id = #{customerId}")
-	public int removeCustomer(@Param(value = "employeeId") Integer employeeId,
-			@Param(value = "customerId") Integer customerId);
+	public int removeCustomer(@Param(value = "employeeId") int employeeId,
+			@Param(value = "customerId") int customerId);
 
 	/**
 	 * 移除指定员工的所有客户
@@ -131,6 +131,6 @@ public interface EmployeeDAO {
 	 * @param employeeId
 	 */
 	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId}")
-	public void removeAllCustomers(@Param(value = "employeeId") Integer employeeId);
+	public void removeAllCustomers(@Param(value = "employeeId") int employeeId);
 
 }

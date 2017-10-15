@@ -72,7 +72,7 @@ public interface AuthPermissionService {
 	 * @param permission
 	 * @return 成功返回true,否则返回false
 	 */
-	public boolean delete(Integer id);
+	public boolean delete(int id);
 
 	/**
 	 * 按角色编号或是角色名称查询其所拥有的权限

@@ -40,7 +40,7 @@ public class OrderController {
 
 	@GetMapping("/{id}")
 	@RequiresPermissions("order:detail")
-	public String findOrder(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
+	public String findOrder(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		return null;
 	}
 	

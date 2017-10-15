@@ -42,7 +42,7 @@ public class OrderLine implements Serializable {
 	 */
 	@NotEmpty(message="")
 	@Min(value=1, message="")
-	private Integer qty;
+	private int qty;
 
 	/**
 	 * 
@@ -88,14 +88,14 @@ public class OrderLine implements Serializable {
 	/**
 	 * @return the qty
 	 */
-	public Integer getQty() {
+	public int getQty() {
 		return qty;
 	}
 
 	/**
 	 * @param qty the qty to set
 	 */
-	public void setQty(Integer qty) {
+	public void setQty(int qty) {
 		this.qty = qty;
 	}
 

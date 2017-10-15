@@ -62,7 +62,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 
 	@Override
 	public AuthPermission findOne(AuthPermission permission) {
-		if (null != permission.getPermissionId()) {
+		if (0 != permission.getPermissionId()) {
 			return this.authPermissionDAO.findById(permission.getPermissionId());
 		}
 		if (null != permission.getPermissionName()) {
@@ -79,7 +79,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	 */
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
-		if (null != role.getRoleId()) {
+		if (0 != role.getRoleId()) {
 			return authPermissionDAO.findAllByRoleId(role.getRoleId());
 		}
 		if (null != role.getRoleName()) {
@@ -103,7 +103,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public boolean delete(Integer id) {
+	public boolean delete(int id) {
 		return 1 == this.authPermissionDAO.delete(id);
 	}
 

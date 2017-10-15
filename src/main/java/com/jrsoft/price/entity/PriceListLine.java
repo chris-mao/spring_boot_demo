@@ -32,7 +32,7 @@ public class PriceListLine implements Serializable {
 	/**
 	 * 价格表行编号
 	 */
-	private Integer lineId;
+	private int lineId;
 	
 	/**
 	 * 工厂型号实体类

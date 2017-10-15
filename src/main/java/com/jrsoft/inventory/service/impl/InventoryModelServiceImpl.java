@@ -28,7 +28,7 @@ import com.jrsoft.inventory.service.InventoryModelService;
 public class InventoryModelServiceImpl implements InventoryModelService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Resource
 	private InventoryModelDAO inventoryModelDAO;

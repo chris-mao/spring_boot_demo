@@ -30,7 +30,7 @@ public class Employee implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer employeeId;
+	private int employeeId;
 
 	/**
 	 * 
@@ -83,7 +83,7 @@ public class Employee implements Serializable {
 	/**
 	 * @return the employeeId
 	 */
-	public Integer getEmployeeId() {
+	public int getEmployeeId() {
 		return employeeId;
 	}
 
@@ -91,7 +91,7 @@ public class Employee implements Serializable {
 	 * @param employeeId
 	 *            the employeeId to set
 	 */
-	public void setEmployeeId(Integer employeeId) {
+	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -227,23 +227,19 @@ public class Employee implements Serializable {
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
+		result = prime * result + employeeId;
 		result = prime * result + ((employeeName == null) ? 0 : employeeName.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -255,10 +251,7 @@ public class Employee implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		if (employeeId == null) {
-			if (other.employeeId != null)
-				return false;
-		} else if (!employeeId.equals(other.employeeId))
+		if (employeeId != other.employeeId)
 			return false;
 		if (employeeName == null) {
 			if (other.employeeName != null)

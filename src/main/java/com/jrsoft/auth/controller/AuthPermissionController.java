@@ -47,7 +47,7 @@ public class AuthPermissionController {
 	 * @return
 	 * @throws DataNotFoundException
 	 */
-	private AuthPermission findPermission(Integer id) throws DataNotFoundException {
+	private AuthPermission findPermission(int id) throws DataNotFoundException {
 		AuthPermission p = new AuthPermission();
 		p.setPermissionId(id);
 		AuthPermission permission = this.authPermissionService.findOne(p);
@@ -83,7 +83,7 @@ public class AuthPermissionController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authPermission:detail")
-	public String viewPermission(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String viewPermission(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		model.addAttribute("authPermission", findPermission(id));
 		return "auth/permission/detail";
@@ -113,7 +113,7 @@ public class AuthPermissionController {
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authPermission:edit")
-	public String editRole(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String editRole(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		model.addAttribute("authPermission", findPermission(id));
 		return "auth/permission/edit";
@@ -169,7 +169,7 @@ public class AuthPermissionController {
 	 */
 	@GetMapping("/{id}/del")
 	@RequiresPermissions("authPermission:delete")
-	public String deletePermission(@PathVariable("id") Integer id, HttpServletRequest request) {
+	public String deletePermission(@PathVariable("id") int id, HttpServletRequest request) {
 		this.authPermissionService.delete(id);
 		return "redirect:/permissions";
 	}

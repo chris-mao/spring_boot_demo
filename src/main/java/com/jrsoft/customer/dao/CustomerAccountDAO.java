@@ -55,7 +55,7 @@ public interface CustomerAccountDAO {
 			@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllBillTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllShipTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
-	public CustomerAccount findById(@Param(value = "id") Integer id);
+	public CustomerAccount findById(@Param(value = "id") int id);
 
 	/**
 	 * 
@@ -101,7 +101,7 @@ public interface CustomerAccountDAO {
 			@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllBillTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllShipTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
-	public List<CustomerAccount> findALlByEmployeeId(@Param(value = "emp_id") Integer employeeId);
+	public List<CustomerAccount> findAllByEmployeeId(@Param(value = "emp_id") int employeeId);
 
 	/**
 	 * 
@@ -118,6 +118,6 @@ public interface CustomerAccountDAO {
 			@Result(property = "billTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllBillTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "shipTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllShipTo", fetchType = FetchType.LAZY) ),
 			@Result(property = "deliverTo", column = "customer_id", many = @Many(select = "com.jrsoft.customer.dao.CustomerSiteDAO.findAllDeliverTo", fetchType = FetchType.LAZY) ) })
-	public List<CustomerAccount> findAllQualifiedCustomers(@Param(value = "header_id") Integer priceHeaderId);
+	public List<CustomerAccount> findAllQualifiedCustomers(@Param(value = "header_id") int priceHeaderId);
 
 }

@@ -34,7 +34,7 @@ public class PriceListHeader implements Serializable {
 	 * 价格表头编号
 	 */
 	@NotEmpty(message="")
-	private Integer headerId;
+	private int headerId;
 
 	/**
 	 * 价格表名称
@@ -76,7 +76,7 @@ public class PriceListHeader implements Serializable {
 	/**
 	 * @return the headerId
 	 */
-	public Integer getHeaderId() {
+	public int getHeaderId() {
 		return headerId;
 	}
 
@@ -84,7 +84,7 @@ public class PriceListHeader implements Serializable {
 	 * @param headerId
 	 *            the headerId to set
 	 */
-	public void setHeaderId(Integer headerId) {
+	public void setHeaderId(int headerId) {
 		this.headerId = headerId;
 	}
 
@@ -174,23 +174,19 @@ public class PriceListHeader implements Serializable {
 		this.name = name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((headerId == null) ? 0 : headerId.hashCode());
+		result = prime * result + headerId;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -202,10 +198,7 @@ public class PriceListHeader implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PriceListHeader other = (PriceListHeader) obj;
-		if (headerId == null) {
-			if (other.headerId != null)
-				return false;
-		} else if (!headerId.equals(other.headerId))
+		if (headerId != other.headerId)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -214,5 +207,4 @@ public class PriceListHeader implements Serializable {
 			return false;
 		return true;
 	}
-
 }

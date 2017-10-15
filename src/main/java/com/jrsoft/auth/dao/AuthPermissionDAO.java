@@ -61,7 +61,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public AuthPermission findById(@Param(value = "id") Integer id);
+	public AuthPermission findById(@Param(value = "id") int id);
 
 	/**
 	 * 按权限名称查询
@@ -91,7 +91,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId") Integer roleId);
+	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId") int roleId);
 
 	/**
 	 * 创建新权限
@@ -119,5 +119,5 @@ public interface AuthPermissionDAO {
 	 * @return 受影响的行数
 	 */
 	@Delete("DELETE FROM auth_permission WHERE permission_id = #{id}")
-	public int delete(@Param(value = "id") Integer id);
+	public int delete(@Param(value = "id") int id);
 }

@@ -47,7 +47,7 @@ public interface PriceListHeaderDAO {
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active")})
 //			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ) })
-	public PriceListHeader findById(@Param(value = "header_id") Integer id);
+	public PriceListHeader findById(@Param(value = "header_id") int id);
 
 	/**
 	 * 根据价格表名称查询价格表数据
@@ -75,7 +75,7 @@ public interface PriceListHeaderDAO {
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active")})
 //			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ),
-	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(@Param(value = "site_id") Integer siteId);
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(@Param(value = "site_id") int siteId);
 
 	/**
 	 * 获取客户有效的且含有指定物料的价格表清单
@@ -90,7 +90,7 @@ public interface PriceListHeaderDAO {
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active")})
 //			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ),
-	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSiteWithItem(@Param(value = "site_id") Integer siteId,
-			@Param(value = "item_id") Integer itemId);
+	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSiteWithItem(@Param(value = "site_id") int siteId,
+			@Param(value = "item_id") int itemId);
 
 }

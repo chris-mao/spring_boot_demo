@@ -36,7 +36,7 @@ import com.jrsoft.price.entity.PriceListHeader;
 public class CustomerServiceImpl implements CustomerService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	/**
 	 * 
@@ -75,7 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerAccount findOne(CustomerAccount customer) {
-		if (null != customer.getCustomerId()) {
+		if (0 != customer.getCustomerId()) {
 			return this.customerAccountDAO.findById(customer.getCustomerId());
 		}
 		if (null != customer.getAccountNumber()) {
@@ -94,7 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerAccount> findAllQualifiedCustomers(PriceListHeader priceHeader) {
-		if (null != priceHeader.getHeaderId()) {
+		if (0 != priceHeader.getHeaderId()) {
 			return customerAccountDAO.findAllQualifiedCustomers(priceHeader.getHeaderId());
 		}
 		if (null != priceHeader.getName()) {
@@ -108,11 +108,10 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(java.lang.
-	 * Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(int)
 	 */
 	@Override
-	public Set<CustomerSite> findAllBillTo(Integer customerId) {
+	public Set<CustomerSite> findAllBillTo(int customerId) {
 		return this.customerSiteDAO.findAllBillTo(customerId);
 	}
 
@@ -120,11 +119,10 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(java.lang.
-	 * Integer, java.lang.Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(int, int)
 	 */
 	@Override
-	public CustomerSite findBillTo(Integer customerId, Integer operationUnitId) {
+	public CustomerSite findBillTo(int customerId, int operationUnitId) {
 		return this.customerSiteDAO.findOperationUnitBillTo(customerId, operationUnitId);
 	}
 
@@ -132,11 +130,10 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(java.lang.
-	 * Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int)
 	 */
 	@Override
-	public Set<CustomerSite> findAllShipTo(Integer customerId) {
+	public Set<CustomerSite> findAllShipTo(int customerId) {
 		return this.customerSiteDAO.findAllShipTo(customerId);
 	}
 
@@ -144,11 +141,10 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(java.lang.
-	 * Integer, java.lang.Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int, int)
 	 */
 	@Override
-	public Set<CustomerSite> findAllShipTo(Integer customerId, Integer operationUnitId) {
+	public Set<CustomerSite> findAllShipTo(int customerId, int operationUnitId) {
 		return this.customerSiteDAO.findOperationUnitShipTo(customerId, operationUnitId);
 	}
 
@@ -156,11 +152,10 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(java.
-	 * lang.Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(int)
 	 */
 	@Override
-	public Set<CustomerSite> findAllDeliverTo(Integer customerId) {
+	public Set<CustomerSite> findAllDeliverTo(int customerId) {
 		return this.customerSiteDAO.findAllDeliverTo(customerId);
 	}
 
@@ -168,18 +163,17 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(java.
-	 * lang.Integer, java.lang.Integer)
+	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(int, int)
 	 */
 	@Override
-	public Set<CustomerSite> findAllDeliverTo(Integer customerId, Integer operationUnitId) {
+	public Set<CustomerSite> findAllDeliverTo(int customerId, int operationUnitId) {
 		return this.customerSiteDAO.findOperationUnitDeliverTo(customerId, operationUnitId);
 	}
 
 	@Override
 	public List<CustomerAccount> findAllByEmployee(Employee emp) {
-		if (null != emp.getEmployeeId()) {
-			return this.customerAccountDAO.findALlByEmployeeId(emp.getEmployeeId());
+		if (0 != emp.getEmployeeId()) {
+			return this.customerAccountDAO.findAllByEmployeeId(emp.getEmployeeId());
 		}
 		return null;
 	}

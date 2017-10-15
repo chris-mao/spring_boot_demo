@@ -33,7 +33,7 @@ public class CustomerAccount implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer customerId;
+	private int customerId;
 
 	/**
 	 * 
@@ -90,14 +90,14 @@ public class CustomerAccount implements Serializable {
 	/**
 	 * @return the customerId
 	 */
-	public Integer getCustomerId() {
+	public int getCustomerId() {
 		return customerId;
 	}
 
 	/**
 	 * @param customerId the customerId to set
 	 */
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
 
@@ -245,8 +245,8 @@ public class CustomerAccount implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((accountNumber == null) ? 0 : accountNumber.hashCode());
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + customerId;
+		result = prime * result + ((customerName == null) ? 0 : customerName.hashCode());
 		return result;
 	}
 
@@ -262,17 +262,13 @@ public class CustomerAccount implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CustomerAccount other = (CustomerAccount) obj;
-		if (accountNumber == null) {
-			if (other.accountNumber != null)
-				return false;
-		} else if (!accountNumber.equals(other.accountNumber))
+		if (customerId != other.customerId)
 			return false;
-		if (customerId == null) {
-			if (other.customerId != null)
+		if (customerName == null) {
+			if (other.customerName != null)
 				return false;
-		} else if (!customerId.equals(other.customerId))
+		} else if (!customerName.equals(other.customerName))
 			return false;
 		return true;
 	}
-
 }

@@ -71,7 +71,7 @@ public interface AuthUserService {
 	 * @param id
 	 * @return boolean 删除成功返回true，否则返回false
 	 */
-	public boolean delete(Integer id);
+	public boolean delete(int id);
 	
 	/**
 	 * 修改登录密码
@@ -81,7 +81,7 @@ public interface AuthUserService {
 	 * @param newPassword
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
-	public boolean changePassword(Integer id, String oldPassword, String newPassword);
+	public boolean changePassword(int id, String oldPassword, String newPassword);
 	
 	/**
 	 * 添加新角色

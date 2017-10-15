@@ -62,7 +62,7 @@ public interface AuthRoleDAO {
 	// @Result(property = "permissions", column = "role_id", many = @Many(select
 	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
 	// FetchType.LAZY) ) })
-	public AuthRole findById(@Param(value = "id") Integer id);
+	public AuthRole findById(@Param(value = "id") int id);
 
 	/**
 	 * 按角色名称查询
@@ -96,7 +96,7 @@ public interface AuthRoleDAO {
 	// @Result(property = "permissions", column = "role_id", many = @Many(select
 	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
 	// FetchType.LAZY) ) })
-	public Set<AuthRole> findAllByUserId(@Param(value = "id") Integer userId);
+	public Set<AuthRole> findAllByUserId(@Param(value = "id") int userId);
 
 	/**
 	 * 创建新角色
@@ -124,7 +124,7 @@ public interface AuthRoleDAO {
 	 * @return 返回受影响的行数
 	 */
 	@Delete("DELETE FROM auth_role WHERE role_id = #{id}")
-	public int delete(@Param(value = "id") Integer id);
+	public int delete(@Param(value = "id") int id);
 
 	/**
 	 * 添加新权限
@@ -134,8 +134,8 @@ public interface AuthRoleDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE auth_role_permission(role_id, permission_id, available, start_date, created_time) VALUE(#{roleId}, #{permissionId}, 1, CURDATE(), NOW())")
-	public int addPermission(@Param(value = "roleId") Integer roleId,
-			@Param(value = "permissionId") Integer permissionId);
+	public int addPermission(@Param(value = "roleId") int roleId,
+			@Param(value = "permissionId") int permissionId);
 
 	/**
 	 * 移除已有权限
@@ -145,8 +145,8 @@ public interface AuthRoleDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId} AND permission_id = #{permissionId}")
-	public int removePermission(@Param(value = "roleId") Integer roleId,
-			@Param(value = "permissionId") Integer permissionId);
+	public int removePermission(@Param(value = "roleId") int roleId,
+			@Param(value = "permissionId") int permissionId);
 	
 	/**
 	 * 移除指定角色上所有权限
@@ -154,6 +154,6 @@ public interface AuthRoleDAO {
 	 * @param roleId
 	 */
 	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId}")
-	public void removeAllPermissions(@Param(value = "roleId") Integer roleId);
+	public void removeAllPermissions(@Param(value = "roleId") int roleId);
 
 }

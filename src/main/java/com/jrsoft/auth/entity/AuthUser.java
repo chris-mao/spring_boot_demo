@@ -44,7 +44,7 @@ public class AuthUser implements Serializable {
 	/**
 	 * 用户编号
 	 */
-	private Integer userId;
+	private int userId;
 
 	/**
 	 * 登录名称，不允许重复
@@ -107,7 +107,7 @@ public class AuthUser implements Serializable {
 	/**
 	 * @return the userId
 	 */
-	public Integer getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
@@ -115,7 +115,7 @@ public class AuthUser implements Serializable {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(Integer userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -229,20 +229,28 @@ public class AuthUser implements Serializable {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
+				+ ", password=" + password + ", salt=" + salt + ", available=" + available + ", state=" + state
+				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + userId;
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -254,10 +262,7 @@ public class AuthUser implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AuthUser other = (AuthUser) obj;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
+		if (userId != other.userId)
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
@@ -265,18 +270,6 @@ public class AuthUser implements Serializable {
 		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AuthUser [userId=" + userId + ", userName=" + userName + ", nickName=" + nickName + ", email=" + email
-				+ ", password=" + password + ", salt=" + salt + ", available=" + available + ", state=" + state
-				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
 	}
 
 }

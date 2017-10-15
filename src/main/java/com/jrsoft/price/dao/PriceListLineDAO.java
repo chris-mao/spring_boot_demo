@@ -38,7 +38,7 @@ public interface PriceListLineDAO {
 			@Result(property = "endDate", column = "end_date_active"),
 			@Result(property = "minOrderQuantity", column = "qty_from"),
 			@Result(property = "maxOrderQuantity", column = "qty_to") })
-	public List<PriceListLine> findAllByHeaderId(@Param(value = "header_id") Integer headerId);
+	public List<PriceListLine> findAllByHeaderId(@Param(value = "header_id") int headerId);
 
 	/**
 	 * 根据价格表名称查询价格表行数据
@@ -71,7 +71,7 @@ public interface PriceListLineDAO {
 			@Result(property = "endDate", column = "end_date_active"),
 			@Result(property = "minOrderQuantity", column = "qty_from"),
 			@Result(property = "maxOrderQuantity", column = "qty_to") })
-	public List<PriceListLine> findAllAvailablePriceLines(@Param(value = "header_id") Integer headerId,
-			@Param(value = "item_id") Integer itemId);
+	public List<PriceListLine> findAllAvailablePriceLines(@Param(value = "header_id") int headerId,
+			@Param(value = "item_id") int itemId);
 
 }

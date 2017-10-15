@@ -34,7 +34,7 @@ import com.jrsoft.price.service.PriceService;
 public class PriceServiceImpl implements PriceService {
 
 	@Value("${pageSize}")
-	private int pageSize;
+	private int pageSize = 20;
 
 	@Resource
 	private PriceListHeaderDAO priceListHeaderDAO;
@@ -86,7 +86,7 @@ public class PriceServiceImpl implements PriceService {
 
 	@Override
 	public List<PriceListLine> findAllPriceLines(PriceListHeader priceHeader) {
-		if (null != priceHeader.getHeaderId()) {
+		if (0 != priceHeader.getHeaderId()) {
 			return this.priceListLineDAO.findAllByHeaderId(priceHeader.getHeaderId());
 		}
 		if (null != priceHeader.getName()) {
@@ -97,7 +97,7 @@ public class PriceServiceImpl implements PriceService {
 
 	@Override
 	public PriceListHeader findOne(PriceListHeader priceHeader) {
-		if (null != priceHeader.getHeaderId()) {
+		if (0 != priceHeader.getHeaderId()) {
 			return this.priceListHeaderDAO.findById(priceHeader.getHeaderId());
 		}
 		if (null != priceHeader.getName()) {

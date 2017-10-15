@@ -29,18 +29,18 @@ public class CustomerSite implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer customerId;
+	private int customerId;
 	
 	/**
 	 * 
 	 */
-	private Integer siteId;
+	private int siteId;
 	
 	/**
 	 * 
 	 */
 	@NotEmpty(message="")
-	private Integer operationUnitId;
+	private int operationUnitId;
 	
 	/**
 	 * 
@@ -82,42 +82,42 @@ public class CustomerSite implements Serializable {
 	/**
 	 * @return the customerId
 	 */
-	public Integer getCustomerId() {
+	public int getCustomerId() {
 		return customerId;
 	}
 
 	/**
 	 * @param customerId the customerId to set
 	 */
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
 
 	/**
 	 * @return the siteId
 	 */
-	public Integer getSiteId() {
+	public int getSiteId() {
 		return siteId;
 	}
 
 	/**
 	 * @param siteId the siteId to set
 	 */
-	public void setSiteId(Integer siteId) {
+	public void setSiteId(int siteId) {
 		this.siteId = siteId;
 	}
 
 	/**
 	 * @return the operationUnitId
 	 */
-	public Integer getOperationUnitId() {
+	public int getOperationUnitId() {
 		return operationUnitId;
 	}
 
 	/**
 	 * @param operationUnitId the operationUnitId to set
 	 */
-	public void setOperationUnitId(Integer operationUnitId) {
+	public void setOperationUnitId(int operationUnitId) {
 		this.operationUnitId = operationUnitId;
 	}
 
@@ -223,10 +223,10 @@ public class CustomerSite implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((operationUnitId == null) ? 0 : operationUnitId.hashCode());
+		result = prime * result + customerId;
+		result = prime * result + operationUnitId;
 		result = prime * result + ((operationUnitName == null) ? 0 : operationUnitName.hashCode());
-		result = prime * result + ((siteId == null) ? 0 : siteId.hashCode());
+		result = prime * result + siteId;
 		result = prime * result + ((sitePurpose == null) ? 0 : sitePurpose.hashCode());
 		return result;
 	}
@@ -248,25 +248,16 @@ public class CustomerSite implements Serializable {
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
-		if (customerId == null) {
-			if (other.customerId != null)
-				return false;
-		} else if (!customerId.equals(other.customerId))
+		if (customerId != other.customerId)
 			return false;
-		if (operationUnitId == null) {
-			if (other.operationUnitId != null)
-				return false;
-		} else if (!operationUnitId.equals(other.operationUnitId))
+		if (operationUnitId != other.operationUnitId)
 			return false;
 		if (operationUnitName == null) {
 			if (other.operationUnitName != null)
 				return false;
 		} else if (!operationUnitName.equals(other.operationUnitName))
 			return false;
-		if (siteId == null) {
-			if (other.siteId != null)
-				return false;
-		} else if (!siteId.equals(other.siteId))
+		if (siteId != other.siteId)
 			return false;
 		if (sitePurpose == null) {
 			if (other.sitePurpose != null)
@@ -275,5 +266,4 @@ public class CustomerSite implements Serializable {
 			return false;
 		return true;
 	}
-
 }

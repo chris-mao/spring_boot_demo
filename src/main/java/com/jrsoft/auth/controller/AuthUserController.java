@@ -54,7 +54,7 @@ public class AuthUserController {
 	 * @return AuthUser
 	 * @throws DataNotFoundException
 	 */
-	private AuthUser findUser(Integer id) throws DataNotFoundException {
+	private AuthUser findUser(int id) throws DataNotFoundException {
 		AuthUser u = new AuthUser();
 		u.setUserId(id);
 		AuthUser user = this.authUserService.findOne(u);
@@ -89,7 +89,7 @@ public class AuthUserController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
-	public String viewUser(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
+	public String viewUser(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		AuthUser user = findUser(id);
 		model.addAttribute("user", user);
 		// 获取用户角色
@@ -123,7 +123,7 @@ public class AuthUserController {
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("authUser:edit")
-	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String editUser(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		AuthUser user = findUser(id);
 
@@ -191,7 +191,7 @@ public class AuthUserController {
 	 */
 	@PostMapping("/{id}/roles")
 	@ResponseBody
-	public String assignRoles(@PathVariable("id") Integer id, @RequestBody List<Integer> roleIds) {
+	public String assignRoles(@PathVariable("id") int id, @RequestBody List<Integer> roleIds) {
 		System.out.println("角色分配：USER ==> " + id + "   ROLES ==>" + roleIds.toString());
 
 		AuthUser user = new AuthUser();
@@ -219,7 +219,7 @@ public class AuthUserController {
 	 */
 	@GetMapping("/{id}/del")
 	@RequiresPermissions("authUser:delete")
-	public String deleteUser(@PathVariable("id") Integer id, HttpServletRequest request) {
+	public String deleteUser(@PathVariable("id") int id, HttpServletRequest request) {
 		this.authUserService.delete(id);
 		return "redirect:/users";
 	}
@@ -234,7 +234,7 @@ public class AuthUserController {
 	 */
 	@GetMapping("/{id}/change-psd")
 	@RequiresPermissions("authUser:change-password")
-	public String chanegPassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String chanegPassword(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		model.addAttribute("authUser", findUser(id));
 		return "auth/user/change-psd";
@@ -250,7 +250,7 @@ public class AuthUserController {
 	 * @throws DataNotFoundException
 	 */
 	@PostMapping("/{id}/change-psd")
-	public String savePassword(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String savePassword(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		String oldPassword = request.getParameter("old_password");
 		String newPassword = request.getParameter("password");

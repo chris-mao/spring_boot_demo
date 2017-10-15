@@ -40,7 +40,7 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * 
 	 */
-	private Integer quantity;
+	private int quantity;
 	
 	/**
 	 * 
@@ -93,14 +93,14 @@ public class ShoppingCartLine implements Serializable {
 	/**
 	 * @return the quantity
 	 */
-	public Integer getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 

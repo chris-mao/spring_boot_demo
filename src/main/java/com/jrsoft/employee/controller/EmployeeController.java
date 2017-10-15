@@ -62,7 +62,7 @@ public class EmployeeController {
 	 * @return Employee
 	 * @throws DataNotFoundException
 	 */
-	private Employee findEmployee(Integer id) throws DataNotFoundException {
+	private Employee findEmployee(int id) throws DataNotFoundException {
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		Employee employee = this.employeeService.findOne(emp);
@@ -97,7 +97,7 @@ public class EmployeeController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("employee:detail")
-	public String viewEmployee(@PathVariable("id") Integer id, Model model) throws DataNotFoundException {
+	public String viewEmployee(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		Employee employee = findEmployee(id);
 		model.addAttribute("employee", employee);
 		model.addAttribute("myCustomers", customerService.findAllByEmployee(employee));
@@ -130,7 +130,7 @@ public class EmployeeController {
 	 */
 	@GetMapping("/{id}/edit")
 	@RequiresPermissions("employee:edit")
-	public String editUser(@PathVariable("id") Integer id, HttpServletRequest request, Model model)
+	public String editUser(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		Employee employee = findEmployee(id);
 		model.addAttribute("employee", employee);
@@ -186,7 +186,7 @@ public class EmployeeController {
 	 */
 	@GetMapping("/{id}/del")
 	@RequiresPermissions("employee:delete")
-	public String deleteUser(@PathVariable("id") Integer id, HttpServletRequest request) {
+	public String deleteUser(@PathVariable("id") int id, HttpServletRequest request) {
 		this.employeeService.delete(id);
 		return "redirect:/employeese";
 	}
@@ -202,7 +202,7 @@ public class EmployeeController {
 	 */
 	@PostMapping("/{id}/customers")
 	@ResponseBody
-	public String assignCustomers(@PathVariable("id") Integer id, @RequestBody List<Integer> customerIds) {
+	public String assignCustomers(@PathVariable("id") int id, @RequestBody List<Integer> customerIds) {
 		System.out.println("客户分配：EMPLOYEE ==> " + id + "   CUSTOMERS ==>" + customerIds.toString());
 
 		Employee emp = new Employee();

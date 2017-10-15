@@ -101,7 +101,7 @@ public interface AuthRoleService {
 	 * @param id
 	 * @return 成功返回true,否则返回false
 	 */
-	public boolean delete(Integer id);
+	public boolean delete(int id);
 
 	/**
 	 * 添加新权限

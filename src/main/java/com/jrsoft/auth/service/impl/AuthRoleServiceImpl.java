@@ -58,7 +58,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
 	@Override
 	public AuthRole findOne(AuthRole role) {
-		if (null != role.getRoleId()) {
+		if (0 != role.getRoleId()) {
 			return authRoleDAO.findById(role.getRoleId());
 		}
 		if (null != role.getRoleName()) {
@@ -75,7 +75,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	 */
 	@Override
 	public Set<AuthRole> findAllByUser(AuthUser user) {
-		if (null != user.getUserId()) {
+		if (0 != user.getUserId()) {
 			return authRoleDAO.findAllByUserId(user.getUserId());
 		}
 		if (null != user.getUserName()) {
@@ -100,7 +100,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public boolean delete(Integer id) {
+	public boolean delete(int id) {
 		return 1 == authRoleDAO.delete(id);
 	}
 
@@ -116,7 +116,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
 	@Override
 	public void removeAllPermissions(AuthRole role) {
-		if (null != role.getRoleId()) {
+		if (0 != role.getRoleId()) {
 			this.authRoleDAO.removeAllPermissions(role.getRoleId());
 		}
 	}
