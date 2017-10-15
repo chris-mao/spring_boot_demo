@@ -67,7 +67,7 @@ public class EmployeeController {
 		emp.setEmployeeId(id);
 		Employee employee = this.employeeService.findOne(emp);
 		if (null == employee) {
-			throw new DataNotFoundException();
+			throw new DataNotFoundException("您指定的员工不存在！ID：" + id);
 		}
 		return employee;
 	}

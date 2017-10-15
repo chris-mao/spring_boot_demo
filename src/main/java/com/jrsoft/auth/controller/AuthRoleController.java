@@ -59,7 +59,7 @@ public class AuthRoleController {
 		r.setRoleId(id);
 		AuthRole role = this.authRoleService.findOne(r);
 		if (null == role) {
-			throw new DataNotFoundException();
+			throw new DataNotFoundException("您指定的角色不存在！ID：" + id);
 		}
 		return role;
 	}

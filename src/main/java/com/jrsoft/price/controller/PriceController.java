@@ -74,7 +74,7 @@ public class PriceController {
 		h.setHeaderId(id);
 		PriceListHeader priceHeader = this.priceService.findOne(h);
 		if (null == priceHeader) {
-			throw new DataNotFoundException();
+			throw new DataNotFoundException("您指定的价格表不存在！ID：" + id);
 		}
 		model.addAttribute("priceHeader", priceHeader);
 		model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));

@@ -65,6 +65,16 @@ public interface EmployeeDAO {
 	public List<Employee> findAllByCustomer(@Param(value = "customer_number") String customerNumber,
 			@Param(value = "ou_id") Integer operationUnitId);
 
+	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE user_id = #{user_id}")
+	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
+			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
+			@Result(property = "fax", column = "fax"), @Result(property = "email", column = "email"),
+			@Result(property = "oracleAccount", column = "oracle_account"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public Employee findOneByUserId(@Param(value = "user_id") Integer userId);
+
 	/**
 	 * 创建新用户
 	 * 
@@ -92,7 +102,7 @@ public interface EmployeeDAO {
 	 */
 	@Delete("DELETE FROM employee WHERE employee_id = #{id}")
 	public int delete(@Param(value = "id") Integer id);
-	
+
 	/**
 	 * 添加新客户
 	 * 
@@ -101,7 +111,8 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE employee_customer(employee_id, customer_id, created_time) VALUE(#{employeeId}, #{customerId}, NOW())")
-	public int addCustomer(@Param(value = "employeeId") Integer employeeId, @Param(value = "customerId") Integer customerId);
+	public int addCustomer(@Param(value = "employeeId") Integer employeeId,
+			@Param(value = "customerId") Integer customerId);
 
 	/**
 	 * 移除已关联客户
@@ -111,10 +122,12 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId} AND customer_id = #{customerId}")
-	public int removeCustomer(@Param(value = "employeeId") Integer employeeId, @Param(value = "customerId") Integer customerId);
-	
+	public int removeCustomer(@Param(value = "employeeId") Integer employeeId,
+			@Param(value = "customerId") Integer customerId);
+
 	/**
 	 * 移除指定员工的所有客户
+	 * 
 	 * @param employeeId
 	 */
 	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId}")

@@ -57,7 +57,7 @@ public interface EmployeeService {
 	 * @param credential
 	 * @return List
 	 */
-	public List<Employee> findAllByCredential(AuthUser credential);
+	public Employee findOneByCredential(AuthUser credential);
 	
 	/**
 	 * 创建新员工

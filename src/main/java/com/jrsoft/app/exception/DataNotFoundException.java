@@ -20,12 +20,8 @@ public class DataNotFoundException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Throwable#getMessage()
-	 */
-	@Override
-	public String getMessage() {
-		return "系统中没有与您的查询相匹配的数据！";
+	public DataNotFoundException(String msg) {
+		super(msg);
 	}
 
 }

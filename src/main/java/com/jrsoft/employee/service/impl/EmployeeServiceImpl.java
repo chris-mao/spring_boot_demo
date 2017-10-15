@@ -80,9 +80,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> findAllByCredential(AuthUser credential) {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee findOneByCredential(AuthUser credential) {
+		if (null == credential.getUserId()) {
+			return null;
+		}
+		return this.employeeDAO.findOneByUserId(credential.getUserId());
 	}
 
 	/*

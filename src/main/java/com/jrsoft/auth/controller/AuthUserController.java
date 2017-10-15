@@ -59,7 +59,7 @@ public class AuthUserController {
 		u.setUserId(id);
 		AuthUser user = this.authUserService.findOne(u);
 		if (null == user) {
-			throw new DataNotFoundException();
+			throw new DataNotFoundException("您指定的用户不存在！ID：" + id);
 		}
 		return user;
 	}

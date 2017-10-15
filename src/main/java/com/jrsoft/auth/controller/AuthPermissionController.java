@@ -52,7 +52,7 @@ public class AuthPermissionController {
 		p.setPermissionId(id);
 		AuthPermission permission = this.authPermissionService.findOne(p);
 		if (null == permission) {
-			throw new DataNotFoundException();
+			throw new DataNotFoundException("您指定的权限不存在！ID：" + id);
 		}
 		return permission;
 	}
