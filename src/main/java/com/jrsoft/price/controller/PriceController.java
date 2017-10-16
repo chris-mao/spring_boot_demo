@@ -9,9 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
-import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
+import com.jrsoft.auth.utils.AuthUtils;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
@@ -64,10 +62,26 @@ public class PriceController {
 	private EmployeeService employeeService;
 
 	/**
+	 * @param id
+	 * @return
+	 * @throws DataNotFoundException
+	 */
+	private PriceListHeader findPriceListHeader(int id) throws DataNotFoundException {
+		PriceListHeader plh = new PriceListHeader(id);
+		PriceListHeader priceHeader = priceService.findOne(plh);
+		if (null == priceHeader) {
+			throw new DataNotFoundException("您指定的价格表不存在！ID：" + plh.getHeaderId());
+		}
+		return priceHeader;
+	}
+
+	/**
+	 * 根据传入的客户清单，获取这些客户的可用的价格列表
 	 * 
 	 * @param customers
 	 * @return
 	 * @throws DataNotFoundException
+	 *             如果传入的客户清单为空，则抛出此异常
 	 */
 	private PageInfo<PriceListHeader> findCustomerPrice(List<CustomerAccount> customers) throws DataNotFoundException {
 		if ((null == customers) || (0 == customers.size())) {
@@ -94,6 +108,7 @@ public class PriceController {
 	 * 价格表列表页面
 	 * 
 	 * 根据当前登录帐号的角色列出允许查看的价格表列表
+	 * 
 	 * <ul>
 	 * <li>系统管理员：列出所有价格表</li>
 	 * <li>销售代表或是客服代表：仅列出该代表负责的客户的价格表</li>
@@ -109,23 +124,21 @@ public class PriceController {
 	@RequiresPermissions("price:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model)
 			throws DataNotFoundException {
-		Subject credential = SecurityUtils.getSubject();
-		AuthUser user = (AuthUser) credential.getPrincipal();
 
-		if (true == credential.hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看所有价格表
+		if (true == AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看所有价格表
 			PageInfo<PriceListHeader> prices = priceService.findAll(page);
 			model.addAttribute("page", prices);
-		} else if (true == credential.hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表
+		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			List<CustomerAccount> customers = customerService.findAllByCredential(user);
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
 			PageInfo<PriceListHeader> priceLists = findCustomerPrice(customers);
 			if (1 == priceLists.getList().size()) {
 				return "redirect:/prices/" + priceLists.getList().iterator().next().getHeaderId();
 			}
 			model.addAttribute("page", priceLists);
-		} else if ((true == credential.hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
-				|| (true == credential.hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
-			Employee emp = employeeService.findOneByCredential(user);
+		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
+				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
+			Employee emp = employeeService.findOneByCredential(AuthUtils.getUser());
 			if (null == emp) {
 				model.addAttribute("page", new PageInfo<PriceListHeader>());
 			} else {
@@ -139,6 +152,7 @@ public class PriceController {
 	 * 价格表详情页面，包括可以使用此价格表的客户清单
 	 * 
 	 * 根据当前登录帐号的角色判断是否允许查看
+	 * 
 	 * <ul>
 	 * <li>系统管理员：查看所有客户的价格表详情</li>
 	 * <li>销售代表或是客服代表：仅允许查看该代表负责的客户的价格表详情</li>
@@ -154,15 +168,24 @@ public class PriceController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("price:detail")
 	public String findPriceList(@PathVariable("id") int id, Model model) throws DataNotFoundException {
-		PriceListHeader h = new PriceListHeader();
-		h.setHeaderId(id);
-		PriceListHeader priceHeader = priceService.findOne(h);
+		PriceListHeader plh = new PriceListHeader(id);
+		PriceListHeader priceHeader = priceService.findOne(plh);
 		if (null == priceHeader) {
-			throw new DataNotFoundException("您指定的价格表不存在！ID：" + id);
+			throw new DataNotFoundException("您指定的价格表不存在！ID：" + plh.getHeaderId());
 		}
+
 		model.addAttribute("priceHeader", priceHeader);
-		model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
-		model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
+		if (true == AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看所有价格表明细
+			model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
+			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
+		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表明细
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
+			List<CustomerAccount> qualifiedCustomers = customerService.findAllQualifiedCustomers(plh);
+		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
+				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
+			//
+			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
+		}
 		return "price/detail";
 	}
 

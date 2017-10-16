@@ -58,18 +58,20 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="panel panel-success">
-					<div class="panel-heading">适用客户</div>
-					<div th:unless="${#lists.isEmpty(customers)}"
-						th:replace="customer/index::showCustomers(${customers})"></div>
-					<p class="text-center text-warning"
-						style="padding-top: 1rem; padding-bottom: 2rem;"
-						th:if="${#lists.isEmpty(customers)}">哇喔〜〜〜，目前此价格表还没分配给任何客户。</p>
+		<shiro:hasAnyRoles name="系统管理员,客服代表">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-success">
+						<div class="panel-heading">适用客户</div>
+						<div th:unless="${#lists.isEmpty(customers)}"
+							th:replace="customer/index::showCustomers(${customers})"></div>
+						<p class="text-center text-warning"
+							style="padding-top: 1rem; padding-bottom: 2rem;"
+							th:if="${#lists.isEmpty(customers)}">哇喔〜〜〜，目前此价格表还没分配给任何客户。</p>
+					</div>
 				</div>
 			</div>
-		</div>
+		</shiro:hasAnyRoles>
 	</div>
 </body>
 </html>

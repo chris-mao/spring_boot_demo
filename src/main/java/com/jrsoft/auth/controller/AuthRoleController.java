@@ -55,8 +55,7 @@ public class AuthRoleController {
 	 * @throws DataNotFoundException
 	 */
 	private AuthRole findRole(int id) throws DataNotFoundException {
-		AuthRole r = new AuthRole();
-		r.setRoleId(id);
+		AuthRole r = new AuthRole(id);
 		AuthRole role = this.authRoleService.findOne(r);
 		if (null == role) {
 			throw new DataNotFoundException("您指定的角色不存在！ID：" + id);
@@ -183,9 +182,8 @@ public class AuthRoleController {
 	public String assignRoles(@PathVariable("id") int id, @RequestBody List<Integer> permissionIds) {
 		System.out.println("权限分配：ROLE ==> " + id + "   PERMISSIONS ==>" + permissionIds.toString());
 
-		AuthRole role = new AuthRole();
+		AuthRole role = new AuthRole(id);
 		AuthPermission permission = new AuthPermission();
-		role.setRoleId(id);
 		this.authRoleService.removeAllPermissions(role);
 
 		Iterator<Integer> iterator = permissionIds.iterator();

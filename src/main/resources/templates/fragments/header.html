@@ -22,25 +22,23 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <shiro:principal property="nickName" /><b
 							class="caret"></b>
-					</a>
-					    <!-- <ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
+					</a> <!-- <ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
 							<li th:each="site: ${session.userDecorator.billToSiteList}"
 								th:object="${site}"><a class="navbar-link" href="#"
 								onclick="switchSite(0);" th:text="*{operationUnitName}"></a></li>
-						</ul> -->
-					</li>
+						</ul> --></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 					<shiro:hasRole name="系统管理员">
 						<li class="dropdown"><a href="javascript:void(0);"
-							class="dropdown-toggle" data-toggle="dropdown">数据管理<b
+							class="dropdown-toggle" data-toggle="dropdown">安全管理<b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<shiro:hasPermission name="authPermission:list">
 									<li><a class="navbar-link" title="维护系统权限" href="#"
 										th:href="@{/permissions}"><span
-											class="glyphicon glyphicon-wrench"></span>&nbsp;权限管理</a></li>
+											class="glyphicon glyphicon-grain"></span>&nbsp;权限管理</a></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authRole:list">
 									<li><a class="navbar-link" title="维护系统角色" href="#"
@@ -50,21 +48,27 @@
 									<li><a class="navbar-link" title="维护系统用户" href="#"
 										th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
 								</shiro:hasPermission>
+							</ul></li>
+					</shiro:hasRole>
+					<shiro:hasAnyRoles name="系统管理员,客服代表">
+						<li class="dropdown"><a href="javascript:void(0);"
+							class="dropdown-toggle" data-toggle="dropdown">数据管理<b
+								class="caret"></b></a>
+							<ul class="dropdown-menu">
 								<shiro:hasPermission name="customer:list">
-									<li role="separator" class="divider"></li>
 									<li><a class="navbar-link" title="维护系统客户" href="#"
 										th:href="@{/customers}"><span
-											class="glyphicon glyphicon-wrench"></span>&nbsp;客户管理</a></li>
+											class="glyphicon glyphicon-user"></span>&nbsp;客户管理</a></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="employee:list">
 									<li><a class="navbar-link" title="维护系统员工" href="#"
 										th:href="@{/employeese}"><span
-											class="glyphicon glyphicon-wrench"></span>&nbsp;员工管理</a></li>
+											class="glyphicon glyphicon-user"></span>&nbsp;员工管理</a></li>
 								</shiro:hasPermission>
-								<shiro:hasPermission name="item:list">
+								<shiro:hasPermission name="model:list">
 									<li role="separator" class="divider"></li>
 									<li><a class="navbar-link" title="查看系统中定义的工厂型号" href="#"
-										th:href="@{/items}"><span class="glyphicon glyphicon-tags"></span>&nbsp;工厂型号</a></li>
+										th:href="@{/models}"><span class="glyphicon glyphicon-tags"></span>&nbsp;工厂型号</a></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="price:list">
 									<li role="separator" class="divider"></li>
@@ -72,10 +76,12 @@
 										th:href="@{/prices}"><span class="glyphicon glyphicon-usd"></span>&nbsp;销售价格表</a></li>
 								</shiro:hasPermission>
 							</ul></li>
-					</shiro:hasRole>
+					</shiro:hasAnyRoles>
 
-					<li><a href='#' th:href="@{/shopping-cart}"><span
-							class="glyphicon glyphicon-shopping-cart"></span>&nbsp;购物车</a></li>
+					<shiro:hasRole name="销售客户">
+						<li><a href='#' th:href="@{/shopping-cart}"><span
+								class="glyphicon glyphicon-shopping-cart"></span>&nbsp;购物车</a></li>
+					</shiro:hasRole>
 
 					<li class='active dropdown'><a href='javascript:void(0);'
 						class='dropdown-toggle' data-toggle='dropdown'>订单管理<b
@@ -84,16 +90,22 @@
 							<li class='active'><a class='navbar-link' title='手工挑选所需产品'
 								href='#' th:href="@{/showcase}"><span
 									class="glyphicon glyphicon-list"></span>&nbsp;我要买</a></li>
-							<li><a class='navbar-link' title='将在Excel模板中制作好的订单上传到系统中'
-								href='#' th:href="@{/orders/import}"><span
-									class="glyphicon glyphicon-list"></span>&nbsp;订单上传</a></li>
+							<shiro:hasPermission name="order:upload">
+								<li><a class='navbar-link' title='将在Excel模板中制作好的订单上传到系统中'
+									href='#' th:href="@{/orders/import}"><span
+										class="glyphicon glyphicon-upload"></span>&nbsp;订单上传</a></li>
+							</shiro:hasPermission>
 							<li role='separator' class='divider'></li>
-							<li><a class='navbar-link' title='查询当前客户代码下的销售订单' href='#'
-								th:href="@{/orders/query}"><span
-									class="glyphicon glyphicon-search"></span>&nbsp;订单查询（跨OU）</a></li>
-							<li><a class='navbar-link' title='显示所有未完成发货的销售订单' href='#'
-								th:href="@{/orders}"><span
-									class="glyphicon glyphicon-list-alt"></span>&nbsp;未完成订单（跨OU）</a></li>
+							<shiro:hasPermission name="order:query">
+								<li><a class='navbar-link' title='查询当前客户代码下的销售订单' href='#'
+									th:href="@{/orders/query}"><span
+										class="glyphicon glyphicon-search"></span>&nbsp;订单查询（跨OU）</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="order:list">
+								<li><a class='navbar-link' title='显示所有未完成发货的销售订单' href='#'
+									th:href="@{/orders}"><span
+										class="glyphicon glyphicon-list-alt"></span>&nbsp;未完成订单（跨OU）</a></li>
+							</shiro:hasPermission>
 						</ul></li>
 
 					<li shiro:authenticated="true" class="dropdown"><a
@@ -105,7 +117,7 @@
 							<li><a class="navbar-link" title="将界面语言设为简体中文" href="E"><span
 									class="glyphicon glyphicon-globe"></span>&nbsp;简体中文</a></li>
 							<li role="separator" class="divider"></li>
-							<shiro:hasPermission name="authUser:list">
+							<shiro:hasPermission name="authUser:change-password">
 								<li><a class="navbar-link" title="修改登录密码" href="#"
 									th:href="@{/users/{id}/change-psd(id=1)}"><span
 										class="glyphicon glyphicon-cog"></span>&nbsp;修改密码</a></li>

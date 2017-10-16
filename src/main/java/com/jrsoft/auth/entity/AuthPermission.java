@@ -61,6 +61,20 @@ public class AuthPermission implements Serializable {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+	
+	public AuthPermission() {
+		super();
+	}
+	
+	public AuthPermission(int id) {
+		this();
+		this.setPermissionId(id);
+	}
+	
+	public AuthPermission(String name) {
+		this();
+		this.setPermissionName(name);
+	}
 
 	/**
 	 * @return the permissionId

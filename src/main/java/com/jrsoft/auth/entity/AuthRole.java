@@ -54,6 +54,20 @@ public class AuthRole implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
+	
+	public AuthRole() {
+		super();
+	}
+	
+	public AuthRole(int id) {
+		this();
+		this.setRoleId(id);
+	}
+	
+	public AuthRole(String name) {
+		this();
+		this.setRoleName(name);
+	}
 
 	/**
 	 * @return the roleId

@@ -63,8 +63,7 @@ public class EmployeeController {
 	 * @throws DataNotFoundException
 	 */
 	private Employee findEmployee(int id) throws DataNotFoundException {
-		Employee emp = new Employee();
-		emp.setEmployeeId(id);
+		Employee emp = new Employee(id);
 		Employee employee = this.employeeService.findOne(emp);
 		if (null == employee) {
 			throw new DataNotFoundException("您指定的员工不存在！ID：" + id);
@@ -205,9 +204,8 @@ public class EmployeeController {
 	public String assignCustomers(@PathVariable("id") int id, @RequestBody List<Integer> customerIds) {
 		System.out.println("客户分配：EMPLOYEE ==> " + id + "   CUSTOMERS ==>" + customerIds.toString());
 
-		Employee emp = new Employee();
+		Employee emp = new Employee(id);
 		CustomerAccount customer = new CustomerAccount();
-		emp.setEmployeeId(id);
 		this.employeeService.removeAllCustomers(emp);
 
 		Iterator<Integer> iterator = customerIds.iterator();

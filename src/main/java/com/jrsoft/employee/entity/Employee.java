@@ -79,6 +79,20 @@ public class Employee implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
+	
+	public Employee() {
+		super();
+	}
+	
+	public Employee(int id) {
+		this();
+		this.setEmployeeId(id);
+	}
+	
+	public Employee(String name) {
+		this();
+		this.setEmployeeName(name);
+	}
 
 	/**
 	 * @return the employeeId

@@ -86,6 +86,20 @@ public class CustomerAccount implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
+	
+	public CustomerAccount() {
+		super();
+	}
+	
+	public CustomerAccount(int id) {
+		this();
+		this.setCustomerId(id);
+	}
+	
+	public CustomerAccount(String accountNumber) {
+		this();
+		this.setAccountNumber(accountNumber);
+	}
 
 	/**
 	 * @return the customerId
@@ -246,7 +260,7 @@ public class CustomerAccount implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + customerId;
-		result = prime * result + ((customerName == null) ? 0 : customerName.hashCode());
+		result = prime * result + ((accountNumber == null) ? 0 : accountNumber.hashCode());
 		return result;
 	}
 
@@ -264,10 +278,10 @@ public class CustomerAccount implements Serializable {
 		CustomerAccount other = (CustomerAccount) obj;
 		if (customerId != other.customerId)
 			return false;
-		if (customerName == null) {
-			if (other.customerName != null)
+		if (accountNumber == null) {
+			if (other.accountNumber != null)
 				return false;
-		} else if (!customerName.equals(other.customerName))
+		} else if (!accountNumber.equals(other.accountNumber))
 			return false;
 		return true;
 	}

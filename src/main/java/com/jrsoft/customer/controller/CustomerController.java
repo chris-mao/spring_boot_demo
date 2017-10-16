@@ -8,10 +8,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
-import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
+import com.jrsoft.auth.utils.AuthUtils;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.service.CustomerService;
 import com.jrsoft.employee.entity.Employee;
@@ -89,22 +87,19 @@ public class CustomerController {
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("customer:list")
 	public String findAllCustomers(@RequestParam(defaultValue = "1") int page, Model model) {
-		Subject credential = SecurityUtils.getSubject();
-		AuthUser user = (AuthUser) credential.getPrincipal();
-		System.out.println(user);
-		if (true == credential.hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，列出所有客户
+		if (true == AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，列出所有客户
 			PageInfo<CustomerAccount> customers = customerService.findAll(page);
 			model.addAttribute("page", customers);
-		} else if (true == credential.hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅列出与当前登录帐号绑定的客户
-			List<CustomerAccount> customers = customerService.findAllByCredential(user);
+		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅列出与当前登录帐号绑定的客户
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
 			if (customers.size() == 1) { // 如果只有一个客户信息，直接跳转到客户详情页面
 				return "redirect:/customers/" + customers.iterator().next().getCustomerId();
 			}
 			model.addAttribute("page", new PageInfo<CustomerAccount>(customers));
 
-		} else if ((true == credential.hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
-				|| (true == credential.hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅列出自己负责的客户
-			model.addAttribute("page", findAllByEmployee(employeeService.findOneByCredential(user)));
+		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
+				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅列出自己负责的客户
+			model.addAttribute("page", findAllByEmployee(employeeService.findOneByCredential(AuthUtils.getUser())));
 		}
 
 		return "customer/index";
@@ -154,19 +149,16 @@ public class CustomerController {
 
 		CustomerAccount customer = null;
 		CustomerMatcher customerMatcher = new CustomerMatcher();
-		Subject credential = SecurityUtils.getSubject();
-		AuthUser user = (AuthUser) credential.getPrincipal();
 
-		if (true == credential.hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看任一客户
-			customer = new CustomerAccount();
-			customer.setCustomerId(id);
+		if (true == AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看任一客户
+			customer = new CustomerAccount(id);
 			customer = customerService.findOne(customer);
 			if (null == customer) {
 				throw new DataNotFoundException("查询不到指定的客户资料！ID：" + id);
 			}
-		} else if (true == credential.hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅允许查看与当前登录帐号绑定的客户详情
+		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅允许查看与当前登录帐号绑定的客户详情
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			List<CustomerAccount> customers = customerService.findAllByCredential(user);
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
 			if (true == customerMatcher.isEmpty(customers)) {
 				throw new DataNotFoundException("当前登录帐号未曾绑定任何客户资料！");
 			}
@@ -174,10 +166,10 @@ public class CustomerController {
 			if (null == customer) {
 				throw new UnauthorizedException("作为我们的销售客户，您仅可以查看自己的资料，无权查看其他客户资料！");
 			}
-		} else if ((true == credential.hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
-				|| (true == credential.hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅允许查看自己负责的客户详情
+		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
+				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅允许查看自己负责的客户详情
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			Employee employee = employeeService.findOneByCredential(user);
+			Employee employee = employeeService.findOneByCredential(AuthUtils.getUser());
 			if (null == employee) {
 				throw new DataNotFoundException("当前登录帐号未曾绑定任何员工，无法进一步判断是否有权限查看此客户资料！");
 			}

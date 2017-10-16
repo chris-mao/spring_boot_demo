@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
+import com.jrsoft.auth.utils.AuthUtils;
 
 /**
  * 系统用户控制器类
@@ -55,8 +57,7 @@ public class AuthUserController {
 	 * @throws DataNotFoundException
 	 */
 	private AuthUser findUser(int id) throws DataNotFoundException {
-		AuthUser u = new AuthUser();
-		u.setUserId(id);
+		AuthUser u = new AuthUser(id);
 		AuthUser user = this.authUserService.findOne(u);
 		if (null == user) {
 			throw new DataNotFoundException("您指定的用户不存在！ID：" + id);
@@ -204,7 +205,7 @@ public class AuthUserController {
 			role.setRoleId(iterator.next());
 			authUserService.addRole(user, role);
 		}
-		
+
 		return "ok";
 	}
 
@@ -236,6 +237,10 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:change-password")
 	public String chanegPassword(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
+		if (!AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)
+				&& (id != AuthUtils.getUser().getUserId())) {// 除了管理员不能修改他人密码
+			throw new UnauthorizedException("您无权修改他人登录密码");
+		}
 		model.addAttribute("authUser", findUser(id));
 		return "auth/user/change-psd";
 	}

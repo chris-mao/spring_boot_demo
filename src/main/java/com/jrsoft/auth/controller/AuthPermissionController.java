@@ -48,8 +48,7 @@ public class AuthPermissionController {
 	 * @throws DataNotFoundException
 	 */
 	private AuthPermission findPermission(int id) throws DataNotFoundException {
-		AuthPermission p = new AuthPermission();
-		p.setPermissionId(id);
+		AuthPermission p = new AuthPermission(id);
 		AuthPermission permission = this.authPermissionService.findOne(p);
 		if (null == permission) {
 			throw new DataNotFoundException("您指定的权限不存在！ID：" + id);

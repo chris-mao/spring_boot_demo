@@ -73,6 +73,20 @@ public class PriceListHeader implements Serializable {
 	 */
 	private List<PriceListLine> lines;
 	
+	public PriceListHeader() {
+		super();
+	}
+	
+	public PriceListHeader(int headerId) {
+		this();
+		this.setHeaderId(headerId);
+	}
+	
+	public PriceListHeader(String priceListName) {
+		this();
+		this.setName(priceListName);
+	}
+	
 	/**
 	 * @return the headerId
 	 */

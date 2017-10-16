@@ -40,6 +40,16 @@ public class AuthUser implements Serializable {
 		this.password = AuthUser.Initial_Password;
 		this.state = AuthUserStateEnum.ACTIVE;
 	}
+	
+	public AuthUser(int id) {
+		this();
+		this.setUserId(id);
+	}
+	
+	public AuthUser(String name) {
+		this();
+		this.setUserName(name);
+	}
 
 	/**
 	 * 用户编号
