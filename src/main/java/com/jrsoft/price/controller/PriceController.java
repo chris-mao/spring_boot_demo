@@ -63,6 +63,12 @@ public class PriceController {
 	@Resource
 	private EmployeeService employeeService;
 
+	/**
+	 * 
+	 * @param customers
+	 * @return
+	 * @throws DataNotFoundException
+	 */
 	private PageInfo<PriceListHeader> findCustomerPrice(List<CustomerAccount> customers) throws DataNotFoundException {
 		if ((null == customers) || (0 == customers.size())) {
 			throw new DataNotFoundException("当前登录帐号未曾绑定任何客户资料，无法进一步加载客户的价格表数据！");
@@ -130,7 +136,7 @@ public class PriceController {
 	}
 
 	/**
-	 * 价格表详情页面
+	 * 价格表详情页面，包括可以使用此价格表的客户清单
 	 * 
 	 * 根据当前登录帐号的角色判断是否允许查看
 	 * <ul>

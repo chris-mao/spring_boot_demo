@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -19,6 +20,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * com.jrsoft.aspect LogAspect
+ * 
+ * 控制器切面类 所有被标注@Controller的控制器类中的方法被调用时，都会被此类拦截，并会在控制台中输出调用者的信息以及控制器方法的返回信息
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -28,46 +31,57 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Aspect
 @Component
 public class ControllerLogAspect {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(ControllerLogAspect.class);
 
 	@Pointcut("execution(public * com.jrsoft.*.controller.*.*(..))")
 	public void log() {
-		//
 	}
-	
+
 	@Before("log()")
 	public void beforeLog(JoinPoint joinPoint) {
-		logger.info("ControllerLogAspect.beforeLog() has been lunched");
-		
-		ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		logger.info("====== The Controller has been lunched ======");
+
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		
-		//url
-		logger.info("url = {}", request.getRequestURL());
-		
-		//method
-		logger.info("method = {}", request.getMethod());
-		
-		//access from ip
-		logger.info("ip = {}", request.getRemoteAddr());
-		
-		//class
-		logger.info("class method = {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-		
-		//parameters
-		for(Object obj: joinPoint.getArgs()) {
-			logger.info("args = {}", obj);	
+
+		// url
+		logger.info("用户在 {} 以 {} 方式访问 {}", request.getRemoteAddr(), request.getMethod(), request.getRequestURL());
+
+		// class
+		logger.info("控制器类 {} 中的 {} 方法被调用", joinPoint.getSignature().getDeclaringTypeName(),
+				joinPoint.getSignature().getName());
+
+		// parameters
+		for (Object obj : joinPoint.getArgs()) {
+			 logger.info("调用参数 = {}", obj);
 		}
 	}
-	
+
 	@After("log()")
 	public void afterLog() {
-		logger.info("ControllerLogAspect.afterLog() has been lunched");
+		// logger.info("====== Lunch End ======");
+	}
+
+	@AfterReturning(pointcut = "log()", returning = "object")
+	public void afterReturning(Object object) {
+		logger.info("返回值是： {}", object);
+		logger.info("====== 控制器类调用正常结束 ======");
 	}
 	
-	@AfterReturning(pointcut="log()", returning="object")
-	public void afterReturning(Object object) {
-		logger.info("response = {}", object);
+	@AfterThrowing(pointcut = "log()", throwing = "e")
+	public void afterThrowing(JoinPoint joinPoint, Throwable e) {
+		logger.warn("控制器调用出错！！！");
+		logger.warn("在调用控制器类 {} 中的 {} 方法时出现异常", joinPoint.getSignature().getDeclaringTypeName(),
+				joinPoint.getSignature().getName());
+
+		// parameters
+		for (Object obj : joinPoint.getArgs()) {
+			 logger.warn("调用参数 = {}", obj);
+		}
+		logger.warn("异常名称：{}", e.getClass().getName());
+		logger.warn("异常描述：{}", e.getMessage());
+		
+		// TODO 将调用信息写到数据库中
 	}
 }

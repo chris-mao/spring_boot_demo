@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * com.jrsoft.app.controller HomeController
+ * 
+ * 默认控制器
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -20,8 +22,15 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
-	
-	@GetMapping({"/", "/index"})
+
+	/**
+	 * 首页
+	 * 
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@GetMapping({ "/", "/index" })
 	public String index(HttpServletRequest request, Map<String, Object> map) {
 		return "index";
 	}

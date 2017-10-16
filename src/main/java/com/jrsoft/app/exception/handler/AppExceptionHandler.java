@@ -29,21 +29,22 @@ import com.jrsoft.app.exception.ExceptionInfo;
 public class AppExceptionHandler {
 	
 	/**
-	 * 
+	 * 默认异常显示模板
 	 */
 	private final static String DEFAULT_ERROR_VIEW = "error/index";
 	
 	/**
-	 * 
+	 * 页面找不到异常显示模板
 	 */
 	private final static String PAGE_NOT_FOUND_ERROR_VIEW = "error/404";
 	
 	/**
-	 * 
+	 * 未授权异常显示模板
 	 */
 	private final static String UNAUTHORIZED_ERROR_VIEW = "error/403";
 
 	/**
+	 * 默认异常处理方法
 	 * 
 	 * @param req
 	 * @param res
@@ -65,7 +66,8 @@ public class AppExceptionHandler {
 	}
 
 	/**
-	 * a
+	 * 未授权异常处理方法
+	 * 
 	 * @param req
 	 * @param res
 	 * @param model
@@ -89,6 +91,14 @@ public class AppExceptionHandler {
 		return AppExceptionHandler.UNAUTHORIZED_ERROR_VIEW;
 	}
 	
+	/**
+	 * 
+	 * @param req
+	 * @param res
+	 * @param model
+	 * @param e
+	 * @return
+	 */
 	@ExceptionHandler(UnavailableSecurityManagerException.class)
 	public String unauthorizedErrorHandler(HttpServletRequest req, HttpServletResponse res, Model model,
 			UnavailableSecurityManagerException e) {
@@ -106,10 +116,19 @@ public class AppExceptionHandler {
 		return AppExceptionHandler.PAGE_NOT_FOUND_ERROR_VIEW;
 	}
 	
+	/**
+	 * 无匹配数据异常处理方法
+	 * 
+	 * @param req
+	 * @param res
+	 * @param model
+	 * @param e
+	 * @return
+	 */
 	@ExceptionHandler(DataNotFoundException.class)
 	public String dataNotFoundErrorHandler(HttpServletRequest req, HttpServletResponse res, Model model, Exception e) {
 		ExceptionInfo info = new ExceptionInfo();
-		info.setCode(110);
+		info.setCode(201);
 		info.setMessage("Opps〜〜没有相匹配的数据");
 		info.setExMessage(e.getMessage());
 		info.setUrl(req.getRequestURL().toString());
