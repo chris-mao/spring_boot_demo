@@ -35,7 +35,7 @@ public class ShoppingCartController {
 	 */
 	@GetMapping({"", "/index"})
 	public String showShoppingCart() {
-		return null;
+		return "order/cart/index";
 	}
 	
 	/**

@@ -34,30 +34,49 @@ public class OrderController {
 	private OrderService orderService;
 
 	@GetMapping({ "", "/index" })
-	public String showUnclosedOrders() {
-		return null;
+	public String findUnclosedOrders() {
+		return "order/index";
 	}
 
 	@GetMapping("/{id}")
 	@RequiresPermissions("order:detail")
-	public String findOrder(@PathVariable("id") int id, Model model) throws DataNotFoundException {
-		return null;
+	public String viewOrder(@PathVariable("id") int id, Model model) throws DataNotFoundException {
+		return "order/detail";
 	}
 	
+	@GetMapping("/confirmation")
 	@RequiresPermissions("order:save")
-	public String orderConfirmation() {
-		return null;
+	public String ConfirmOrder() {
+		return "order/confirmation";
 	}
 	
 	@PostMapping("/save")
 	@RequiresPermissions("order:save")
 	public String saveOrder() {
-		return null;
+		return "order/save";
 	}
 	
 	@GetMapping("/query")
 	@RequiresPermissions("order:query")
 	public String queryForm() {
-		return null;
+		return "order/query";
+	}
+	
+	@GetMapping("/import")
+	@RequiresPermissions("order:import")
+	public String importOrder() {
+		return "order/import";
+	}
+	
+	@GetMapping("/export")
+	@RequiresPermissions("order:export")
+	public String exportOrder() {
+		return "order/export";
+	}
+	
+	@GetMapping("/acknowledgement")
+	@RequiresPermissions("order:acknowledgement")
+	public String downloadAcknowledgement() {
+		return "order/acknowledgement";
 	}
 }

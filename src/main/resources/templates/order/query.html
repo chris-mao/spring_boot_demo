@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>销售订单查询</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class='text-center'
+			style='margin-top: 3rem; margin-bottom: 2rem;'>
+			<h1>销售订单查询</h1>
+		</div>
+
+		<div class="row">
+			<div
+				class="col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<form class="form-horizontal" role="form" method="POST" action="">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_order_number" name="chk_order_number" value="1"></input>订单号码
+							</label> <input type="text" class="form-control" id="order_number"
+								name="order_number" maxLength="64"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_customer_po" name="chk_customer_po" value="1"></input>客户PO号码
+							</label> <input type="text" class="form-control" id="customer_po"
+								name="customer_po" maxLength="64"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_item_number" name="chk_item_number" value="1"></input>物料名称
+							</label> <input type="text" class="form-control" id="item_number"
+								name="item_number" maxLength="64"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_line_status" name="chk_line_status" value="1"
+								checked="checked"></input>订单行状态
+							</label> <select id="line_status" name="line_status" class="form-control">
+								<option value='AL'>AL - 所有销售订单</option>
+								<option value='OP' selected="selected">OP -
+									所有订单(除了取消与关闭状态)</option>
+								<option value='SH'>SH - 所有已发货和已关闭的订单</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_order_date" name="chk_order_date" value="1"></input>下单日期
+							</label> <input type="text" class="form-control Wdate"
+								id="order_date_from" name="order_date_from"
+								onfocus="WdatePicker({lang:'en',isShowWeek:true,isShowClear:false, dateFmt:'yyyy-MM-dd', minDate:'#{%y-1}-%M-%d', maxDate:'%y-%M-%d'})"></input>
+							<span class="input-group-addon">To</span> <input type="text"
+								class="form-control Wdate" id="order_date_to"
+								name="order_date_to"
+								onfocus="WdatePicker({lang:'en',isShowWeek:true,isShowClear:false, dateFmt:'yyyy-MM-dd', minDate:'#{%y-1}-%M-%d', maxDate:'%y-%M-%d'})"
+								value=""></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-addon"> <input type="checkbox"
+								id="chk_ship_date" name="chk_ship_date" value="1"></input>发货日期
+							</label> <input type="text" class="form-control Wdate"
+								id="ship_date_from" name="ship_date_from"
+								onfocus="WdatePicker({lang:'en',isShowWeek:true,isShowClear:false, dateFmt:'yyyy-MM-dd'})"></input>
+							<span class="input-group-addon">To</span> <input type="text"
+								class="form-control Wdate" id="ship_date_to" name="ship_date_to"
+								onfocus="WdatePicker({lang:'en',isShowWeek:true,isShowClear:false, dateFmt:'yyyy-MM-dd'})"
+								value=""></input>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<button type="submit"
+								class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-5 col-md-4 col-sm-4 col-xs-4 btn btn-lg btn-success">查询</button>
+							<button type="reset"
+								class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 btn btn-lg btn-default">清空查询条件</button>
+						</div>
+					</div>
+				</form>
+
+				<div class="empty text-center" style="margin-top: 6rem;">
+					<label class="text-warning">哇喔~~, 网络服务使小性子了，暂时无法提供服务。请稍候再试！
+					</label>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

@@ -153,7 +153,7 @@ public class PriceController {
 	 */
 	@GetMapping("/{id}")
 	@RequiresPermissions("price:detail")
-	public String findPriceList(@PathVariable("id") int id, Model model) throws DataNotFoundException {
+	public String viewPriceList(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		PriceListHeader plh = new PriceListHeader(id);
 		PriceListHeader priceHeader = priceService.findOne(plh);
 		if (null == priceHeader) {

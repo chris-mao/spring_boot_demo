@@ -88,11 +88,11 @@
 									class="glyphicon glyphicon-shopping-cart"></span>&nbsp;购物车</a></li>
 						</shiro:hasRole>
 
-						<li class='active dropdown'><a href='javascript:void(0);'
+						<li class='dropdown'><a href='javascript:void(0);'
 							class='dropdown-toggle' data-toggle='dropdown'>订单管理<b
 								class='caret'></b></a>
 							<ul class='dropdown-menu'>
-								<li class='active'><a class='navbar-link' title='手工挑选所需产品'
+								<li><a class='navbar-link' title='手工挑选所需产品'
 									href='#' th:href="@{/showcase}"><span
 										class="glyphicon glyphicon-list"></span>&nbsp;我要买</a></li>
 								<shiro:hasPermission name="order:upload">
@@ -119,7 +119,7 @@
 							<ul class="dropdown-menu">
 								<li><a class="navbar-link" title="将界面语言设为英文" href="#"><span
 										class="glyphicon glyphicon-globe"></span>&nbsp;英语</a></li>
-								<li class="active"><a class="navbar-link" title="将界面语言设为简体中文" href="E"><span
+								<li><a class="navbar-link" title="将界面语言设为简体中文" href="E"><span
 										class="glyphicon glyphicon-globe"></span>&nbsp;简体中文</a></li>
 								<li role="separator" class="divider"></li>
 								<shiro:hasPermission name="authUser:change-password">

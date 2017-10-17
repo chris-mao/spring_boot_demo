@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>销售订单上传</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="page-header">
+			<h1>
+				上传艾默生销售订单 <small>客户专用</small>
+			</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">订单模板使用注意事项</h3>
+					</div>
+					<div class="panel-body">
+						<ol style="line-height: 2rem">
+							<li>仅支持Office 2017版本</li>
+							<li>不要修改模板中Sheet的名称和栏位顺序</li>
+							<li>程序会<mark>忽略工厂型号</mark><strong>Inventory Model</strong>（B栏）<mark>为空的数据行</mark></li>
+							<li>如果您不清楚有哪些价格表可供您使用，请点击<a href="#">这里</a>查看
+							</li>
+							<li>如果购物车中已在存在<mark>相同价格、相同交期的订购产品</mark>，系统会自动<mark>对数量进行合并</mark></li>
+							<li><font style="color: red">在执行导入动作时，请耐心等待，不要刷新页面</font>，程序会将所有通过验证的产品放入到购物车中</li>
+						</ol>
+						<p class="pull-right">
+							点击<a href="">这里</a>下载订单模板
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<form role="form" class="form-inline" method="post"
+					enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="sr-only" for="exampleInputFile">File input</label>
+						<div class="input-group">
+							<div class="input-group-addon">订单模板文件</div>
+							<input type="file" class="form-control" id="exampleInputFile"
+								name="exampleInputFile"></input> <span class="input-group-btn">
+								<input type="submit" value="执行导入" class="btn btn-success"></input>
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

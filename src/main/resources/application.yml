@@ -1,6 +1,9 @@
+debug: false
 #服务器配置
 server: 
   port: 8088
+  session:
+    persistent: true
 #实体类扫描的包名
 mybatis:
   type-aliases-package: com.jrsoft.*.entity
@@ -19,6 +22,7 @@ spring:
       initial-size: 10
 #模板配置
   thymeleaf:
+    cache: false
     check-template: false
     content-type: text/html
     encoding: UTF-8
