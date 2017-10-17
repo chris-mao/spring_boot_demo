@@ -179,12 +179,31 @@ public class PriceController {
 			model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
 			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
 		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表明细
-			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
+			// 获取此用使用此价格表的客户清单，再与当前登录用户绑定的客户进行比较
 			List<CustomerAccount> qualifiedCustomers = customerService.findAllQualifiedCustomers(plh);
+			Iterator<CustomerAccount> iterator = qualifiedCustomers.iterator();
+			while (iterator.hasNext()) {
+				if (null != customerService.isMine(AuthUtils.getUser(), iterator.next().getCustomerId())) {
+					model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
+					break;
+				}
+			}
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
-			//
-			model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
+			Employee employee = employeeService.findOneByCredential(AuthUtils.getUser());
+			if (null == employee) {
+				throw new DataNotFoundException("当前登录帐号未曾绑定任何员工，无法进一步判断是否有权限查看此价格资料！");
+			}
+			// 获取此用使用此价格表的客户清单，再与当前登录用户绑定的员工名下的客户进行比较
+			List<CustomerAccount> qualifiedCustomers = customerService.findAllQualifiedCustomers(plh);
+			Iterator<CustomerAccount> iterator = qualifiedCustomers.iterator();
+			while (iterator.hasNext()) {
+				if (null != customerService.isMine(employee, iterator.next().getCustomerId())) {
+					model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
+					model.addAttribute("customers", customerService.findAllQualifiedCustomers(priceHeader));
+					break;
+				}
+			}
 		}
 		return "price/detail";
 	}

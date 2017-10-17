@@ -71,48 +71,84 @@ public interface CustomerService {
 	public List<CustomerAccount> findAllByEmployee(Employee emp);
 
 	/**
+	 * 根据发票地址查询客户数据
 	 * 
 	 * @param customerId
-	 * @return
+	 * @return Set
 	 */
 	public Set<CustomerSite> findAllBillTo(int customerId);
 
 	/**
+	 * 查询客户在特定OU下的发票地址
 	 * 
 	 * @param customerId
 	 * @param operationUnitId
-	 * @return
+	 * @return CustomerSite
 	 */
 	public CustomerSite findBillTo(int customerId, int operationUnitId);
 
 	/**
+	 * 查询客户所有的收货地址
 	 * 
 	 * @param customerId
-	 * @return
+	 * @return Set
 	 */
 	public Set<CustomerSite> findAllShipTo(int customerId);
 
 	/**
+	 * 查询客户在特定OU下的所有收货地址
 	 * 
 	 * @param customerId
 	 * @param operationUnitId
-	 * @return
+	 * @return Set
 	 */
 	public Set<CustomerSite> findAllShipTo(int customerId, int operationUnitId);
 
 	/**
+	 * 查询客户所有Deliver地址
 	 * 
 	 * @param customerId
-	 * @return
+	 * @return Set
 	 */
 	public Set<CustomerSite> findAllDeliverTo(int customerId);
 
 	/**
+	 * 查询客户在特定OU下的所有Deliver地址
 	 * 
 	 * @param customerId
 	 * @param operationUnitId
-	 * @return
+	 * @return Set
 	 */
 	public Set<CustomerSite> findAllDeliverTo(int customerId, int operationUnitId);
+	
+	/**
+	 * 判断客户编号对应的客户是否已分配到指定员工名下
+	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 
+	 * @param emp
+	 * @param customerId
+	 * @return CustomerAccount
+	 */
+	public CustomerAccount isMine(Employee emp, int customerId);
+	
+	/**
+	 * 判断客户代码对应的客户是否已分配到指定员工名下
+	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 
+	 * @param emp
+	 * @param accountNumber
+	 * @return CustomerAccount
+	 */
+	public CustomerAccount isMine(Employee emp, String accountNumber);
+	
+	/**
+	 * 判断客户编号对应的客户是否已分配到指定系统用户名下
+	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 
+	 * @param user
+	 * @param customerId
+	 * @return CustomerAccount
+	 */
+	public CustomerAccount isMine(AuthUser user, int customerId);
 
 }

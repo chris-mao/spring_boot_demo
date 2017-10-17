@@ -3,6 +3,7 @@
  */
 package com.jrsoft.customer.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -174,6 +175,48 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerAccount> findAllByEmployee(Employee emp) {
 		if (0 != emp.getEmployeeId()) {
 			return this.customerAccountDAO.findAllByEmployeeId(emp.getEmployeeId());
+		}
+		return null;
+	}
+
+	@Override
+	public CustomerAccount isMine(Employee emp, int customerId) {
+		CustomerAccount ca;
+		List<CustomerAccount> customers = this.findAllByEmployee(emp);
+		Iterator<CustomerAccount> iterator = customers.iterator();
+		while (iterator.hasNext()) {
+			ca = iterator.next();
+			if (customerId == ca.getCustomerId()) {
+				return ca;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public CustomerAccount isMine(Employee emp, String accountNumber) {
+		CustomerAccount ca;
+		List<CustomerAccount> customers = this.findAllByEmployee(emp);
+		Iterator<CustomerAccount> iterator = customers.iterator();
+		while (iterator.hasNext()) {
+			ca = iterator.next();
+			if (accountNumber == ca.getAccountNumber()) {
+				return ca;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public CustomerAccount isMine(AuthUser user, int customerId) {
+		CustomerAccount ca;
+		List<CustomerAccount> customers = this.findAllByCredential(user);
+		Iterator<CustomerAccount> iterator = customers.iterator();
+		while (iterator.hasNext()) {
+			ca = iterator.next();
+			if (customerId == ca.getCustomerId()) {
+				return ca;
+			}
 		}
 		return null;
 	}

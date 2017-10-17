@@ -127,29 +127,7 @@ public class CustomerController {
 	@RequiresPermissions("customer:detail")
 	public String viewCustomer(@PathVariable("id") int id, Model model)
 			throws UnauthorizedException, DataNotFoundException {
-
-		// 判断客户列表中是否存在某个客户的id与指定的id相匹配
-		class CustomerMatcher {
-			public boolean isEmpty(List<CustomerAccount> customers) {
-				return (null == customers) || (0 == customers.size());
-			}
-
-			public CustomerAccount matched(List<CustomerAccount> customers, int id) {
-				CustomerAccount customer = null;
-				Iterator<CustomerAccount> iterator = customers.iterator();
-				while (iterator.hasNext()) {
-					customer = iterator.next();
-					if (customer.getCustomerId() == id) {
-						return customer;
-					}
-				}
-				return null;
-			}
-		}
-
 		CustomerAccount customer = null;
-		CustomerMatcher customerMatcher = new CustomerMatcher();
-
 		if (true == AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)) { // 系统管理员，查看任一客户
 			customer = new CustomerAccount(id);
 			customer = customerService.findOne(customer);
@@ -158,13 +136,9 @@ public class CustomerController {
 			}
 		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅允许查看与当前登录帐号绑定的客户详情
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
-			if (true == customerMatcher.isEmpty(customers)) {
-				throw new DataNotFoundException("当前登录帐号未曾绑定任何客户资料！");
-			}
-			customer = customerMatcher.matched(customers, id);
+			customer = customerService.isMine(AuthUtils.getUser(), id);
 			if (null == customer) {
-				throw new UnauthorizedException("作为我们的销售客户，您仅可以查看自己的资料，无权查看其他客户资料！");
+				throw new UnauthorizedException("该客户尚未与当前的登录帐号绑定，您无权查看其资料！");
 			}
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅允许查看自己负责的客户详情
@@ -173,13 +147,9 @@ public class CustomerController {
 			if (null == employee) {
 				throw new DataNotFoundException("当前登录帐号未曾绑定任何员工，无法进一步判断是否有权限查看此客户资料！");
 			}
-			List<CustomerAccount> customers = customerService.findAllByEmployee(employee);
-			if (true == customerMatcher.isEmpty(customers)) {
-				throw new DataNotFoundException("当前登录帐号未曾绑定任何客户资料！");
-			}
-			customer = customerMatcher.matched(customers, id);
+			customer = customerService.isMine(employee, id);
 			if (null == customer) {
-				throw new UnauthorizedException("作为客服代表或是销售代表，您仅可以查看分配到您名下的客户资料，无权查看其他客户资料！");
+				throw new UnauthorizedException("该客户尚未分配到您名下，您无权查看其资料！");
 			}
 		}
 
