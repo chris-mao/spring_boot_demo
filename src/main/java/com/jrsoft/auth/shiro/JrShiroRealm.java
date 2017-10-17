@@ -110,8 +110,7 @@ public class JrShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();
-		AuthUser user = new AuthUser();
-		user.setUserName(userName);
+		AuthUser user = new AuthUser(userName);
 		user = authUserService.findOne(user);
 		logger.info("==> 开始身份验证" + "[" + userName + "] " + "==> " + user);
 

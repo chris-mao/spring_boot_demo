@@ -52,6 +52,12 @@ public interface PriceService {
 	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId);
 	
+	/**
+	 * 获取客户的有效的价格表清单
+	 * 
+	 * @param billTo
+	 * @return List
+	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(Set<CustomerSite> billTo);
 	
 	/**

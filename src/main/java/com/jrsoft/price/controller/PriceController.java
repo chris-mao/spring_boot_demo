@@ -62,20 +62,6 @@ public class PriceController {
 	private EmployeeService employeeService;
 
 	/**
-	 * @param id
-	 * @return
-	 * @throws DataNotFoundException
-	 */
-	private PriceListHeader findPriceListHeader(int id) throws DataNotFoundException {
-		PriceListHeader plh = new PriceListHeader(id);
-		PriceListHeader priceHeader = priceService.findOne(plh);
-		if (null == priceHeader) {
-			throw new DataNotFoundException("您指定的价格表不存在！ID：" + plh.getHeaderId());
-		}
-		return priceHeader;
-	}
-
-	/**
 	 * 根据传入的客户清单，获取这些客户的可用的价格列表
 	 * 
 	 * @param customers

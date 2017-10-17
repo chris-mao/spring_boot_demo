@@ -3,7 +3,6 @@
  */
 package com.jrsoft.price.service.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -60,18 +59,22 @@ public class PriceServiceImpl implements PriceService {
 
 	@Override
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(Set<CustomerSite> billTo) {
-		if (null == billTo)
+		if (null == billTo) {
 			return null;
+		}
 
 		CustomerSite billToSite = null;
-		List<PriceListHeader> result = new ArrayList<PriceListHeader>();
+		List<PriceListHeader> result = null;
 		Iterator<CustomerSite> iterator = billTo.iterator();
 		while (iterator.hasNext()) {
 			billToSite = iterator.next();
 			// System.out.println("Bill To Site ==> " + billToSite.getSiteId());
-			result.addAll(findAllAvailablePriceListsByCustomerSite(billToSite.getSiteId()));
+			if (null == result) {
+				result = findAllAvailablePriceListsByCustomerSite(billToSite.getSiteId());
+			} else {
+				result.addAll(findAllAvailablePriceListsByCustomerSite(billToSite.getSiteId()));
+			}
 		}
-
 		return result;
 	}
 

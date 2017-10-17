@@ -108,8 +108,7 @@ public class CustomerServiceImpl implements CustomerService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(int)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findBillTo(int)
 	 */
 	@Override
 	public Set<CustomerSite> findAllBillTo(int customerId) {
@@ -119,8 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findBillTo(int, int)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findBillTo(int, int)
 	 */
 	@Override
 	public CustomerSite findBillTo(int customerId, int operationUnitId) {
@@ -130,8 +128,7 @@ public class CustomerServiceImpl implements CustomerService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int)
 	 */
 	@Override
 	public Set<CustomerSite> findAllShipTo(int customerId) {
@@ -141,8 +138,8 @@ public class CustomerServiceImpl implements CustomerService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int, int)
+	 * @see com.jrsoft.customer.service.CustomerSiteService#findAllShipTo(int,
+	 * int)
 	 */
 	@Override
 	public Set<CustomerSite> findAllShipTo(int customerId, int operationUnitId) {
@@ -164,7 +161,8 @@ public class CustomerServiceImpl implements CustomerService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(int, int)
+	 * com.jrsoft.customer.service.CustomerSiteService#findAllDeliverTo(int,
+	 * int)
 	 */
 	@Override
 	public Set<CustomerSite> findAllDeliverTo(int customerId, int operationUnitId) {
@@ -173,16 +171,20 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerAccount> findAllByEmployee(Employee emp) {
-		if (0 != emp.getEmployeeId()) {
-			return this.customerAccountDAO.findAllByEmployeeId(emp.getEmployeeId());
+		if (0 == emp.getEmployeeId()) {
+			return null;
 		}
-		return null;
+		return this.customerAccountDAO.findAllByEmployeeId(emp.getEmployeeId());
 	}
 
 	@Override
 	public CustomerAccount isMine(Employee emp, int customerId) {
-		CustomerAccount ca;
 		List<CustomerAccount> customers = this.findAllByEmployee(emp);
+		if (null == customers) {
+			return null;
+		}
+		
+		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {
 			ca = iterator.next();
@@ -195,8 +197,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerAccount isMine(Employee emp, String accountNumber) {
-		CustomerAccount ca;
 		List<CustomerAccount> customers = this.findAllByEmployee(emp);
+		if (null == customers) {
+			return null;
+		}
+		
+		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {
 			ca = iterator.next();
@@ -209,8 +215,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerAccount isMine(AuthUser user, int customerId) {
-		CustomerAccount ca;
 		List<CustomerAccount> customers = this.findAllByCredential(user);
+		if (null == customers) {
+			return null;
+		}
+		
+		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {
 			ca = iterator.next();
