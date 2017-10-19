@@ -8,6 +8,7 @@ import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public String doLogin(HttpServletRequest request, Model model) {
 		String msg = "";
-		String exception = (String) request.getAttribute("shiroLoginFailure");
+		String exception = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		if (exception != null) {
 			if (UnknownAccountException.class.getName().equals(exception)) {
 				msg = "您输入的帐号不存在！";

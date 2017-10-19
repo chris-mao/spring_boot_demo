@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceLogAspect {
 
-	private final static Logger logger = LoggerFactory.getLogger(ControllerLogAspect.class);
+	private final static Logger logger = LoggerFactory.getLogger(ServiceLogAspect.class);
 
 	@Pointcut("execution(public * com.jrsoft.*.service.*.*(..))")
 	public void log() {
