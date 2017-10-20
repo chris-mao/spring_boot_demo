@@ -14,9 +14,13 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">
 						我的委托人
-						<div class="btn-toolbar pull-right hidden-print">
+						<div class="btn-toolbar pull-right hidden-print"
+							th:if="${previousUser}">
 							<div class="btn-group btn-group-xs">
-								<a class="btn btn-default" th:href="@{/delegate/switchBack}">返回上一个身份<span></span></a>
+								<a class="btn btn-default" th:href="@{/delegate/switchBack}">返回<strong
+									th:utext="${previousUser.nickName}" class="text-primary"
+									style="padding-left: 4px; padding-right: 4px;"></strong>的身份
+								</a>
 							</div>
 						</div>
 					</div>

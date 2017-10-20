@@ -21,11 +21,9 @@ import com.jrsoft.auth.entity.AuthUser;
  *
  */
 public class AuthUtils {
-	
-	private static AuthUser theUser;
 
 	/**
-	 * 获取已登录的用户
+	 * 获取已登录的用户凭证
 	 * 
 	 * @return Subject
 	 */
@@ -34,17 +32,25 @@ public class AuthUtils {
 	}
 
 	/**
-	 * 获取已登录的用户实例
-	 * 如果用户已登录则返回AuthUser对象实例，否则返回null
+	 * 获取已登录的用户实例 如果用户已登录则返回AuthUser对象实例，否则返回null
 	 * 
 	 * @return AuthUser
 	 */
 	public static AuthUser getUser() {
 		if (getCredential().isAuthenticated()) {
-			if (null == theUser) {
-				theUser = (AuthUser) getCredential().getPrincipal();
-			}
-			return theUser;
+			return (AuthUser) getCredential().getPrincipal();
+		}
+		return null;
+	}
+
+	/**
+	 * 获取切换委托身份前的用户实例 如果没有切换委托身份则返回null
+	 * 
+	 * @return AuthUser
+	 */
+	public static AuthUser getPreviousUser() {
+		if ((getCredential().isAuthenticated()) && (getCredential().isRunAs())) {
+			return (AuthUser) getCredential().getPreviousPrincipals().getPrimaryPrincipal();
 		}
 		return null;
 	}
