@@ -3,6 +3,8 @@
  */
 package com.jrsoft.auth.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthUserDelegate;
 import com.jrsoft.auth.service.AuthUserDelegateService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.auth.utils.AuthUtils;
@@ -42,9 +45,20 @@ public class AuthUserDelegateController {
 	public String runAsList(@RequestParam(defaultValue = "1") int page, Model model) {
 		System.out.println("当前身份是： " + AuthUtils.getUser());
 		System.out.println("前一个身份是：" + AuthUtils.getPreviousUser());
+		//前一个身份
 		model.addAttribute("previousUser", AuthUtils.getPreviousUser());
+		//委托人
 		model.addAttribute("clients", this.authUserDelegateService.findAllByToUser(AuthUtils.getUser()));
-		model.addAttribute("delegates", this.authUserDelegateService.findAllByFromUser(AuthUtils.getUser()));
+		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByFromUser(AuthUtils.getUser());
+		//代理人（被委人）
+		model.addAttribute("delegates", delegates);
+		
+		List<AuthUser> candidates = authUserService.findAllAvailableUser();
+		candidates.remove(AuthUtils.getUser());
+		for(AuthUserDelegate user: delegates) {
+			candidates.remove(user.getToUser());
+		}
+		model.addAttribute("candidates", candidates);
 		return "auth/delegate/index";
 	}
 

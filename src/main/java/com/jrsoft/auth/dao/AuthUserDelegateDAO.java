@@ -28,7 +28,13 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
  */
 public interface AuthUserDelegateDAO {
 
-	@Select("SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available FROM auth_user_delegate WHERE from_user_id = #{fromUserId}")
+	/**
+	 * 查询被委托人（代理人）
+	 * 
+	 * @param fromUserId
+	 * @return List
+	 */
+	@Select("CALL sp_findAllDelegates(#{fromUserId})")
 	@Results({
 			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
@@ -38,7 +44,7 @@ public interface AuthUserDelegateDAO {
 			@Result(property = "updateTime", column = "update_time") })
 	public List<AuthUserDelegate> findAllByFromUser(@Param(value = "fromUserId") Integer fromUserId);
 
-	@Select("SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available FROM auth_user_delegate WHERE to_user_id = #{toUserId}")
+	@Select("CALL sp_findAllClients(${toUserId})")
 	@Results({
 			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
@@ -49,12 +55,13 @@ public interface AuthUserDelegateDAO {
 	public List<AuthUserDelegate> findAllByToUser(@Param(value = "toUserId") Integer toUserId);
 
 	/**
+	 * 查询是否存在委托关系
 	 * 
 	 * @param fromUserId
 	 * @param toUserId
-	 * @return
+	 * @return AuthUserDelegate
 	 */
-	@Select("SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available FROM auth_user_delegate WHERE from_user_id = #{fromUserId} AND to_user_id = #{toUserId}")
+	@Select("SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available FROM auth_user_delegate WHERE from_user_id = #{fromUserId} AND to_user_id = #{toUserId} AND (CURDATE() BETWEEN IFNULL(start_date,CURDATE()) AND IFNULL(end_date,CURDATE()))")
 	@Results({
 			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
 			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
@@ -65,10 +72,17 @@ public interface AuthUserDelegateDAO {
 	public AuthUserDelegate findOne(@Param(value = "fromUserId") Integer fromUserId,
 			@Param(value = "toUserId") Integer toUserId);
 
+	/**
+	 * 创建新委托关系
+	 * 
+	 * @param authUserDelegate
+	 * @return
+	 */
 	@Insert("INSERT INTO auth_user_delegate(from_user_id, to_user_id, start_date, end_date, available, created_time) VALUES(#{fromUser.userId}, #{toUser.userId}, #{startDate}, #{endDate}, 1, NOW())")
 	public int grantDelegate(AuthUserDelegate authUserDelegate);
 
 	/**
+	 * 取消么托关系
 	 * 
 	 * @param fromUserId
 	 * @param toUserId
