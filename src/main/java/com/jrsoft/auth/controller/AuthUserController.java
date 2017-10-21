@@ -270,7 +270,7 @@ public class AuthUserController {
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthUser> jsonData() {
-		return this.authUserService.findAll();
+		return this.authUserService.findAllAvailableUser();
 	}
 
 }

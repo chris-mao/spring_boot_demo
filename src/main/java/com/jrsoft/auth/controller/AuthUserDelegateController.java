@@ -43,9 +43,15 @@ public class AuthUserDelegateController {
 	@Resource
 	private AuthUserDelegateService authUserDelegateService;
 
+	/**
+	 * 
+	 * @param page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authUser:delegate")
-	public String runAsList(@RequestParam(defaultValue = "1") int page, Model model) {
+	public String delegateList(@RequestParam(defaultValue = "1") int page, Model model) {
 		// System.out.println("当前身份是： " + AuthUtils.getUser());
 		// System.out.println("前一个身份是：" + AuthUtils.getPreviousUser());
 		// 前一个身份
@@ -53,7 +59,7 @@ public class AuthUserDelegateController {
 		// 委托人
 		model.addAttribute("clients", this.authUserDelegateService.findAllByToUser(AuthUtils.getUser()));
 		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByFromUser(AuthUtils.getUser());
-		// 代理人（被委人）
+		// 代理人（被委托人）
 		model.addAttribute("delegates", delegates);
 		
 		// 如果已切换到委托人身份，则不再需要显示出所有候选代理人供其选择
@@ -68,6 +74,13 @@ public class AuthUserDelegateController {
 		return "auth/delegate/index";
 	}
 
+	/**
+	 * 
+	 * @param toUserId
+	 * @return
+	 * @throws DataNotFoundException
+	 * @throws IllegalDelegateException
+	 */
 	@GetMapping("/grant/{toUserId}")
 	@RequiresPermissions("authUser:delegate")
 	public String grant(@PathVariable("toUserId") Integer toUserId)
@@ -75,13 +88,13 @@ public class AuthUserDelegateController {
 		AuthUser toUser = new AuthUser(toUserId);
 		toUser = authUserService.findOne(toUser);
 		if (null == toUser) {
-			throw new DataNotFoundException("您指定的代理用户不存在！ID：" + toUserId);
+			throw new DataNotFoundException("代理用户不存在！ID：" + toUserId);
 		} else if (toUser.getState() == AuthUserStateEnum.LOCKED) {
-			throw new IllegalDelegateException("代理用户的帐号已被锁，无法设为您的代理人！！");
+			throw new IllegalDelegateException(String.format("代理用户 %s 的帐号已被锁，无法设为您的代理人！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.EXPIRED) {
-			throw new IllegalDelegateException("代理用户的帐号已过期，无法设为您的代理人！！");
+			throw new IllegalDelegateException(String.format("代理用户 %s 的帐号已过期，无法设为您的代理人！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.INACTIVE) {
-			throw new IllegalDelegateException("代理用户的帐号已失效，无法设为您的代理人！！");
+			throw new IllegalDelegateException(String.format("代理用户 %s 的帐号已失效，无法设为您的代理人！！", toUser.getNickName()));
 		} else if (AuthUtils.getUser().equals(toUser)) {
 			throw new IllegalDelegateException("不能将身份设为自己的代理人！！");
 		}
@@ -97,6 +110,11 @@ public class AuthUserDelegateController {
 		return "redirect:/delegate";
 	}
 
+	/**
+	 * 
+	 * @param toUserId
+	 * @return
+	 */
 	@GetMapping("/revoke/{toUserId}")
 	@RequiresPermissions("authUser:delegate")
 	public String revoke(@PathVariable("toUserId") Integer toUserId) {
@@ -105,6 +123,13 @@ public class AuthUserDelegateController {
 		return "redirect:/delegate";
 	}
 
+	/**
+	 * 
+	 * @param toUserId
+	 * @return
+	 * @throws DataNotFoundException
+	 * @throws IllegalDelegateException
+	 */
 	@GetMapping("/switchTo/{toUserId}")
 	@RequiresPermissions("authUser:delegate")
 	public String switchTo(@PathVariable("toUserId") Integer toUserId)
@@ -112,13 +137,13 @@ public class AuthUserDelegateController {
 		AuthUser toUser = new AuthUser(toUserId);
 		toUser = authUserService.findOne(toUser);
 		if (null == toUser) {
-			throw new DataNotFoundException("代理用户不存在！ID：" + toUserId);
+			throw new DataNotFoundException("委托者帐号不存在！ID：" + toUserId);
 		} else if (toUser.getState() == AuthUserStateEnum.LOCKED) {
-			throw new IllegalDelegateException("委托者的帐号已被锁，请与系统管理员联系！！");
+			throw new IllegalDelegateException(String.format("委托者 %s 的帐号已被锁，请与系统管理员联系！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.EXPIRED) {
-			throw new IllegalDelegateException("委托者的帐号已过期，请与系统管理员联系！！");
+			throw new IllegalDelegateException(String.format("委托者 %s 的帐号已过期，请与系统管理员联系！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.INACTIVE) {
-			throw new IllegalDelegateException("委托者的帐号已失效，请与系统管理员联系！！");
+			throw new IllegalDelegateException(String.format("委托者 %s 的帐号已失效，请与系统管理员联系！！", toUser.getNickName()));
 		}
 
 		SimplePrincipalCollection spc = new SimplePrincipalCollection(toUser, "");
@@ -127,6 +152,10 @@ public class AuthUserDelegateController {
 		return "redirect:/delegate";
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/switchBack")
 	@RequiresPermissions("authUser:delegate")
 	public String switchBack() {

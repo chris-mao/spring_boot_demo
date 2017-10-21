@@ -29,7 +29,7 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 public interface AuthUserDelegateDAO {
 
 	/**
-	 * 查询被委托人／代理人（我把身份委托给了谁）
+	 * 查询受托人／代理人（我把身份委托给了谁）
 	 * 
 	 * @param fromUserId
 	 * @return List
