@@ -18,6 +18,8 @@ import com.jrsoft.auth.service.AuthUserDelegateService;
 
 /**
  * com.jrsoft.auth.service.impl AuthUserDelegateServiceImpl
+ * 
+ * 身份代理服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

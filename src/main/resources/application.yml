@@ -9,6 +9,8 @@ mybatis:
   type-aliases-package: com.jrsoft.*.entity
 #数据源配置
 spring:
+  application:
+    name: SpringBoot-Shiro-Demo
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     #url: jdbc:mysql://127.0.0.1:3306/shiro

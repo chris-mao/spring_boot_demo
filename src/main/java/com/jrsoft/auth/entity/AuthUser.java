@@ -35,22 +35,6 @@ public class AuthUser implements Serializable {
 	 */
 	public static final String Initial_Password = "Welcome123";
 
-	public AuthUser() {
-		super();
-		this.password = AuthUser.Initial_Password;
-		this.state = AuthUserStateEnum.ACTIVE;
-	}
-	
-	public AuthUser(int id) {
-		this();
-		this.setUserId(id);
-	}
-	
-	public AuthUser(String name) {
-		this();
-		this.setUserName(name);
-	}
-
 	/**
 	 * 用户编号
 	 */
@@ -113,6 +97,22 @@ public class AuthUser implements Serializable {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+
+	public AuthUser() {
+		super();
+		this.password = AuthUser.Initial_Password;
+		this.state = AuthUserStateEnum.ACTIVE;
+	}
+
+	public AuthUser(int id) {
+		this();
+		this.setUserId(id);
+	}
+
+	public AuthUser(String name) {
+		this();
+		this.setUserName(name);
+	}
 
 	/**
 	 * @return the userId
@@ -248,7 +248,9 @@ public class AuthUser implements Serializable {
 				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -260,7 +262,9 @@ public class AuthUser implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

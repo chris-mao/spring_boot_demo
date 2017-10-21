@@ -22,6 +22,8 @@ import com.jrsoft.auth.service.AuthRoleService;
 
 /**
  * com.jrsoft.auth.service.impl AuthRoleServiceImpl
+ * 
+ * 系统角色服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

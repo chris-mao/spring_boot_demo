@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
@@ -18,6 +19,8 @@ import com.jrsoft.auth.service.AuthUserService;
 
 /**
  * com.jrsoft.auth.service.impl AuthUserServiceImpl
+ * 
+ * 系统用户服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -67,6 +70,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	public boolean update(AuthUser user) {
+		user.setAvailable(user.getState() != AuthUserStateEnum.INACTIVE);
 		return 1 == this.authUserDAO.udpate(user);
 	}
 

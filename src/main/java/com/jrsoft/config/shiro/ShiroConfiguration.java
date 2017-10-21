@@ -3,21 +3,25 @@
  */
 package com.jrsoft.config.shiro;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.jrsoft.auth.shiro.JrShiroRealm;
+import com.jrsoft.config.shiro.listener.JrSessionListener;
 
 /**
  * com.jrsoft.config.shiro ShiroConfiguration
@@ -83,6 +87,8 @@ public class ShiroConfiguration {
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
 		securityManager.setCacheManager(ehCacheManager());
+		// 注入会话管理器
+		securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
 
@@ -133,5 +139,25 @@ public class ShiroConfiguration {
 		EhCacheManager cacheManager = new EhCacheManager();
 		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
 		return cacheManager;
+	}
+	
+	/**
+	 * 会话管理器
+	 * 
+	 * @return
+	 */
+	@Bean
+	public DefaultWebSessionManager sessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		//设置会话过期时间
+		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000); // 30 mins
+		sessionManager.setSessionValidationInterval(sessionManager.getGlobalSessionTimeout());
+		//添加会话监听
+		ArrayList<SessionListener> listeners = new ArrayList<SessionListener>();
+		listeners.add(new JrSessionListener());
+		sessionManager.setSessionListeners(listeners);
+		sessionManager.setCacheManager(ehCacheManager());
+		
+		return sessionManager;
 	}
 }

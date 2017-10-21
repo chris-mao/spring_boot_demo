@@ -11,6 +11,8 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 
 /**
  * com.jrsoft.auth.service AuthUserDelegateService
+ * 
+ * 身份代理服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -23,15 +25,15 @@ public interface AuthUserDelegateService {
 	 * 将身份授予指定用户，从授予当天开始生效，无终止日期
 	 * 
 	 * @param fromUser 授予身份用户
-	 * @param toUser   被授予身份用户
+	 * @param toUser   被授予身份用户（代理人）
 	 */
 	public void grantDelegate(AuthUser fromUser, AuthUser toUser);
 	
 	/**
 	 * 将身份授予指定用户，从指定日期开始生效，到指定日期终止
 	 * 
-	 * @param fromUser
-	 * @param toUser
+	 * @param fromUser  授予身份用户
+	 * @param toUser    被授予身份用户（代理人）
 	 * @param startDate 代理开始日期
 	 * @param endDate   代理失效日期
 	 */
@@ -41,7 +43,7 @@ public interface AuthUserDelegateService {
 	 * 回收授予身份
 	 * 
 	 * @param fromUser 授予身份用户
-	 * @param toUser   被授予身份用户
+	 * @param toUser   被授予身份用户（代理人）
 	 */
 	public void revokeDelegate(AuthUser fromUser, AuthUser toUser);
 	
@@ -49,21 +51,23 @@ public interface AuthUserDelegateService {
 	 * 判断是否已授予身份
 	 * 
 	 * @param fromUser 授予身份用户
-	 * @param toUser   被授予身份用户
+	 * @param toUser   被授予身份用户（代理人）
 	 * @return
 	 */
 	public boolean exists(AuthUser fromUser, AuthUser toUser);
 	
 	/**
-	 * 查询所有
-	 * @param toUser
+	 * 查询被委托人／代理人（我把身份委托给了谁）
+	 * 
+	 * @param fromUser 授予身份用户
 	 * @return
 	 */
 	public List<AuthUserDelegate> findAllByFromUser(AuthUser fromUser);
 	
 	/**
+	 * 查询委托人（谁把身份委托给了我）
 	 * 
-	 * @param fromUser
+	 * @param toUser 被授予身份用户（代理人）
 	 * @return
 	 */
 	public List<AuthUserDelegate> findAllByToUser(AuthUser toUser);

@@ -50,13 +50,6 @@
 								th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
 							<li><label>更新时间</label> <span
 								th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
-							<li><label>用户有效</label>
-								<div
-									class="bootstrap-switch bootstrap-switch-mini bootstrap-switch-readonly"
-									data-on-text="有效" data-off-text="禁用">
-									<input type="checkbox" th:field="*{available}"
-										checked="checked" readonly="readonly" />
-								</div></li>
 						</ul>
 					</div>
 				</div>

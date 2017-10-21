@@ -21,6 +21,8 @@ import com.jrsoft.auth.service.AuthPermissionService;
 
 /**
  * com.jrsoft.auth.service.impl AuthPermissionServiceImpl
+ * 
+ * 系统权限服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

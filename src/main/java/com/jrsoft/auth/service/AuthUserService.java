@@ -11,6 +11,8 @@ import com.jrsoft.auth.entity.AuthUser;
 
 /**
  * com.jrsoft.auth.service AuthUserService
+ * 
+ * 系统用户服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -58,8 +60,7 @@ public interface AuthUserService {
 	public boolean insert(AuthUser user);
 	
 	/**
-	 * 更新用户信息，不会修改密码和加密盐值
-	 * 如果需要修改密码请使用 changePassword
+	 * 更新用户信息，不会修改密码和加密盐值，如果需要修改密码请使用 {@link changePassword}
 	 * 
 	 * @param user
 	 * @return boolean 更新成功返回true，否则返回false

@@ -19,7 +19,7 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 /**
  * com.jrsoft.auth.dao AuthUserDelegateDAO
  * 
- * 用户代理数据访问类
+ * 身份代理数据访问类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -29,7 +29,7 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 public interface AuthUserDelegateDAO {
 
 	/**
-	 * 查询被委托人（代理人）
+	 * 查询被委托人／代理人（我把身份委托给了谁）
 	 * 
 	 * @param fromUserId
 	 * @return List
@@ -44,6 +44,12 @@ public interface AuthUserDelegateDAO {
 			@Result(property = "updateTime", column = "update_time") })
 	public List<AuthUserDelegate> findAllByFromUser(@Param(value = "fromUserId") Integer fromUserId);
 
+	/**
+	 * 查询委托人（谁把身份委托给了我）
+	 * 
+	 * @param toUserId
+	 * @return
+	 */
 	@Select("CALL sp_findAllClients(${toUserId})")
 	@Results({
 			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
@@ -82,7 +88,7 @@ public interface AuthUserDelegateDAO {
 	public int grantDelegate(AuthUserDelegate authUserDelegate);
 
 	/**
-	 * 取消么托关系
+	 * 删除委托关系
 	 * 
 	 * @param fromUserId
 	 * @param toUserId

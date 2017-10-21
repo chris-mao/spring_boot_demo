@@ -13,6 +13,8 @@ import com.jrsoft.auth.entity.AuthUser;
 
 /**
  * com.jrsoft.auth.service AuthRoleService
+ * 
+ * 系统角色服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
