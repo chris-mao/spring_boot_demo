@@ -27,9 +27,11 @@ import com.jrsoft.auth.utils.AuthUtils;
 
 /**
  * com.jrsoft.auth.controller AuthUserDelegateController
+ * 
+ * 身份代理控控制器类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
- *
+ * 
  * @version 1.0
  *
  */
@@ -37,13 +39,21 @@ import com.jrsoft.auth.utils.AuthUtils;
 @RequestMapping("/delegate")
 public class AuthUserDelegateController {
 
+	/**
+	 * 
+	 */
 	@Resource
 	private AuthUserService authUserService;
 
+	/**
+	 * 
+	 */
 	@Resource
 	private AuthUserDelegateService authUserDelegateService;
 
 	/**
+	 * 身份委托首页，显示“我的委托”与“我的受托”列表，亦显示出所有委托候选人列表方便用户将其设为委托人
+	 * 当用户切换到委托人身份时，不再显示委托候选人列表，不允许添加、删除委托人自己设置的委托关系
 	 * 
 	 * @param page
 	 * @param model
@@ -56,18 +66,27 @@ public class AuthUserDelegateController {
 		// System.out.println("前一个身份是：" + AuthUtils.getPreviousUser());
 		// 前一个身份
 		model.addAttribute("previousUser", AuthUtils.getPreviousUser());
-		// 委托人
-		model.addAttribute("clients", this.authUserDelegateService.findAllByToUser(AuthUtils.getUser()));
-		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByFromUser(AuthUtils.getUser());
-		// 代理人（被委托人）
+		// 代理人（受托人）
+		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByFromUser(AuthUtils.getCurrentUser());
 		model.addAttribute("delegates", delegates);
-		
-		// 如果已切换到委托人身份，则不再需要显示出所有候选代理人供其选择
+		// 委托人
+		List<AuthUserDelegate> clients = this.authUserDelegateService.findAllByToUser(AuthUtils.getCurrentUser());
+		model.addAttribute("clients", clients);
+
+		// 只有回到自己的身份的时候，再显示委托候选人供其选择；
+		// 切换到委托人身份时，不允许替委托人设置委托
 		if (AuthUtils.getPreviousUser() == null) {
 			List<AuthUser> candidates = authUserService.findAllAvailableUser();
-			candidates.remove(AuthUtils.getUser());
+			candidates.remove(AuthUtils.getCurrentUser());
+			// 将我已委托的用户从委托候选列表中移除
 			for (AuthUserDelegate user : delegates) {
+				// System.out.println("从列表中移除我的受托人: " + user.getToUser());
 				candidates.remove(user.getToUser());
+			}
+			// 将已委托给我的用户从委托候选列表中移除
+			for (AuthUserDelegate user : clients) {
+				// System.out.println("从列表中移除我的委托人: " + user.getFromUser());
+				candidates.remove(user.getFromUser());
 			}
 			model.addAttribute("candidates", candidates);
 		}
@@ -75,6 +94,9 @@ public class AuthUserDelegateController {
 	}
 
 	/**
+	 * 将身份委托给指定的用户 如果被委托人不存在，则抛出{@link DataNotFoundException}异常
+	 * 如果被委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常
+	 * 如果出现委托给自己或是循环委托，也会抛出{@link IllegalDelegateException}异常
 	 * 
 	 * @param toUserId
 	 * @return
@@ -95,22 +117,23 @@ public class AuthUserDelegateController {
 			throw new IllegalDelegateException(String.format("代理用户 %s 的帐号已过期，无法设为您的代理人！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.INACTIVE) {
 			throw new IllegalDelegateException(String.format("代理用户 %s 的帐号已失效，无法设为您的代理人！！", toUser.getNickName()));
-		} else if (AuthUtils.getUser().equals(toUser)) {
+		} else if (AuthUtils.getCurrentUser().equals(toUser)) {
 			throw new IllegalDelegateException("不能将身份设为自己的代理人！！");
 		}
-		if (this.authUserDelegateService.exists(toUser, AuthUtils.getUser())) {
+		if (this.authUserDelegateService.exists(toUser, AuthUtils.getCurrentUser())) {
 			throw new IllegalDelegateException(
 					String.format("循环委托：您已是用户 %s 的代理人，不允许再将身份委托给他（她）！", toUser.getNickName()));
 		}
-		if (this.authUserDelegateService.exists(AuthUtils.getUser(), toUser)) {
-			throw new IllegalDelegateException(String.format("不可以将身份重复委托给同一同户！ID：%d",toUserId));
+		if (this.authUserDelegateService.exists(AuthUtils.getCurrentUser(), toUser)) {
+			throw new IllegalDelegateException(String.format("不可以将身份重复委托给同一同户！ID：%d", toUserId));
 		}
 
-		this.authUserDelegateService.grantDelegate(AuthUtils.getUser(), toUser);
+		this.authUserDelegateService.grantDelegate(AuthUtils.getCurrentUser(), toUser);
 		return "redirect:/delegate";
 	}
 
 	/**
+	 * 取消委托关系
 	 * 
 	 * @param toUserId
 	 * @return
@@ -119,11 +142,15 @@ public class AuthUserDelegateController {
 	@RequiresPermissions("authUser:delegate")
 	public String revoke(@PathVariable("toUserId") Integer toUserId) {
 		AuthUser toUser = new AuthUser(toUserId);
-		this.authUserDelegateService.revokeDelegate(AuthUtils.getUser(), toUser);
+		this.authUserDelegateService.revokeDelegate(AuthUtils.getCurrentUser(), toUser);
 		return "redirect:/delegate";
 	}
 
 	/**
+	 * 切换身份
+	 * 
+	 * 切换到委托人身份 如果委托人不存在，则抛出{@link DataNotFoundException}异常
+	 * 如果委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常
 	 * 
 	 * @param toUserId
 	 * @return
@@ -148,11 +175,14 @@ public class AuthUserDelegateController {
 
 		SimplePrincipalCollection spc = new SimplePrincipalCollection(toUser, "");
 		AuthUtils.getCredential().runAs(spc);
-		System.out.println(AuthUtils.getUser());
+		System.out.println(AuthUtils.getCurrentUser());
 		return "redirect:/delegate";
 	}
 
 	/**
+	 * 返回身份
+	 * 
+	 * 身份委托是以栈的形式保存，所以在返回身份时，只能返回上一个身份，直至栈为空为止
 	 * 
 	 * @return
 	 */
