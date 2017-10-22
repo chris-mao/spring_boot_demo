@@ -46,7 +46,7 @@ public class ShiroConfiguration {
 	 */
 	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
-		logger.info("ShiroConfiguration.shiroFilter() has been loaded");
+		logger.info("加载Shiro过滤器");
 		ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
 		filterBean.setSecurityManager(securityManager);
 
@@ -84,10 +84,13 @@ public class ShiroConfiguration {
 	public SecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		// 注入realm
+		logger.info("向Shiro中注入realm");
 		securityManager.setRealm(jrShiroRealm());
 		// 注入缓存管理器
+		logger.info("向Shiro中注入缓存管理器");
 		securityManager.setCacheManager(ehCacheManager());
 		// 注入会话管理器
+		logger.info("向Shiro中注入会话管理器");
 		securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
@@ -99,6 +102,7 @@ public class ShiroConfiguration {
 	@Bean
 	public JrShiroRealm jrShiroRealm() {
 		JrShiroRealm jrShiroRealm = new JrShiroRealm();
+		logger.info("向Shiro中注入密码加密匹配器");
 		jrShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return jrShiroRealm;
 	}
@@ -124,6 +128,7 @@ public class ShiroConfiguration {
 	 */
 	@Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+		logger.info("开启Shiro AOP注解支持");
 		AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
 		advisor.setSecurityManager(securityManager);
 		return advisor;
@@ -150,9 +155,11 @@ public class ShiroConfiguration {
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		//设置会话过期时间
+		logger.info("设置会话过期时间");
 		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000); // 30 mins
 		sessionManager.setSessionValidationInterval(sessionManager.getGlobalSessionTimeout());
 		//添加会话监听
+		logger.info("添加会话监听");
 		ArrayList<SessionListener> listeners = new ArrayList<SessionListener>();
 		listeners.add(new JrSessionListener());
 		sessionManager.setSessionListeners(listeners);

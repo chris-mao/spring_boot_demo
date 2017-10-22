@@ -70,5 +70,10 @@ public class AuthController {
 		SecurityUtils.getSubject().logout();
 		return "auth/logout";
 	}
+	
+	@GetMapping("/403")
+	public String unauthorized() {
+		return "auth/unauthorized";
+	}
 
 }
