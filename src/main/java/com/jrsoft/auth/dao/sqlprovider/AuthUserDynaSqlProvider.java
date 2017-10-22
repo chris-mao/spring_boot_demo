@@ -26,7 +26,7 @@ public class AuthUserDynaSqlProvider {
 			SELECT("user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time");
 			FROM("auth_user");
 			if (onlyAvailable) {
-				WHERE("available = true");
+				WHERE("state = 'ACTIVE'");
 			}
 			ORDER_BY("user_name");
 		}}.toString();
