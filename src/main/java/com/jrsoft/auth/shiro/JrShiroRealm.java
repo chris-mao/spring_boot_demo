@@ -27,7 +27,6 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
-import com.jrsoft.customer.service.CustomerService;
 
 /**
  * com.jrsoft.auth.shiro JrShiroRealm
@@ -57,12 +56,6 @@ public class JrShiroRealm extends AuthorizingRealm {
 	
 	@Resource
 	private AuthPermissionService authPermissionService;
-	
-	/**
-	 * 
-	 */
-	@Resource
-	private CustomerService customerService;
 
 	/**
 	 * 获取用户权限

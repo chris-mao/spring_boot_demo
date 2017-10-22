@@ -23,11 +23,7 @@
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <shiro:principal property="nickName" /><b
 								class="caret"></b>
-						</a> <!-- <ul class="dropdown-menu" th:if="${not #lists.isEmpty(session.userDecorator.billToSiteList)}">
-							<li th:each="site: ${session.userDecorator.billToSiteList}"
-								th:object="${site}"><a class="navbar-link" href="#"
-								onclick="switchSite(0);" th:text="*{operationUnitName}"></a></li>
-						</ul> --></li>
+						</a></li>
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
@@ -53,66 +49,6 @@
 									</shiro:hasPermission>
 								</ul></li>
 						</shiro:hasRole>
-						<shiro:hasAnyRoles name="系统管理员,客服代表">
-							<li class="dropdown"><a href="javascript:void(0);"
-								class="dropdown-toggle" data-toggle="dropdown">数据管理<b
-									class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<shiro:hasPermission name="customer:list">
-										<li><a class="navbar-link" title="维护系统客户" href="#"
-											th:href="@{/customers}"><span
-												class="glyphicon glyphicon-user"></span>&nbsp;客户管理</a></li>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="employee:list">
-										<li><a class="navbar-link" title="维护系统员工" href="#"
-											th:href="@{/employeese}"><span
-												class="glyphicon glyphicon-user"></span>&nbsp;员工管理</a></li>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="model:list">
-										<li role="separator" class="divider"></li>
-										<li><a class="navbar-link" title="查看系统中定义的工厂型号" href="#"
-											th:href="@{/models}"><span
-												class="glyphicon glyphicon-tags"></span>&nbsp;工厂型号</a></li>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="price:list">
-										<li role="separator" class="divider"></li>
-										<li><a class="navbar-link" title="查看系统中有效的销售价格表" href="#"
-											th:href="@{/prices}"><span
-												class="glyphicon glyphicon-usd"></span>&nbsp;销售价格表</a></li>
-									</shiro:hasPermission>
-								</ul></li>
-						</shiro:hasAnyRoles>
-
-						<shiro:hasRole name="销售客户">
-							<li><a href='#' th:href="@{/shopping-cart}"><span
-									class="glyphicon glyphicon-shopping-cart"></span>&nbsp;购物车</a></li>
-						</shiro:hasRole>
-
-						<li class='dropdown'><a href='javascript:void(0);'
-							class='dropdown-toggle' data-toggle='dropdown'>订单管理<b
-								class='caret'></b></a>
-							<ul class='dropdown-menu'>
-								<li><a class='navbar-link' title='手工挑选所需产品' href='#'
-									th:href="@{/showcase}"><span
-										class="glyphicon glyphicon-list"></span>&nbsp;我要买</a></li>
-								<shiro:hasPermission name="order:upload">
-									<li><a class='navbar-link' title='将在Excel模板中制作好的订单上传到系统中'
-										href='#' th:href="@{/orders/import}"><span
-											class="glyphicon glyphicon-upload"></span>&nbsp;订单上传</a></li>
-								</shiro:hasPermission>
-								<li role='separator' class='divider'></li>
-								<shiro:hasPermission name="order:query">
-									<li><a class='navbar-link' title='查询当前客户代码下的销售订单' href='#'
-										th:href="@{/orders/query}"><span
-											class="glyphicon glyphicon-search"></span>&nbsp;订单查询（跨OU）</a></li>
-								</shiro:hasPermission>
-								<shiro:hasPermission name="order:list">
-									<li><a class='navbar-link' title='显示所有未完成发货的销售订单' href='#'
-										th:href="@{/orders}"><span
-											class="glyphicon glyphicon-list-alt"></span>&nbsp;未完成订单（跨OU）</a></li>
-								</shiro:hasPermission>
-							</ul></li>
-
 						<li class="dropdown"><a href="javascript:void(0);"
 							class="dropdown-toggle" data-toggle="dropdown">系统操作<b
 								class="caret"></b></a>
@@ -124,7 +60,8 @@
 								<li role="separator" class="divider"></li>
 								<shiro:hasPermission name="authUser:delegate">
 									<li><a class="navbar-link" title="身份代理" href="#"
-										th:href="@{/delegate}"><span class="glyphicon glyphicon-user"></span>&nbsp;委托与代理</a></li>
+										th:href="@{/delegate}"><span
+											class="glyphicon glyphicon-user"></span>&nbsp;委托与代理</a></li>
 									<li role="separator" class="divider"></li>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="authUser:change-password">
