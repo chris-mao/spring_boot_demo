@@ -116,7 +116,7 @@ public class PriceController {
 			model.addAttribute("page", prices);
 		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，只看自己的价格表
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getCurrentUser());
 			PageInfo<PriceListHeader> priceLists = findCustomerPrice(customers);
 			if (1 == priceLists.getList().size()) {
 				return "redirect:/prices/" + priceLists.getList().iterator().next().getHeaderId();
@@ -124,7 +124,7 @@ public class PriceController {
 			model.addAttribute("page", priceLists);
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
-			Employee emp = employeeService.findOneByCredential(AuthUtils.getUser());
+			Employee emp = employeeService.findOneByCredential(AuthUtils.getCurrentUser());
 			if (null == emp) {
 				model.addAttribute("page", new PageInfo<PriceListHeader>());
 			} else {
@@ -169,14 +169,14 @@ public class PriceController {
 			List<CustomerAccount> qualifiedCustomers = customerService.findAllQualifiedCustomers(plh);
 			Iterator<CustomerAccount> iterator = qualifiedCustomers.iterator();
 			while (iterator.hasNext()) {
-				if (null != customerService.isMine(AuthUtils.getUser(), iterator.next().getCustomerId())) {
+				if (null != customerService.isMine(AuthUtils.getCurrentUser(), iterator.next().getCustomerId())) {
 					model.addAttribute("lines", priceService.findAllPriceLines(priceHeader));
 					break;
 				}
 			}
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，只看自己负责的客户的价格表
-			Employee employee = employeeService.findOneByCredential(AuthUtils.getUser());
+			Employee employee = employeeService.findOneByCredential(AuthUtils.getCurrentUser());
 			if (null == employee) {
 				throw new DataNotFoundException("当前登录帐号未曾绑定任何员工，无法进一步判断是否有权限查看此价格资料！");
 			}

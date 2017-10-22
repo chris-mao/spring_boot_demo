@@ -36,7 +36,7 @@ public class AuthUtils {
 	 * 
 	 * @return AuthUser
 	 */
-	public static AuthUser getUser() {
+	public static AuthUser getCurrentUser() {
 		if (getCredential().isAuthenticated()) {
 			return (AuthUser) getCredential().getPrincipal();
 		}

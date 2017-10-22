@@ -89,7 +89,7 @@ public class CustomerController {
 			PageInfo<CustomerAccount> customers = customerService.findAll(page);
 			model.addAttribute("page", customers);
 		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅列出与当前登录帐号绑定的客户
-			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getUser());
+			List<CustomerAccount> customers = customerService.findAllByCredential(AuthUtils.getCurrentUser());
 			if (customers.size() == 1) { // 如果只有一个客户信息，直接跳转到客户详情页面
 				return "redirect:/customers/" + customers.iterator().next().getCustomerId();
 			}
@@ -97,7 +97,7 @@ public class CustomerController {
 
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅列出自己负责的客户
-			model.addAttribute("page", findAllByEmployee(employeeService.findOneByCredential(AuthUtils.getUser())));
+			model.addAttribute("page", findAllByEmployee(employeeService.findOneByCredential(AuthUtils.getCurrentUser())));
 		}
 
 		return "customer/index";
@@ -134,14 +134,14 @@ public class CustomerController {
 			}
 		} else if (true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER)) { // 销售客户，仅允许查看与当前登录帐号绑定的客户详情
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			customer = customerService.isMine(AuthUtils.getUser(), id);
+			customer = customerService.isMine(AuthUtils.getCurrentUser(), id);
 			if (null == customer) {
 				throw new UnauthorizedException("该客户尚未与当前的登录帐号绑定，您无权查看其资料！");
 			}
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅允许查看自己负责的客户详情
 			// TODO:把客户信息写封装在AuthUserDecorator类中，不用再次从数据库中查询
-			Employee employee = employeeService.findOneByCredential(AuthUtils.getUser());
+			Employee employee = employeeService.findOneByCredential(AuthUtils.getCurrentUser());
 			if (null == employee) {
 				throw new DataNotFoundException("当前登录帐号未曾绑定任何员工，无法进一步判断是否有权限查看此客户资料！");
 			}

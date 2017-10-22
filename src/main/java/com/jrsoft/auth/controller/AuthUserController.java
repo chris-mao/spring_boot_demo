@@ -238,7 +238,7 @@ public class AuthUserController {
 	public String chanegPassword(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
 		if (!AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)
-				&& (id != AuthUtils.getUser().getUserId())) {// 除了管理员不能修改他人密码
+				&& (id != AuthUtils.getCurrentUser().getUserId())) {// 除了管理员不能修改他人密码
 			throw new UnauthorizedException("您无权修改他人登录密码");
 		}
 		model.addAttribute("authUser", findUser(id));
