@@ -5,6 +5,8 @@ package com.jrsoft.auth;
 
 /**
  * com.jrsoft.auth AuthUserState
+ * 
+ * 系统用户状态枚举值
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

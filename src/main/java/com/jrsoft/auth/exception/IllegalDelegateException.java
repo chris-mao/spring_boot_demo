@@ -3,6 +3,8 @@ package com.jrsoft.auth.exception;
 /**
  * 
  * com.jrsoft.auth.exception IllegalDelegateException
+ * 
+ * 身份委托异常类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

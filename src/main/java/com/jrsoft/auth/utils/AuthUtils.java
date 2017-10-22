@@ -44,7 +44,7 @@ public class AuthUtils {
 	}
 
 	/**
-	 * 获取切换委托身份前的用户实例 如果没有切换委托身份则返回null
+	 * 获取切换委托身份前的用户实例 如果没有切换委托身份则返回{@code null}
 	 * 
 	 * @return AuthUser
 	 */

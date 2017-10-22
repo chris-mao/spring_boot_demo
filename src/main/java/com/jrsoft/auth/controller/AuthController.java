@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
- * 身份认证控制器类
- * 
  * com.jrsoft.auth.controller AuthController
+ * 
+ * 身份认证控制器类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -31,11 +31,29 @@ public class AuthController {
 
 	private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
+	/**
+	 * 登录页面
+	 * 
+	 * @return
+	 */
 	@GetMapping("/login")
 	public String index() {
 		return "auth/login";
 	}
 
+	/**
+	 * 用户登录POST页面，判断用户名及密码是否正确，如果返回的错误异常名称是
+	 * <pre>{@link UnknownAccountException} 表示登录帐号不存在</pre>
+	 * <pre>{@link IncorrectCredentialsException} 表示登录帐号存在，但输入的密码不正确</pre>
+	 * <pre>{@link LockedAccountException} 表示登录帐号被锁</pre>
+	 * <pre>{@link ExpiredCredentialsException} 表示登录帐号已过期</pre>
+	 * <pre>{@link DisabledAccountException} 表示登录帐号被禁用</pre>
+	 * <pre>{@link AuthenticationException} 表示其他未知和登录错误</pre>
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/login")
 	public String doLogin(HttpServletRequest request, Model model) {
 		String msg = "";
@@ -65,6 +83,11 @@ public class AuthController {
 		return "auth/login";
 	}
 
+	/**
+	 * 退出系统页面
+	 * 
+	 * @return
+	 */
 	@GetMapping("/logout")
 	public String logout() {
 		SecurityUtils.getSubject().logout();

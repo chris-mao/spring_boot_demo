@@ -28,10 +28,10 @@ import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 
 /**
- * 系统角色控制器类
- * 
  * com.jrsoft.auth.controller AuthRoleController
  *
+ * 系统角色控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -48,7 +48,7 @@ public class AuthRoleController {
 	private AuthPermissionService authPermissionService;
 
 	/**
-	 * 按ID查询角色，如果角色不存在则抛出DataNotFoundException异常
+	 * 按ID查询角色，如果角色不存在则抛出{@link DataNotFoundException}异常
 	 * 
 	 * @param id
 	 * @return
@@ -64,7 +64,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 系统角色列表
+	 * 系统角色列表页面
 	 * 
 	 * @param page
 	 * @param model
@@ -79,7 +79,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 查看角色详情
+	 * 查看角色详情页面
 	 * 
 	 * @param id
 	 * @param request
@@ -101,7 +101,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 创建新角色
+	 * 创建新角色页面
 	 * 
 	 * @param model
 	 * @return
@@ -114,7 +114,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 编辑角色
+	 * 编辑角色页面
 	 * 
 	 * @param id
 	 * @param request
@@ -131,7 +131,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 保存角色，新增角色之前会判断角色名称是否已存在
+	 * 保存角色页面，新增角色之前会判断角色名称是否已存在
 	 * 
 	 * @param authRole
 	 * @param request
@@ -195,7 +195,7 @@ public class AuthRoleController {
 	}
 
 	/**
-	 * 删除角色
+	 * 删除角色页面
 	 * 
 	 * todo: 删除之前需要判断角色是否还有用户使用该权限
 	 * 
@@ -210,6 +210,11 @@ public class AuthRoleController {
 		return "redirect:/roles";
 	}
 	
+	/**
+	 * 以JSON格式返回所有有效的系统角色
+	 * 
+	 * @return
+	 */
 	@ResponseBody
 	@GetMapping("/json")
 	public List<AuthRole> jsonData() {

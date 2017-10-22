@@ -11,10 +11,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 权限实体类
- *
  * com.jrsoft.auth.entity AuthPermission
  * 
+ * 权限实体类
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

@@ -14,10 +14,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.jrsoft.auth.AuthUserStateEnum;
 
 /**
- * 系统用户实体类
- *
  * com.jrsoft.auth.entity AuthUser
  * 
+ * 系统用户实体类
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

@@ -7,6 +7,8 @@ import org.apache.ibatis.jdbc.SQL;
 
 /**
  * com.jrsoft.auth.dao.sqlprovider AuthPermissionDynaSqlProvider
+ * 
+ * 权限查询动态SQL提供者类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

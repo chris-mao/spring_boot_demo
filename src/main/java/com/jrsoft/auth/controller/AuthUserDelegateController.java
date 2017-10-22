@@ -52,8 +52,10 @@ public class AuthUserDelegateController {
 	private AuthUserDelegateService authUserDelegateService;
 
 	/**
-	 * 身份委托首页，显示“我的委托”与“我的受托”列表，亦显示出所有委托候选人列表方便用户将其设为委托人
-	 * 当用户切换到委托人身份时，不再显示委托候选人列表，不允许添加、删除委托人自己设置的委托关系
+	 * 身份委托页面
+	 * 
+	 * <pre>显示“我的委托”与“我的受托”列表，亦显示出所有委托候选人列表方便用户将其设为委托人
+	 * 当用户切换到委托人身份时，不再显示委托候选人列表，不允许添加、删除委托人自己设置的委托关系</pre>
 	 * 
 	 * @param page
 	 * @param model
@@ -94,9 +96,10 @@ public class AuthUserDelegateController {
 	}
 
 	/**
-	 * 将身份委托给指定的用户 如果被委托人不存在，则抛出{@link DataNotFoundException}异常
-	 * 如果被委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常
-	 * 如果出现委托给自己或是循环委托，也会抛出{@link IllegalDelegateException}异常
+	 * 将身份委托给指定的用户 
+	 * <pre>如果被委托人不存在，则抛出{@link DataNotFoundException}异常</pre>
+	 * <pre>如果被委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常</pre>
+	 * <pre>如果出现委托给自己或是循环委托，也会抛出{@link IllegalDelegateException}异常</pre>
 	 * 
 	 * @param toUserId
 	 * @return
@@ -149,8 +152,8 @@ public class AuthUserDelegateController {
 	/**
 	 * 切换身份
 	 * 
-	 * 切换到委托人身份 如果委托人不存在，则抛出{@link DataNotFoundException}异常
-	 * 如果委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常
+	 * <pre>切换到委托人身份 如果委托人不存在，则抛出{@link DataNotFoundException}异常</pre>
+	 * <pre>如果委托人的帐号被锁、过期或是失效，则抛出{@link IllegalDelegateException}异常</pre>
 	 * 
 	 * @param toUserId
 	 * @return

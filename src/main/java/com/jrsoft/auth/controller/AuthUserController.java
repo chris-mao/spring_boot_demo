@@ -30,10 +30,10 @@ import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.auth.utils.AuthUtils;
 
 /**
- * 系统用户控制器类
- * 
  * com.jrsoft.auth.controller AuthUserController
  *
+ * 系统用户控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -50,7 +50,7 @@ public class AuthUserController {
 	private AuthRoleService authRoleService;
 
 	/**
-	 * 按ID查询用户，如果用户不存在则抛出DataNotFoundException异常
+	 * 按ID查询用户，如果用户不存在则抛出{@link DataNotFoundException}异常
 	 * 
 	 * @param id
 	 * @return AuthUser
@@ -66,7 +66,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 系统用户列表
+	 * 系统用户列表页面
 	 * 
 	 * @param page
 	 * @param model
@@ -81,7 +81,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 查看用户详情
+	 * 查看用户详情页面
 	 * 
 	 * @param id
 	 * @param model
@@ -101,7 +101,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 新增系统用户
+	 * 新增系统用户页面
 	 * 
 	 * @param model
 	 * @return
@@ -114,7 +114,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 编辑用户信息
+	 * 编辑用户信息页面
 	 * 
 	 * @param id
 	 * @param request
@@ -141,7 +141,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 保存用户信息，新增用户之前会判断用户名是否已存在
+	 * 保存用户页面，新增用户之前会判断用户名是否已存在
 	 * 
 	 * 这里有个坑：参数BindingResult result 必须根在要验证的对象参数之后，否则会抛出异常！
 	 * 
@@ -210,7 +210,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 删除系统用户
+	 * 删除系统用户页面
 	 * 
 	 * todo: 删除之前需要判断用户是否被关联到相应的客户或是员工
 	 * 
@@ -226,7 +226,7 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 修改登录密码
+	 * 修改登录密码页面
 	 * 
 	 * @param id
 	 * @param request
@@ -267,6 +267,11 @@ public class AuthUserController {
 		return chanegPassword(id, request, model);
 	}
 
+	/**
+	 * 以JSOH格式返回所有有效的系统用户
+	 * 
+	 * @return
+	 */
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthUser> jsonData() {

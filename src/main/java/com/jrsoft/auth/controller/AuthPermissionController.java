@@ -24,10 +24,10 @@ import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
 
 /**
- * 系统权限管理摈制器类
- * 
  * com.jrsoft.auth.controller AuthPermissionController
  *
+ * 系统权限管理摈制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -41,7 +41,7 @@ public class AuthPermissionController {
 	private AuthPermissionService authPermissionService;
 
 	/**
-	 * 按ID查询权限，如果权限不存在则抛出DataNotFoundException异常
+	 * 按ID查询权限，如果权限不存在则抛出{@link DataNotFoundException}异常
 	 * 
 	 * @param id
 	 * @return
@@ -57,7 +57,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 系统权限列表
+	 * 系统权限列表页面
 	 * 
 	 * @param page
 	 * @param model
@@ -72,7 +72,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 查看权限详情
+	 * 查看权限详情页面
 	 * 
 	 * @param id
 	 * @param request
@@ -89,7 +89,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 创建新权限
+	 * 创建新权限页面
 	 * 
 	 * @param model
 	 * @return
@@ -102,7 +102,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 编辑权限
+	 * 编辑权限页面
 	 * 
 	 * @param id
 	 * @param request
@@ -119,7 +119,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 保存权限，新增权限之前会判断权限名称是否已存在
+	 * 保存权限页面，新增权限之前会判断权限名称是否已存在
 	 * 
 	 * @param permission
 	 * @param request
@@ -158,7 +158,7 @@ public class AuthPermissionController {
 	}
 
 	/**
-	 * 删除权限
+	 * 删除权限页面
 	 * 
 	 * todo:删除之前需要判断权限是否还有角色或是用户使用到该权限
 	 * 
@@ -173,6 +173,11 @@ public class AuthPermissionController {
 		return "redirect:/permissions";
 	}
 	
+	/**
+	 * 以JSON格式返回所有有效的系统权限
+	 * 
+	 * @return
+	 */
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthPermission> jsonData() {
