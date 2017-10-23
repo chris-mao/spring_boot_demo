@@ -14,10 +14,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 客户实体类
- * 
  * com.jrsoft.customer.entity Customer
  *
+ * 客户实体类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

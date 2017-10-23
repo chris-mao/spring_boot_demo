@@ -26,10 +26,10 @@ import com.jrsoft.employee.service.EmployeeService;
 import com.jrsoft.price.service.PriceService;
 
 /**
- * 客户数据维护控制器类
- * 
  * com.jrsoft.customer.controller CustomerController
  *
+ * 客户数据维护控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -57,6 +57,11 @@ public class CustomerController {
 	@Resource
 	private PriceService priceService;
 
+	/**
+	 * 
+	 * @param emp
+	 * @return
+	 */
 	private PageInfo<CustomerAccount> findAllByEmployee(Employee emp) {
 		if (null == emp) {
 			return new PageInfo<CustomerAccount>();
@@ -69,11 +74,18 @@ public class CustomerController {
 	 * 客户列表页面
 	 * 
 	 * 根据当前登录帐号的角色列出允许查看的客户列表
-	 * <ul>
-	 * <li>系统管理员：列出所有客户</li>
-	 * <li>销售代表或是客服代表：仅列出该代表负责的客户</li>
-	 * <li>销售客户：仅列出与当前登录帐号绑定的客户，如果仅绑定一个客户，则直接跳转到客户详情页面</li>
-	 * </ul>
+	 * 
+	 * <pre>
+	 * 系统管理员：列出所有客户
+	 * </pre>
+	 * 
+	 * <pre>
+	 * 销售代表或是客服代表：仅列出该代表负责的客户
+	 * </pre>
+	 * 
+	 * <pre>
+	 * 销售客户：仅列出与当前登录帐号绑定的客户，如果仅绑定一个客户，则直接跳转到客户详情页面
+	 * </pre>
 	 * 
 	 * 可以考虑，除了系统管理员，不给其他角色customer:list权限，因为客服代表或是销售代表可以在自己的详情页面中看到自己负责的客户列表，
 	 * 无需再到这个页面中查看
@@ -97,23 +109,31 @@ public class CustomerController {
 
 		} else if ((true == AuthUtils.getCredential().hasRole(AuthRoleService.CUSTOMER_SERVICE_REPRESENTATIVE))
 				|| (true == AuthUtils.getCredential().hasRole(AuthRoleService.SALES_REPRESENTATIVE))) { // 客服代表或销售代表，仅列出自己负责的客户
-			model.addAttribute("page", findAllByEmployee(employeeService.findOneByCredential(AuthUtils.getCurrentUser())));
+			model.addAttribute("page",
+					findAllByEmployee(employeeService.findOneByCredential(AuthUtils.getCurrentUser())));
 		}
 
 		return "customer/index";
 	}
 
 	/**
-	 * 查看客户详情
+	 * 查看客户详情页面
 	 * 
 	 * 包括客户的地址信息，对应的接洽人员信息（客服代表、销售代表）以及可以使用的价格表
 	 * 
 	 * 根据当前登录帐号的角色判断是否允许查看
-	 * <ul>
-	 * <li>系统管理员：查看所有客户的详情</li>
-	 * <li>销售代表或是客服代表：仅允许查看该代表负责的客户的详情</li>
-	 * <li>销售客户：仅允许查看与当前登录帐号绑定的客户的详情</li>
-	 * </ul>
+	 * 
+	 * <pre>
+	 * 系统管理员：查看所有客户的详情
+	 * </pre>
+	 * 
+	 * <pre>
+	 * 销售代表或是客服代表：仅允许查看该代表负责的客户的详情
+	 * </pre>
+	 * 
+	 * <pre>
+	 * 销售客户：仅允许查看与当前登录帐号绑定的客户的详情
+	 * </pre>
 	 * 
 	 * @param id
 	 * @param model

@@ -14,6 +14,8 @@ import com.jrsoft.price.entity.PriceListHeader;
 
 /**
  * com.jrsoft.price.dao PriceListHeaderDao
+ * 
+ * 价格表头数据访问接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

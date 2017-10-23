@@ -31,10 +31,10 @@ import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
 
 /**
- * 员工数据维护控制器类
- * 
  * com.jrsoft.employee.controller EmployeeController
  *
+ * 员工数据维护控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -72,7 +72,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 员工列表
+	 * 员工列表页面
 	 * 
 	 * @param page
 	 * @param model
@@ -87,7 +87,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 查看员工明细，包括已分配的客户
+	 * 查看员工明细页面，包括已分配的客户
 	 * 
 	 * @param id
 	 * @param model
@@ -106,7 +106,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 创建新员工
+	 * 创建新员工页面
 	 * 
 	 * @param model
 	 * @return
@@ -119,7 +119,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 编辑员工
+	 * 编辑员工页面
 	 * 
 	 * @param id
 	 * @param request
@@ -137,7 +137,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 保存员工
+	 * 保存员工页面
 	 * 
 	 * @param employee
 	 * @param result
@@ -177,7 +177,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 删除员工
+	 * 删除员工页面
 	 * 
 	 * @param id
 	 * @param request

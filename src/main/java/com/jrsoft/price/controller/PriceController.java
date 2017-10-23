@@ -30,10 +30,10 @@ import com.jrsoft.price.entity.PriceListHeader;
 import com.jrsoft.price.service.PriceService;
 
 /**
- * 销售价格数据维护控制器类
- * 
  * com.jrsoft.price.controller PriceController
  *
+ * 销售价格数据维护控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -95,11 +95,9 @@ public class PriceController {
 	 * 
 	 * 根据当前登录帐号的角色列出允许查看的价格表列表
 	 * 
-	 * <ul>
-	 * <li>系统管理员：列出所有价格表</li>
-	 * <li>销售代表或是客服代表：仅列出该代表负责的客户的价格表</li>
-	 * <li>销售客户：仅列出与当前登录帐号绑定的客户的价格表，如果仅有一个价格表，则直接跳转到价格表详情页面</li>
-	 * </ul>
+	 * <pre>系统管理员：列出所有价格表</pre>
+	 * <pre>销售代表或是客服代表：仅列出该代表负责的客户的价格表</pre>
+	 * <pre>销售客户：仅列出与当前登录帐号绑定的客户的价格表，如果仅有一个价格表，则直接跳转到价格表详情页面</pre>
 	 * 
 	 * @param page
 	 * @param model
@@ -139,11 +137,9 @@ public class PriceController {
 	 * 
 	 * 根据当前登录帐号的角色判断是否允许查看
 	 * 
-	 * <ul>
-	 * <li>系统管理员：查看所有客户的价格表详情</li>
-	 * <li>销售代表或是客服代表：仅允许查看该代表负责的客户的价格表详情</li>
-	 * <li>销售客户：仅允许查看与当前登录帐号绑定的客户的价格表详情</li>
-	 * </ul>
+	 * <pre>系统管理员：查看所有客户的价格表详情</pre>
+	 * <pre>销售代表或是客服代表：仅允许查看该代表负责的客户的价格表详情</pre>
+	 * <pre>销售客户：仅允许查看与当前登录帐号绑定的客户的价格表详情</pre>
 	 * 
 	 * @param id
 	 * @param request

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.jrsoft.order.service.ShoppingCartService;
 
 /**
- * 购物车管理控制器类
- * 
  * com.jrsoft.order.controller ShoppingCartController
  *
+ * 购物车管理控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

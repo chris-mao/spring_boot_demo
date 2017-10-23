@@ -17,10 +17,10 @@ import com.jrsoft.inventory.entity.InventoryModel;
 import com.jrsoft.inventory.service.InventoryModelService;
 
 /**
- * 工厂型号控制器类
- * 
  * com.jrsoft.inventory.controller ItemController
  *
+ * 工厂型号控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

@@ -10,6 +10,8 @@ import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
  * com.jrsoft.inventory.service ItemService
+ * 
+ * 工厂型号服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

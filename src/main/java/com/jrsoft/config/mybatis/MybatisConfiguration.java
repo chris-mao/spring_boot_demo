@@ -16,6 +16,8 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
  * com.jrsoft.config.mybatis PageHelperConfiguration
+ * 
+ * Mybatis配置类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

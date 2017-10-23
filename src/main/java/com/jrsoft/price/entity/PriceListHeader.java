@@ -14,10 +14,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 价格表头实体类
- * 
  * com.jrsoft.price.entity PriceListHeader
  *
+ * 价格表头实体类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

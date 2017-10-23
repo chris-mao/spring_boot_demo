@@ -18,6 +18,8 @@ import com.jrsoft.employee.entity.Employee;
 
 /**
  * com.jrsoft.employee.dao EmployeeDao
+ * 
+ * 员工数据访问接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -26,6 +28,11 @@ import com.jrsoft.employee.entity.Employee;
  */
 public interface EmployeeDAO {
 
+	/**
+	 * 查询所有员工信息
+	 * 
+	 * @return
+	 */
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
 			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
@@ -36,6 +43,12 @@ public interface EmployeeDAO {
 			@Result(property = "updateTime", column = "update_time") })
 	public List<Employee> findAll();
 
+	/**
+	 * 按编号查询员工信息
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE employee_id = #{id}")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
 			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
@@ -46,6 +59,12 @@ public interface EmployeeDAO {
 			@Result(property = "updateTime", column = "update_time") })
 	public Employee findById(@Param(value = "id") int id);
 
+	/**
+	 * 按名字查询员工信息
+	 * 
+	 * @param employeeName
+	 * @return
+	 */
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE employee_name = #{emp_name}")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
 			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
@@ -56,6 +75,13 @@ public interface EmployeeDAO {
 			@Result(property = "updateTime", column = "update_time") })
 	public Employee findByName(@Param(value = "emp_name") String employeeName);
 
+	/**
+	 * 按客户查询与其接洽的员工清单
+	 * 
+	 * @param customerNumber
+	 * @param operationUnitId
+	 * @return
+	 */
 	@Select("CALL sp_findEmployeesByCustomer(#{customer_number}, #{ou_id})")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
 			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
@@ -65,6 +91,12 @@ public interface EmployeeDAO {
 	public List<Employee> findAllByCustomer(@Param(value = "customer_number") String customerNumber,
 			@Param(value = "ou_id") int operationUnitId);
 
+	/**
+	 * 按用户编号查询对应的员工信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@Select("SELECT employee_id, employee_name, phone, fax, email, oracle_account, available, created_time, update_time FROM employee WHERE user_id = #{user_id}")
 	@Results({ @Result(property = "employeeId", column = "employee_id", id = true),
 			@Result(property = "employeeName", column = "employee_name"), @Result(property = "phone", column = "phone"),
@@ -111,8 +143,7 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE employee_customer(employee_id, customer_id, created_time) VALUE(#{employeeId}, #{customerId}, NOW())")
-	public int addCustomer(@Param(value = "employeeId") int employeeId,
-			@Param(value = "customerId") int customerId);
+	public int addCustomer(@Param(value = "employeeId") int employeeId, @Param(value = "customerId") int customerId);
 
 	/**
 	 * 移除已关联客户
@@ -122,8 +153,7 @@ public interface EmployeeDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM employee_customer WHERE employee_id = #{employeeId} AND customer_id = #{customerId}")
-	public int removeCustomer(@Param(value = "employeeId") int employeeId,
-			@Param(value = "customerId") int customerId);
+	public int removeCustomer(@Param(value = "employeeId") int employeeId, @Param(value = "customerId") int customerId);
 
 	/**
 	 * 移除指定员工的所有客户

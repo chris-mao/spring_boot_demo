@@ -13,6 +13,8 @@ import com.jrsoft.price.entity.PriceListLine;
 
 /**
  * com.jrsoft.price.service.impl PriceService
+ * 
+ * 销售价格服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

@@ -17,10 +17,10 @@ import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.order.service.OrderService;
 
 /**
- * 订单管理控制器类
- * 
  * com.jrsoft.order.controller OrderController
  *
+ * 订单管理控制器类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

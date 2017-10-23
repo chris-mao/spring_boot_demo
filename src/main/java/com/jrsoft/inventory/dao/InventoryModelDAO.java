@@ -15,6 +15,8 @@ import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
  * com.jrsoft.inventory.dao InventoryItemDao
+ * 
+ * 产品型号数据访问接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -24,6 +26,7 @@ import com.jrsoft.inventory.entity.InventoryModel;
 public interface InventoryModelDAO {
 
 	/**
+	 * 查询所有型号
 	 * 
 	 * @return
 	 */
@@ -39,6 +42,7 @@ public interface InventoryModelDAO {
 	public List<InventoryModel> findAll();
 
 	/**
+	 * 按编号查询型号
 	 * 
 	 * @param model
 	 * @return
@@ -52,6 +56,12 @@ public interface InventoryModelDAO {
 			@Result(property = "available", column = "available") })
 	public InventoryModel findById(@Param(value = "model_id") BigInteger modelId);
 
+	/**
+	 * 按名称查询型号
+	 * 
+	 * @param modelName
+	 * @return
+	 */
 	@Select("SELECT DISTINCT model_id, model_name, model_desc, available FROM model WHERE model_name = #{model_name}")
 	@Results({ @Result(property = "modelId", column = "model_id"),
 			@Result(property = "modelName", column = "model_name"),
@@ -62,6 +72,7 @@ public interface InventoryModelDAO {
 	public InventoryModel findByName(@Param(value = "model_name") String modelName);
 
 	/**
+	 * 按库存组织查询型号
 	 * 
 	 * @param source
 	 * @return

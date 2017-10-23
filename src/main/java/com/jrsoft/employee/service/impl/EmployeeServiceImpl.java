@@ -22,6 +22,8 @@ import com.jrsoft.employee.service.EmployeeService;
 /**
  * com.jrsoft.employee.service.impl EmployeeServiceImpl
  *
+ * 员工服务接口实现类
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

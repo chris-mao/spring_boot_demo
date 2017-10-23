@@ -14,6 +14,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  * com.jrsoft.customer.entity CustomerSite
  *
+ * 客户地址实体类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

@@ -24,6 +24,8 @@ import com.jrsoft.price.service.PriceService;
 /**
  * com.jrsoft.price.service.impl PriceServiceImpl
  *
+ * 销售价格服务接口实现类
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

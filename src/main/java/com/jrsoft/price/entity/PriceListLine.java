@@ -13,10 +13,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.jrsoft.inventory.entity.InventoryModel;
 
 /**
- * 价格表行实体类
- * 
  * com.jrsoft.price.entity PriceListLine
  *
+ * 价格表行实体类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

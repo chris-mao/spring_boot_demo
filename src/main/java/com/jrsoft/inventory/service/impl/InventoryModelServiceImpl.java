@@ -19,6 +19,8 @@ import com.jrsoft.inventory.service.InventoryModelService;
 /**
  * com.jrsoft.inventory.service.impl InventoryModelServiceImpl
  *
+ * 工厂型号服务接口实现类
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

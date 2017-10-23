@@ -13,6 +13,8 @@ import com.jrsoft.employee.entity.Employee;
 /**
  * com.jrsoft.employee.service EmployeeService
  *
+ * 员工服务接口
+ *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
@@ -34,7 +36,7 @@ public interface EmployeeService {
 	 * @return PageInfo
 	 */
 	public PageInfo<Employee> findAll(int pageNum);
-	
+
 	/**
 	 * 按员工编号或是名称查询
 	 * 
@@ -58,7 +60,7 @@ public interface EmployeeService {
 	 * @return List
 	 */
 	public Employee findOneByCredential(AuthUser credential);
-	
+
 	/**
 	 * 创建新员工
 	 * 
@@ -66,14 +68,15 @@ public interface EmployeeService {
 	 * @return boolean 数据保存存成功返回true,否则返回false
 	 */
 	public boolean insert(Employee employee);
-	
+
 	/**
 	 * 更新员工信息
 	 * 
 	 * @param employee
 	 * @return boolean 更新成功返回true，否则返回false
-	 */	public boolean update(Employee employee);
-	
+	 */
+	public boolean update(Employee employee);
+
 	/**
 	 * 删除员工
 	 * 
@@ -81,7 +84,7 @@ public interface EmployeeService {
 	 * @return boolean 删除成功返回true，否则返回false
 	 */
 	public boolean delete(int id);
-	
+
 	/**
 	 * 添加新客户
 	 * 
@@ -90,7 +93,7 @@ public interface EmployeeService {
 	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean addCustomer(Employee employee, CustomerAccount customer);
-	
+
 	/**
 	 * 移除客户
 	 * 
@@ -99,7 +102,7 @@ public interface EmployeeService {
 	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean removeCustomer(Employee employee, CustomerAccount customer);
-	
+
 	/**
 	 * 移除指定员工的所有客户
 	 * 

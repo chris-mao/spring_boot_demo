@@ -11,10 +11,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 员工实体类
- * 
  * com.jrsoft.employee.entity Employee
  *
+ * 员工实体类
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0

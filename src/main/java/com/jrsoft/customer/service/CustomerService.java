@@ -16,6 +16,8 @@ import com.jrsoft.price.entity.PriceListHeader;
 /**
  * com.jrsoft.customer.service CusotmerService
  *
+ * 客户接口
+ * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
