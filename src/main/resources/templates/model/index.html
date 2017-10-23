@@ -30,8 +30,6 @@
 					<th>工厂型号</th>
 					<th>型号描述</th>
 					<th>中文描述</th>
-					<th>创建时间</th>
-					<th>更新时间</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,8 +37,6 @@
 					<td th:text="*{modelName}"></td>
 					<td th:utext="*{modelDescription}"></td>
 					<td th:utext="*{modelChineseDescription}"></td>
-                    <td><span th:if="*{createdTime}" th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
-                    <td><span th:if="*{updateTime}" th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
 				</tr>
 			</tbody>
 		</table>

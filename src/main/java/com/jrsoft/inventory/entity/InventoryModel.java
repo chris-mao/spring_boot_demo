@@ -52,18 +52,18 @@ public class InventoryModel implements Serializable {
 	 */
 	@Max(value = 1024, message = "工厂型号中文描述最大长度不能超过1024位")
 	private String modelChineseDescription;
-	
+
 	/**
 	 * 创建时间
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createdTime;
+	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	// private Date createdTime;
 
 	/**
 	 * 更新时间
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
+	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	// private Date updateTime;
 
 	/**
 	 * 是否有效
@@ -131,36 +131,6 @@ public class InventoryModel implements Serializable {
 	}
 
 	/**
-	 * @return the createdTime
-	 */
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	/**
-	 * @param createdTime
-	 *            the createdTime to set
-	 */
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	/**
-	 * @param updateTime
-	 *            the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	/**
 	 * @return the available
 	 */
 	public boolean getAvailable() {
@@ -182,9 +152,9 @@ public class InventoryModel implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "InventoryModel [modelId=" + modelId + ", modelName=" + modelName + ", modelDescription=" + modelDescription
-				+ ", modelChineseDescription=" + modelChineseDescription + ", createdTime=" + createdTime
-				+ ", updateTime=" + updateTime + ", available=" + available + "]";
+		return "InventoryModel [modelId=" + modelId + ", modelName=" + modelName + ", modelDescription="
+				+ modelDescription + ", modelChineseDescription=" + modelChineseDescription + ", available=" + available
+				+ "]";
 	}
 
 	/*

@@ -30,15 +30,13 @@ public interface InventoryModelDAO {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT DISTINCT model_id, model_name, model_desc, available, created_time, update_time FROM model ORDER BY model_name")
+	@Select("SELECT DISTINCT model_id, model_name, model_desc, available FROM model ORDER BY model_name")
 	@Results({ @Result(property = "modelId", column = "model_id"),
 			@Result(property = "modelName", column = "model_name"),
 			@Result(property = "modelDescription", column = "model_desc"),
 			// @Result(property = "modelChineseDescription", column =
 			// "chinese_desc"),
-			@Result(property = "available", column = "available"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "available", column = "available") })
 	public List<InventoryModel> findAll();
 
 	/**
@@ -77,15 +75,13 @@ public interface InventoryModelDAO {
 	 * @param source
 	 * @return
 	 */
-	@Select("SELECT DISTINCT model_id, model_name, model_desc, available, created_time, update_time FROM model WHERE source = #{source}")
+	@Select("SELECT DISTINCT model_id, model_name, model_desc, available FROM model WHERE source = #{source}")
 	@Results({ @Result(property = "modelId", column = "model_id"),
 			@Result(property = "modelName", column = "model_name"),
 			@Result(property = "modelDescription", column = "model_desc"),
 			// @Result(property = "modelChineseDescription", column =
 			// "chinese_desc"),
-			@Result(property = "available", column = "available"),
-			@Result(property = "createdTime", column = "created_time"),
-			@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "available", column = "available") })
 	public List<InventoryModel> findAllBySource(@Param(value = "source") String source);
 
 }

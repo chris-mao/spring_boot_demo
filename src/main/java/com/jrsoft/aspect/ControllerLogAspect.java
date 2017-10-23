@@ -40,8 +40,6 @@ public class ControllerLogAspect {
 
 	@Before("log()")
 	public void beforeLog(JoinPoint joinPoint) {
-		logger.info("====== The Controller has been lunched ======");
-
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
@@ -59,14 +57,15 @@ public class ControllerLogAspect {
 	}
 
 	@After("log()")
-	public void afterLog() {
-		// logger.info("====== Lunch End ======");
+	public void afterLog(JoinPoint joinPoint) {
+		 logger.info("控制器类 {} 中的 {} 方法调用结束", joinPoint.getSignature().getDeclaringTypeName(),
+					joinPoint.getSignature().getName());
 	}
 
 	@AfterReturning(pointcut = "log()", returning = "object")
 	public void afterReturning(Object object) {
-		logger.info("返回值是： {}", object);
-		logger.info("====== 控制器类调用正常结束 ======");
+		logger.info("控制器返回值是： {}", object);
+		logger.info("控制器调用正常结束");
 	}
 	
 	@AfterThrowing(pointcut = "log()", throwing = "e")

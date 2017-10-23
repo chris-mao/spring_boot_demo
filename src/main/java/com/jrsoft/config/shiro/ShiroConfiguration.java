@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Configuration;
 import com.jrsoft.auth.shiro.JrShiroRealm;
 import com.jrsoft.config.shiro.listener.JrSessionListener;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+
 /**
  * com.jrsoft.config.shiro ShiroConfiguration
  * 
@@ -166,5 +168,14 @@ public class ShiroConfiguration {
 		sessionManager.setCacheManager(ehCacheManager());
 
 		return sessionManager;
+	}
+	
+	/**
+	 * 为Thymeleaf增加Shiro方言，以便能够在模板文件中使用Shiro标签
+	 * @return
+	 */
+	@Bean
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
 	}
 }
