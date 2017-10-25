@@ -9,12 +9,21 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="jumbotron">
-			<h1 class="text-primary" shiro:authenticated="true">
-				Hello,
-				<shiro:principal property="nickName" />
-			</h1>
-			<p>how are you today?</p>
+
+
+		<div class="row">
+			<div class="col-lg-8 col-md-8">
+				<div class="jumbotron">
+					<h1 class="text-primary" shiro:authenticated="true">
+						Hello,
+						<shiro:principal property="nickName" />
+					</h1>
+					<p>how are you today?</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<div th:replace="auth/delegate/index::showClients(${clients})"></div>
+			</div>
 		</div>
 
 		<div class="row">
@@ -73,23 +82,22 @@
 			</div>
 		</div>
 
-		<!-- <p th:text="${@authRoleServiceImpl.findAll()}"></p> -->
-		<table>
+		<!-- <table>
 			<tr>
 				<td>context中的attribute</td>
-				<!-- 检索ServletContext的属性'myContextAttribute' -->
+				检索ServletContext的属性'myContextAttribute'
 				<td th:text="${application.myContextAttribute}">42</td>
 			</tr>
 			<tr>
 				<td>attributes数量：</td>
-				<!-- 返回attributes的数量 -->
+				返回attributes的数量
 				<td th:text="${application.size()}">42</td>
 			</tr>
 			<tr th:each="attr : ${application.keySet()}">
 				<td th:text="${attr}">javax.servlet.context.tempdir</td>
 				<td th:text="${application.get(attr)}">/tmp</td>
 			</tr>
-		</table>
+		</table> -->
 	</div>
 </body>
 </html>

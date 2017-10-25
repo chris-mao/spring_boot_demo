@@ -3,12 +3,17 @@
  */
 package com.jrsoft.app.controller;
 
-import java.util.Map;
-
+import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.jrsoft.auth.entity.AuthUserDelegate;
+import com.jrsoft.auth.service.AuthUserDelegateService;
+import com.jrsoft.auth.utils.AuthUtils;
 
 /**
  * com.jrsoft.app.controller HomeController
@@ -24,14 +29,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
 	/**
+	 * 
+	 */
+	@Resource
+	private AuthUserDelegateService authUserDelegateService;
+
+	/**
 	 * 首页
 	 * 
 	 * @param request
-	 * @param map
+	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "/", "/index" })
-	public String index(HttpServletRequest request, Map<String, Object> map) {
+	public String index(HttpServletRequest request, Model model) {
+		// 委托人
+		List<AuthUserDelegate> clients = this.authUserDelegateService.findAllByToUser(AuthUtils.getCurrentUser());
+		model.addAttribute("clients", clients);
 		return "index";
 	}
 
