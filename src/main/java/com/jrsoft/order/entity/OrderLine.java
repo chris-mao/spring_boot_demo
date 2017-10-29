@@ -29,7 +29,7 @@ public class OrderLine implements Serializable {
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private InventoryModel inventoryModel;
 
 	/**
@@ -40,20 +40,20 @@ public class OrderLine implements Serializable {
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
-	@Min(value=1, message="")
+	@NotEmpty(message = "")
+	@Min(value = 1, message = "")
 	private int qty;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private Double sellingPrice;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date requestDate;
 
@@ -65,7 +65,8 @@ public class OrderLine implements Serializable {
 	}
 
 	/**
-	 * @param inventoryItem the inventoryItem to set
+	 * @param inventoryItem
+	 *            the inventoryItem to set
 	 */
 	public void setInventoryModel(InventoryModel inventoryModel) {
 		this.inventoryModel = inventoryModel;
@@ -79,7 +80,8 @@ public class OrderLine implements Serializable {
 	}
 
 	/**
-	 * @param customerItem the customerItem to set
+	 * @param customerItem
+	 *            the customerItem to set
 	 */
 	public void setCustomerModel(String customerModel) {
 		this.customerModel = customerModel;
@@ -93,7 +95,8 @@ public class OrderLine implements Serializable {
 	}
 
 	/**
-	 * @param qty the qty to set
+	 * @param qty
+	 *            the qty to set
 	 */
 	public void setQty(int qty) {
 		this.qty = qty;
@@ -107,7 +110,8 @@ public class OrderLine implements Serializable {
 	}
 
 	/**
-	 * @param sellingPrice the sellingPrice to set
+	 * @param sellingPrice
+	 *            the sellingPrice to set
 	 */
 	public void setSellingPrice(Double sellingPrice) {
 		this.sellingPrice = sellingPrice;
@@ -121,21 +125,25 @@ public class OrderLine implements Serializable {
 	}
 
 	/**
-	 * @param requestDate the requestDate to set
+	 * @param requestDate
+	 *            the requestDate to set
 	 */
 	public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		return "OrderLine [inventoryModel=" + inventoryModel + ", customerModel=" + customerModel + ", qty=" + qty
-				+ ", sellingPrice=" + NumberFormat.getInstance().format(sellingPrice) + ", requestDate=" + sdf.format(requestDate) + "]";
+				+ ", sellingPrice=" + NumberFormat.getInstance().format(sellingPrice) + ", requestDate="
+				+ sdf.format(requestDate) + "]";
 	}
 
 }

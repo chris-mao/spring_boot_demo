@@ -27,41 +27,41 @@ public class CustomerSite implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 
 	 */
 	private int customerId;
-	
+
 	/**
 	 * 
 	 */
 	private int siteId;
-	
+
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private int operationUnitId;
-	
+
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String operationUnitName;
-	
+
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
-	@Max(value=64, message="")
+	@NotEmpty(message = "")
+	@Max(value = 64, message = "")
 	private String sitePurpose;
-	
+
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
-	@Max(value=200, message="")
+	@NotEmpty(message = "")
+	@Max(value = 200, message = "")
 	private String address;
 
 	/**
@@ -89,7 +89,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param customerId the customerId to set
+	 * @param customerId
+	 *            the customerId to set
 	 */
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
@@ -103,7 +104,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param siteId the siteId to set
+	 * @param siteId
+	 *            the siteId to set
 	 */
 	public void setSiteId(int siteId) {
 		this.siteId = siteId;
@@ -117,7 +119,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param operationUnitId the operationUnitId to set
+	 * @param operationUnitId
+	 *            the operationUnitId to set
 	 */
 	public void setOperationUnitId(int operationUnitId) {
 		this.operationUnitId = operationUnitId;
@@ -131,7 +134,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param operationUnitName the operationUnitName to set
+	 * @param operationUnitName
+	 *            the operationUnitName to set
 	 */
 	public void setOperationUnitName(String operationUnitName) {
 		this.operationUnitName = operationUnitName;
@@ -145,7 +149,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param sitePurpose the sitePurpose to set
+	 * @param sitePurpose
+	 *            the sitePurpose to set
 	 */
 	public void setSitePurpose(String sitePurpose) {
 		this.sitePurpose = sitePurpose;
@@ -159,7 +164,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param address the address to set
+	 * @param address
+	 *            the address to set
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -173,7 +179,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param createdTime the createdTime to set
+	 * @param createdTime
+	 *            the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -187,7 +194,8 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
@@ -201,13 +209,16 @@ public class CustomerSite implements Serializable {
 	}
 
 	/**
-	 * @param available the available to set
+	 * @param available
+	 *            the available to set
 	 */
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -217,7 +228,9 @@ public class CustomerSite implements Serializable {
 				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -233,7 +246,9 @@ public class CustomerSite implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

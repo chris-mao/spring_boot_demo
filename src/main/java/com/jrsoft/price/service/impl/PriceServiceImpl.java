@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,10 +37,10 @@ public class PriceServiceImpl implements PriceService {
 	@Value("${pageSize}")
 	private int pageSize = 20;
 
-	@Resource
+	@Autowired
 	private PriceListHeaderDAO priceListHeaderDAO;
 
-	@Resource
+	@Autowired
 	private PriceListLineDAO priceListLineDAO;
 
 	@Override

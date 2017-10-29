@@ -24,9 +24,9 @@ import com.github.pagehelper.PageHelper;
  */
 @Configuration
 public class MybatisConfiguration {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(MybatisConfiguration.class);
-	
+
 	@Bean
 	public PageHelper pageHelper() {
 		logger.info("设置并加载Mybatis分页助手");
@@ -36,9 +36,9 @@ public class MybatisConfiguration {
 		p.setProperty("offsetAsPageNum", "true");
 		p.setProperty("rowBoundsWithCount", "true");
 		p.setProperty("reasonable", "true");
-		p.setProperty("logImpl", "STDOUT_LOGGING");//print sql statements
+		p.setProperty("logImpl", "STDOUT_LOGGING");// print sql statements
 		ph.setProperties(p);
-		return ph;		
+		return ph;
 	}
 
 }

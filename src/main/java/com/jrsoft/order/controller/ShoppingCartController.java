@@ -3,7 +3,7 @@
  */
 package com.jrsoft.order.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,19 +25,19 @@ import com.jrsoft.order.service.ShoppingCartService;
 @Controller
 @RequestMapping("/shopping-cart")
 public class ShoppingCartController {
-	
-	@Resource
+
+	@Autowired
 	private ShoppingCartService shoppingCartService;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping({"", "/index"})
+	@GetMapping({ "", "/index" })
 	public String showShoppingCart() {
 		return "order/cart/index";
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -46,7 +46,7 @@ public class ShoppingCartController {
 	public String putItemIntoShoppingCart() {
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -54,7 +54,7 @@ public class ShoppingCartController {
 	public String removeItemFromShoppingCart() {
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -62,7 +62,7 @@ public class ShoppingCartController {
 	public String updateExistItem() {
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return

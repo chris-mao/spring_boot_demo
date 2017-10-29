@@ -3,7 +3,7 @@
  */
 package com.jrsoft.inventory.service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import com.jrsoft.inventory.service.impl.InventoryModelServiceImpl;
 @SpringBootTest
 public class ItemServiceTest extends InventoryModelServiceImpl {
 	
-	@Resource
+	@Autowired
 	private InventoryModelService itemService;
 
 //	@Test

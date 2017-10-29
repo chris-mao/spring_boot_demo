@@ -33,7 +33,7 @@ public class PriceListHeader implements Serializable {
 	/**
 	 * 价格表头编号
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private int headerId;
 
 	/**
@@ -72,21 +72,21 @@ public class PriceListHeader implements Serializable {
 	 * @see findAllPriceLinesByName
 	 */
 	private List<PriceListLine> lines;
-	
+
 	public PriceListHeader() {
 		super();
 	}
-	
+
 	public PriceListHeader(int headerId) {
 		this();
 		this.setHeaderId(headerId);
 	}
-	
+
 	public PriceListHeader(String priceListName) {
 		this();
 		this.setName(priceListName);
 	}
-	
+
 	/**
 	 * @return the headerId
 	 */
@@ -188,7 +188,9 @@ public class PriceListHeader implements Serializable {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -200,7 +202,9 @@ public class PriceListHeader implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

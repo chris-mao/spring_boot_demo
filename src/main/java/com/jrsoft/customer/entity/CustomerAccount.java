@@ -54,17 +54,17 @@ public class CustomerAccount implements Serializable {
 	@NotEmpty(message = "")
 	@Length(min = 2, max = 32, message = "")
 	private String country;
-	
+
 	/**
 	 * 
 	 */
 	private Set<CustomerSite> billTo;
-	
+
 	/**
 	 * 
 	 */
 	private Set<CustomerSite> shipTo;
-	
+
 	/**
 	 * 
 	 */
@@ -86,16 +86,16 @@ public class CustomerAccount implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
-	
+
 	public CustomerAccount() {
 		super();
 	}
-	
+
 	public CustomerAccount(int id) {
 		this();
 		this.setCustomerId(id);
 	}
-	
+
 	public CustomerAccount(String accountNumber) {
 		this();
 		this.setAccountNumber(accountNumber);
@@ -109,7 +109,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param customerId the customerId to set
+	 * @param customerId
+	 *            the customerId to set
 	 */
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
@@ -123,7 +124,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param accountNumber the accountNumber to set
+	 * @param accountNumber
+	 *            the accountNumber to set
 	 */
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
@@ -137,7 +139,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param custoemrName the custoemrName to set
+	 * @param custoemrName
+	 *            the custoemrName to set
 	 */
 	public void setCustomerName(String custoemrName) {
 		this.customerName = custoemrName;
@@ -151,7 +154,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param country the country to set
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(String country) {
 		this.country = country;
@@ -165,7 +169,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param billTo the billTo to set
+	 * @param billTo
+	 *            the billTo to set
 	 */
 	public void setBillTo(Set<CustomerSite> billTo) {
 		this.billTo = billTo;
@@ -179,7 +184,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param shipTo the shipTo to set
+	 * @param shipTo
+	 *            the shipTo to set
 	 */
 	public void setShipTo(Set<CustomerSite> shipTo) {
 		this.shipTo = shipTo;
@@ -193,7 +199,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param deliverTo the deliverTo to set
+	 * @param deliverTo
+	 *            the deliverTo to set
 	 */
 	public void setDeliverTo(Set<CustomerSite> deliverTo) {
 		this.deliverTo = deliverTo;
@@ -207,7 +214,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param createdTime the createdTime to set
+	 * @param createdTime
+	 *            the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -221,7 +229,8 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
@@ -235,13 +244,16 @@ public class CustomerAccount implements Serializable {
 	}
 
 	/**
-	 * @param available the available to set
+	 * @param available
+	 *            the available to set
 	 */
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -252,7 +264,9 @@ public class CustomerAccount implements Serializable {
 				+ "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -264,7 +278,9 @@ public class CustomerAccount implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

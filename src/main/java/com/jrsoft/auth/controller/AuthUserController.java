@@ -3,7 +3,7 @@ package com.jrsoft.auth.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -20,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
+import com.jrsoft.app.helper.SpringHelper;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.helper.AuthHelper;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
-import com.jrsoft.auth.utils.AuthUtils;
 
 /**
  * com.jrsoft.auth.controller AuthUserController
@@ -43,10 +45,10 @@ import com.jrsoft.auth.utils.AuthUtils;
 @RequestMapping("/users")
 public class AuthUserController {
 
-	@Resource
+	@Autowired
 	private AuthUserService authUserService;
 
-	@Resource
+	@Autowired
 	private AuthRoleService authRoleService;
 
 	/**
@@ -91,6 +93,12 @@ public class AuthUserController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("authUser:detail")
 	public String viewUser(@PathVariable("id") int id, Model model) throws DataNotFoundException {
+		System.out.println(SpringHelper.getApplicationContext().getApplicationName());
+		System.out.println(SpringHelper.getApplicationContext().getBeanDefinitionCount());
+		String[] beanNames = SpringHelper.getApplicationContext().getBeanDefinitionNames();
+		for (String beanName : beanNames) {
+			System.out.println(beanName);
+		}
 		AuthUser user = findUser(id);
 		model.addAttribute("user", user);
 		// 获取用户角色
@@ -237,8 +245,8 @@ public class AuthUserController {
 	@RequiresPermissions("authUser:change-password")
 	public String chanegPassword(@PathVariable("id") int id, HttpServletRequest request, Model model)
 			throws DataNotFoundException {
-		if (!AuthUtils.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)
-				&& (id != AuthUtils.getCurrentUser().getUserId())) {// 除了管理员不能修改他人密码
+		if (!AuthHelper.getCredential().hasRole(AuthRoleService.ADMINISTRAOR)
+				&& (id != AuthHelper.getCurrentUser().getUserId())) {// 除了管理员不能修改他人密码
 			throw new UnauthorizedException("您无权修改他人登录密码");
 		}
 		model.addAttribute("authUser", findUser(id));

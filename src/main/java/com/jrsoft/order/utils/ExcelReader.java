@@ -191,11 +191,11 @@ public class ExcelReader implements DataReader {
 		}
 
 		OrderLine line = new OrderLine();
-//		if (!inventoryItem.isEmpty()) {
-//			line.setInventoryModel();
-//		} else if (!customerItem.isEmpty()) {
-//			line.setCustomerItem(customerItem);
-//		}
+		// if (!inventoryItem.isEmpty()) {
+		// line.setInventoryModel();
+		// } else if (!customerItem.isEmpty()) {
+		// line.setCustomerItem(customerItem);
+		// }
 		line.setQty(qty);
 		line.setRequestDate(requestDate);
 		line.setSellingPrice(sellingPrice);

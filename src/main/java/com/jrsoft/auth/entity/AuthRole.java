@@ -54,16 +54,16 @@ public class AuthRole implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
-	
+
 	public AuthRole() {
 		super();
 	}
-	
+
 	public AuthRole(int id) {
 		this();
 		this.setRoleId(id);
 	}
-	
+
 	public AuthRole(String name) {
 		this();
 		this.setRoleName(name);
@@ -148,7 +148,9 @@ public class AuthRole implements Serializable {
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -160,7 +162,9 @@ public class AuthRole implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

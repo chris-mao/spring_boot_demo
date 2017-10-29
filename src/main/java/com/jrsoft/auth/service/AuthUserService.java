@@ -20,7 +20,7 @@ import com.jrsoft.auth.entity.AuthUser;
  *
  */
 public interface AuthUserService {
-	
+
 	/**
 	 * 查询所有数据，不分页
 	 * 
@@ -35,14 +35,14 @@ public interface AuthUserService {
 	 * @return PageInfo
 	 */
 	public PageInfo<AuthUser> findAll(int pageNum);
-	
+
 	/**
 	 * 查询所有有效的用户信息
 	 * 
 	 * @return List
 	 */
 	public List<AuthUser> findAllAvailableUser();
-	
+
 	/**
 	 * 按用户编号或是名称查询
 	 * 
@@ -50,7 +50,7 @@ public interface AuthUserService {
 	 * @return AuthUser
 	 */
 	public AuthUser findOne(AuthUser user);
-	
+
 	/**
 	 * 创建新用户
 	 * 
@@ -58,14 +58,15 @@ public interface AuthUserService {
 	 * @return boolean 数据保存存成功返回true,否则返回false
 	 */
 	public boolean insert(AuthUser user);
-	
+
 	/**
 	 * 更新用户信息，不会修改密码和加密盐值，如果需要修改密码请使用 {@link changePassword}
 	 * 
 	 * @param user
 	 * @return boolean 更新成功返回true，否则返回false
-	 */	public boolean update(AuthUser user);
-	
+	 */
+	public boolean update(AuthUser user);
+
 	/**
 	 * 删除用户
 	 * 
@@ -73,7 +74,7 @@ public interface AuthUserService {
 	 * @return boolean 删除成功返回true，否则返回false
 	 */
 	public boolean delete(int id);
-	
+
 	/**
 	 * 修改登录密码
 	 * 
@@ -83,7 +84,7 @@ public interface AuthUserService {
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
 	public boolean changePassword(int id, String oldPassword, String newPassword);
-	
+
 	/**
 	 * 添加新角色
 	 * 
@@ -92,7 +93,7 @@ public interface AuthUserService {
 	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean addRole(AuthUser user, AuthRole role);
-	
+
 	/**
 	 * 移除角色
 	 * 
@@ -101,7 +102,7 @@ public interface AuthUserService {
 	 * @return boolean 成功返回true，否则返回false
 	 */
 	public boolean removeRole(AuthUser user, AuthRole role);
-	
+
 	/**
 	 * 移除指定用户的所有角色
 	 * 

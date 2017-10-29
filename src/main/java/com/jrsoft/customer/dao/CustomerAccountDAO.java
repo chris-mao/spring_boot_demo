@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.customer.entity.CustomerAccount;
 
@@ -24,6 +25,7 @@ import com.jrsoft.customer.entity.CustomerAccount;
  * @version 1.0
  *
  */
+@Repository
 public interface CustomerAccountDAO {
 
 	/**

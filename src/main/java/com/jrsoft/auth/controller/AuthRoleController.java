@@ -3,7 +3,7 @@ package com.jrsoft.auth.controller;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -41,10 +41,10 @@ import com.jrsoft.auth.service.AuthRoleService;
 @RequestMapping("/roles")
 public class AuthRoleController {
 
-	@Resource
+	@Autowired
 	private AuthRoleService authRoleService;
-	
-	@Resource
+
+	@Autowired
 	private AuthPermissionService authPermissionService;
 
 	/**
@@ -93,9 +93,9 @@ public class AuthRoleController {
 			throws DataNotFoundException {
 		AuthRole role = findRole(id);
 		model.addAttribute("role", role);
-		//获取角色权限
+		// 获取角色权限
 		model.addAttribute("myPermissions", authPermissionService.findAllByRole(role));
-		//获取所有有效权限
+		// 获取所有有效权限
 		model.addAttribute("permissions", authPermissionService.findAllAvailable());
 		return "auth/role/detail";
 	}
@@ -167,7 +167,7 @@ public class AuthRoleController {
 		}
 		return "auth/role/save";
 	}
-	
+
 	/**
 	 * 分配权限到指定角色，先将该角色所有权限删除，再重新分配
 	 * 
@@ -209,7 +209,7 @@ public class AuthRoleController {
 		this.authRoleService.delete(id);
 		return "redirect:/roles";
 	}
-	
+
 	/**
 	 * 以JSON格式返回所有有效的系统角色
 	 * 

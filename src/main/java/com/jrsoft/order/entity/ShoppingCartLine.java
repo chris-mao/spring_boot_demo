@@ -26,37 +26,37 @@ public class ShoppingCartLine implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 
 	 */
 	private CustomerSite customerSite;
-	
+
 	/**
 	 * 
 	 */
 	private InventoryModel inventoryItem;
-	
+
 	/**
 	 * 
 	 */
 	private int quantity;
-	
+
 	/**
 	 * 
 	 */
 	private Date requestDate;
-	
+
 	/**
 	 * 
 	 */
 	private PriceListHeader priceHeader;
-	
+
 	/**
 	 * 
 	 */
 	private Double sellingPrice;
-	
+
 	/**
 	 * 
 	 */
@@ -70,7 +70,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param customerSite the customerSite to set
+	 * @param customerSite
+	 *            the customerSite to set
 	 */
 	public void setCustomerSite(CustomerSite customerSite) {
 		this.customerSite = customerSite;
@@ -84,7 +85,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param inventoryItem the inventoryItem to set
+	 * @param inventoryItem
+	 *            the inventoryItem to set
 	 */
 	public void setInventoryItem(InventoryModel inventoryItem) {
 		this.inventoryItem = inventoryItem;
@@ -98,7 +100,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param quantity the quantity to set
+	 * @param quantity
+	 *            the quantity to set
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
@@ -112,7 +115,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param requestDate the requestDate to set
+	 * @param requestDate
+	 *            the requestDate to set
 	 */
 	public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
@@ -126,7 +130,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param priceHeader the priceHeader to set
+	 * @param priceHeader
+	 *            the priceHeader to set
 	 */
 	public void setPriceHeader(PriceListHeader priceHeader) {
 		this.priceHeader = priceHeader;
@@ -140,7 +145,8 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param sellingPrice the sellingPrice to set
+	 * @param sellingPrice
+	 *            the sellingPrice to set
 	 */
 	public void setSellingPrice(Double sellingPrice) {
 		this.sellingPrice = sellingPrice;
@@ -154,13 +160,16 @@ public class ShoppingCartLine implements Serializable {
 	}
 
 	/**
-	 * @param checkOut the checkOut to set
+	 * @param checkOut
+	 *            the checkOut to set
 	 */
 	public void setCheckOut(boolean checkOut) {
 		this.checkOut = checkOut;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -170,7 +179,9 @@ public class ShoppingCartLine implements Serializable {
 				+ sellingPrice + ", checkOut=" + checkOut + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -185,7 +196,9 @@ public class ShoppingCartLine implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

@@ -6,7 +6,7 @@ package com.jrsoft.auth.service.impl;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,10 +36,10 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	@Value("${pageSize}")
 	private int pageSize = 20;
 
-	@Resource
+	@Autowired
 	private AuthUserDAO authUserDAO;
 
-	@Resource
+	@Autowired
 	private AuthRoleDAO authRoleDAO;
 
 	@Override

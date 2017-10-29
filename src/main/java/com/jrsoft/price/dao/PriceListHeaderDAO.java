@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.price.entity.PriceListHeader;
 
@@ -22,6 +23,7 @@ import com.jrsoft.price.entity.PriceListHeader;
  * @version 1.0
  *
  */
+@Repository
 public interface PriceListHeaderDAO {
 
 	/**
@@ -34,7 +36,9 @@ public interface PriceListHeaderDAO {
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
 			@Result(property = "endDate", column = "end_date_active") })
-//			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ),
+	// @Result(property = "lines", column = "header_id", many = @Many(select =
+	// "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType =
+	// FetchType.LAZY) ),
 	public List<PriceListHeader> findAll();
 
 	/**
@@ -47,8 +51,10 @@ public interface PriceListHeaderDAO {
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "endDate", column = "end_date_active")})
-//			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ) })
+			@Result(property = "endDate", column = "end_date_active") })
+	// @Result(property = "lines", column = "header_id", many = @Many(select =
+	// "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType =
+	// FetchType.LAZY) ) })
 	public PriceListHeader findById(@Param(value = "header_id") int id);
 
 	/**
@@ -61,8 +67,10 @@ public interface PriceListHeaderDAO {
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "endDate", column = "end_date_active")})
-//			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) )})
+			@Result(property = "endDate", column = "end_date_active") })
+	// @Result(property = "lines", column = "header_id", many = @Many(select =
+	// "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType =
+	// FetchType.LAZY) )})
 	public PriceListHeader findByName(@Param(value = "price_name") String priceListName);
 
 	/**
@@ -75,8 +83,10 @@ public interface PriceListHeaderDAO {
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "endDate", column = "end_date_active")})
-//			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ),
+			@Result(property = "endDate", column = "end_date_active") })
+	// @Result(property = "lines", column = "header_id", many = @Many(select =
+	// "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType =
+	// FetchType.LAZY) ),
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(@Param(value = "site_id") int siteId);
 
 	/**
@@ -90,8 +100,10 @@ public interface PriceListHeaderDAO {
 	@Results({ @Result(property = "headerId", column = "header_id", id = true),
 			@Result(property = "name", column = "price_list_name"), @Result(property = "currency", column = "currency"),
 			@Result(property = "startDate", column = "start_date_active"),
-			@Result(property = "endDate", column = "end_date_active")})
-//			@Result(property = "lines", column = "header_id", many = @Many(select = "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType = FetchType.LAZY) ),
+			@Result(property = "endDate", column = "end_date_active") })
+	// @Result(property = "lines", column = "header_id", many = @Many(select =
+	// "com.jrsoft.price.dao.PriceListLineDAO.findAllByHeaderId", fetchType =
+	// FetchType.LAZY) ),
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSiteWithItem(@Param(value = "site_id") int siteId,
 			@Param(value = "item_id") int itemId);
 

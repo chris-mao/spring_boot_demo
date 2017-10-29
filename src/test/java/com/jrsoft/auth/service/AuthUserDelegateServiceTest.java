@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 @SpringBootTest
 public class AuthUserDelegateServiceTest {
 
-	@Resource
+	@Autowired
 	private AuthUserDelegateService authUserDelegateService;
 
 	@Test

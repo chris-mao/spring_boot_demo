@@ -2,7 +2,7 @@ package com.jrsoft.auth.shiro;
 
 import java.util.Set;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -49,19 +49,19 @@ public class JrShiroRealm extends AuthorizingRealm {
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private AuthUserService authUserService;
-	
-	@Resource
+
+	@Autowired
 	private AuthRoleService authRoleService;
-	
-	@Resource
+
+	@Autowired
 	private AuthPermissionService authPermissionService;
-	
+
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private CustomerService customerService;
 
 	/**
@@ -126,7 +126,8 @@ public class JrShiroRealm extends AuthorizingRealm {
 
 		// AuthUserDecorator userDecorator = new AuthUserDecorator(user,
 		// customerService);
-		// SecurityUtils.getSubject().getSession().setAttribute("userDecorator", userDecorator);
+		// SecurityUtils.getSubject().getSession().setAttribute("userDecorator",
+		// userDecorator);
 
 		SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()), getName());

@@ -3,7 +3,7 @@
  */
 package com.jrsoft.order.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -29,8 +29,8 @@ import com.jrsoft.order.service.OrderService;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
-	
-	@Resource
+
+	@Autowired
 	private OrderService orderService;
 
 	@GetMapping({ "", "/index" })
@@ -43,37 +43,37 @@ public class OrderController {
 	public String viewOrder(@PathVariable("id") int id, Model model) throws DataNotFoundException {
 		return "order/detail";
 	}
-	
+
 	@GetMapping("/confirmation")
 	@RequiresPermissions("order:save")
 	public String ConfirmOrder() {
 		return "order/confirmation";
 	}
-	
+
 	@PostMapping("/save")
 	@RequiresPermissions("order:save")
 	public String saveOrder() {
 		return "order/save";
 	}
-	
+
 	@GetMapping("/query")
 	@RequiresPermissions("order:query")
 	public String queryForm() {
 		return "order/query";
 	}
-	
+
 	@GetMapping("/import")
 	@RequiresPermissions("order:import")
 	public String importOrder() {
 		return "order/import";
 	}
-	
+
 	@GetMapping("/export")
 	@RequiresPermissions("order:export")
 	public String exportOrder() {
 		return "order/export";
 	}
-	
+
 	@GetMapping("/acknowledgement")
 	@RequiresPermissions("order:acknowledgement")
 	public String downloadAcknowledgement() {

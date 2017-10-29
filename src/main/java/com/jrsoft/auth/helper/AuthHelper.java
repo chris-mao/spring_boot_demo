@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.auth.utils;
+package com.jrsoft.auth.helper;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -20,7 +20,7 @@ import com.jrsoft.auth.entity.AuthUser;
  * @version 1.0
  *
  */
-public class AuthUtils {
+public class AuthHelper {
 
 	/**
 	 * 获取已登录的用户凭证

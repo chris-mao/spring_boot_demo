@@ -39,7 +39,7 @@ public interface CustomerService {
 	 * @return PageInfo
 	 */
 	public PageInfo<CustomerAccount> findAll(int pageNum);
-	
+
 	/**
 	 * 按客户编号或是名称查询
 	 * 
@@ -122,30 +122,27 @@ public interface CustomerService {
 	 * @return Set
 	 */
 	public Set<CustomerSite> findAllDeliverTo(int customerId, int operationUnitId);
-	
+
 	/**
-	 * 判断客户编号对应的客户是否已分配到指定员工名下
-	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 判断客户编号对应的客户是否已分配到指定员工名下 如果已分配则返回该客户对象实例，否则返回null
 	 * 
 	 * @param emp
 	 * @param customerId
 	 * @return CustomerAccount
 	 */
 	public CustomerAccount isMine(Employee emp, int customerId);
-	
+
 	/**
-	 * 判断客户代码对应的客户是否已分配到指定员工名下
-	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 判断客户代码对应的客户是否已分配到指定员工名下 如果已分配则返回该客户对象实例，否则返回null
 	 * 
 	 * @param emp
 	 * @param accountNumber
 	 * @return CustomerAccount
 	 */
 	public CustomerAccount isMine(Employee emp, String accountNumber);
-	
+
 	/**
-	 * 判断客户编号对应的客户是否已分配到指定系统用户名下
-	 * 如果已分配则返回该客户对象实例，否则返回null
+	 * 判断客户编号对应的客户是否已分配到指定系统用户名下 如果已分配则返回该客户对象实例，否则返回null
 	 * 
 	 * @param user
 	 * @param customerId

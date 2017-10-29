@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jrsoft.app.listener.JrSessionListener;
 import com.jrsoft.auth.shiro.JrShiroRealm;
-import com.jrsoft.config.shiro.listener.JrSessionListener;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
@@ -65,6 +65,7 @@ public class ShiroConfiguration {
 		// 避免登录后下载favicon图标
 		filterChainDefinitionMap.put("/favicon.ico", "anon");
 		filterChainDefinitionMap.put("/**", "authc, perms");
+
 		filterBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		// 登录页面
@@ -157,8 +158,10 @@ public class ShiroConfiguration {
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		// 设置会话过期时间
-		logger.info("设置会话过期时间");
-		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000); // 30 mins
+		long timeOut = 1 * 60 * 1000; // 30 mins
+		logger.info("设置会话过期时间 {} 分钟", timeOut / 60000);
+		sessionManager.setGlobalSessionTimeout(timeOut);
+		sessionManager.setDeleteInvalidSessions(true);
 		sessionManager.setSessionValidationInterval(sessionManager.getGlobalSessionTimeout());
 		// 添加会话监听
 		logger.info("添加会话监听");
@@ -166,12 +169,12 @@ public class ShiroConfiguration {
 		listeners.add(new JrSessionListener());
 		sessionManager.setSessionListeners(listeners);
 		sessionManager.setCacheManager(ehCacheManager());
-
 		return sessionManager;
 	}
-	
+
 	/**
 	 * 为Thymeleaf增加Shiro方言，以便能够在模板文件中使用Shiro标签
+	 * 
 	 * @return
 	 */
 	@Bean

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import com.jrsoft.employee.service.EmployeeService;
 @SpringBootTest
 public class EmployeeServiceTest {
 	
-	@Resource
+	@Autowired
 	private EmployeeService employeeService;
 
 	@Test

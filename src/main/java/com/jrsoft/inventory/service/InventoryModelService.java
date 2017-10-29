@@ -19,27 +19,27 @@ import com.jrsoft.inventory.entity.InventoryModel;
  *
  */
 public interface InventoryModelService {
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<InventoryModel> findAll();
-	
+
 	/**
 	 * 
 	 * @param pageNum
 	 * @return
 	 */
 	public PageInfo<InventoryModel> findAll(int pageNum);
-	
+
 	/**
 	 * 
 	 * @param item
 	 * @return
 	 */
 	public InventoryModel findOne(InventoryModel item);
-	
+
 	/**
 	 * 
 	 * @param source

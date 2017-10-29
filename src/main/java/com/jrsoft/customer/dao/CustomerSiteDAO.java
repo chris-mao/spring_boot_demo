@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.customer.entity.CustomerSite;
 
@@ -22,6 +23,7 @@ import com.jrsoft.customer.entity.CustomerSite;
  * @version 1.0
  *
  */
+@Repository
 public interface CustomerSiteDAO {
 
 	/**
@@ -91,8 +93,9 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public CustomerSite findOperationUnitBillTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
-	
+	public CustomerSite findOperationUnitBillTo(@Param(value = "customer_id") int customerId,
+			@Param(value = "ou_id") int operationUnitId);
+
 	/**
 	 * 按OU查询客户ShipTo地址
 	 * 
@@ -109,8 +112,9 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findOperationUnitShipTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
-	
+	public Set<CustomerSite> findOperationUnitShipTo(@Param(value = "customer_id") int customerId,
+			@Param(value = "ou_id") int operationUnitId);
+
 	/**
 	 * 按OU查询客户DeliveryTo地址
 	 * 
@@ -127,6 +131,7 @@ public interface CustomerSiteDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<CustomerSite> findOperationUnitDeliverTo(@Param(value = "customer_id") int customerId, @Param(value = "ou_id") int operationUnitId);
+	public Set<CustomerSite> findOperationUnitDeliverTo(@Param(value = "customer_id") int customerId,
+			@Param(value = "ou_id") int operationUnitId);
 
 }

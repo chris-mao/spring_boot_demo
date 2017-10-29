@@ -61,16 +61,16 @@ public class AuthPermission implements Serializable {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-	
+
 	public AuthPermission() {
 		super();
 	}
-	
+
 	public AuthPermission(int id) {
 		this();
 		this.setPermissionId(id);
 	}
-	
+
 	public AuthPermission(String name) {
 		this();
 		this.setPermissionName(name);
@@ -178,7 +178,9 @@ public class AuthPermission implements Serializable {
 				+ ", updateTime=" + updateTime + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -190,7 +192,9 @@ public class AuthPermission implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

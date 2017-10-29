@@ -15,6 +15,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+
 import com.jrsoft.auth.dao.sqlprovider.AuthRoleDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthRole;
 
@@ -28,6 +30,7 @@ import com.jrsoft.auth.entity.AuthRole;
  * @version 1.0
  *
  */
+@Repository
 public interface AuthRoleDAO {
 
 	/**
@@ -43,9 +46,6 @@ public interface AuthRoleDAO {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "permissions", column = "role_id", many = @Many(select
-	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
-	// FetchType.LAZY) ) })
 	public List<AuthRole> findAll(@Param(value = "available") boolean onlyAvailable);
 
 	/**
@@ -59,9 +59,6 @@ public interface AuthRoleDAO {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "permissions", column = "role_id", many = @Many(select
-	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
-	// FetchType.LAZY) ) })
 	public AuthRole findById(@Param(value = "id") int id);
 
 	/**
@@ -75,9 +72,6 @@ public interface AuthRoleDAO {
 			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "permissions", column = "role_id", many = @Many(select
-	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
-	// FetchType.LAZY) ) })
 	public AuthRole findByName(@Param(value = "name") String roleName);
 
 	/**
@@ -134,8 +128,7 @@ public interface AuthRoleDAO {
 	 * @return
 	 */
 	@Insert("INSERT IGNORE auth_role_permission(role_id, permission_id, available, start_date, created_time) VALUE(#{roleId}, #{permissionId}, 1, CURDATE(), NOW())")
-	public int addPermission(@Param(value = "roleId") int roleId,
-			@Param(value = "permissionId") int permissionId);
+	public int addPermission(@Param(value = "roleId") int roleId, @Param(value = "permissionId") int permissionId);
 
 	/**
 	 * 移除已有权限
@@ -145,9 +138,8 @@ public interface AuthRoleDAO {
 	 * @return
 	 */
 	@Delete("DELETE FROM auth_role_permission WHERE role_id = #{roleId} AND permission_id = #{permissionId}")
-	public int removePermission(@Param(value = "roleId") int roleId,
-			@Param(value = "permissionId") int permissionId);
-	
+	public int removePermission(@Param(value = "roleId") int roleId, @Param(value = "permissionId") int permissionId);
+
 	/**
 	 * 移除指定角色上所有权限
 	 * 

@@ -13,7 +13,9 @@ import com.jrsoft.order.entity.OrderHeader;
 /**
  * 外部文件读取接口
  * 
- * <p>外部文件读取类必须实现此接口中的readFile方法</p>
+ * <p>
+ * 外部文件读取类必须实现此接口中的readFile方法
+ * </p>
  * 
  * @author chrismao
  * 

@@ -37,7 +37,7 @@ public interface PriceService {
 	 * @return PageInfo
 	 */
 	public PageInfo<PriceListHeader> findAll(int pageNum);
-	
+
 	/**
 	 * 按价格表编号或是名称查询
 	 * 
@@ -45,15 +45,16 @@ public interface PriceService {
 	 * @return PriceListHeader
 	 */
 	public PriceListHeader findOne(PriceListHeader priceHeader);
-	
+
 	/**
 	 * 获取客户的有效的价格表清单
 	 * 
-	 * @param siteId 客户SHIP TO地址编号
+	 * @param siteId
+	 *            客户SHIP TO地址编号
 	 * @return List
 	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId);
-	
+
 	/**
 	 * 获取客户的有效的价格表清单
 	 * 
@@ -61,16 +62,18 @@ public interface PriceService {
 	 * @return List
 	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(Set<CustomerSite> billTo);
-	
+
 	/**
 	 * 获取客户有效的且含有指定物料的价格表清单
 	 * 
-	 * @param siteId 客户SHIP TO地址编号
-	 * @param itemId 物料编号
+	 * @param siteId
+	 *            客户SHIP TO地址编号
+	 * @param itemId
+	 *            物料编号
 	 * @return List
 	 */
 	public List<PriceListHeader> findAllAvailablePriceListsByCustomerSite(int siteId, int itemId);
-	
+
 	/**
 	 * 获取价格表中的价格数据
 	 * 
@@ -78,12 +81,14 @@ public interface PriceService {
 	 * @return List
 	 */
 	public List<PriceListLine> findAllPriceLines(PriceListHeader priceHeader);
-	
+
 	/**
 	 * 在指定价格表中获取指定产品的销售价格
 	 * 
-	 * @param headerId 价格表Id
-	 * @param itemId 物料编号
+	 * @param headerId
+	 *            价格表Id
+	 * @param itemId
+	 *            物料编号
 	 * @return List
 	 */
 	public List<PriceListLine> findAllAvailablePriceLines(int headerId, int itemId);

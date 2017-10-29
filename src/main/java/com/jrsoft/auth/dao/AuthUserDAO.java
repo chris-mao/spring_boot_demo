@@ -14,6 +14,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.handler.AuthUserStateEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthUserDynaSqlProvider;
@@ -29,6 +31,7 @@ import com.jrsoft.auth.entity.AuthUser;
  * @version 1.0
  *
  */
+@Repository
 public interface AuthUserDAO {
 
 	/**
@@ -48,9 +51,6 @@ public interface AuthUserDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "roles", column = "user_id", many = @Many(select =
-	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
-	// FetchType.LAZY) ) })
 	public List<AuthUser> findAll(@Param(value = "available") boolean onlyAvailable);
 
 	/**
@@ -68,9 +68,6 @@ public interface AuthUserDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "roles", column = "user_id", many = @Many(select =
-	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
-	// FetchType.LAZY) ) })
 	public AuthUser findById(@Param(value = "id") int id);
 
 	/**
@@ -88,10 +85,19 @@ public interface AuthUserDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	// @Result(property = "roles", column = "user_id", many = @Many(select =
-	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
-	// FetchType.LAZY) ) })
 	public AuthUser findByName(@Param(value = "name") String userName);
+
+	@SelectProvider(method = "findSpecificSql", type = AuthUserDynaSqlProvider.class)
+	@Results({ @Result(property = "userId", column = "user_id", id = true),
+			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
+			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
+			@Result(property = "salt", column = "salt"),
+			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<AuthUser> findSpecific(@Param(value = "userName") String userName,
+			@Param(value = "nickName") String nickName);
 
 	/**
 	 * 创建新用户
@@ -152,9 +158,10 @@ public interface AuthUserDAO {
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
 	public int removeRole(@Param(value = "userId") int userId, @Param(value = "roleId") int roleId);
-	
+
 	/**
 	 * 移除指定用户的所有角色
+	 * 
 	 * @param userId
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId}")

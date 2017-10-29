@@ -79,16 +79,16 @@ public class Employee implements Serializable {
 	 * 是否有效
 	 */
 	private boolean available = true;
-	
+
 	public Employee() {
 		super();
 	}
-	
+
 	public Employee(int id) {
 		this();
 		this.setEmployeeId(id);
 	}
-	
+
 	public Employee(String name) {
 		this();
 		this.setEmployeeName(name);
@@ -241,7 +241,9 @@ public class Employee implements Serializable {
 				+ ", updateTime=" + updateTime + ", available=" + available + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -253,7 +255,9 @@ public class Employee implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

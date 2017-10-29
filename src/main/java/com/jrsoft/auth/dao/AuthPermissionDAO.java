@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthPermission;
@@ -29,6 +30,7 @@ import com.jrsoft.auth.entity.AuthPermission;
  * @version 1.0
  *
  */
+@Repository
 public interface AuthPermissionDAO {
 
 	/**

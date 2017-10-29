@@ -6,7 +6,7 @@ package com.jrsoft.customer.service;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +33,7 @@ import com.jrsoft.price.entity.PriceListHeader;
 @SpringBootTest
 public class CustomerServiceTest {
 	
-	@Resource
+	@Autowired
 	private CustomerService customerService;
 	
 	private static final Integer CUSTOMER_ID = 1835577;

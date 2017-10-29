@@ -3,7 +3,7 @@
  */
 package com.jrsoft.inventory.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -29,11 +29,11 @@ import com.jrsoft.inventory.service.InventoryModelService;
 @Controller
 @RequestMapping("/models")
 public class InventoryModelController {
-	
-	@Resource
+
+	@Autowired
 	private InventoryModelService inventoryModelService;
-	
-	@GetMapping({"", "/index"})
+
+	@GetMapping({ "", "/index" })
 	@RequiresPermissions("model:list")
 	public String findAllPriceList(@RequestParam(defaultValue = "1") int page, Model model) {
 		PageInfo<InventoryModel> items = inventoryModelService.findAll(page);

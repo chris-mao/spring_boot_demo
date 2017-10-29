@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.auth.entity.AuthUserDelegate;
 
@@ -26,6 +27,7 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
  * @version 1.0
  *
  */
+@Repository
 public interface AuthUserDelegateDAO {
 
 	/**

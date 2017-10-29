@@ -43,12 +43,30 @@ public class AuthController {
 
 	/**
 	 * 用户登录POST页面，判断用户名及密码是否正确，如果返回的错误异常名称是
-	 * <pre>{@link UnknownAccountException} 表示登录帐号不存在</pre>
-	 * <pre>{@link IncorrectCredentialsException} 表示登录帐号存在，但输入的密码不正确</pre>
-	 * <pre>{@link LockedAccountException} 表示登录帐号被锁</pre>
-	 * <pre>{@link ExpiredCredentialsException} 表示登录帐号已过期</pre>
-	 * <pre>{@link DisabledAccountException} 表示登录帐号被禁用</pre>
-	 * <pre>{@link AuthenticationException} 表示其他未知和登录错误</pre>
+	 * 
+	 * <pre>
+	 * {@link UnknownAccountException} 表示登录帐号不存在
+	 * </pre>
+	 * 
+	 * <pre>
+	 * {@link IncorrectCredentialsException} 表示登录帐号存在，但输入的密码不正确
+	 * </pre>
+	 * 
+	 * <pre>
+	 * {@link LockedAccountException} 表示登录帐号被锁
+	 * </pre>
+	 * 
+	 * <pre>
+	 * {@link ExpiredCredentialsException} 表示登录帐号已过期
+	 * </pre>
+	 * 
+	 * <pre>
+	 * {@link DisabledAccountException} 表示登录帐号被禁用
+	 * </pre>
+	 * 
+	 * <pre>
+	 * {@link AuthenticationException} 表示其他未知和登录错误
+	 * </pre>
 	 * 
 	 * @param request
 	 * @param model
@@ -69,11 +87,9 @@ public class AuthController {
 				msg = "您的帐号已过期！";
 			} else if (DisabledAccountException.class.getName().equals(exception)) {
 				msg = "您的帐号已被禁用！";
-			}
-			else if (AuthenticationException.class.getName().equals(exception)) {
+			} else if (AuthenticationException.class.getName().equals(exception)) {
 				msg = "登录认证失败，原因不明！";
-			}
-			else {
+			} else {
 				msg = "登录异常！";
 			}
 			logger.error(msg + " >>> " + exception);

@@ -2,7 +2,7 @@ package com.jrsoft.price.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import com.jrsoft.price.service.PriceService;
 @SpringBootTest
 public class PriceServiceTest {
 	
-	@Resource
+	@Autowired
 	private PriceService priceService;
 	
 	private static final int SITE_ID = 253497;

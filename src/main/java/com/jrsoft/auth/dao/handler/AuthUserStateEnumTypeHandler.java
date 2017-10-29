@@ -24,11 +24,11 @@ import com.jrsoft.auth.AuthUserStateEnum;
  *
  */
 public class AuthUserStateEnumTypeHandler extends BaseTypeHandler<AuthUserStateEnum> {
-	
+
 	private Class<AuthUserStateEnum> typeClass;
-	
+
 	private AuthUserStateEnum[] enums;
-	
+
 	public AuthUserStateEnumTypeHandler(Class<AuthUserStateEnum> typeClass) {
 		if (null == typeClass) {
 			throw new IllegalArgumentException("Type argument cannot be null.");
@@ -41,7 +41,8 @@ public class AuthUserStateEnumTypeHandler extends BaseTypeHandler<AuthUserStateE
 	}
 
 	@Override
-	public void setNonNullParameter(PreparedStatement ps, int i, AuthUserStateEnum parameter, JdbcType jdbcType) throws SQLException {
+	public void setNonNullParameter(PreparedStatement ps, int i, AuthUserStateEnum parameter, JdbcType jdbcType)
+			throws SQLException {
 		ps.setString(i, parameter.getText());
 	}
 
@@ -62,17 +63,17 @@ public class AuthUserStateEnumTypeHandler extends BaseTypeHandler<AuthUserStateE
 		String stateName = cs.getString(columnIndex);
 		return cs.wasNull() ? null : translateToAuthUserStateType(stateName);
 	}
-	
+
 	private AuthUserStateEnum translateToAuthUserStateType(String state) {
 		AuthUserStateEnum result = null;
-		for(AuthUserStateEnum userState: this.enums) {
+		for (AuthUserStateEnum userState : this.enums) {
 			if (userState.getText().equals(state)) {
 				result = userState;
 				break;
 			}
 		}
 		if (result == null) {
-			throw new IllegalArgumentException("未知枚举" + state + ", 请核对 " + typeClass.getSimpleName());			
+			throw new IllegalArgumentException("未知枚举" + state + ", 请核对 " + typeClass.getSimpleName());
 		}
 		return result;
 	}

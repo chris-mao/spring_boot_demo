@@ -11,7 +11,6 @@ spring:
 #数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    #url: jdbc:mysql://127.0.0.1:3306/shiro
     url: jdbc:mysql://127.0.0.1:3306/etao_v4
     username: root
     password: cope9020
@@ -33,5 +32,5 @@ spring:
 #分页配置
 pageSize: 25
 #实体类扫描的包名
-#mybatis:
-#  type-aliases-package: com.jrsoft.*.entity
+mybatis:
+  type-aliases-package: com.jrsoft.*.entity

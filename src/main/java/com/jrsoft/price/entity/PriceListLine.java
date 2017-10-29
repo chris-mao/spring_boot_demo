@@ -28,12 +28,12 @@ public class PriceListLine implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 价格表行编号
 	 */
 	private int lineId;
-	
+
 	/**
 	 * 工厂型号实体类
 	 */
@@ -182,7 +182,9 @@ public class PriceListLine implements Serializable {
 		this.inventoryModel = inventoryModel;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

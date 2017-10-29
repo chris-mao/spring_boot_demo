@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.price.entity.PriceListLine;
 
@@ -24,6 +25,7 @@ import com.jrsoft.price.entity.PriceListLine;
  * @version 1.0
  *
  */
+@Repository
 public interface PriceListLineDAO {
 
 	/**

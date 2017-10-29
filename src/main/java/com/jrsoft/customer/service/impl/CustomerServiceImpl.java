@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,25 +44,25 @@ public class CustomerServiceImpl implements CustomerService {
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private CustomerAccountDAO customerAccountDAO;
 
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private CustomerSiteDAO customerSiteDAO;
 
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private EmployeeDAO employddDAO;
 
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private PriceListHeaderDAO priceHeaderDAO;
 
 	@Override
@@ -185,7 +185,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (null == customers) {
 			return null;
 		}
-		
+
 		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {
@@ -203,7 +203,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (null == customers) {
 			return null;
 		}
-		
+
 		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {
@@ -221,7 +221,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (null == customers) {
 			return null;
 		}
-		
+
 		CustomerAccount ca;
 		Iterator<CustomerAccount> iterator = customers.iterator();
 		while (iterator.hasNext()) {

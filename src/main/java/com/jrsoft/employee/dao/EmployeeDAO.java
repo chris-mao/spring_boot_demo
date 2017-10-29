@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import com.jrsoft.employee.entity.Employee;
 
@@ -26,6 +27,7 @@ import com.jrsoft.employee.entity.Employee;
  * @version 1.0
  *
  */
+@Repository
 public interface EmployeeDAO {
 
 	/**

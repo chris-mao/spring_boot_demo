@@ -2,7 +2,7 @@ package com.jrsoft.auth.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -37,7 +37,7 @@ import com.jrsoft.auth.service.AuthPermissionService;
 @RequestMapping("/permissions")
 public class AuthPermissionController {
 
-	@Resource
+	@Autowired
 	private AuthPermissionService authPermissionService;
 
 	/**
@@ -172,7 +172,7 @@ public class AuthPermissionController {
 		this.authPermissionService.delete(id);
 		return "redirect:/permissions";
 	}
-	
+
 	/**
 	 * 以JSON格式返回所有有效的系统权限
 	 * 

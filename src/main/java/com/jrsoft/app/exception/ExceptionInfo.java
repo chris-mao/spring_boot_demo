@@ -14,37 +14,37 @@ package com.jrsoft.app.exception;
  *
  */
 public class ExceptionInfo {
-	
+
 	/**
 	 * 错误代码
 	 */
 	public int code;
-	
+
 	/**
 	 * 错误信息
 	 */
 	public String message;
-	
+
 	/**
 	 * 异常信息
 	 */
 	public String exMessage;
-	
+
 	/**
 	 * 用于给开发人员查看的更加详细的错误描述
 	 */
 	public String developerMessage;
-	
+
 	/**
 	 * 出错的URL地址
 	 */
 	public String url;
-	
+
 	/**
 	 * HTTP请求状态码
 	 */
 	public int httpStatus;
-	
+
 	/**
 	 * 出现错误的数据对象
 	 */
@@ -58,7 +58,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param code the code to set
+	 * @param code
+	 *            the code to set
 	 */
 	public void setCode(int code) {
 		this.code = code;
@@ -72,7 +73,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param message the message to set
+	 * @param message
+	 *            the message to set
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -86,7 +88,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param url the url to set
+	 * @param url
+	 *            the url to set
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -100,7 +103,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param errorData the errorData to set
+	 * @param errorData
+	 *            the errorData to set
 	 */
 	public void setErrorData(Object errorData) {
 		this.errorData = errorData;
@@ -114,7 +118,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param httpStatus the httpStatus to set
+	 * @param httpStatus
+	 *            the httpStatus to set
 	 */
 	public void setHttpStatus(int httpStatus) {
 		this.httpStatus = httpStatus;
@@ -128,7 +133,8 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param developerMessage the developerMessage to set
+	 * @param developerMessage
+	 *            the developerMessage to set
 	 */
 	public void setDeveloperMessage(String developerMessage) {
 		this.developerMessage = developerMessage;
@@ -142,13 +148,16 @@ public class ExceptionInfo {
 	}
 
 	/**
-	 * @param exMessage the exMessage to set
+	 * @param exMessage
+	 *            the exMessage to set
 	 */
 	public void setExMessage(String exMessage) {
 		this.exMessage = exMessage;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

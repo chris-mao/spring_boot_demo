@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.config.shiro.listener;
+package com.jrsoft.app.listener;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class JrSessionListener implements SessionListener {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(JrSessionListener.class);
 
 	@Override

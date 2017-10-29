@@ -6,7 +6,7 @@ package com.jrsoft.employee.controller;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -47,13 +47,13 @@ public class EmployeeController {
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private EmployeeService employeeService;
 
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private CustomerService customerService;
 
 	/**

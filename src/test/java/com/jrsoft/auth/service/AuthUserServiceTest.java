@@ -1,6 +1,6 @@
 package com.jrsoft.auth.service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,10 +27,10 @@ import com.jrsoft.auth.service.AuthUserService;
 @SpringBootTest
 public class AuthUserServiceTest {
 	
-	@Resource
+	@Autowired
 	private AuthUserService authUserService;
 	
-	@Resource
+	@Autowired
 	private AuthRoleService authRoleService;
 
 	@Test

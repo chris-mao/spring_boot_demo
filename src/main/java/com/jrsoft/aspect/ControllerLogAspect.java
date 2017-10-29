@@ -52,14 +52,14 @@ public class ControllerLogAspect {
 
 		// parameters
 		for (Object obj : joinPoint.getArgs()) {
-			 logger.info("调用参数 = {}", obj);
+			logger.info("调用参数 = {}", obj);
 		}
 	}
 
 	@After("log()")
 	public void afterLog(JoinPoint joinPoint) {
-		 logger.info("控制器类 {} 中的 {} 方法调用结束", joinPoint.getSignature().getDeclaringTypeName(),
-					joinPoint.getSignature().getName());
+		logger.info("控制器类 {} 中的 {} 方法调用结束", joinPoint.getSignature().getDeclaringTypeName(),
+				joinPoint.getSignature().getName());
 	}
 
 	@AfterReturning(pointcut = "log()", returning = "object")
@@ -67,7 +67,7 @@ public class ControllerLogAspect {
 		logger.info("控制器返回值是： {}", object);
 		logger.info("控制器调用正常结束");
 	}
-	
+
 	@AfterThrowing(pointcut = "log()", throwing = "e")
 	public void afterThrowing(JoinPoint joinPoint, Throwable e) {
 		logger.warn("控制器调用出错！！！");
@@ -76,11 +76,11 @@ public class ControllerLogAspect {
 
 		// parameters
 		for (Object obj : joinPoint.getArgs()) {
-			 logger.warn("调用参数 = {}", obj);
+			logger.warn("调用参数 = {}", obj);
 		}
 		logger.warn("异常名称：{}", e.getClass().getName());
 		logger.warn("异常描述：{}", e.getMessage());
-		
+
 		// TODO 将调用信息写到数据库中
 	}
 }

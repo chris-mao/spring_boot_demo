@@ -4,16 +4,16 @@
 package com.jrsoft.app.controller;
 
 import java.util.List;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.jrsoft.auth.entity.AuthUserDelegate;
+import com.jrsoft.auth.helper.AuthHelper;
 import com.jrsoft.auth.service.AuthUserDelegateService;
-import com.jrsoft.auth.utils.AuthUtils;
 
 /**
  * com.jrsoft.app.controller HomeController
@@ -31,7 +31,7 @@ public class HomeController {
 	/**
 	 * 
 	 */
-	@Resource
+	@Autowired
 	private AuthUserDelegateService authUserDelegateService;
 
 	/**
@@ -44,7 +44,7 @@ public class HomeController {
 	@GetMapping({ "/", "/index" })
 	public String index(HttpServletRequest request, Model model) {
 		// 委托人
-		List<AuthUserDelegate> clients = this.authUserDelegateService.findAllByToUser(AuthUtils.getCurrentUser());
+		List<AuthUserDelegate> clients = this.authUserDelegateService.findAllByToUser(AuthHelper.getCurrentUser());
 		model.addAttribute("clients", clients);
 		return "index";
 	}

@@ -5,7 +5,7 @@ package com.jrsoft.employee.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,10 +35,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Value("${pageSize}")
 	private int pageSize = 20;
 
-	@Resource
+	@Autowired
 	private EmployeeDAO employeeDAO;
 
-	@Resource
+	@Autowired
 	private CustomerAccountDAO customerDAO;
 
 	/*
@@ -116,8 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jrsoft.employee.service.EmployeeService#delete(java.lang.int)
+	 * @see com.jrsoft.employee.service.EmployeeService#delete(java.lang.int)
 	 */
 	@Override
 	public boolean delete(int id) {

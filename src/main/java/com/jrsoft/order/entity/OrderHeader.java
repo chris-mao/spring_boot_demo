@@ -20,7 +20,7 @@ public class OrderHeader {
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String customerPO;
 
 	/**
@@ -51,31 +51,31 @@ public class OrderHeader {
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String contact;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String creator;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String orderType;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String currency;
 
 	/**
 	 * 
 	 */
-	@NotEmpty(message="")
+	@NotEmpty(message = "")
 	private String billTo;
 
 	/**
