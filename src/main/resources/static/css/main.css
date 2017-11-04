@@ -1,0 +1,89 @@
+body {
+	padding: 0;
+	padding-top: 58px;
+}
+
+.footer {
+	margin-top: 5rem;
+	padding-top: 1rem;
+	/*background-color: #e8e8e8;*/
+}
+
+.large-bold-red {
+	color: #FF5500;
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.small-bold-red {
+	color: #FF5500;
+	font: bold 18px tahoma;
+}
+
+.smaller-bold-red {
+	color: #FF5500;
+	font: bold 12px tahoma;
+}
+
+.highlight {
+	background-color: #FFFF99
+}
+
+.number {
+	font-size: 12px;
+	text-align: right;
+	padding-right: 4px;
+}
+
+.require-mark {
+	color: red;
+	padding-top: 2px;
+	padding-left: 4px;
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.empty-content {
+	font-size: 12px;
+	line-height: 21px;
+	padding-top: 3px;
+	padding-left: 28px;
+	background: url(../img/tip.gif) no-repeat 6px 0px;
+}
+
+.double-under-line {
+	text-decoration: underline;
+	border-bottom: 1px solid;
+	padding: 1px;
+	padding-top: 0;
+}
+
+/*************************************************************************************************/
+.data-list {
+	margin: auto;
+	list-style: none;
+	line-height: 10px;
+	padding-left: 0;
+	font-size: 12px;
+}
+
+.data-list li {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 10pt;
+	line-height: 21px;
+}
+
+.data-list li label {
+	width: 100px;
+}
+
+/*************************************************************************************************/
+.page-gone {
+	border: 1px solid red;
+	width: 600px;
+	height: 292px;
+	clear: both;
+	display: block;
+	background: transparent url(../img/404.jpg) no-repeat;
+}

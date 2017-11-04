@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div class="easyui-accordion" style="height: 100%;" th:fragment="menu">
+		<div title="订单管理"></div>
+		<div title="缺料采购管理"></div>
+		<div title="工单管理"></div>
+		<div title="基础数据管理" iconCls="icon-reload" style="padding: 10px;">
+			<ul shiro:authenticated="true" class="nav navbar-nav navbar-left">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"> <shiro:principal property="nickName" /><b
+						class="caret"></b>
+				</a></li>
+			</ul>
+		</div>
+		<shiro:hasRole name="系统管理员">
+			<div title="安全管理" selected="true"
+				style="overflow: auto; padding: 10px;">
+				<ul class="easyui-datalist">
+					<shiro:hasPermission name="authPermission:list">
+						<li><a class="navbar-link" title="维护系统权限" href="#"
+							th:href="@{/permissions}"><span
+								class="glyphicon glyphicon-grain"></span>&nbsp;权限管理</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="authRole:list">
+						<li><a class="navbar-link" title="维护系统角色" href="#"
+							th:href="@{/roles}"><span class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="authUser:list">
+						<li><a class="navbar-link" title="维护系统用户" href="#"
+							th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+					</shiro:hasPermission>
+				</ul>
+			</div>
+		</shiro:hasRole>
+		<div title="系统设置" iconCls="icon-man">
+			<ul id="tt1" class="easyui-tree">
+				<li><span>Folder1</span>
+					<ul>
+						<li><span>Sub Folder 1</span>
+							<ul>
+								<li><span>File 11</span></li>
+								<li><span>File 12</span></li>
+								<li><span>File 13</span></li>
+							</ul></li>
+						<li><span>File 2</span></li>
+						<li><span>File 3</span></li>
+					</ul></li>
+				<li><span>File2</span></li>
+			</ul>
+		</div>
+		<div title="系统操作">
+			<ul>
+				<li><a class="navbar-link" title="将界面语言设为英文" href="#"><span
+						class="glyphicon glyphicon-globe"></span>&nbsp;英语</a></li>
+				<li><a class="navbar-link" title="将界面语言设为简体中文" href="E"><span
+						class="glyphicon glyphicon-globe"></span>&nbsp;简体中文</a></li>
+				<li role="separator" class="divider"></li>
+				<shiro:hasPermission name="authUser:delegate">
+					<li><a class="navbar-link" title="身份代理" href="#"
+						th:href="@{/delegate}"><span class="glyphicon glyphicon-user"></span>&nbsp;委托与代理</a></li>
+					<li role="separator" class="divider"></li>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="authUser:change-password">
+					<li><a class="navbar-link" title="修改登录密码" href="#"
+						th:href="@{/users/{id}/change-psd(id=1)}"><span
+							class="glyphicon glyphicon-cog"></span>&nbsp;修改密码</a></li>
+					<li role="separator" class="divider"></li>
+				</shiro:hasPermission>
+				<li><a class="navbar-link" title="退出系统" th:href="@{/logout}"><span
+						class="glyphicon glyphicon-log-out"></span>&nbsp;退出系统</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

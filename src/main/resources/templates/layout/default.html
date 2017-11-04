@@ -4,16 +4,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<link rel="stylesheet"
-	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous"></link>
-<link rel="stylesheet" th:href="@{/css/etao.css}"></link>
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-<script
-	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
+<link th:href="@{/css/main.css}" rel="stylesheet" ></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/material/easyui.css}"
+	rel="stylesheet" ></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/icon.css}" rel="stylesheet" ></link>
+
+<script th:src="@{/jquery-easyui-1.5.3/jquery.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/easyloader.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/jquery.easyui.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"
+	type="text/javascript"></script>
 </head>
 <header th:replace="fragments/header::header">header fragment</header>
 <body>
@@ -22,7 +25,7 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="workspace"
 				role="main" layout:fragment="content">content fragment</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<!-- <p th:text="${session.org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY}"></p> -->
