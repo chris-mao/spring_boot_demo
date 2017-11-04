@@ -3,14 +3,10 @@
  */
 package com.jrsoft.order.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.jrsoft.order.service.ShoppingCartService;
 
 /**
  * com.jrsoft.order.controller ShoppingCartController
@@ -25,9 +21,6 @@ import com.jrsoft.order.service.ShoppingCartService;
 @Controller
 @RequestMapping("/shopping-cart")
 public class ShoppingCartController {
-
-	@Autowired
-	private ShoppingCartService shoppingCartService;
 
 	/**
 	 * 

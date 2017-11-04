@@ -6,14 +6,12 @@ package com.jrsoft.employee.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.customer.dao.CustomerAccountDAO;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.employee.dao.EmployeeDAO;
 import com.jrsoft.employee.entity.Employee;
@@ -37,9 +35,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeDAO employeeDAO;
-
-	@Autowired
-	private CustomerAccountDAO customerDAO;
 
 	/*
 	 * (non-Javadoc)

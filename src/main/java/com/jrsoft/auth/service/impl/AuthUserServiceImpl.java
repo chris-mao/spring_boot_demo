@@ -5,6 +5,10 @@ package com.jrsoft.auth.service.impl;
 
 import java.util.List;
 
+import org.directwebremoting.annotations.RemoteMethod;
+import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.annotations.ScriptScope;
+import org.directwebremoting.spring.SpringCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,7 @@ import com.jrsoft.auth.service.AuthUserService;
  *
  */
 @Service
+@RemoteProxy(name = "userService", creator = SpringCreator.class, scope = ScriptScope.APPLICATION)
 public class AuthUserServiceImpl implements AuthUserService {
 
 	@Value("${pageSize}")
@@ -37,6 +42,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	private AuthUserDAO authUserDAO;
 
 	@Override
+	@RemoteMethod
 	public List<AuthUser> findAll() {
 		return authUserDAO.findAll(false);
 	}

@@ -15,7 +15,6 @@ import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
-import com.jrsoft.auth.service.AuthUserService;
 
 /**
  * com.jrsoft.auth.controller QueryController
@@ -30,12 +29,6 @@ import com.jrsoft.auth.service.AuthUserService;
 @Controller
 @RequestMapping("/query")
 public class QueryController {
-
-	/**
-	 * 
-	 */
-	@Autowired
-	private AuthUserService authUserService;
 
 	/**
 	 * 

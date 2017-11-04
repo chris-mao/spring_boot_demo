@@ -5,12 +5,9 @@ package com.jrsoft.inventory.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
-
 import javax.validation.constraints.Max;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * com.jrsoft.inventory.entity model

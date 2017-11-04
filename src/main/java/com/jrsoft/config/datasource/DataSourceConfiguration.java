@@ -6,7 +6,6 @@ package com.jrsoft.config.datasource;
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * com.jrsoft.config.datasource DataSourceConfiguration
@@ -20,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0
  *
  */
-@Configuration
+//@Configuration
 public class DataSourceConfiguration {
 
 	// @Bean(name="mysqlDS")

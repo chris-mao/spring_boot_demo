@@ -3,8 +3,6 @@
  */
 package com.jrsoft.order.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jrsoft.app.exception.DataNotFoundException;
-import com.jrsoft.order.service.OrderService;
 
 /**
  * com.jrsoft.order.controller OrderController
@@ -29,9 +26,6 @@ import com.jrsoft.order.service.OrderService;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
-
-	@Autowired
-	private OrderService orderService;
 
 	@GetMapping({ "", "/index" })
 	public String findUnclosedOrders() {

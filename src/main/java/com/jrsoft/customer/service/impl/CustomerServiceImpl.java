@@ -20,7 +20,6 @@ import com.jrsoft.customer.dao.CustomerSiteDAO;
 import com.jrsoft.customer.entity.CustomerAccount;
 import com.jrsoft.customer.entity.CustomerSite;
 import com.jrsoft.customer.service.CustomerService;
-import com.jrsoft.employee.dao.EmployeeDAO;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.price.dao.PriceListHeaderDAO;
 import com.jrsoft.price.entity.PriceListHeader;
@@ -52,12 +51,6 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Autowired
 	private CustomerSiteDAO customerSiteDAO;
-
-	/**
-	 * 
-	 */
-	@Autowired
-	private EmployeeDAO employddDAO;
 
 	/**
 	 * 
