@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('#dg').datagrid({
 		checkOnSelect:false,
 		selectOnCheck:false,
+		singleSelect:true,
 		rownnumbers:true,
 	    pagination:true,
 	    striped:true,
@@ -59,15 +60,9 @@ function DateTimeFormatter(value, rowData, rowIndex) {
 	if (value == undefined) {
 		return "";
 	}
-	/* json格式时间转js时间格式 */
-	value = value.substr(1, value.length - 2);
-	var obj = eval('(' + "{Date: new " + value + "}" + ')');
-	var dateValue = obj["Date"];
-	if (dateValue.getFullYear() < 1900) {
-		return "";
-	}
-
-	return dateValue.format("yyyy-MM-dd hh:mm:ss");
+	var dateValue = new Date(value);
+//	dateValue.setTime(value);
+	return dateValue.toLocaleString();
 }
 
 /**
