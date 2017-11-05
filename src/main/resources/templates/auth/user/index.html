@@ -3,7 +3,7 @@
 	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link th:href="@{css/main.css}" rel="stylesheet"></link>
+<link th:href="@{/css/main.css}" rel="stylesheet"></link>
 <link th:href="@{/jquery-easyui-1.5.3/themes/material/easyui.css}"
 	rel="stylesheet"></link>
 <link th:href="@{/jquery-easyui-1.5.3/themes/icon.css}" rel="stylesheet"></link>
@@ -19,43 +19,44 @@
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body class="easyui-layout" fit="false" style="text-align: left">
-	<table id="dg" class="easyui-datagrid" idField="userId" style="width: 100%">
+	<table id="dg" class="easyui-datagrid" idField="userId"
+		style="width: 100%">
 		<thead>
 			<tr>
 				<th field="userName" style="width: 160px">登录名称</th>
 				<th field="nickName" style="width: 260px">显示昵称</th>
 				<th field="email" style="width: 200px">电子邮件</th>
 				<th field="state" style="width: 80px" align="center">状态</th>
-				<th field="createdTime" style="width: 100px" formatter="DateTimeFormatter">创建时间</th>
-				<th field="updateTime" style="width: 100px" formatter="DateTimeFormatter">更新时间</th>
+				<th field="createdTime" style="width: 140px"
+					formatter="DateTimeFormatter">创建时间</th>
+				<th field="updateTime" style="width: 140px"
+					formatter="DateTimeFormatter">更新时间</th>
 			</tr>
 		</thead>
 	</table>
 
-	<div id="tb" style="padding: 5px; height: auto">
-		<div style="margin-bottom: 5px">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-				onclick="newUser()">新增用户</a> <a href="#" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a><a
-				href="#" class="easyui-linkbutton" iconCls="icon-remove"
-				plain="true" onclick="deleteUser()">删除用户</a>
-		</div>
+	<div id="tb" class="datagrid-toolbar">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="newUser()">新增用户</a> <a href="#" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a><a
+			href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+			onclick="deleteUser()">删除用户</a>
 	</div>
 
 	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
-		buttons="#dlg-buttons">
+		buttons="#dlg-buttons" data-options="modal:true">
 		<form id="fm" method="post" novalidate="novalidate"
 			style="margin: 0; padding: 20px 30px; width: 100%">
-			<div class="form-control">
-				<input name="userName" class="easyui-textbox" required="true"
+			<div class="form-line">
+				<input name="userName" class="easyui-textbox form-control" required="true"
 					label="登录名称:" />
 			</div>
-			<div class="form-control">
-				<input name="nickName" class="easyui-textbox" required="true"
+			<div class="form-line">
+				<input name="nickName" class="easyui-textbox form-control" required="true"
 					label="显示昵称" />
 			</div>
-			<div class="form-control">
-				<input type="email" name="email" class="easyui-textbox"
+			<div class="form-line">
+				<input type="email" name="email" class="easyui-textbox form-control"
 					required="true" validType="email" label="电子邮件:" />
 			</div>
 		</form>
@@ -71,27 +72,27 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#dg').datagrid({
-                collapsible:true,
-			    url:"/rest/users",
-			    toolbar:"#tb",
-			    emptyMsg:"",
-				onDblClickRow:function(index, row) {
+				collapsible : true,
+				url : "/rest/users",
+				toolbar : "#tb",
+				emptyMsg : "",
+				onDblClickRow : function(index, row) {
 					editUser();
 				}
-				/* rowStyler : function(rowIndex, rowData) {
-					if (rowData.state == "LOCKED") {
-						return "background-color:#0489B1;color:white;font-weight:bold;";
-					}
-					else if (rowData.state == "EXPIRED") {
-						return "background-color:#D7DF01;color:black;font-weight:bold;";
-					}
-					else if (rowData.state == "INACTIVE") {
-                        return "background-color:#C0C0C0;color:black;font-weight:bold;";
-                    }
-					else {
-						return "";
-					}
-				} */
+			/* rowStyler : function(rowIndex, rowData) {
+				if (rowData.state == "LOCKED") {
+					return "background-color:#0489B1;color:white;font-weight:bold;";
+				}
+				else if (rowData.state == "EXPIRED") {
+					return "background-color:#D7DF01;color:black;font-weight:bold;";
+				}
+				else if (rowData.state == "INACTIVE") {
+			        return "background-color:#C0C0C0;color:black;font-weight:bold;";
+			    }
+				else {
+					return "";
+				}
+			} */
 			});
 		});
 

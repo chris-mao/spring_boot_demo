@@ -1,9 +1,16 @@
-form .form-control {
-	margin-bottom:10px;
+.datagrid-toolbar {
+	padding: 5px;
+	height: auto;
 }
-form .form-control input {
+
+.form-line {
+	margin-bottom: 10px;
+}
+
+.form-control {
 	width: 100%;
 }
+
 .large-bold-red {
 	color: #FF5500;
 	font-size: 26px;

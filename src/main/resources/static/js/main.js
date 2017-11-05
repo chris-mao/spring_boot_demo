@@ -3,13 +3,13 @@ $(document).ready(function() {
 		checkOnSelect:false,
 		selectOnCheck:false,
 		singleSelect:true,
-		rownnumbers:true,
+		rownumbers:true,
 	    pagination:true,
 	    striped:true,
         method:"get",
         fit:true,
 	    pageSize:20,
-	    pageList: [10,20,50,100]
+	    pageList: [10,20,30,50,80]
 	});
 	jQuery.ajaxSetup({
 		cache : false
