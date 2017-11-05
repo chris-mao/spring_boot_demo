@@ -1,14 +1,9 @@
-body {
-	padding: 0;
-	padding-top: 58px;
+form .form-control {
+	margin-bottom:10px;
 }
-
-.footer {
-	margin-top: 5rem;
-	padding-top: 1rem;
-	/*background-color: #e8e8e8;*/
+form .form-control input {
+	width: 100%;
 }
-
 .large-bold-red {
 	color: #FF5500;
 	font-size: 26px;
@@ -41,14 +36,6 @@ body {
 	padding-left: 4px;
 	font-weight: normal;
 	font-size: 12px;
-}
-
-.empty-content {
-	font-size: 12px;
-	line-height: 21px;
-	padding-top: 3px;
-	padding-left: 28px;
-	background: url(../img/tip.gif) no-repeat 6px 0px;
 }
 
 .double-under-line {

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthRole;
@@ -72,11 +71,9 @@ public class AuthUserController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({ "", "/index" })
+	@GetMapping({ "", "/", "/index" })
 	@RequiresPermissions("authUser:list")
-	public String userList(@RequestParam(defaultValue = "1") int page, Model model) {
-		PageInfo<AuthUser> users = this.authUserService.findAll(page);
-		model.addAttribute("page", users);
+	public String userList() {
 		return "auth/user/index";
 	}
 

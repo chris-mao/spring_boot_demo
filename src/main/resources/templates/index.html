@@ -18,19 +18,23 @@
 	type="text/javascript"></script>
 <script th:src="@{/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"
 	type="text/javascript"></script>
+<script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 
 <body class="easyui-layout" fit="false" style="text-align: left">
 	<div data-options="region:'north',border:false"
 		style="height: 60px; padding: 10px">
-		<h1>凯迪订单追踪系统</h1>
+		<h1 style="float:left">凯迪订单追踪系统</h1>
+		<p style="float:right">
+			<shiro:principal property="nickName" />
+		</p>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'"
 		style="width: 180px; min-width: 180px;">
 		<div th:replace="fragments/menu::menu">menu fragment</div>
 	</div>
 	<div data-options="region:'south',border:false"
-		style="height: 60px; padding: 10px;">south region</div>
+		style="height: 20px; padding: 5px;">south region</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
 			<p>这里放系统公告，个人消息等信息</p>
@@ -41,18 +45,18 @@
 				data-options="collapsible:true,minimizable:true,maximizable:true,closable:true">
 			</div>
 		</div>
-		<div title="Help" data-options="iconCls:'icon-help',closable:true">
+		<div title="系统用户" data-options="closable:true" style="padding: 5px">
 			<script th:src="@{/js/main.js}" type="text/javascript"></script>
 			<table class="easyui-datagrid" rownnumbers="true" pagination="true"
-				singleSelect="true" collapsible="true" url="users/json" method="get"
-				toolbar="#tb" fit="false">
+				collapsible="true" url="/rest/users"
+				method="get" toolbar="#tb" fit="true" style="width: 100%">
 				<thead>
 					<tr>
-						<th data-options="field:'ck',checkbox:true"></th>
 						<th data-options="field:'userName',width:160">登录名称</th>
 						<th data-options="field:'nickName',width:260">显示昵称</th>
 						<th data-options="field:'email',width:200">电子邮件</th>
 						<th data-options="field:'state',width:80,align:'center'">状态</th>
+						<th data-options="field:'available',width:80,align:'center'">有效</th>
 						<th data-options="field:'createdTime',width:100"
 							formmater="DateTimeFormatter">创建时间</th>
 						<th data-options="field:'updateTime',width:100">更新时间</th>
@@ -72,15 +76,8 @@
 				</div>
 				<div>
 					Date From: <input class="easyui-datebox" style="width: 80px" />
-					To: <input class="easyui-datebox" style="width: 80px" /> Language:
-					<select class="easyui-combobox" panelHeight="auto"
-						style="width: 100px">
-						<option value="java">Java</option>
-						<option value="c">C</option>
-						<option value="basic">Basic</option>
-						<option value="perl">Perl</option>
-						<option value="python">Python</option>
-					</select> <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+					To: <input class="easyui-datebox" style="width: 80px" /><a
+						href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
 				</div>
 			</div>
 		</div>

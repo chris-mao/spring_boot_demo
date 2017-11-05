@@ -1,103 +1,157 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>系统用户列表</title>
-</head>
-<body>
-	<div layout:fragment="content">
-		<script th:src="@{/js/main.js}" type="text/javascript"></script>
-		<table class="easyui-datagrid" title="系统用户" rownnumbers="true"
-			pagination="true" singleSelect="true" collapsible="true"
-			url="users/json" method="get" toolbar="#tb" style="height: 800px;">
-			<thead>
-				<tr>
-					<th data-options="field:'ck',checkbox:true"></th>
-					<th data-options="field:'userName',width:160">登录名称</th>
-					<th data-options="field:'nickName',width:260">显示昵称</th>
-					<th data-options="field:'email',width:200">电子邮件</th>
-					<th data-options="field:'state',width:80,align:'center'">状态</th>
-					<th data-options="field:'createdTime',width:100"
-						formmater="DateTimeFormatter">创建时间</th>
-					<th data-options="field:'updateTime',width:100">更新时间</th>
-				</tr>
-			</thead>
-		</table>
+<link th:href="@{css/main.css}" rel="stylesheet"></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/material/easyui.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/icon.css}" rel="stylesheet"></link>
 
-		<div id="tb" style="padding: 5px; height: auto">
-			<div style="margin-bottom: 5px">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-add"
-					plain="true"></a> <a href="#" class="easyui-linkbutton"
-					iconCls="icon-edit" plain="true"></a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-save" plain="true"></a> <a
-					href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
-					plain="true"></a>
-			</div>
-			<div>
-				Date From: <input class="easyui-datebox" style="width: 80px" /> To:
-				<input class="easyui-datebox" style="width: 80px" /> Language: <select
-					class="easyui-combobox" panelHeight="auto" style="width: 100px">
-					<option value="java">Java</option>
-					<option value="c">C</option>
-					<option value="basic">Basic</option>
-					<option value="perl">Perl</option>
-					<option value="python">Python</option>
-				</select> <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
-			</div>
+<script th:src="@{/jquery-easyui-1.5.3/jquery.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/easyloader.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/jquery.easyui.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"
+	type="text/javascript"></script>
+<script th:src="@{/js/main.js}" type="text/javascript"></script>
+</head>
+<body class="easyui-layout" fit="false" style="text-align: left">
+	<table id="dg" class="easyui-datagrid" idField="userId" style="width: 100%">
+		<thead>
+			<tr>
+				<th field="ck" checkbox="true"></th>
+				<th field="userName" style="width: 160px">登录名称</th>
+				<th field="nickName" style="width: 260px">显示昵称</th>
+				<th field="email" style="width: 200px">电子邮件</th>
+				<th field="state" style="width: 80px" align="center">状态</th>
+				<th field="createdTime" style="width: 100px">创建时间</th>
+				<th field="updateTime" style="width: 100px">更新时间</th>
+			</tr>
+		</thead>
+	</table>
+
+	<div id="tb" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="newUser()">新增用户</a> <a href="#" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a><a
+				href="#" class="easyui-linkbutton" iconCls="icon-remove"
+				plain="true" onclick="deleteUser()">删除用户</a>
 		</div>
 	</div>
 
-	<div class="table-responsive" th:fragment="showUsers(userList)">
-		<table class="table table-striped table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>登录名称</th>
-					<th>显示昵称</th>
-					<th>电子邮件</th>
-					<th>状态</th>
-					<th>创建时间</th>
-					<th>更新时间</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr data-th-each="user, state: ${userList}" data-th-object="${user}">
-					<td><a data-th-href="@{'/users/' + *{userId}}"
-						data-th-text="*{userName}"></a></td>
-					<td data-th-text="*{nickName}"></td>
-					<td><a data-th-text="*{email}"
-						th:href="@{'mailto:' + *{email}}"></a></td>
-					<td data-th-text="*{state}"></td>
-					<td><span th:if="*{createdTime}"
-						th:text="*{#dates.format(createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
-					<td><span th:if="*{updateTime}"
-						th:text="*{#dates.format(updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
-					<td>
-						<div class="btn-toolbar pull-right hidden-print">
-							<div class="btn-group btn-group-xs">
-								<shiro:hasPermission name="authUser:edit">
-									<a class="btn btn-default" title="修改用户资料"
-										th:href="@{/users/{id}/edit(id=*{userId})}">编辑</a>
-								</shiro:hasPermission>
-								<shiro:hasPermission name="authUser:change-password">
-									<a class="btn btn-default" title="修改登录密码"
-										th:href="@{/users/{id}/change-psd(id=*{userId})}">修改密码</a>
-								</shiro:hasPermission>
-								<shiro:hasPermission name="authUser:delete">
-									<a class="btn btn-danger" title="删除该用户"
-										onclick="if(confirm('确定删除?')==false)return false;"
-										th:href="@{/users/{id}/del(id=*{userId})}">删除</a>
-								</shiro:hasPermission>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
+		buttons="#dlg-buttons">
+		<form id="fm" method="post" novalidate="novalidate"
+			style="margin: 0; padding: 20px 30px; width: 100%">
+			<div class="form-control">
+				<input name="userName" class="easyui-textbox" required="true"
+					label="登录名称:" />
+			</div>
+			<div class="form-control">
+				<input name="nickName" class="easyui-textbox" required="true"
+					label="显示昵称" />
+			</div>
+			<div class="form-control">
+				<input type="email" name="email" class="easyui-textbox"
+					required="true" validType="email" label="电子邮件:" />
+			</div>
+		</form>
 	</div>
+	<div id="dlg-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="saveUser()" style="width: 90px">Save</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')"
+			style="width: 90px">Cancel</a>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#dg').datagrid({
+                collapsible:true,
+			    url:"/rest/users",
+			    toolbar:"#tb",
+			    emptyMsg:"",
+				onDblClickRow:function(index, row) {
+					editUser();
+				},
+				/* rowStyler : function(index, row) {
+					if (row.state == "LOCKED") {
+						return "background-color:#0489B1;color:white;font-weight:bold;";
+					}
+					else if (row.state == "EXPIRED") {
+						return "background-color:#D7DF01;color:black;font-weight:bold;";
+					}
+					else if (row.state == "INACTIVE") {
+                        return "background-color:#C0C0C0;color:black;font-weight:bold;";
+                    }
+					else {
+						return "";
+					}
+				} */
+			});
+		});
+
+		var url;
+		function newUser() {
+			$('#dlg').dialog('open').dialog('center').dialog('setTitle',
+					'创建新用户');
+			$('#fm').form('clear');
+			url = '/rest/users/save';
+		}
+		function editUser() {
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$('#dlg').dialog('open').dialog('center').dialog('setTitle',
+						'编辑用户信息');
+				$('#fm').form('load', row);
+				url = '/rest/users/update/' + row.id;
+			}
+		}
+
+		function saveUser() {
+			$('#fm').form('submit', {
+				url : url,
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(result) {
+					var result = eval('(' + result + ')');
+					if (result.errorMsg) {
+						$.messager.show({
+							title : 'Error',
+							msg : result.errorMsg
+						});
+					} else {
+						$('#dlg').dialog('close'); // close the dialog
+						$('#dg').datagrid('reload'); // reload the user data
+					}
+				}
+			});
+		}
+		function deleteUser() {
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$.messager.confirm('确认', '确要定删除此用户吗？', function(r) {
+					if (r) {
+						$.get('/rest/users/delete/' + row.id, function(result) {
+							if (result.success) {
+								$('#dg').datagrid('reload'); // reload the user data
+							} else {
+								$.messager.show({ // show error message
+									title : 'Error',
+									msg : result.errorMsg
+								});
+							}
+						}, 'json');
+					}
+				});
+			}
+		}
+	</script>
 </body>
 </html>

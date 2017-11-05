@@ -6,35 +6,28 @@
 </head>
 <body>
 	<div class="easyui-accordion" style="height: 100%;" th:fragment="menu">
-		<div title="订单管理"></div>
-		<div title="缺料采购管理"></div>
-		<div title="工单管理"></div>
-		<div title="基础数据管理" iconCls="icon-reload" style="padding: 10px;">
-			<ul shiro:authenticated="true" class="nav navbar-nav navbar-left">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <shiro:principal property="nickName" /><b
-						class="caret"></b>
-				</a></li>
-			</ul>
-		</div>
 		<shiro:hasRole name="系统管理员">
-			<div title="安全管理" selected="true"
-				style="overflow: auto; padding: 10px;">
-				<ul class="easyui-datalist">
-					<shiro:hasPermission name="authPermission:list">
-						<li><a class="navbar-link" title="维护系统权限" href="#"
+			<div title="安全管理" selected="true" style="padding-left:5px;">
+				<shiro:hasPermission name="authPermission:list">
+					<p>
+						<a class="navbar-link" title="维护系统权限" href="#"
 							th:href="@{/permissions}"><span
-								class="glyphicon glyphicon-grain"></span>&nbsp;权限管理</a></li>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="authRole:list">
-						<li><a class="navbar-link" title="维护系统角色" href="#"
-							th:href="@{/roles}"><span class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a></li>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="authUser:list">
-						<li><a class="navbar-link" title="维护系统用户" href="#"
-							th:href="@{/users}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
-					</shiro:hasPermission>
-				</ul>
+							class="glyphicon glyphicon-grain"></span>&nbsp;权限管理</a>
+					</p>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="authRole:list">
+					<p>
+						<a class="navbar-link" title="维护系统角色" href="#" th:href="@{/roles}"><span
+							class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a>
+					</p>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="authUser:list">
+					<p>
+						<a class="navbar-link" title="维护系统用户" href="#" th:href="@{/users}"><span
+							class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a>
+					</p>
+					<a href="#" onclick="addTab('新建系统用户页面', '/users')" >新建用户页面</a>
+				</shiro:hasPermission>
 			</div>
 		</shiro:hasRole>
 		<div title="系统设置" iconCls="icon-man">

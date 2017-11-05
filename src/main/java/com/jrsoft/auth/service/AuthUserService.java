@@ -34,7 +34,7 @@ public interface AuthUserService {
 	 * @param pageNum
 	 * @return PageInfo
 	 */
-	public PageInfo<AuthUser> findAll(int pageNum);
+	public PageInfo<AuthUser> findAll(int pageNum, int pageSize);
 	
 	/**
 	 * 查询所有有效的用户信息
