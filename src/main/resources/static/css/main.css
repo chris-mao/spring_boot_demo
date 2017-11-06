@@ -11,6 +11,12 @@
 	width: 100%;
 }
 
+.search-box {
+	line-height: 21px;
+	border: 1px solid #ccc;
+	width: 180px;
+}
+
 .large-bold-red {
 	color: #FF5500;
 	font-size: 26px;

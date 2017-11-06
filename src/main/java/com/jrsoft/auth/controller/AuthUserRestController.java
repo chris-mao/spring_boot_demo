@@ -36,16 +36,18 @@ public class AuthUserRestController {
 	 * 
 	 * /rest/users?page=5&size=30
 	 * 
-	 * @param page
-	 * @param model
+	 * @param pageIndex
+	 * @param pageSize
+	 * @param searchStr
 	 * @return
 	 */
 	@GetMapping({ "", "/" })
 	@RequiresPermissions("authUser:list")
 	public DataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
-			@RequestParam(name = "rows", defaultValue = "20") int pageSize) {
-		PageInfo<AuthUser> pageInfo = this.authUserService.findAll(pageIndex, pageSize);
+			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
+			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
 		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
+		PageInfo<AuthUser> pageInfo = this.authUserService.findAll(pageIndex, pageSize, searchStr);
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;

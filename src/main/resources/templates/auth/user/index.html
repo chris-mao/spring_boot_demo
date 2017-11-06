@@ -36,6 +36,7 @@
 	</table>
 
 	<div id="tb" class="datagrid-toolbar">
+	    <div>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
 			onclick="newUser()">新增用户</a>
 		<a href="#" class="easyui-linkbutton"
@@ -48,7 +49,11 @@
 			onclick="deleteUser()">删除用户</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
             onclick="javascript:alert('批量删除');">批量删除</a>
-            
+        </div>
+        <div style="padding-left:5px;padding-top:5px;">
+            <input id="userName" placeHolder="请输入登录名称或昵称" class="search-box" />
+            <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-search" onclick="searchUser();">查询</a>
+        </div>
 	</div>
 
 	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
@@ -79,7 +84,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#user_datagrid').datagrid({
+			$("#user_datagrid").datagrid({
 				url : "/rest/users",
 				method : "get",
                 idField : "userId",
@@ -117,68 +122,74 @@
 
 		var url;
 		function newUser() {
-			$('#dlg').dialog('open').dialog('center').dialog('setTitle',
-					'创建新用户');
-			$('#fm').form('clear');
-			url = '/rest/users/save';
+			$("#dlg").dialog("open").dialog("center").dialog("setTitle",
+					"创建新用户");
+			$("#fm").form("clear");
+			url = "/rest/users/save";
 		}
 		
 		function editUser() {
-			var row = $('#dg').datagrid('getSelected');
+			var row = $("#dg").datagrid("getSelected");
 			if (row) {
-				$('#dlg').dialog('open').dialog('center').dialog('setTitle',
-						'编辑用户信息');
-				$('#fm').form('load', row);
-				url = '/rest/users/update/' + row.id;
+				$("#dlg").dialog("open").dialog("center").dialog("setTitle",
+						"编辑用户信息");
+				$("#fm").form("load", row);
+				url = "/rest/users/update/" + row.id;
 			}
 			else {
-				$.messager.alert('提示','请选择一个数据行！');
+				$.messager.alert("提示","请选择一个数据行！");
 			}
 		}
 
 		function saveUser() {
-			$('#fm').form('submit', {
+			$("#fm").form("submit", {
 				url : url,
 				onSubmit : function() {
-					return $(this).form('validate');
+					return $(this).form("validate");
 				},
 				success : function(result) {
-					var result = eval('(' + result + ')');
+					var result = eval("(" + result + ")");
 					if (result.errorMsg) {
 						$.messager.show({
-							title : 'Error',
+							title : "Error",
 							msg : result.errorMsg
 						});
 					} else {
-						$('#dlg').dialog('close'); // close the dialog
-						$('#dg').datagrid('reload'); // reload the user data
+						$("#dlg").dialog("close"); // close the dialog
+						$("#dg").datagrid("reload"); // reload the user data
 					}
 				}
 			});
 		}
 		
 		function deleteUser() {
-			var row = $('#dg').datagrid('getSelected');
+			var row = $("#dg").datagrid("getSelected");
 			if (row) {
-				$.messager.confirm('确认', '确要定删除用户 ' + row.nickName + ' 吗？', function(r) {
+				$.messager.confirm("确认", "确要定删除用户 " + row.nickName + " 吗？", function(r) {
 					if (r) {
-						$.get('/rest/users/delete/' + row.id, function(result) {
+						$.get("/rest/users/delete/" + row.id, function(result) {
 							if (result.success) {
-								$('#dg').datagrid('reload'); // reload the user data
+								$("#dg").datagrid("reload"); // reload the user data
 							} else {
 								$.messager.show({ // show error message
-									title : 'Error',
+									title : "Error",
 									msg : result.errorMsg
 								});
 							}
-						}, 'json');
+						}, "json");
 					}
 				});
 			}
 			else {
-				$.messager.alert('提示','请选择一个数据行！');
+				$.messager.alert("提示","请选择一个数据行！");
 			}
 		}
+        
+        function searchUser() {
+            $("#user_datagrid").datagrid("load",{
+                searchValue: $("#userName").val()
+            });
+        }
 	</script>
 </body>
 </html>

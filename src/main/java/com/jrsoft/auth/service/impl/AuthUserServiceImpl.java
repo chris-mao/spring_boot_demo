@@ -42,6 +42,18 @@ public class AuthUserServiceImpl implements AuthUserService {
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.findAll(false));
 	}
+	
+	@Override
+	public PageInfo<AuthUser> findAll(int pageNum, int pageSize, String searchStr) {
+		if ("" == searchStr) {
+			return this.findAll(pageNum, pageSize);
+		}
+		AuthUser user = new AuthUser();
+		user.setUserName("%" + searchStr + "%");
+		user.setNickName("%" + searchStr + "%");
+		PageHelper.startPage(pageNum, pageSize);
+		return new PageInfo<AuthUser>(authUserDAO.fuzzyQuery(user));
+	}
 
 	@Override
 	public List<AuthUser> findAllAvailableUser() {
@@ -95,7 +107,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 		if (0 != user.getUserId()) {
 			this.authUserDAO.removeAllRoles(user.getUserId());
 		}
-
 	}
 
 }

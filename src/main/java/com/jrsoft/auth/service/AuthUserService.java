@@ -37,6 +37,15 @@ public interface AuthUserService {
 	public PageInfo<AuthUser> findAll(int pageNum, int pageSize);
 	
 	/**
+	 * 根据传入的查询条件查询数据，分页
+	 * 如果参数searchStr为空，则不使用查询条件
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public PageInfo<AuthUser> findAll(int pageNum, int pageSize, String searchStr);
+	
+	/**
 	 * 查询所有有效的用户信息
 	 * 
 	 * @return List
@@ -64,7 +73,8 @@ public interface AuthUserService {
 	 * 
 	 * @param user
 	 * @return boolean 更新成功返回true，否则返回false
-	 */	public boolean update(AuthUser user);
+	 */
+	public boolean update(AuthUser user); 
 	
 	/**
 	 * 删除用户

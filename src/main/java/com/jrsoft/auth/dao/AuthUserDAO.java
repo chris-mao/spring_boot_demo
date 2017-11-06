@@ -92,6 +92,17 @@ public interface AuthUserDAO {
 	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
 	// FetchType.LAZY) ) })
 	public AuthUser findByName(@Param(value = "name") String userName);
+	
+	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time FROM auth_user WHERE user_name LIKE #{userName} OR nick_name LIKE #{nickName}")
+	@Results({ @Result(property = "userId", column = "user_id", id = true),
+			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
+			@Result(property = "email", column = "email"), @Result(property = "password", column = "user_psd"),
+			@Result(property = "salt", column = "salt"),
+			@Result(property = "state", column = "state", javaType = AuthUserStateEnum.class, typeHandler = AuthUserStateEnumTypeHandler.class),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<AuthUser> fuzzyQuery(AuthUser user);
 
 	/**
 	 * 创建新用户
