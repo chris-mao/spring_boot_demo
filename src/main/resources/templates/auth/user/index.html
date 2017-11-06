@@ -18,11 +18,11 @@
 	type="text/javascript"></script>
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
-<body class="easyui-layout" fit="false" style="text-align: left">
-	<table id="dg" class="easyui-datagrid" idField="userId"
-		style="width: 100%">
+<body>
+	<table id="user_datagrid" class="easyui-datagrid">
 		<thead>
 			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
 				<th field="userName" style="width: 160px">登录名称</th>
 				<th field="nickName" style="width: 260px">显示昵称</th>
 				<th field="email" style="width: 200px">电子邮件</th>
@@ -37,10 +37,18 @@
 
 	<div id="tb" class="datagrid-toolbar">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-			onclick="newUser()">新增用户</a> <a href="#" class="easyui-linkbutton"
-			iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a><a
-			href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+			onclick="newUser()">新增用户</a>
+		<a href="#" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>
+		<a href="#" class="easyui-linkbutton" plain="true"
+            onclick="javascript:alert('修改密码');">修改密码</a>
+        <a href="#" class="easyui-linkbutton" plain="true"
+            onclick="javascript:alert('关联角色');">关联角色</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
 			onclick="deleteUser()">删除用户</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+            onclick="javascript:alert('批量删除');">批量删除</a>
+            
 	</div>
 
 	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
@@ -71,11 +79,22 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#dg').datagrid({
-				collapsible : true,
+			$('#user_datagrid').datagrid({
 				url : "/rest/users",
+				method : "get",
+                idField : "userId",
 				toolbar : "#tb",
 				emptyMsg : "",
+				checkOnSelect:false,
+		        selectOnCheck:false,
+		        singleSelect:true,
+		        rownumbers:true,
+		        striped:true,
+				fit : true,
+				pagination:true,
+		        pagePosition : "bottom",
+		        pageSize:20,
+		        pageList: [10,20,30,50,80],
 				onDblClickRow : function(index, row) {
 					editUser();
 				}
@@ -103,6 +122,7 @@
 			$('#fm').form('clear');
 			url = '/rest/users/save';
 		}
+		
 		function editUser() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
@@ -110,6 +130,9 @@
 						'编辑用户信息');
 				$('#fm').form('load', row);
 				url = '/rest/users/update/' + row.id;
+			}
+			else {
+				$.messager.alert('提示','请选择一个数据行！');
 			}
 		}
 
@@ -133,10 +156,11 @@
 				}
 			});
 		}
+		
 		function deleteUser() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
-				$.messager.confirm('确认', '确要定删除此用户吗？', function(r) {
+				$.messager.confirm('确认', '确要定删除用户 ' + row.nickName + ' 吗？', function(r) {
 					if (r) {
 						$.get('/rest/users/delete/' + row.id, function(result) {
 							if (result.success) {
@@ -150,6 +174,9 @@
 						}, 'json');
 					}
 				});
+			}
+			else {
+				$.messager.alert('提示','请选择一个数据行！');
 			}
 		}
 	</script>

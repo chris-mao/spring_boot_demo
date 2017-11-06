@@ -1,16 +1,4 @@
 $(document).ready(function() {
-	$('#dg').datagrid({
-		checkOnSelect:false,
-		selectOnCheck:false,
-		singleSelect:true,
-		rownumbers:true,
-	    pagination:true,
-	    striped:true,
-        method:"get",
-        fit:true,
-	    pageSize:20,
-	    pageList: [10,20,30,50,80]
-	});
 	jQuery.ajaxSetup({
 		cache : false
 	});
@@ -28,7 +16,9 @@ function addTab(title, href) {
 				+ '" style="width:100%;height:100%;padding:5px;"></iframe>';
 		$('#workspace').tabs('add', {
 			title : title,
-			content : content,
+//			content : content,
+			href : href,
+			fit : true,
 			closable : true
 		});
 	}
