@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthRole;
@@ -26,15 +29,16 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.auth.utils.AuthUtils;
+import com.jrsoft.common.DataGrid;
 
 /**
- * 系统用户控制器类
+ * <p>
+ * 系统用户控制器类，提供系统用户维护页面入口及数据交互的RESTful方法入口
+ * </p>
  * 
- * com.jrsoft.auth.controller AuthUserController
- *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.2
  *
  */
 @Controller
@@ -48,10 +52,13 @@ public class AuthUserController {
 	private AuthRoleService authRoleService;
 
 	/**
-	 * 按ID查询用户，如果用户不存在则抛出DataNotFoundException异常
+	 * <p>
+	 * 按ID查询用户，如果用户不存在则抛出{@link DataNotFoundException}异常
+	 * </p>
 	 * 
+	 * @since 1.0
 	 * @param id
-	 * @return AuthUser
+	 * @return {@link AuthUser}
 	 * @throws DataNotFoundException
 	 */
 	private AuthUser findUser(int id) throws DataNotFoundException {
@@ -64,11 +71,8 @@ public class AuthUserController {
 	}
 
 	/**
-	 * 系统用户列表
+	 * 系统用户页面访问入口
 	 * 
-	 * @param page
-	 * @param model
-	 * @return
 	 */
 	@GetMapping({ "", "/", "/index" })
 	@RequiresPermissions("authUser:list")
@@ -178,7 +182,9 @@ public class AuthUserController {
 	}
 
 	/**
+	 * <p>
 	 * 分配角色到指定用户，先将该用户所有角色删除，再重新分配
+	 * </p>
 	 * 
 	 * Ajax调用
 	 * 
@@ -263,10 +269,40 @@ public class AuthUserController {
 		return chanegPassword(id, request, model);
 	}
 
+	/**
+	 * 以Json格式返回用户清单
+	 * 
+	 * @deprecated
+	 * @return String
+	 */
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthUser> jsonData() {
 		return this.authUserService.findAllAvailableUser();
+	}
+
+	/**
+	 * 获取用户列表
+	 * 
+	 * @param pageIndex
+	 *            页码
+	 * @param pageSize
+	 *            分页大小
+	 * @param searchStr
+	 *            模糊查询内容
+	 * @return {@link DataGrid }
+	 */
+	@ResponseBody
+	@GetMapping("/rest/list")
+	@RequiresPermissions("authUser:list")
+	public DataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
+			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
+			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
+		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
+		PageInfo<AuthUser> pageInfo = this.authUserService.findAll(pageIndex, pageSize, searchStr);
+		dg.setTotal(pageInfo.getTotal());
+		dg.setRows(pageInfo.getList());
+		return dg;
 	}
 
 }

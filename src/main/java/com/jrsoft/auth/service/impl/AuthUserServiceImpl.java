@@ -17,8 +17,6 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthUserService;
 
 /**
- * com.jrsoft.auth.service.impl AuthUserServiceImpl
- * 
  * 系统用户服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
@@ -38,20 +36,20 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
-	public PageInfo<AuthUser> findAll(int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize) {
+		PageHelper.startPage(pageIndex, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.findAll(false));
 	}
 	
 	@Override
-	public PageInfo<AuthUser> findAll(int pageNum, int pageSize, String searchStr) {
+	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
 		if ("" == searchStr) {
-			return this.findAll(pageNum, pageSize);
+			return this.findAll(pageIndex, pageSize);
 		}
 		AuthUser user = new AuthUser();
 		user.setUserName("%" + searchStr + "%");
 		user.setNickName("%" + searchStr + "%");
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(pageIndex, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.fuzzyQuery(user));
 	}
 

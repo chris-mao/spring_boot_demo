@@ -11,10 +11,8 @@
 	width: 100%;
 }
 
-.search-box {
-	line-height: 21px;
-	border: 1px solid #ccc;
-	width: 180px;
+.easyui-textbox {
+	width: 240px;
 }
 
 .large-bold-red {

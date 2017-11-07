@@ -19,6 +19,7 @@
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body>
+	<!-- 数据表格 -->
 	<table id="user_datagrid" class="easyui-datagrid">
 		<thead>
 			<tr>
@@ -35,8 +36,8 @@
 		</thead>
 	</table>
 
+    <!-- 数据表格工具栏 -->
 	<div id="tb" class="datagrid-toolbar">
-	    <div>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
 			onclick="newUser()">新增用户</a>
 		<a href="#" class="easyui-linkbutton"
@@ -49,43 +50,39 @@
 			onclick="deleteUser()">删除用户</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
             onclick="javascript:alert('批量删除');">批量删除</a>
-        </div>
-        <div style="padding-left:5px;padding-top:5px;">
-            <input id="userName" placeHolder="请输入登录名称或昵称" class="search-box" />
-            <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-search" onclick="searchUser();">查询</a>
-        </div>
+        <input id="userName" placeHolder="请输入登录名称或昵称" class="easyui-textbox" />
 	</div>
 
-	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
+	<!-- 新增、编辑弹出对话框 -->
+	<div id="dlg" class="easyui-dialog" style="width: 400px; height: 300px" closed="true"
 		buttons="#dlg-buttons" data-options="modal:true">
-		<form id="fm" method="post" novalidate="novalidate"
-			style="margin: 0; padding: 20px 30px; width: 100%">
+		<form id="fm" method="post" novalidate="novalidate" style="margin: 0; padding: 20px 30px; width: 100%">
 			<div class="form-line">
-				<input name="userName" class="easyui-textbox form-control" required="true"
-					label="登录名称:" />
+				<input name="userName" class="easyui-validatebox form-control" required="true"
+					validType="length[4,64]" label="登录名称:" />
 			</div>
 			<div class="form-line">
-				<input name="nickName" class="easyui-textbox form-control" required="true"
-					label="显示昵称" />
+				<input name="nickName" class="easyui-validatebox form-control" required="true"
+					validType="length[2,64]" label="显示昵称" />
 			</div>
 			<div class="form-line">
-				<input type="email" name="email" class="easyui-textbox form-control"
+				<input type="email" name="email" class="easyui-validatebox form-control"
 					required="true" validType="email" label="电子邮件:" />
 			</div>
 		</form>
 	</div>
 	<div id="dlg-buttons">
 		<a href="javascript:void(0)" class="easyui-linkbutton c6"
-			iconCls="icon-ok" onclick="saveUser()" style="width: 90px">Save</a> <a
+			iconCls="icon-ok" onclick="saveUser()" style="width: 90px">保存且关闭</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')"
-			style="width: 90px">Cancel</a>
+			style="width: 90px">关闭</a>
 	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#user_datagrid").datagrid({
-				url : "/rest/users",
+				url : "/users/rest/list",
 				method : "get",
                 idField : "userId",
 				toolbar : "#tb",
@@ -103,20 +100,16 @@
 				onDblClickRow : function(index, row) {
 					editUser();
 				}
-			/* rowStyler : function(rowIndex, rowData) {
-				if (rowData.state == "LOCKED") {
-					return "background-color:#0489B1;color:white;font-weight:bold;";
+			});
+			
+			$("#userName").textbox({
+				buttonText : '查询',
+				buttonIcon : 'icon-search',
+				onClickButton : function() {
+					$("#user_datagrid").datagrid("load",{
+		                searchValue: $("#userName").val()
+		            });
 				}
-				else if (rowData.state == "EXPIRED") {
-					return "background-color:#D7DF01;color:black;font-weight:bold;";
-				}
-				else if (rowData.state == "INACTIVE") {
-			        return "background-color:#C0C0C0;color:black;font-weight:bold;";
-			    }
-				else {
-					return "";
-				}
-			} */
 			});
 		});
 
@@ -125,16 +118,16 @@
 			$("#dlg").dialog("open").dialog("center").dialog("setTitle",
 					"创建新用户");
 			$("#fm").form("clear");
-			url = "/rest/users/save";
+			url = "/users/rest/save";
 		}
 		
 		function editUser() {
-			var row = $("#dg").datagrid("getSelected");
+			var row = $("#user_datagrid").datagrid("getSelected");
 			if (row) {
 				$("#dlg").dialog("open").dialog("center").dialog("setTitle",
 						"编辑用户信息");
 				$("#fm").form("load", row);
-				url = "/rest/users/update/" + row.id;
+				url = "/users/rest/update/" + row.id;
 			}
 			else {
 				$.messager.alert("提示","请选择一个数据行！");
@@ -156,20 +149,20 @@
 						});
 					} else {
 						$("#dlg").dialog("close"); // close the dialog
-						$("#dg").datagrid("reload"); // reload the user data
+						$("#user_datagrid").datagrid("reload"); // reload the user data
 					}
 				}
 			});
 		}
 		
 		function deleteUser() {
-			var row = $("#dg").datagrid("getSelected");
+			var row = $("#user_datagrid").datagrid("getSelected");
 			if (row) {
 				$.messager.confirm("确认", "确要定删除用户 " + row.nickName + " 吗？", function(r) {
 					if (r) {
-						$.get("/rest/users/delete/" + row.id, function(result) {
+						$.get("/users/rest/delete/" + row.id, function(result) {
 							if (result.success) {
-								$("#dg").datagrid("reload"); // reload the user data
+								$("#user_datagrid").datagrid("reload"); // reload the user data
 							} else {
 								$.messager.show({ // show error message
 									title : "Error",
@@ -186,9 +179,7 @@
 		}
         
         function searchUser() {
-            $("#user_datagrid").datagrid("load",{
-                searchValue: $("#userName").val()
-            });
+            
         }
 	</script>
 </body>
