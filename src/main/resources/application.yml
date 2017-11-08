@@ -14,7 +14,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     #url: jdbc:mysql://127.0.0.1:3306/shiro
-    url: jdbc:mysql://127.0.0.1:3306/etao_v4
+    url: jdbc:mysql://127.0.0.1:3306/etao_v4?characterEncoding=utf-8
     username: root
     password: cope9020
     dbcp:

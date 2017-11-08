@@ -3,16 +3,26 @@
 	height: auto;
 }
 
-.form-line {
-	margin-bottom: 10px;
+.datagrid-toolbar .easyui-searchbox {
+	width: 200px;
 }
 
-.form-control {
-	width: 100%;
+.easyui-dialog form {
+	margin: 0;
+	padding: 20px;
 }
 
-.easyui-textbox {
-	width: 240px;
+.easyui-dialog form div {
+	margin-bottom: 20px;
+}
+
+.easyui-dialog form div:last-child {
+	margin-bottom: 0;
+}
+
+.dialog-button .easyui-linkbutton {
+	width: 90px;
+	min-width: 90px;
 }
 
 .large-bold-red {

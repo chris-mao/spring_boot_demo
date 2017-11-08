@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthRole;
@@ -29,16 +27,15 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.auth.utils.AuthUtils;
-import com.jrsoft.common.DataGrid;
 
 /**
  * <p>
- * 系统用户控制器类，提供系统用户维护页面入口及数据交互的RESTful方法入口
+ * 系统用户控制器类，提供系统用户维护页面入口
  * </p>
  * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.2
+ * @version 1.0
  *
  */
 @Controller
@@ -280,29 +277,5 @@ public class AuthUserController {
 	public List<AuthUser> jsonData() {
 		return this.authUserService.findAllAvailableUser();
 	}
-
-	/**
-	 * 获取用户列表
-	 * 
-	 * @param pageIndex
-	 *            页码
-	 * @param pageSize
-	 *            分页大小
-	 * @param searchStr
-	 *            模糊查询内容
-	 * @return {@link DataGrid }
-	 */
-	@ResponseBody
-	@GetMapping("/rest/list")
-	@RequiresPermissions("authUser:list")
-	public DataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
-			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
-			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
-		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
-		PageInfo<AuthUser> pageInfo = this.authUserService.findAll(pageIndex, pageSize, searchStr);
-		dg.setTotal(pageInfo.getTotal());
-		dg.setRows(pageInfo.getList());
-		return dg;
-	}
-
+	
 }
