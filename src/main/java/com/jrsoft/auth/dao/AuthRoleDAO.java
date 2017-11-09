@@ -79,6 +79,13 @@ public interface AuthRoleDAO {
 	// = "com.jrsoft.auth.dao.AuthPermissionDAO.findAllByRoleId", fetchType =
 	// FetchType.LAZY) ) })
 	public AuthRole findByName(@Param(value = "name") String roleName);
+	
+	@Select("SELECT role_id, role_name, available, created_time, update_time FROM auth_role WHERE role_name LIKE #{name}")
+	@Results({ @Result(property = "roleId", column = "role_id", id = true),
+			@Result(property = "roleName", column = "role_name"), @Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<AuthRole> fuzzyQuery(@Param(value = "name") String roleName);
 
 	/**
 	 * 根据用户编号查询其所拥有的有效角色清单

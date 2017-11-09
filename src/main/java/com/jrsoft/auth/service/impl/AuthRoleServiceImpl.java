@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -21,20 +20,15 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
 
 /**
- * com.jrsoft.auth.service.impl AuthRoleServiceImpl
- * 
  * 系统角色服务接口实现类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.1
  *
  */
 @Service
 public class AuthRoleServiceImpl implements AuthRoleService {
-
-	@Value("${pageSize}")
-	private int pageSize = 20;
 
 	@Resource
 	private AuthUserDAO authUserDAO;
@@ -48,7 +42,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public PageInfo<AuthRole> findAll(int pageNum) {
+	public PageInfo<AuthRole> findAll(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthRole>(authRoleDAO.findAll(false));
 	}
@@ -121,6 +115,16 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		if (0 != role.getRoleId()) {
 			this.authRoleDAO.removeAllPermissions(role.getRoleId());
 		}
+	}
+
+	@Override
+	public PageInfo<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
+		if ("" == searchStr) {
+			return this.findAll(pageIndex, pageSize);
+		}
+		String roleName = "%" + searchStr + "%";
+		PageHelper.startPage(pageIndex, pageSize);
+		return new PageInfo<AuthRole>(authRoleDAO.fuzzyQuery(roleName));
 	}
 
 }

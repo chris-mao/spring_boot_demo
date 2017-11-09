@@ -4,6 +4,7 @@
 package com.jrsoft.auth.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -18,6 +19,7 @@ import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.handler.AuthUserStateEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthUserDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthUserRoleReleation;
 
 /**
  * com.jrsoft.auth.map AuthUserInterface
@@ -26,7 +28,7 @@ import com.jrsoft.auth.entity.AuthUser;
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.1
  *
  */
 public interface AuthUserDAO {
@@ -34,6 +36,7 @@ public interface AuthUserDAO {
 	/**
 	 * 查询所有用户信息
 	 * 
+	 * @since 1.0
 	 * @param onlyAvailable
 	 *            true仅查询所有可用用户，否则查询所有用户
 	 * 
@@ -56,6 +59,7 @@ public interface AuthUserDAO {
 	/**
 	 * 根据用户编号查询用户信息
 	 * 
+	 * @since 1.0
 	 * @param id
 	 * @return AuthUser
 	 */
@@ -76,6 +80,7 @@ public interface AuthUserDAO {
 	/**
 	 * 根据用户名称查询用户信息
 	 * 
+	 * @since 1.0
 	 * @param userName
 	 * @return AuthUser
 	 */
@@ -92,7 +97,14 @@ public interface AuthUserDAO {
 	// "com.jrsoft.auth.dao.AuthRoleDAO.findAllByUserId", fetchType =
 	// FetchType.LAZY) ) })
 	public AuthUser findByName(@Param(value = "name") String userName);
-	
+
+	/**
+	 * 按用户名或是昵称模糊查询
+	 * 
+	 * @since 1.1
+	 * @param user
+	 * @return
+	 */
 	@Select("SELECT user_id, user_name, nick_name, email, user_psd, salt, state, available, created_time, update_time FROM auth_user WHERE user_name LIKE #{userName} OR nick_name LIKE #{nickName}")
 	@Results({ @Result(property = "userId", column = "user_id", id = true),
 			@Result(property = "userName", column = "user_name"), @Result(property = "nickName", column = "nick_name"),
@@ -105,8 +117,24 @@ public interface AuthUserDAO {
 	public List<AuthUser> fuzzyQuery(AuthUser user);
 
 	/**
+	 * 查询用户角色关联关系
+	 * 
+	 * @since 1.1
+	 * @param id
+	 * @return
+	 */
+	@Select("CALL sp_findUserRoles(#{id})")
+	@Results({ @Result(property = "userId", column = "user_id"), @Result(property = "roleId", column = "role_id"),
+			@Result(property = "roleName", column = "role_name"),
+			@Result(property = "startDate", column = "start_date"), @Result(property = "endDate", column = "end_date"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public Set<AuthUserRoleReleation> findUserRoles(@Param(value = "id") int id);
+
+	/**
 	 * 创建新用户
 	 * 
+	 * @since 1.0
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
@@ -117,6 +145,7 @@ public interface AuthUserDAO {
 	/**
 	 * 更新用户信息 不会修改密码和加密盐值 如果需要修改密码请使用 changePassword
 	 * 
+	 * @since 1.0
 	 * @param user
 	 * @return 返回受影响的行数
 	 */
@@ -126,6 +155,7 @@ public interface AuthUserDAO {
 	/**
 	 * 删除用户
 	 * 
+	 * @since 1.0
 	 * @param id
 	 * @return 返回受影响的行数
 	 */
@@ -135,6 +165,7 @@ public interface AuthUserDAO {
 	/**
 	 * 修改登录密码
 	 * 
+	 * @since 1.0
 	 * @param id
 	 * @param oldPassword
 	 * @param newPassword
@@ -147,6 +178,7 @@ public interface AuthUserDAO {
 	/**
 	 * 添加新角色
 	 * 
+	 * @since 1.0
 	 * @param userId
 	 * @param roleId
 	 * @return
@@ -157,15 +189,18 @@ public interface AuthUserDAO {
 	/**
 	 * 移除已关联角色
 	 * 
+	 * @since 1.0
 	 * @param userId
 	 * @param roleId
 	 * @return
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
 	public int removeRole(@Param(value = "userId") int userId, @Param(value = "roleId") int roleId);
-	
+
 	/**
 	 * 移除指定用户的所有角色
+	 * 
+	 * @since 1.0
 	 * @param userId
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId}")

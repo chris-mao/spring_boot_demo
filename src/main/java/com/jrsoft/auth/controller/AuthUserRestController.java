@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.common.DataGrid;
@@ -67,10 +69,16 @@ public class AuthUserRestController {
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
 		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
-		PageInfo<AuthUser> pageInfo = this.authUserService.findAll(pageIndex, pageSize, searchStr);
+		PageInfo<AuthUser> pageInfo = authUserService.findAll(pageIndex, pageSize, searchStr);
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
+	}
+	
+	@GetMapping("/{id}/roles")
+	@RequiresPermissions("authUser:edit")
+    public Set<AuthUserRoleReleation> findUserRoles(@PathVariable("id") int userId) {
+		return authUserService.findUserRoles(userId);
 	}
 
 	/**

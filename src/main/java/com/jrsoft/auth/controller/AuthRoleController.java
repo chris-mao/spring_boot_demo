@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
@@ -28,7 +27,7 @@ import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 
 /**
- * 系统角色控制器类
+ * <p>系统角色控制器类，提供系统角色维护页面入口</p>
  * 
  * com.jrsoft.auth.controller AuthRoleController
  *
@@ -73,8 +72,8 @@ public class AuthRoleController {
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authRole:list")
 	public String roleList(@RequestParam(defaultValue = "1") int page, Model model) {
-		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
-		model.addAttribute("page", roles);
+//		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
+//		model.addAttribute("page", roles);
 		return "auth/role/index";
 	}
 
@@ -210,6 +209,12 @@ public class AuthRoleController {
 		return "redirect:/roles";
 	}
 	
+	/**
+	 * 以Json格式返回角色清单
+	 * 
+	 * @deprecated
+	 * @return String
+	 */
 	@ResponseBody
 	@GetMapping("/json")
 	public List<AuthRole> jsonData() {

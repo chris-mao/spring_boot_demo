@@ -4,6 +4,7 @@
 package com.jrsoft.auth.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthUserService;
 
 /**
@@ -88,6 +90,11 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public boolean changePassword(int id, String oldPassword, String newPassword) {
 		return 1 == this.authUserDAO.changePassword(id, oldPassword, newPassword);
+	}
+
+	@Override
+	public Set<AuthUserRoleReleation> findUserRoles(int id) {
+		return authUserDAO.findUserRoles(id);
 	}
 
 	@Override

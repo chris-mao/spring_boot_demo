@@ -12,8 +12,6 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 
 /**
- * com.jrsoft.auth.service AuthRoleService
- * 
  * 系统角色服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
@@ -51,16 +49,36 @@ public interface AuthRoleService {
 	public List<AuthRole> findAll();
 
 	/**
-	 * 查询所有角色信息，分页
+	 * 查询所有数据，具有分页功能
 	 * 
-	 * @param pageNum
-	 * @return PageInfo
+	 * @param pageIndex
+	 *            页码
+	 * @param pageSize
+	 *            分页大小
+	 * @return {@link PageInfo}
+	 * @since 1.0
 	 */
-	public PageInfo<AuthRole> findAll(int pageNum);
+	public PageInfo<AuthRole> findAll(int pageNum, int pageSize);
+
+	/**
+	 * 根据传入的查询条件查询数据，肯有分页功能 如果参数searchStr为空，则查询所有角色数据，否则查询<code>roleName</code>
+	 * 中含有其内容的角色数据
+	 * 
+	 * @since 1.2
+	 * @param pageIndex
+	 *            页码
+	 * @param pageSize
+	 *            分页大小
+	 * @param searchStr
+	 *            模糊查询内容
+	 * @return
+	 */
+	public PageInfo<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 查询所有有效的角色信息
 	 * 
+	 * @since 1.1
 	 * @return List
 	 */
 	public List<AuthRole> findAllAvailable();

@@ -7,16 +7,16 @@ $(document).ready(function() {
 function addTab(title, href) {
 	if ($('#workspace').tabs('exists', title)) {
 		$('#workspace').tabs('select', title);
-//		refreshTab({
-//			tabTitle : title,
-//			url : href
-//		});
+		// refreshTab({
+		// tabTitle : title,
+		// url : href
+		// });
 	} else {
 		var content = '<iframe scrolling="auto" frameborder="0"  src="' + href
 				+ '" style="width:100%;height:100%;padding:5px;"></iframe>';
 		$('#workspace').tabs('add', {
 			title : title,
-//			content : content,
+			// content : content,
 			href : href,
 			fit : true,
 			closable : true
@@ -35,6 +35,50 @@ function refreshTab(cfg) {
 	}
 }
 
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+// 例子：
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+// (new Date()).Format("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18
+Date.prototype.Format = function(fmt) { 
+	var o = {
+		"M+" : this.getMonth() + 1, // 月份
+		"d+" : this.getDate(), // 日
+		"h+" : this.getHours(), // 小时
+		"m+" : this.getMinutes(), // 分
+		"s+" : this.getSeconds(), // 秒
+		"q+" : Math.floor((this.getMonth() + 3) / 3), // 季度
+		"S" : this.getMilliseconds() // 毫秒
+	};
+	if (/(y+)/.test(fmt))
+		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
+				.substr(4 - RegExp.$1.length));
+	for ( var k in o)
+		if (new RegExp("(" + k + ")").test(fmt))
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
+					: (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
+
+/**
+ * 用于格式化datagrid中的available字段
+ * 
+ * @param value
+ *            字段的值
+ * @param rowData
+ *            行的记录数据
+ * @param rowIndex
+ *            行的记录数据
+ * @returns
+ */
+function availableFormatter(value, rowData, rowIndex) {
+	if (value == true) {
+		return "启用";
+	}
+	return "禁用";
+}
+
 /**
  * 用于格式化datagrid中的日期字段
  * 
@@ -46,13 +90,55 @@ function refreshTab(cfg) {
  *            行的记录数据
  * @returns
  */
-function DateTimeFormatter(value, rowData, rowIndex) {
-	if (value == undefined) {
+function dateFormatter(value, rowData, rowIndex) {
+	if ((value == "") || (value == undefined)) {
 		return "";
 	}
 	var dateValue = new Date(value);
-//	dateValue.setTime(value);
-	return dateValue.toLocaleString();
+//	return dateValue.toLocaleString();
+	return dateValue.Format("yyyy-MM-dd");
+}
+
+/**
+ * 用于格式化datagrid中的日期时间字段
+ * 
+ * @param value
+ *            字段的值
+ * @param rowData
+ *            行的记录数据
+ * @param rowIndex
+ *            行的记录数据
+ * @returns
+ */
+function dateTimeFormatter(value, rowData, rowIndex) {
+	if ((value == "") || (value == undefined)) {
+		return "";
+	}
+	var dateValue = new Date(value);
+	return dateValue.Format("yyyy-MM-dd hh:mm:ss");
+}
+
+/**
+ * 用于格式化datagrid中的操作栏位
+ * 
+ * @param value
+ *            字段的值
+ * @param rowData
+ *            行的记录数据
+ * @param rowIndex
+ *            行的记录数据
+ * @returns
+ */
+function actionColumnFormatter(value, row, index) {
+	if (row.editing) {
+		var saveBtn = '<a href="javascript:void(0)" onclick="saveRow(this)">保存</a> ';
+		var cancelBtn = '<a href="javascript:void(0)" onclick="cancelRow(this)">取消</a>';
+		return saveBtn + cancelBtn;
+	} else {
+		var editBtn = '<a href="javascript:void(0)" onclick="editRow(this)">编辑</a> ';
+		var deleteBtn = '<a href="javascript:void(0)" onclick="deleteRow(this)">删除</a>';
+		return editBtn + deleteBtn;
+	}
 }
 
 /**
