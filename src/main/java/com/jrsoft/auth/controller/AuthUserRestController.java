@@ -3,7 +3,6 @@
  */
 package com.jrsoft.auth.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +31,7 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
+import com.jrsoft.auth.utils.JsonResult;
 import com.jrsoft.common.DataGrid;
 
 /**
@@ -123,11 +122,22 @@ public class AuthUserRestController {
 	 * @param request
 	 * @return
 	 */
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	@RequiresPermissions("authUser:edit")
-	public AuthUser update(@PathVariable("id") int id, HttpServletRequest request) {
-		// this.authUserService.update(authUser);
-		return null;
+	public JsonResult<AuthUser> update(@PathVariable("id") int id, HttpServletRequest request) {
+		AuthUser user = new AuthUser();
+		user.setUserId(id);
+		user.setUserName(request.getParameter("userName"));
+		user.setNickName(request.getParameter("nickName"));
+		user.setEmail(request.getParameter("email"));
+		user.setState(AuthUserStateEnum.valueOf(request.getParameter("state")));
+		user.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+		if (true == this.authUserService.update(user)) {
+			return new JsonResult<AuthUser>();
+		}
+		else {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "修改用户出错！");
+		}
 	}
 
 	/**
@@ -139,8 +149,12 @@ public class AuthUserRestController {
 	 */
 	@DeleteMapping("/{id}")
 	@RequiresPermissions("authUser:delete")
-	public void delete(@PathVariable("id") int id, HttpServletRequest request) {
-		this.authUserService.delete(id);
+	public JsonResult<AuthUser> delete(@PathVariable("id") int id, HttpServletRequest request) {
+		if (true == this.authUserService.delete(id)) {
+			return new JsonResult<AuthUser>();
+		} else {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "删除用户出错！");
+		}
 	}
 
 	/**
@@ -152,19 +166,17 @@ public class AuthUserRestController {
 	 */
 	@PostMapping("/new")
 	@RequiresPermissions("authUser:new")
-	public AuthUser insert(HttpServletRequest request) {
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+	public JsonResult<AuthUser> insert(HttpServletRequest request) {
+		AuthUser user = new AuthUser();
+		user.setUserName(request.getParameter("userName"));
+		user.setNickName(request.getParameter("nickName"));
+		user.setEmail(request.getParameter("email"));
+		user.setState(AuthUserStateEnum.valueOf(request.getParameter("state")));
+		if (this.authUserService.findOne(user) != null) { // 用户名已存在
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "用户名【" + user.getUserName() + "】已被使用，请使用其他用户名");
 		}
-		AuthUser authUser = null;
-		if (this.authUserService.findOne(authUser) != null) { // 用户名已存在
-			// result.rejectValue("userName", "duplicate", "此用户名已被使用，请使用其他用户名");
-			return authUser;
-		}
-		this.authUserService.insert(authUser);
-		return authUser;
+		this.authUserService.insert(user);
+		return new JsonResult<AuthUser>(user);
 	}
 
 	/**
@@ -190,14 +202,14 @@ public class AuthUserRestController {
 			List<AuthUserRoleReleation> list = entry.getValue();
 			for (Iterator<AuthUserRoleReleation> i = list.iterator(); i.hasNext();) {
 				r = i.next();
-				if ("inserted".equals(operation)) {
+				if ("inserted".equals(operation.toLowerCase())) {
 					r.setUserId(id);
 					System.out.println("insert: " + r);
 					this.authUserService.addRoleRelation(r);
-				} else if ("updated".equals(operation)) {
+				} else if ("updated".equals(operation.toLowerCase())) {
 					System.out.println("update: " + r);
 					this.authUserService.updateRoleRelation(r);
-				} else if ("deleted".equals(operation)) {
+				} else if ("deleted".equals(operation.toLowerCase())) {
 					System.out.println("delete: " + r);
 					this.authUserService.removeRoleRelation(r);
 				}

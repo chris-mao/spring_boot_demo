@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	//初始货用户表格
+	// 初始货用户表格
 	$("#userDatagrid").datagrid({
 		method : "get",
 		url : "/users/rest/list",
@@ -19,8 +19,8 @@ $(document).ready(function() {
 		}
 	});
 
-	//绑定快速查询
-	$("#userName").searchbox({
+	// 绑定快速查询
+	$("#userSearch").searchbox({
 		searcher : function(value, name) {
 			if ($.trim(value).length > 0) {
 				$("#userDatagrid").datagrid("load", {
@@ -29,36 +29,40 @@ $(document).ready(function() {
 			} else {
 				$("#userDatagrid").datagrid("load", {});
 			}
-			//清空选中的行
-			$('#userDatagrid').datagrid('clearSelections'); 
+			// 清空选中的行
+			$('#userDatagrid').datagrid('clearSelections');
 		}
 	});
 });
 
 var post_url;
 
-//打开创建新用户对话框
+// 打开创建新用户对话框
 function newUser() {
 	$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新用户");
 	$("#userEditForm").form("clear");
-	post_url = "/users/rest/save";
+	$("#userName1").removeAttr("readOnly");
+	$("#userName1").removeAttr("disabled");
+	post_url = "/users/rest/new";
 }
 
-//打开编加用户对话框
+// 打开编加用户对话框
 function editUser() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
 		$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
-				"编辑用户信息");
+				"编辑用户");
 		$("#userEditForm").form("load", row);
-		post_url = "/users/rest/update/" + row.id;
+		$("#userName1").attr("readOnly", "readOnly");
+		$("#userName1").attr("disabled","disabled")
+		post_url = "/users/rest/" + row.userId;
 	} else {
-		$.messager.alert("提示", "请选择一个待编辑的数据行！");
+		$.messager.alert("提示", "没有选中的数据行");
 	}
 }
 
-//检查在修改密码时两次输入的密码是否匹配
+// 检查在修改密码时两次输入的密码是否匹配
 $.extend($.fn.validatebox.defaults.rules, {
 	confirmPass : {
 		validator : function(value, param) {
@@ -71,7 +75,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 	}
 });
 
-//打开修改密码对话框
+// 打开修改密码对话框
 function changePsd() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
@@ -79,55 +83,63 @@ function changePsd() {
 		$("#changePasswordDlg").form("load", row);
 		post_url = "/users/rest/save";
 		$("#changePasswordDlg").dialog("open").dialog("center");
-	}
-	else {
-		$.messager.alert("提示", "请选择一个待编辑的数据行！");
+	} else {
+		$.messager.alert("提示", "没有选中的数据行");
 	}
 }
 
-//保存用户
+// 保存用户
 function saveUser() {
 	$("#userEditForm").form("submit", {
 		url : post_url,
 		onSubmit : function() {
 			return $(this).form("validate");
 		},
-		success : function(result) {
-			alsert(result);
-			var result = eval("(" + result + ")");
-			if (result.errorMsg) {
-				$.messager.show({
-					title : "Error",
-					msg : result.errorMsg
-				});
-			} else {
+		success : function(data, textStatus) {
+			console.log(data);
+			console.log(textStatus);
+			var data = eval('(' + data + ')'); //将字符串转为JSON对象
+			if (data.state == 0) {
+				$.messager.alert("消息", "数据保存成功！", "info");
 				$("#userEditDlg").dialog("close"); // close the dialog
 				$("#userDatagrid").datagrid("reload"); // reload the user data
+			} else {
+				$.messager.alert("错误", data.message, "error");
 			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("status: " + textStatus);
+			console.log("error: " + errorThrown);
 		}
 	});
 }
 
-//删除用户
+// 删除用户
 function deleteUser() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
-		$.messager.confirm("确认", "确要定删除用户 " + row.nickName + " 吗？",
-				function(r) {
-					if (r) {
-						$.get("/users/rest/delete/" + row.id, function(result) {
-							if (result.success) {
-								$("#userDatagrid").datagrid("reload");
-							} else {
-								$.messager.show({ // show error message
-									title : "Error",
-									msg : result.errorMsg
-								});
-							}
-						}, "json");
+		$.messager.confirm("确认", "删除用户【" + row.nickName + "】？", function(r) {
+			if (r) {
+				$.ajax({
+					url : "/users/rest/" + row.userId,
+					type : "DELETE",
+					success : function(data, textStatus) {
+						console.log(data);
+						console.log(textStatus);
+						if (data.state == 0) {
+							$("#userDatagrid").datagrid("reload");
+						} else {
+							$.messager.alert("错误", data.message, "error");
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log("status: " + textStatus);
+						console.log("error: " + errorThrown);
 					}
 				});
+			}
+		});
 	} else {
-		$.messager.alert("提示", "请选择一个待删除的数据行！");
+		$.messager.alert("提示", "没有选中的数据行");
 	}
 }
