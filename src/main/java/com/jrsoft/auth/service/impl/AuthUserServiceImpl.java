@@ -98,20 +98,38 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean addRole(AuthUser user, AuthRole role) {
 		return 1 == this.authUserDAO.addRole(user.getUserId(), role.getRoleId());
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean removeRole(AuthUser user, AuthRole role) {
 		return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void removeAllRoles(AuthUser user) {
 		if (0 != user.getUserId()) {
 			this.authUserDAO.removeAllRoles(user.getUserId());
 		}
+	}
+
+	@Override
+	public boolean addRoleRelation(AuthUserRoleReleation releation) {
+		return this.authUserDAO.addRoleRelation(releation) == 1;
+	}
+
+	@Override
+	public boolean updateRoleRelation(AuthUserRoleReleation releation) {
+		return authUserDAO.updateRoleRelation(releation) == 1;
+	}
+
+	@Override
+	public boolean removeRoleRelation(AuthUserRoleReleation releation) {
+		return authUserDAO.deleteRoleRelation(releation) == 1;
 	}
 
 }

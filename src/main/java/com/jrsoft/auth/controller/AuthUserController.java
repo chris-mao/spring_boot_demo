@@ -189,6 +189,7 @@ public class AuthUserController {
 	 * @param roleIds
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	@PostMapping("/{id}/roles")
 	@ResponseBody
 	public String assignRoles(@PathVariable("id") int id, @RequestBody List<Integer> roleIds) {

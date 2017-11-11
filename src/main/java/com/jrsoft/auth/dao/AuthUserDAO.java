@@ -178,6 +178,7 @@ public interface AuthUserDAO {
 	/**
 	 * 添加新角色
 	 * 
+	 * @deprecated
 	 * @since 1.0
 	 * @param userId
 	 * @param roleId
@@ -189,6 +190,7 @@ public interface AuthUserDAO {
 	/**
 	 * 移除已关联角色
 	 * 
+	 * @deprecated
 	 * @since 1.0
 	 * @param userId
 	 * @param roleId
@@ -200,9 +202,40 @@ public interface AuthUserDAO {
 	/**
 	 * 移除指定用户的所有角色
 	 * 
+	 * @deprecated
 	 * @since 1.0
 	 * @param userId
 	 */
 	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId}")
 	public void removeAllRoles(@Param(value = "userId") int userId);
+
+	/**
+	 * 新增用户角色关联关系
+	 * 
+	 * @since 1.1
+	 * @param releation
+	 * @return
+	 */
+	@Insert("INSERT IGNORE auth_user_role(user_id, role_id, available, start_date, end_date, created_time) VALUE(#{userId}, #{roleId}, 1, #{startDate}, #{endDate}, NOW())")
+	public int addRoleRelation(AuthUserRoleReleation releation);
+
+	/**
+	 * 更新用户角色关联关系
+	 * 
+	 * @since 1.1
+	 * @param releation
+	 * @return
+	 */
+	@Update("UPDATE auth_user_role SET start_date = #{startDate}, end_date = #{endDate} WHERE user_id = #{userId} AND role_id = #{roleId}")
+	public int updateRoleRelation(AuthUserRoleReleation releation);
+
+	/**
+	 * 删除用户角色关联关系
+	 * 
+	 * @since 1.1
+	 * @param releation
+	 * @return
+	 */
+	@Delete("DELETE FROM auth_user_role WHERE user_id = #{userId} AND role_id = #{roleId}")
+	public int deleteRoleRelation(AuthUserRoleReleation releation);
 }

@@ -3,12 +3,15 @@
  */
 package com.jrsoft.auth.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -55,6 +58,17 @@ public class AuthRoleRestController {
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
+	}
+	
+	/**
+	 * 以Json格式返回角色清单
+	 * 
+	 * @return String
+	 */
+	@ResponseBody
+	@GetMapping("/json")
+	public List<AuthRole> jsonData() {
+		return this.authRoleService.findAllAvailable();
 	}
 
 }

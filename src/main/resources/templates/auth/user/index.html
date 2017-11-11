@@ -91,7 +91,7 @@
 			iconCls="icon-ok" onclick="saveUser()">保存且关闭</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel"
-			onclick="javascript:$('#userEditDlg').dialog('close')">关闭</a>
+			onclick="javascript:$('#userEditDlg').dialog('close')">取消</a>
 	</div>
 
 	<!-- 修改密码窗体 -->
@@ -133,9 +133,9 @@
 			toolbar="#userRoleDatagridToolbar">
 			<thead>
 				<tr>
-					<th field="roleId" hidden="true"></th>
-					<th field="roleName" style="width: 160px"
-						editor="{type:'combobox',options:{valueField:'roleId',textField:'roleName',method:'get',url:'/roles/json',required:true}}">角色名称</th>
+					<th field="roleId" style="width: 160px"
+						editor="{type:'combobox',options:{valueField:'roleId',textField:'roleName',method:'get',url:'/roles/rest/json',required:true}}"
+						formatter="roleIdDisplayFormatter">角色名称</th>
 					<th field="startDate" style="width: 120px" align="center"
 						formatter="dateFormatter"
 						editor="{type:'datebox',options:{required:true}}">生效日期</th>
@@ -150,7 +150,7 @@
 	<!-- 用户角色工具栏 -->
 	<div id="userRoleDatagridToolbar" class="datagrid-toolbar">
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-add" plain="true" onclick="append()">添加角色</a> <a
+			iconCls="icon-add" plain="true" onclick="appendUserRole()">添加角色</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			data-options="iconCls:'icon-undo',plain:true" onclick="reject()">撤消所有修改</a>
 	</div>
@@ -160,9 +160,10 @@
 			iconCls="icon-ok" onclick="saveUserRoles()">保存且关闭</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel"
-			onclick="javascript:$('#userRoleDlg').dialog('close')">关闭</a>
+			onclick="closeUserRolesDialog()">取消</a>
 	</div>
 
 	<script th:src="@{/js/user.js}" type="text/javascript"></script>
+	<script th:src="@{/js/user-role.js}" type="text/javascript"></script>
 </body>
 </html>

@@ -123,35 +123,70 @@ public interface AuthUserService {
 	 * @return List
 	 */
 	public Set<AuthUserRoleReleation> findUserRoles(int id);
-	
-	// public boolean addRole(AuthUserRoleReleation releation);
-	// public boolean removeRole(AuthUserRoleReleation releation);
 
 	/**
-	 * 添加新角色
+	 * 新增用户角色关联关系
 	 * 
-	 * @param user
-	 * @param role
-	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
+	 * @since 1.2
+	 * @param releation
+	 * @return
+	 */
+	public boolean addRoleRelation(AuthUserRoleReleation releation);
+
+	/**
+	 * 更新用户角色关联关系
+	 * 
+	 * @since 1.2
+	 * @param releation
+	 * @return
+	 */
+	public boolean updateRoleRelation(AuthUserRoleReleation releation);
+
+	/**
+	 * 删除用户角色关联关系
+	 * 
+	 * @since 1.2
+	 * @param releation
+	 * @return
+	 */
+	public boolean removeRoleRelation(AuthUserRoleReleation releation);
+
+	/**
+	 * 添加新角色，此方法此被废弃，请参考{@link #addRoleRelation},{@link #updateRoleRelation},
+	 * {@link #removeRoleRelation}
+	 * 
+	 * @deprecated
 	 * @since 1.0
+	 * @param user
+	 *            用户对象
+	 * @param role
+	 *            角色对象
+	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
 	 */
 	public boolean addRole(AuthUser user, AuthRole role);
 
 	/**
-	 * 移除角色
+	 * 移除角色，此方法此被废弃，请参考{@link #addRoleRelation},{@link #updateRoleRelation},
+	 * {@link #removeRoleRelation}
 	 * 
-	 * @param user
-	 * @param role
-	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
+	 * @deprecated
 	 * @since 1.0
+	 * @param user
+	 *            用户对象
+	 * @param role
+	 *            角色对象
+	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
 	 */
 	public boolean removeRole(AuthUser user, AuthRole role);
 
 	/**
-	 * 移除指定用户的所有角色
+	 * 移除指定用户的所有角色，此方法此被废弃，请参考{@link #addRoleRelation},
+	 * {@link #updateRoleRelation},{@link #removeRoleRelation}
 	 * 
-	 * @param user
+	 * @deprecated
 	 * @since 1.0
+	 * @param user
+	 *            用户对象
 	 */
 	public void removeAllRoles(AuthUser user);
 }

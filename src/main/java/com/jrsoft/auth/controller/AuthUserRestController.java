@@ -6,8 +6,10 @@ package com.jrsoft.auth.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -19,8 +21,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -74,10 +78,18 @@ public class AuthUserRestController {
 		dg.setRows(pageInfo.getList());
 		return dg;
 	}
-	
+
+	/**
+	 * 获取用户关系的角色清单
+	 * 
+	 * @since 1.0
+	 * @param userId
+	 *            用户编号
+	 * @return
+	 */
 	@GetMapping("/{id}/roles")
 	@RequiresPermissions("authUser:edit")
-    public Set<AuthUserRoleReleation> findUserRoles(@PathVariable("id") int userId) {
+	public Set<AuthUserRoleReleation> findUserRoles(@PathVariable("id") int userId) {
 		return authUserService.findUserRoles(userId);
 	}
 
@@ -153,5 +165,54 @@ public class AuthUserRestController {
 		}
 		this.authUserService.insert(authUser);
 		return authUser;
+	}
+
+	/**
+	 * 保存用户角色关联关系
+	 * 
+	 * @param id
+	 *            用户编号
+	 * @param userRoleReleations
+	 *            用户角色关联应映表，此参数需要包含三个主键<code>inserted</code>,
+	 *            <code>updated</code>和<code>deleted</code>
+	 *            。每个主键对应一个List对象，其中存有一个或多个用户角色对象{@link AuthUserRoleReleation}
+	 * @return
+	 */
+	@PostMapping("/{id}/assign-roles")
+	public void assignUserRoles(@PathVariable("id") int id,
+			@RequestBody Map<String, List<AuthUserRoleReleation>> userRoleReleations) {
+		String operation;
+		AuthUserRoleReleation r;
+		Set<Entry<String, List<AuthUserRoleReleation>>> set = userRoleReleations.entrySet();
+		for (Iterator<Entry<String, List<AuthUserRoleReleation>>> iter = set.iterator(); iter.hasNext();) {
+			Entry<String, List<AuthUserRoleReleation>> entry = iter.next();
+			operation = entry.getKey();
+			List<AuthUserRoleReleation> list = entry.getValue();
+			for (Iterator<AuthUserRoleReleation> i = list.iterator(); i.hasNext();) {
+				r = i.next();
+				if ("inserted".equals(operation)) {
+					r.setUserId(id);
+					System.out.println("insert: " + r);
+					this.authUserService.addRoleRelation(r);
+				} else if ("updated".equals(operation)) {
+					System.out.println("update: " + r);
+					this.authUserService.updateRoleRelation(r);
+				} else if ("deleted".equals(operation)) {
+					System.out.println("delete: " + r);
+					this.authUserService.removeRoleRelation(r);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 以Json格式返回用户清单
+	 * 
+	 * @return String
+	 */
+	@GetMapping("/json")
+	@ResponseBody
+	public List<AuthUser> jsonData() {
+		return this.authUserService.findAllAvailableUser();
 	}
 }
