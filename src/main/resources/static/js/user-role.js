@@ -86,7 +86,7 @@ function saveUserRoles() {
 	console.log(jsonData);
 	var row = $("#userDatagrid").datagrid("getSelected");
 	$.ajax({
-		url : "/users/rest/" + row.userId + "/assign-roles",
+		url : "/users/rest/" + row.userId + "/roles",
 		type : "POST",
 		data : jsonData,
 		contentType : "application/json;charset=UTF-8",

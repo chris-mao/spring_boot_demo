@@ -171,7 +171,7 @@ public interface AuthUserDAO {
 	 * @param newPassword
 	 * @return boolean 更新成功返回true，否则返回false
 	 */
-	@Update("UPDATE auth_user SET user_psd = MD5(#{newPassword}) WHERE user_id = #{id} AND user_psd = MD5(#{oldPassword})")
+	@Update("UPDATE auth_user SET user_psd = MD5(#{newPassword}) WHERE user_id = #{id} AND user_psd = #{oldPassword}")
 	public int changePassword(@Param(value = "id") int id, @Param(value = "oldPassword") String oldPassword,
 			@Param(value = "newPassword") String newPassword);
 

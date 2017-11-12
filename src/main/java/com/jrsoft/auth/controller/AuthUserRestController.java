@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -37,6 +36,27 @@ import com.jrsoft.common.DataGrid;
 /**
  * <p>
  * 系统用户控制器类，提供系统用户维护方法接口
+ * </p>
+ * 
+ * <p>
+ * <dl>
+ * <dt>按页码返回（符合查询条件或是全部）用户数据列表，需要拥有authUser:list权限</dt>
+ * <dd>GET: users/rest/list?page=1&rows=20&searchValue=</dd>
+ * <dt>返回全部有效的（available=1）用户数据列表，需要拥有authUser:list权限</dt>
+ * <dd>GET: users/rest/json</dd>
+ * <dt>获取用户状态列表，无权限控制</dt>
+ * <dd>GET: users/rest/states</dd>
+ * <dt>新建用户数据，需要拥有authUser:new权限</dt>
+ * <dd>POST: users/rest/new</dd>
+ * <dt>更新用户数据，需要拥有authUser:edit权限</dt>
+ * <dd>POST: users/rest/{id}</dd>
+ * <dt>删除用户数据，需要拥有authUser:delete权限</dt>
+ * <dd>DELETE: users/rest/{id}</dd>
+ * <dt>返回用户关联的角色列表，需要拥有authUser:edit权限</dt>
+ * <dd>GET: users/rest/{id}/roles</dd>
+ * <dt>修改（新增、编辑、删除）用户关联角色，需要拥有authUser:edit权限</dt>
+ * <dd>POST: users/rest/{id}/roles</dd>
+ * </dl>
  * </p>
  * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
@@ -79,17 +99,14 @@ public class AuthUserRestController {
 	}
 
 	/**
-	 * 获取用户关系的角色清单
+	 * 返回所有有效的用户清单
 	 * 
-	 * @since 1.0
-	 * @param userId
-	 *            用户编号
-	 * @return
+	 * @return String
 	 */
-	@GetMapping("/{id}/roles")
-	@RequiresPermissions("authUser:edit")
-	public Set<AuthUserRoleReleation> findUserRoles(@PathVariable("id") int userId) {
-		return authUserService.findUserRoles(userId);
+	@GetMapping("/json")
+	@RequiresPermissions("authUser:list")
+	public List<AuthUser> jsonData() {
+		return this.authUserService.findAllAvailableUser();
 	}
 
 	/**
@@ -115,6 +132,31 @@ public class AuthUserRestController {
 	}
 
 	/**
+	 * 新增用户数据
+	 * 
+	 * @since 1.0
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/new")
+	@RequiresPermissions("authUser:new")
+	public JsonResult<AuthUser> insert(HttpServletRequest request) {
+		AuthUser user = new AuthUser();
+		user.setUserName(request.getParameter("userName"));
+		user.setNickName(request.getParameter("nickName"));
+		user.setEmail(request.getParameter("email"));
+		user.setState(AuthUserStateEnum.valueOf(request.getParameter("state")));
+		if (this.authUserService.findOne(user) != null) { // 用户名已存在
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "用户名【" + user.getUserName() + "】已被使用，请使用其他用户名");
+		}
+		if (true == this.authUserService.insert(user)) {
+			return new JsonResult<AuthUser>();
+		} else {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "新增用户出错！");
+		}
+	}
+
+	/**
 	 * 更新用户数据
 	 * 
 	 * @since 1.0
@@ -133,10 +175,32 @@ public class AuthUserRestController {
 		user.setState(AuthUserStateEnum.valueOf(request.getParameter("state")));
 		user.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
 		if (true == this.authUserService.update(user)) {
-			return new JsonResult<AuthUser>();
-		}
-		else {
+			return new JsonResult<AuthUser>(user);
+		} else {
 			return new JsonResult<AuthUser>(JsonResult.ERROR, "修改用户出错！");
+		}
+	}
+
+	/**
+	 * 修改用户密码
+	 * 
+	 * @since 1.0
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/{id}/psd")
+	public JsonResult<AuthUser> changePassword(@PathVariable("id") int id, HttpServletRequest request) {
+		String newPassword = request.getParameter("newPassword");
+		AuthUser user = new AuthUser(id);
+		user = authUserService.findOne(user);
+		if (null == user) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "编号为【" + id + "】的用户不存在");
+		}
+		if (true == authUserService.changePassword(id, user.getPassword(), newPassword)) {
+			return new JsonResult<AuthUser>(user);
+		} else {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "修改密码出错！");
 		}
 	}
 
@@ -158,25 +222,17 @@ public class AuthUserRestController {
 	}
 
 	/**
-	 * 新增用户数据
+	 * 获取用户关联的角色清单
 	 * 
 	 * @since 1.0
-	 * @param request
+	 * @param userId
+	 *            用户编号
 	 * @return
 	 */
-	@PostMapping("/new")
-	@RequiresPermissions("authUser:new")
-	public JsonResult<AuthUser> insert(HttpServletRequest request) {
-		AuthUser user = new AuthUser();
-		user.setUserName(request.getParameter("userName"));
-		user.setNickName(request.getParameter("nickName"));
-		user.setEmail(request.getParameter("email"));
-		user.setState(AuthUserStateEnum.valueOf(request.getParameter("state")));
-		if (this.authUserService.findOne(user) != null) { // 用户名已存在
-			return new JsonResult<AuthUser>(JsonResult.ERROR, "用户名【" + user.getUserName() + "】已被使用，请使用其他用户名");
-		}
-		this.authUserService.insert(user);
-		return new JsonResult<AuthUser>(user);
+	@GetMapping("/{id}/roles")
+	@RequiresPermissions("authUser:edit")
+	public Set<AuthUserRoleReleation> findUserRoles(@PathVariable("id") int userId) {
+		return authUserService.findUserRoles(userId);
 	}
 
 	/**
@@ -190,7 +246,8 @@ public class AuthUserRestController {
 	 *            。每个主键对应一个List对象，其中存有一个或多个用户角色对象{@link AuthUserRoleReleation}
 	 * @return
 	 */
-	@PostMapping("/{id}/assign-roles")
+	@PostMapping("/{id}/roles")
+	@RequiresPermissions("authUser:edit")
 	public void assignUserRoles(@PathVariable("id") int id,
 			@RequestBody Map<String, List<AuthUserRoleReleation>> userRoleReleations) {
 		String operation;
@@ -215,16 +272,5 @@ public class AuthUserRestController {
 				}
 			}
 		}
-	}
-
-	/**
-	 * 以Json格式返回用户清单
-	 * 
-	 * @return String
-	 */
-	@GetMapping("/json")
-	@ResponseBody
-	public List<AuthUser> jsonData() {
-		return this.authUserService.findAllAvailableUser();
 	}
 }
