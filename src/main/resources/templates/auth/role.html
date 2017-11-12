@@ -19,7 +19,7 @@
 <body>
 	<!-- 数据表格 -->
 	<table id="roleDatagrid" class="easyui-datagrid"
-		toolbar="#datagridToolbar">
+		toolbar="#roleDatagridToolbar">
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
@@ -35,20 +35,25 @@
 	</table>
 
 	<!-- 数据表格工具栏 -->
-	<div id="datagridToolbar" class="datagrid-toolbar">
-		<a href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-add" plain="true" onclick="newrole()">新增角色</a> <a
-			href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-edit" plain="true" onclick="editrole()">编辑角色</a> <a
-			href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-			onclick="assignRoles()">角色权限</a> <a href="javascript:void(0)"
-			class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-			onclick="deleterole()">删除角色</a> <a href="javascript:void(0)"
-			class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-			onclick="javascript:alert('批量删除');">批量删除</a> <input id="roleName"
-			name="role_search" prompt="请输入角色名称" class="easyui-searchbox" />
+	<div id="roleDatagridToolbar" class="datagrid-toolbar">
+		<shiro:hasPermission name="authRole:new">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="newrole()">新增角色</a>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="authRole:edit">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="editrole()">编辑角色</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+				onclick="showRolePermissionsDialog()">角色权限</a>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="authRole:delete">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true" onclick="deleterole()">删除角色</a>
+		</shiro:hasPermission>
+		<input id="roleName" name="role_search" prompt="请输入角色名称"
+			class="easyui-searchbox" />
 	</div>
-	
+
 	<script th:src="@{/js/role.js}" type="text/javascript"></script>
 </body>
 </html>

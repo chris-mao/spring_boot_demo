@@ -1,6 +1,6 @@
 //打开用户角色对话框
 //查看、修改、新增用户角色关联关系
-function assignRoles() {
+function showUserRolesDialog() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (!row) {
 		$.messager.alert("提示", "请选择一个待编辑的数据行！");
@@ -57,7 +57,7 @@ function assignRoles() {
 								}
 							});
 				}
-			}).dialog("open").dialog("center");
+			}).dialog("open").dialog("center").dialog("setTitle","关联角色【" + row.userName + "】");
 }
 
 // 用于查看用户角色对话框
@@ -68,6 +68,9 @@ function roleIdDisplayFormatter(value, row, index) {
 
 // 保存用户角色关联关系
 function saveUserRoles() {
+	if ($("#userRoleDatagrid").datagrid("getChanges").length <= 0) {
+		return;
+	}
 	var effectedRows = {};
 	var insertedRows = $("#userRoleDatagrid")
 			.datagrid("getChanges", "inserted");
@@ -100,6 +103,19 @@ function saveUserRoles() {
 			console.log("error: " + errorThrown);
 		}
 	});
+}
+
+function closeUserRolesDialog() {
+	if ($("#userRoleDatagrid").datagrid("getChanges").length > 0) {
+		console.log("changed");
+		$.messager.confirm("确认", "您对用户角色进行了修改，需要保存吗？", function(r) {
+			if (r) {
+				saveUserRoles();
+			}
+		})
+	}
+	console.log("before close");
+	$('#userRoleDlg').dialog('close');
 }
 
 // 添加一个可编辑的数据行
@@ -153,17 +169,4 @@ function reject() {
 			$("#userRoleDatagrid").datagrid("rejectChanges");
 		}
 	});
-}
-
-function closeUserRolesDialog() {
-	if ($("#userRoleDatagrid").datagrid("getChanges").length > 0) {
-		console.log("changed");
-		$.messager.confirm("确认", "您对用户角色进行了修改，需要保存吗？", function(r) {
-			if (r) {
-				saveUserRoles();
-			}
-		})
-	}
-	console.log("before close");
-	$('#userRoleDlg').dialog('close');
 }

@@ -159,15 +159,15 @@ public class AuthUserRestController {
 	 * 更新用户数据
 	 * 
 	 * @since 1.0
-	 * @param id
+	 * @param userId
 	 * @param request
 	 * @return
 	 */
 	@PostMapping("/{id}")
 	@RequiresPermissions("authUser:edit")
-	public JsonResult<AuthUser> update(@PathVariable("id") int id, HttpServletRequest request) {
+	public JsonResult<AuthUser> update(@PathVariable("id") int userId, HttpServletRequest request) {
 		AuthUser user = new AuthUser();
-		user.setUserId(id);
+		user.setUserId(userId);
 		user.setUserName(request.getParameter("userName"));
 		user.setNickName(request.getParameter("nickName"));
 		user.setEmail(request.getParameter("email"));
@@ -184,19 +184,19 @@ public class AuthUserRestController {
 	 * 修改用户密码
 	 * 
 	 * @since 1.0
-	 * @param id
+	 * @param userId
 	 * @param request
 	 * @return
 	 */
 	@PostMapping("/{id}/psd")
-	public JsonResult<AuthUser> changePassword(@PathVariable("id") int id, HttpServletRequest request) {
+	public JsonResult<AuthUser> changePassword(@PathVariable("id") int userId, HttpServletRequest request) {
 		String newPassword = request.getParameter("newPassword");
-		AuthUser user = new AuthUser(id);
+		AuthUser user = new AuthUser(userId);
 		user = authUserService.findOne(user);
 		if (null == user) {
-			return new JsonResult<AuthUser>(JsonResult.ERROR, "编号为【" + id + "】的用户不存在");
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "编号为【" + userId + "】的用户不存在");
 		}
-		if (true == authUserService.changePassword(id, user.getPassword(), newPassword)) {
+		if (true == authUserService.changePassword(userId, user.getPassword(), newPassword)) {
 			return new JsonResult<AuthUser>(user);
 		} else {
 			return new JsonResult<AuthUser>(JsonResult.ERROR, "修改密码出错！");
@@ -207,13 +207,13 @@ public class AuthUserRestController {
 	 * 删除用户数据
 	 * 
 	 * @since 1.0
-	 * @param id
+	 * @param userId
 	 * @param request
 	 */
 	@DeleteMapping("/{id}")
 	@RequiresPermissions("authUser:delete")
-	public JsonResult<AuthUser> delete(@PathVariable("id") int id, HttpServletRequest request) {
-		if (true == this.authUserService.delete(id)) {
+	public JsonResult<AuthUser> delete(@PathVariable("id") int userId, HttpServletRequest request) {
+		if (true == this.authUserService.delete(userId)) {
 			return new JsonResult<AuthUser>();
 		} else {
 			return new JsonResult<AuthUser>(JsonResult.ERROR, "删除用户出错！");
@@ -237,7 +237,7 @@ public class AuthUserRestController {
 	/**
 	 * 保存用户角色关联关系
 	 * 
-	 * @param id
+	 * @param userId
 	 *            用户编号
 	 * @param userRoleReleations
 	 *            用户角色关联应映表，此参数需要包含三个主键<code>inserted</code>,
@@ -247,7 +247,7 @@ public class AuthUserRestController {
 	 */
 	@PostMapping("/{id}/roles")
 	@RequiresPermissions("authUser:edit")
-	public void assignUserRoles(@PathVariable("id") int id,
+	public void assignUserRoles(@PathVariable("id") int userId,
 			@RequestBody Map<String, List<AuthUserRoleReleation>> userRoleReleations) {
 		String operation;
 		AuthUserRoleReleation r;
@@ -259,7 +259,7 @@ public class AuthUserRestController {
 			for (Iterator<AuthUserRoleReleation> i = list.iterator(); i.hasNext();) {
 				r = i.next();
 				if ("inserted".equals(operation.toLowerCase())) {
-					r.setUserId(id);
+					r.setUserId(userId);
 					System.out.println("insert: " + r);
 					this.authUserService.addRoleRelation(r);
 				} else if ("updated".equals(operation.toLowerCase())) {

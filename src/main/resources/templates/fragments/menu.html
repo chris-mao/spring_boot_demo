@@ -7,45 +7,18 @@
 <body>
 	<div class="easyui-accordion" style="height: 100%;" th:fragment="menu">
 		<shiro:hasRole name="系统管理员">
-			<div title="安全管理" selected="true" style="padding-left:5px;">
+			<div title="安全管理" selected="true" style="padding-left: 5px;">
 				<shiro:hasPermission name="authPermission:list">
-					<p>
-						<a class="navbar-link" title="维护系统权限" href="#"
-							th:href="@{/permissions}"><span
-							class="glyphicon glyphicon-grain"></span>&nbsp;权限管理</a>
-					</p>
+					<a href="#" onclick="addTab('系统角色', '/permissions')">系统权限</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="authRole:list">
-					<p>
-						<a class="navbar-link" title="维护系统角色" href="#" th:href="@{/roles}"><span
-							class="glyphicon glyphicon-user"></span>&nbsp;角色管理</a>
-					</p>
+					<a href="#" onclick="addTab('系统角色', '/roles')">系统角色</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="authUser:list">
-					<p>
-						<a class="navbar-link" title="维护系统用户" href="#" th:href="@{/users}"><span
-							class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a>
-					</p>
-					<a href="#" onclick="addTab('新建系统用户页面', '/users')" >新建用户页面</a>
+					<a href="#" onclick="addTab('系统用户', '/users')">系统用户</a>
 				</shiro:hasPermission>
 			</div>
 		</shiro:hasRole>
-		<div title="系统设置" iconCls="icon-man">
-			<ul id="tt1" class="easyui-tree">
-				<li><span>Folder1</span>
-					<ul>
-						<li><span>Sub Folder 1</span>
-							<ul>
-								<li><span>File 11</span></li>
-								<li><span>File 12</span></li>
-								<li><span>File 13</span></li>
-							</ul></li>
-						<li><span>File 2</span></li>
-						<li><span>File 3</span></li>
-					</ul></li>
-				<li><span>File2</span></li>
-			</ul>
-		</div>
 		<div title="系统操作">
 			<ul>
 				<li><a class="navbar-link" title="将界面语言设为英文" href="#"><span

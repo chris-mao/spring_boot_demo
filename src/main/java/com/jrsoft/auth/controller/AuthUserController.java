@@ -31,6 +31,6 @@ public class AuthUserController {
 	@GetMapping({ "", "/", "/index" })
 	@RequiresPermissions("authUser:list")
 	public String userList() {
-		return "auth/user/index";
+		return "auth/user";
 	}	
 }

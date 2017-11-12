@@ -44,19 +44,24 @@ function newUser() {
 			"创建新用户");
 	$("#userEditForm").form("clear");
 	$("#userEditForm input:first").textbox("readonly", false);
-	$("#userEditForm input:first").textbox("disabled",false);
+	var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
+	switchbuttonObj.switchbutton("check");
 }
 
 // 打开编加用户对话框
 function editUser() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
+		console.log(row);
 		post_url = "/users/rest/" + row.userId;
 		$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑用户");
 		$("#userEditForm").form("load", row);
+		if (row.available) {
+			var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
+		    switchbuttonObj.switchbutton("check");
+		}
 		$("#userEditForm input:first").textbox("readonly", true);
-		$("#userEditForm input:first").textbox("disabled",true);
 	} else {
 		$.messager.alert("提示", "没有选中的数据行");
 	}
@@ -155,6 +160,8 @@ function deleteUser() {
 						console.log(textStatus);
 						if (data.state == 0) {
 							$("#userDatagrid").datagrid("reload");
+							// 清空选中的行
+							$('#userDatagrid').datagrid('clearSelections');
 						} else {
 							$.messager.alert("错误", data.message, "error");
 						}

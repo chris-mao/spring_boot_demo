@@ -9,14 +9,14 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 用户与角色关联实体类
+ * 角色与权限关联实体类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
  * @version 1.0
  *
  */
-public class AuthUserRoleReleation implements Serializable {
+public class AuthRolePermissionReleation implements Serializable {
 
 	/**
 	 * 
@@ -24,21 +24,14 @@ public class AuthUserRoleReleation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 用户编号
-	 */
-	private int userId;
-
-	/**
 	 * 角色编号
 	 */
 	private int roleId;
 
 	/**
-	 * 角色名称
-	 * 
-	 * @deprecated
+	 * 权限编号
 	 */
-	private String roleName;
+	private int permissionId;
 
 	/**
 	 * 生效日期
@@ -65,21 +58,6 @@ public class AuthUserRoleReleation implements Serializable {
 	private Date updateTime;
 
 	/**
-	 * @return the userId
-	 */
-	public int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId
-	 *            the userId to set
-	 */
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	/**
 	 * @return the roleId
 	 */
 	public int getRoleId() {
@@ -87,28 +65,24 @@ public class AuthUserRoleReleation implements Serializable {
 	}
 
 	/**
-	 * @param roleId
-	 *            the roleId to set
+	 * @param roleId the roleId to set
 	 */
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
 
 	/**
-	 * @deprecated
-	 * @return the roleName
+	 * @return the permissionId
 	 */
-	public String getRoleName() {
-		return roleName;
+	public int getPermissionId() {
+		return permissionId;
 	}
 
 	/**
-	 * @deprecated
-	 * @param roleName
-	 *            the roleName to set
+	 * @param permissionId the permissionId to set
 	 */
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setPermissionId(int permissionId) {
+		this.permissionId = permissionId;
 	}
 
 	/**
@@ -119,8 +93,7 @@ public class AuthUserRoleReleation implements Serializable {
 	}
 
 	/**
-	 * @param startDate
-	 *            the startDate to set
+	 * @param startDate the startDate to set
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -134,8 +107,7 @@ public class AuthUserRoleReleation implements Serializable {
 	}
 
 	/**
-	 * @param endDate
-	 *            the endDate to set
+	 * @param endDate the endDate to set
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
@@ -149,8 +121,7 @@ public class AuthUserRoleReleation implements Serializable {
 	}
 
 	/**
-	 * @param createdTime
-	 *            the createdTime to set
+	 * @param createdTime the createdTime to set
 	 */
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
@@ -164,22 +135,20 @@ public class AuthUserRoleReleation implements Serializable {
 	}
 
 	/**
-	 * @param updateTime
-	 *            the updateTime to set
+	 * @param updateTime the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "AuthUserRoleReleation [userId=" + userId + ", roleId=" + roleId + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
+		return "AuthRolePermissionReleation [roleId=" + roleId + ", permissionId=" + permissionId + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", createdTime=" + createdTime + ", updateTime=" + updateTime
+				+ "]";
 	}
 
 }

@@ -71,10 +71,8 @@ public class AuthRoleController {
 	 */
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authRole:list")
-	public String roleList(@RequestParam(defaultValue = "1") int page, Model model) {
-//		PageInfo<AuthRole> roles = this.authRoleService.findAll(page);
-//		model.addAttribute("page", roles);
-		return "auth/role/index";
+	public String roleList() {
+		return "auth/role";
 	}
 
 	/**
@@ -207,18 +205,6 @@ public class AuthRoleController {
 	public String deleteRole(@PathVariable("id") int id, HttpServletRequest request) {
 		this.authRoleService.delete(id);
 		return "redirect:/roles";
-	}
-	
-	/**
-	 * 以Json格式返回角色清单
-	 * 
-	 * @deprecated
-	 * @return String
-	 */
-	@ResponseBody
-	@GetMapping("/json")
-	public List<AuthRole> jsonData() {
-		return this.authRoleService.findAllAvailable();
 	}
 
 }
