@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.auth.utils;
+package com.jrsoft.common;
 
 import java.io.Serializable;
 

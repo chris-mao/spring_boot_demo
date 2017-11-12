@@ -22,6 +22,22 @@ import com.jrsoft.common.DataGrid;
 /**
  *<p>
  * 系统角色控制器类，提供系统角色维护方法接口
+ * <dl>
+ * <dt>按页码返回（符合查询条件或是全部）角色数据列表，需要拥有authRole:list权限</dt>
+ * <dd>GET: users/rest/list?page=1&rows=20&searchValue=</dd>
+ * <dt>返回全部有效的（available=1）角色数据列表，需要拥有authRole:list权限</dt>
+ * <dd>GET: users/rest/json</dd>
+ * <dt>新建角色数据，需要拥有authRole:new权限</dt>
+ * <dd>POST: users/rest/new</dd>
+ * <dt>更新角色数据，需要拥有authRole:edit权限</dt>
+ * <dd>POST: users/rest/{id}</dd>
+ * <dt>删除角色数据，需要拥有authRole:delete权限</dt>
+ * <dd>DELETE: users/rest/{id}</dd>
+ * <dt>返回角色关联的权限列表，需要拥有authRole:edit权限</dt>
+ * <dd>GET: users/rest/{id}/roles</dd>
+ * <dt>修改（新增、编辑、删除）角色关联权限，需要拥有authRole:edit权限</dt>
+ * <dd>POST: users/rest/{id}/roles</dd>
+ * </dl>
  * </p>
  * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
@@ -37,7 +53,7 @@ public class AuthRoleRestController {
 	private AuthRoleService authRoleService;
 	
 	/**
-	 * 获取用户列表
+	 * 获取角色列表
 	 * 
 	 * @since 1.0
 	 * @param pageIndex

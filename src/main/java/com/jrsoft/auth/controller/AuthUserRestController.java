@@ -30,15 +30,12 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
-import com.jrsoft.auth.utils.JsonResult;
 import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.JsonResult;
 
 /**
  * <p>
  * 系统用户控制器类，提供系统用户维护方法接口
- * </p>
- * 
- * <p>
  * <dl>
  * <dt>按页码返回（符合查询条件或是全部）用户数据列表，需要拥有authUser:list权限</dt>
  * <dd>GET: users/rest/list?page=1&rows=20&searchValue=</dd>
@@ -52,6 +49,8 @@ import com.jrsoft.common.DataGrid;
  * <dd>POST: users/rest/{id}</dd>
  * <dt>删除用户数据，需要拥有authUser:delete权限</dt>
  * <dd>DELETE: users/rest/{id}</dd>
+ * <dt>修改用户登录密码，无权限控制</dt>
+ * <dd>POST: users/rest/{id}/psd</dd>
  * <dt>返回用户关联的角色列表，需要拥有authUser:edit权限</dt>
  * <dd>GET: users/rest/{id}/roles</dd>
  * <dt>修改（新增、编辑、删除）用户关联角色，需要拥有authUser:edit权限</dt>

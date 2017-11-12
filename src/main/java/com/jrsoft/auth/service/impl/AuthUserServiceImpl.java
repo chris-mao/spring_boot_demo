@@ -6,7 +6,6 @@ package com.jrsoft.auth.service.impl;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
