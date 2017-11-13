@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link th:href="@{/css/main.css}" rel="stylesheet"></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/material/easyui.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/jquery-easyui-1.5.3/themes/icon.css}" rel="stylesheet"></link>
+
+<script th:src="@{/jquery-easyui-1.5.3/jquery.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/jquery.easyui.min.js}"
+	type="text/javascript"></script>
+<script th:src="@{/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js}"
+	type="text/javascript"></script>
+<script th:src="@{/js/main.js}" type="text/javascript"></script>
+</head>
+<body>
+	<!-- 数据表格 -->
+	<table id="permissionDatagrid" class="easyui-treegrid"
+		toolbar="#permissionDatagridToolbar">
+		<thead>
+			<tr>
+				<!-- <th data-options="field:'permissionId'" width="30">#</th> -->
+				<th data-options="field:'permissionText'" width="160">显示文本</th>
+                <th data-options="field:'permissionKind'" style="width: 80px"
+                    align="center">权限类型</th>
+				<th data-options="field:'permissionName'" style="width: 120px">权限代码</th>
+				<th data-options="field:'weight'" style="width: 50px" align="right">显示顺序</th>
+				<th data-options="field:'permissionUrl'" width="100">访问链接</th>
+				<th data-options="field:'available'" width="40" align="center">启用</th>
+				<th data-options="field:'createdTime'" width="140"
+					formatter="dateTimeFormatter">创建时间</th>
+				<th data-options="field:'updateTime'" width="140"
+					formatter="dateTimeFormatter">更新时间</th>
+				<!-- <th data-options="field:'ck',checkbox:true"></th> -->
+			</tr>
+		</thead>
+	</table>
+
+	<!-- 数据表格工具栏 -->
+	<div id="permissionDatagridToolbar" class="datagrid-toolbar">
+		<shiro:hasPermission name="authPermission:new">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="newrole()">新增权限</a>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="authPermission:edit">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="editrole()">编辑权限</a>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="authPermission:delete">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true" onclick="deleterole()">删除权限</a>
+		</shiro:hasPermission>
+		<input id="permissionName" prompt="请输入权限名称" class="easyui-searchbox" />
+	</div>
+
+	<script th:src="@{/js/permission.js}" type="text/javascript"></script>
+</body>
+</html>

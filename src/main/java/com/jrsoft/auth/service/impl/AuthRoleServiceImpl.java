@@ -6,8 +6,7 @@ package com.jrsoft.auth.service.impl;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -18,9 +17,12 @@ import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
+import com.jrsoft.common.DataGrid;
 
 /**
  * 系统角色服务接口实现类
+ * 
+ * @see AuthRoleService
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -30,10 +32,10 @@ import com.jrsoft.auth.service.AuthRoleService;
 @Service
 public class AuthRoleServiceImpl implements AuthRoleService {
 
-	@Resource
+	@Autowired
 	private AuthUserDAO authUserDAO;
 
-	@Resource
+	@Autowired
 	private AuthRoleDAO authRoleDAO;
 
 	@Override
@@ -118,13 +120,21 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
-	public PageInfo<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
+	public DataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
+		PageInfo<AuthRole> pageInfo;
+
 		if ("" == searchStr) {
-			return this.findAll(pageIndex, pageSize);
+			pageInfo = this.findAll(pageIndex, pageSize);
+		} else {
+			String roleName = "%" + searchStr + "%";
+			PageHelper.startPage(pageIndex, pageSize);
+			pageInfo = new PageInfo<AuthRole>(authRoleDAO.fuzzyQuery(roleName));
 		}
-		String roleName = "%" + searchStr + "%";
-		PageHelper.startPage(pageIndex, pageSize);
-		return new PageInfo<AuthRole>(authRoleDAO.fuzzyQuery(roleName));
+
+		DataGrid<AuthRole> dg = new DataGrid<AuthRole>();
+		dg.setTotal(pageInfo.getTotal());
+		dg.setRows(pageInfo.getList());
+		return dg;
 	}
 
 }

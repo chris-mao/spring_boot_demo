@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.service.AuthRoleService;
@@ -59,7 +58,7 @@ import com.jrsoft.common.JsonResult;
 @RequestMapping("/roles/rest")
 public class AuthRoleRestController {
 
-	@Resource
+	@Autowired
 	private AuthRoleService authRoleService;
 
 	/**
@@ -79,11 +78,7 @@ public class AuthRoleRestController {
 	public DataGrid<AuthRole> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
-		DataGrid<AuthRole> dg = new DataGrid<AuthRole>();
-		PageInfo<AuthRole> pageInfo = this.authRoleService.findAll(pageIndex, pageSize, searchStr);
-		dg.setTotal(pageInfo.getTotal());
-		dg.setRows(pageInfo.getList());
-		return dg;
+		return this.authRoleService.findAll(pageIndex, pageSize, searchStr);
 	}
 
 	/**
@@ -139,7 +134,7 @@ public class AuthRoleRestController {
 	@RequiresPermissions("authRole:edit")
 	public Set<AuthRolePermissionReleation> findUserRoles(@PathVariable("id") int roleId) {
 		return null;
-//		return authRoleService.findRolePermissions(roleId);
+		// return authRoleService.findRolePermissions(roleId);
 	}
 
 	/**
@@ -150,7 +145,8 @@ public class AuthRoleRestController {
 	 * @param userRoleReleations
 	 *            角色权限关联应映表，此参数需要包含三个主键<code>inserted</code>,
 	 *            <code>updated</code>和<code>deleted</code>
-	 *            。每个主键对应一个List对象，其中存有一个或多个角色权限对象{@link AuthRolePermissionReleation}
+	 *            。每个主键对应一个List对象，其中存有一个或多个角色权限对象
+	 *            {@link AuthRolePermissionReleation}
 	 * @return
 	 */
 	@PostMapping("/{id}/permissions")

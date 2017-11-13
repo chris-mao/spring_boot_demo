@@ -10,13 +10,14 @@ import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.common.DataGrid;
 
 /**
  * 系统角色服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.2
  *
  */
 public interface AuthRoleService {
@@ -44,6 +45,7 @@ public interface AuthRoleService {
 	/**
 	 * 查询所有角色信息，不分页
 	 * 
+	 * @since 1.0
 	 * @return List
 	 */
 	public List<AuthRole> findAll();
@@ -51,17 +53,17 @@ public interface AuthRoleService {
 	/**
 	 * 查询所有数据，具有分页功能
 	 * 
+	 * @since 1.0
 	 * @param pageIndex
 	 *            页码
 	 * @param pageSize
 	 *            分页大小
 	 * @return {@link PageInfo}
-	 * @since 1.0
 	 */
 	public PageInfo<AuthRole> findAll(int pageNum, int pageSize);
 
 	/**
-	 * 根据传入的查询条件查询数据，肯有分页功能 如果参数searchStr为空，则查询所有角色数据，否则查询<code>roleName</code>
+	 * 根据传入的查询条件查询数据，具有分页功能 如果参数searchStr为空，则查询所有角色数据，否则查询<code>roleName</code>
 	 * 中含有其内容的角色数据
 	 * 
 	 * @since 1.2
@@ -73,7 +75,7 @@ public interface AuthRoleService {
 	 *            模糊查询内容
 	 * @return
 	 */
-	public PageInfo<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
+	public DataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 查询所有有效的角色信息
@@ -86,6 +88,7 @@ public interface AuthRoleService {
 	/**
 	 * 按角色编号或是名称查询
 	 * 
+	 * @since 1.0
 	 * @param role
 	 * @return AuthRole
 	 */
@@ -94,6 +97,7 @@ public interface AuthRoleService {
 	/**
 	 * 根据用户查询其所拥有的有效角色清单
 	 * 
+	 * @since 1.0
 	 * @param user
 	 * @return Set
 	 */
@@ -102,6 +106,7 @@ public interface AuthRoleService {
 	/**
 	 * 创建新角色
 	 * 
+	 * @since 1.0
 	 * @param role
 	 * @return 成功返回true,否则返回false
 	 */
@@ -110,6 +115,7 @@ public interface AuthRoleService {
 	/**
 	 * 更新角色
 	 * 
+	 * @since 1.0
 	 * @param role
 	 * @return 成功返回true,否则返回false
 	 */
@@ -126,6 +132,7 @@ public interface AuthRoleService {
 	/**
 	 * 添加新权限
 	 * 
+	 * @since 1.0
 	 * @param role
 	 * @param permission
 	 * @return 成功返回true,否则返回false
@@ -135,6 +142,7 @@ public interface AuthRoleService {
 	/**
 	 * 移除权限
 	 * 
+	 * @since 1.0
 	 * @param role
 	 * @param permission
 	 * @return 成功返回true,否则返回false
@@ -144,6 +152,7 @@ public interface AuthRoleService {
 	/**
 	 * 移除指定角色上所有权限
 	 * 
+	 * @since 1.0
 	 * @param role
 	 */
 	public void removeAllPermissions(AuthRole role);

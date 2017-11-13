@@ -10,12 +10,14 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.jrsoft.auth.AuthPermissionKindEnum;
+
 /**
  * 权限实体类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.1
  *
  */
 public class AuthPermission implements Serializable {
@@ -26,49 +28,94 @@ public class AuthPermission implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 权限编号
 	 * 
+	 * @since 1.0
 	 */
 	private int permissionId;
 
 	/**
+	 * 权限名称
 	 * 
+	 * @since 1.0
 	 */
 	@NotEmpty(message = "权限名称不允许为空")
 	@Length(min = 6, max = 64, message = "权限名称长度需在6位到64位之间")
 	private String permissionName;
 
 	/**
+	 * 对应的访问地址
 	 * 
+	 * @since 1.0
 	 */
 	@Length(max = 128, message = "资源路径长度不能超过128位")
 	private String permissionUrl;
 
 	/**
+	 * 权限显示名称
 	 * 
+	 * @since 1.1
+	 */
+	@NotEmpty(message = "权限显示名称不允许为空")
+	@Length(min = 4, max = 64, message = "权限显示名称长度需在4位到64位之间")
+	private String permissionText;
+
+	/**
+	 * 权重，用于指定排序，数字小的排在前面
+	 * 
+	 * @since 1.1
+	 */
+	private int weight;
+
+	/**
+	 * 父节点名称
+	 * 
+	 * @since 1.1
+	 */
+	private int parentId;
+
+	/**
+	 * 权限类型
+	 * 
+	 * @since 1.1
+	 */
+	private AuthPermissionKindEnum permissionKind;
+
+	/**
+	 * @since 1.0
 	 */
 	private boolean available = true;
 
 	/**
+	 * <p>
+	 * 针对EasyUI TreeGrid组件要求，必须有一个名为state的字段 其值集是 {'open', 'closed'}
+	 * </p> 
 	 * 
+	 * @since 1.1
+	 */
+	private String state;
+
+	/**
+	 * @since 1.0
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdTime;
 
 	/**
-	 * 
+	 * @since 1.0
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-	
+
 	public AuthPermission() {
 		super();
 	}
-	
+
 	public AuthPermission(int id) {
 		this();
 		this.setPermissionId(id);
 	}
-	
+
 	public AuthPermission(String name) {
 		this();
 		this.setPermissionName(name);
@@ -164,19 +211,69 @@ public class AuthPermission implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+	/**
+	 * @return the permissionText
+	 */
+	public String getPermissionText() {
+		return permissionText;
+	}
+
+	/**
+	 * @param permissionText
+	 *            the permissionText to set
+	 */
+	public void setPermissionText(String permissionText) {
+		this.permissionText = permissionText;
+	}
+
+	/**
+	 * @return the weight
+	 */
+	public int getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @param weight
+	 *            the weight to set
+	 */
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	/**
+	 * @return the parentId
+	 */
+	public int getParentId() {
+		return parentId;
+	}
+
+	/**
+	 * @param parentId
+	 *            the parentId to set
+	 */
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
+	/**
+	 * @return the permissionKind
+	 */
+	public AuthPermissionKindEnum getPermissionKind() {
+		return permissionKind;
+	}
+
+	/**
+	 * @param permissionKind
+	 *            the permissionKind to set
+	 */
+	public void setPermissionKind(AuthPermissionKindEnum permissionKind) {
+		this.permissionKind = permissionKind;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AuthPermission [permissionId=" + permissionId + ", permissionName=" + permissionName
-				+ ", permissionUrl=" + permissionUrl + ", available=" + available + ", createdTime=" + createdTime
-				+ ", updateTime=" + updateTime + "]";
-	}
-
-	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -188,7 +285,9 @@ public class AuthPermission implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -208,6 +307,27 @@ public class AuthPermission implements Serializable {
 		} else if (!permissionName.equals(other.permissionName))
 			return false;
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AuthPermission [permissionId=" + permissionId + ", permissionName=" + permissionName
+				+ ", permissionText=" + permissionText + ", permissionUrl=" + permissionUrl + ", weight=" + weight
+				+ ", parentId=" + parentId + ", permissionKind=" + permissionKind + ", available=" + available
+				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 }

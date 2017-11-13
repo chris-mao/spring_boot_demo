@@ -6,9 +6,7 @@ package com.jrsoft.auth.service.impl;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -18,11 +16,12 @@ import com.jrsoft.auth.dao.AuthRoleDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthPermissionService;
+import com.jrsoft.common.DataGrid;
 
 /**
- * com.jrsoft.auth.service.impl AuthPermissionServiceImpl
- * 
  * 系统权限服务接口实现类
+ * 
+ * @see AuthPermissionService
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -32,13 +31,10 @@ import com.jrsoft.auth.service.AuthPermissionService;
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
 
-	@Value("${pageSize}")
-	private int pageSize = 20;
-
-	@Resource
+	@Autowired
 	private AuthRoleDAO authRoleDAO;
 
-	@Resource
+	@Autowired
 	private AuthPermissionDAO authPermissionDAO;
 
 	/*
@@ -52,9 +48,27 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public PageInfo<AuthPermission> findAll(int pageNum) {
-		PageHelper.startPage(pageNum, this.pageSize);
+	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthPermission>(authPermissionDAO.findAll(false));
+	}
+
+	public DataGrid<AuthPermission> findAll(int pageIndex, int pageSize, String searchStr) {
+		PageInfo<AuthPermission> pageInfo;
+		if ("" == searchStr) {
+			pageInfo = this.findAll(pageIndex, pageSize);
+		} else {
+			AuthPermission permission = new AuthPermission();
+			permission.setPermissionName("%" + searchStr + "%");
+			permission.setPermissionText("%" + searchStr + "%");
+			PageHelper.startPage(pageIndex, pageSize);
+			pageInfo = new PageInfo<AuthPermission>(authPermissionDAO.fuzzyQuery(permission));
+		}
+
+		DataGrid<AuthPermission> dg = new DataGrid<AuthPermission>();
+		dg.setTotal(pageInfo.getTotal());
+		dg.setRows(pageInfo.getList());
+		return dg;
 	}
 
 	@Override
@@ -73,12 +87,21 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthPermissionService#findAllByRole(com.
-	 * jrsoft.auth.entity.AuthRole)
-	 */
+	@Override
+	public boolean insert(AuthPermission permission) {
+		return 1 == this.authPermissionDAO.insert(permission);
+	}
+
+	@Override
+	public boolean update(AuthPermission permission) {
+		return 1 == this.authPermissionDAO.udpate(permission);
+	}
+
+	@Override
+	public boolean delete(int id) {
+		return 1 == this.authPermissionDAO.delete(id);
+	}
+
 	@Override
 	public Set<AuthPermission> findAllByRole(AuthRole role) {
 		if (0 != role.getRoleId()) {
@@ -95,18 +118,14 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public boolean insert(AuthPermission permission) {
-		return 1 == this.authPermissionDAO.insert(permission);
+	public Set<AuthPermission> findPermissionTreeByRole(AuthRole role) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean update(AuthPermission permission) {
-		return 1 == this.authPermissionDAO.udpate(permission);
-	}
-
-	@Override
-	public boolean delete(int id) {
-		return 1 == this.authPermissionDAO.delete(id);
+	public Set<AuthPermission> findPermissionTreeByParent(int parentId) {
+		return this.authPermissionDAO.findPermissionTreeByParent(parentId);
 	}
 
 }

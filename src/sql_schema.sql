@@ -20,17 +20,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 --  Table structure for `auth_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_permission`;
-CREATE TABLE `auth_permission` (
-  `permission_id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `permission_name` varchar(64) NOT NULL,
+CREATE TABLE IF NOT EXISTS `auth_permission` (
+  `permission_id` smallint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `permission_type` enum('Menu','Function') DEFAULT NULL COMMENT '权限类型，分为“菜单”与“功能”两类，“菜单”显示在导航栏中，“功能”显示在每个独立的页面中',
+  `permission_name` varchar(64) NOT NULL COMMENT '权限名称，唯一',
+  `permission_text` varchar(64) NOT NULL COMMENT '显示面界面上的文字',
   `permission_url` varchar(128) DEFAULT NULL,
-  `is_valid` bit(1) NOT NULL DEFAULT b'1',
+  `weight` smallint(6) NOT NULL COMMENT '菜单显示顺序，按从小到大的顺序显示',
+  `parent_id` smallint(6) NOT NULL DEFAULT '0' COMMENT '父菜单ID',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_name` (`permission_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='权限表';
+
+ALTER TABLE auth_permission ADD COLUMN `state` varchar(6) AFTER `parent_id`, CHANGE COLUMN `available` `available` bit(1) NOT NULL AFTER `state`, CHANGE COLUMN `created_time` `created_time` datetime NOT NULL AFTER `available`, CHANGE COLUMN `update_time` `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `created_time`;
 
 -- ----------------------------
 --  Table structure for `auth_role`
@@ -40,7 +45,6 @@ CREATE TABLE `auth_role` (
   `role_id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(64) NOT NULL,
   `navigation` varchar(32) DEFAULT NULL COMMENT '角色对应的导航菜单数组键名',
-  `is_valid` bit(1) NOT NULL DEFAULT b'1',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -57,7 +61,6 @@ CREATE TABLE `auth_role_permission` (
   `permission_id` smallint(10) unsigned NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `is_valid` bit(1) NOT NULL DEFAULT b'1',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -77,7 +80,6 @@ CREATE TABLE `auth_user` (
   `salt` varchar(128) DEFAULT NULL,
   `state` enum('Active','Locked','Expired','Inactive') DEFAULT 'Active',
   `role_id` smallint(10) DEFAULT NULL COMMENT 'PHP程序中使用',
-  `is_valid` bit(1) NOT NULL DEFAULT b'1',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -110,7 +112,6 @@ CREATE TABLE `auth_user_role` (
   `role_id` smallint(11) unsigned NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `is_valid` bit(1) NOT NULL DEFAULT b'1',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

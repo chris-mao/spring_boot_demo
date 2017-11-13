@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
+import com.jrsoft.common.DataGrid;
 
 /**
  * 系统用户服务接口
@@ -42,7 +43,7 @@ public interface AuthUserService {
 	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize);
 
 	/**
-	 * 根据传入的查询条件查询数据，肯有分页功能 如果参数searchStr为空，则查询所有用户数据，否则查询在<code>userName</code>
+	 * 根据传入的查询条件查询数据，具有分页功能 如果参数searchStr为空，则查询所有用户数据，否则查询在<code>userName</code>
 	 * 或是<code>nickName</code>中含有其内容的用户数据
 	 * 
 	 * @param pageIndex
@@ -54,7 +55,7 @@ public interface AuthUserService {
 	 * @return
 	 * @since 1.2
 	 */
-	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize, String searchStr);
+	public DataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 查询所有有效的用户信息

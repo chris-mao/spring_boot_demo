@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
-import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.common.DataGrid;
 import com.jrsoft.common.JsonResult;
@@ -67,11 +65,8 @@ import com.jrsoft.common.JsonResult;
 @RequestMapping("/users/rest")
 public class AuthUserRestController {
 
-	@Resource
+	@Autowired
 	private AuthUserService authUserService;
-
-	@Resource
-	private AuthRoleService authRoleService;
 
 	/**
 	 * 获取用户列表
@@ -90,11 +85,7 @@ public class AuthUserRestController {
 	public DataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
-		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
-		PageInfo<AuthUser> pageInfo = authUserService.findAll(pageIndex, pageSize, searchStr);
-		dg.setTotal(pageInfo.getTotal());
-		dg.setRows(pageInfo.getList());
-		return dg;
+		return authUserService.findAll(pageIndex, pageSize, searchStr);
 	}
 
 	/**

@@ -7,8 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jrsoft.auth.dao.AuthUserDelegateDAO;
@@ -17,9 +16,9 @@ import com.jrsoft.auth.entity.AuthUserDelegate;
 import com.jrsoft.auth.service.AuthUserDelegateService;
 
 /**
- * com.jrsoft.auth.service.impl AuthUserDelegateServiceImpl
- * 
  * 身份代理服务接口实现类
+ * 
+ * @see AuthUserDelegateService
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -29,7 +28,7 @@ import com.jrsoft.auth.service.AuthUserDelegateService;
 @Service
 public class AuthUserDelegateServiceImpl implements AuthUserDelegateService {
 
-	@Resource
+	@Autowired
 	private AuthUserDelegateDAO authUserDelegateDAO;
 
 	@Override

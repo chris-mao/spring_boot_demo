@@ -4,7 +4,16 @@
 package com.jrsoft.auth;
 
 /**
- * com.jrsoft.auth AuthUserState
+ * 用户状态枚举类
+ * 
+ * <p>
+ * <ul>
+ * <li><code>ACTIVE</code>激活状态</li>
+ * <li><code>LOCKED</code>被锁定状态</li>
+ * <li><code>EXPIRED</code>过期状态</li>
+ * <li><code>INACTIVE</code>未激活状态</li>
+ * </ul>
+ * </p>
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

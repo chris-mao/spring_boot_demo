@@ -10,8 +10,6 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserDelegate;
 
 /**
- * com.jrsoft.auth.service AuthUserDelegateService
- * 
  * 身份代理服务接口
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>

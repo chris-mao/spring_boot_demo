@@ -17,9 +17,12 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthUserService;
+import com.jrsoft.common.DataGrid;
 
 /**
  * 系统用户服务接口实现类
+ * 
+ * @see AuthUserService
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -42,17 +45,24 @@ public class AuthUserServiceImpl implements AuthUserService {
 		PageHelper.startPage(pageIndex, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.findAll(false));
 	}
-	
+
 	@Override
-	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
+	public DataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
+		PageInfo<AuthUser> pageInfo;
 		if ("" == searchStr) {
-			return this.findAll(pageIndex, pageSize);
+			pageInfo = this.findAll(pageIndex, pageSize);
+		} else {
+			AuthUser user = new AuthUser();
+			user.setUserName("%" + searchStr + "%");
+			user.setNickName("%" + searchStr + "%");
+			PageHelper.startPage(pageIndex, pageSize);
+			pageInfo = new PageInfo<AuthUser>(authUserDAO.fuzzyQuery(user));
 		}
-		AuthUser user = new AuthUser();
-		user.setUserName("%" + searchStr + "%");
-		user.setNickName("%" + searchStr + "%");
-		PageHelper.startPage(pageIndex, pageSize);
-		return new PageInfo<AuthUser>(authUserDAO.fuzzyQuery(user));
+
+		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
+		dg.setTotal(pageInfo.getTotal());
+		dg.setRows(pageInfo.getList());
+		return dg;
 	}
 
 	@Override

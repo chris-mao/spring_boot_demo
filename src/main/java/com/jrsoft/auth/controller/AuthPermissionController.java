@@ -2,11 +2,11 @@ package com.jrsoft.auth.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
@@ -37,7 +36,7 @@ import com.jrsoft.auth.service.AuthPermissionService;
 @RequestMapping("/permissions")
 public class AuthPermissionController {
 
-	@Resource
+	@Autowired
 	private AuthPermissionService authPermissionService;
 
 	/**
@@ -66,9 +65,9 @@ public class AuthPermissionController {
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authPermission:list")
 	public String permissionList(@RequestParam(defaultValue = "1") int page, Model model) {
-		PageInfo<AuthPermission> permissions = this.authPermissionService.findAll(page);
-		model.addAttribute("page", permissions);
-		return "auth/permission/index";
+//		PageInfo<AuthPermission> permissions = this.authPermissionService.findAll(page);
+//		model.addAttribute("page", permissions);
+		return "auth/permission";
 	}
 
 	/**

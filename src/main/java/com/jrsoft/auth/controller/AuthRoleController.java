@@ -3,11 +3,11 @@ package com.jrsoft.auth.controller;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jrsoft.app.exception.DataNotFoundException;
@@ -40,10 +39,10 @@ import com.jrsoft.auth.service.AuthRoleService;
 @RequestMapping("/roles")
 public class AuthRoleController {
 
-	@Resource
+	@Autowired
 	private AuthRoleService authRoleService;
 	
-	@Resource
+	@Autowired
 	private AuthPermissionService authPermissionService;
 
 	/**
