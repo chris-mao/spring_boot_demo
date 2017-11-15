@@ -9,6 +9,7 @@ import java.util.Set;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.entity.EasyTreeGridNode;
 import com.jrsoft.common.DataGrid;
 
 /**
@@ -41,10 +42,12 @@ public interface AuthPermissionService {
 	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize);
 
 	/**
-	 * 根据传入的查询条件查询数据，具有分页功能 如果参数searchStr为空，则查询所有角色数据，否则查询<code>roleName</code>
-	 * 中含有其内容的角色数据
+	 * 根据传入的父节点编号查询其子节点数据，且有分页功能，如果参数searchStr不为空，则查询指定节点下所有符合查询条件(
+	 * permission_name或是permission_text包含查询条件)的子节点
 	 * 
-	 * @since 1.2
+	 * @since 1.3
+	 * @param parentId
+	 *            父节点编号
 	 * @param pageIndex
 	 *            页码
 	 * @param pageSize
@@ -53,8 +56,8 @@ public interface AuthPermissionService {
 	 *            模糊查询内容
 	 * @return
 	 */
-	public DataGrid<AuthPermission> findAll(int pageIndex, int pageSize, String searchStr);
-
+	public DataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
+	
 	/**
 	 * 查询所有有效的权限信息
 	 * 
@@ -101,7 +104,7 @@ public interface AuthPermissionService {
 	public boolean delete(int id);
 
 	/**
-	 * 按角色编号或是角色名称查询其所拥有的权限
+	 * 按角色编号或是角色名称查询其所拥有的权限集合
 	 * 
 	 * @since 1.0
 	 * @param role
@@ -110,20 +113,11 @@ public interface AuthPermissionService {
 	public Set<AuthPermission> findAllByRole(AuthRole role);
 
 	/**
-	 * 按角色编号或是角色名称获取其所拥有的权限（树型结构）
+	 * 按角色编号或是角色名称获取指定节点下的权限集合
 	 * 
 	 * @since 1.3
 	 * @param role
 	 * @return Set
 	 */
-	public Set<AuthPermission> findPermissionTreeByRole(AuthRole role);
-
-	/**
-	 * 按父结点编号获取其子权限（树型结构）
-	 * 
-	 * @since 1.3
-	 * @param parentId
-	 * @return Set
-	 */
-	public Set<AuthPermission> findPermissionTreeByParent(int parentId);
+	public Set<EasyTreeGridNode> findChildNodesByRole(int parentId, AuthRole role);
 }

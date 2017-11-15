@@ -5,8 +5,6 @@ package com.jrsoft.auth.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;

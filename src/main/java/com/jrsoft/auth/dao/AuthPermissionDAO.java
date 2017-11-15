@@ -20,6 +20,7 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.dao.handler.AuthPermissionKindEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthPermission;
+import com.jrsoft.auth.entity.EasyTreeGridNode;
 
 /**
  * 系统权限数据访问类
@@ -97,38 +98,44 @@ public interface AuthPermissionDAO {
 	 * @param user
 	 * @return
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time, 'closed' as state FROM auth_permission WHERE permission_name LIKE #{permissionName} OR permission_text like #{permissionText} ORDER BY permission_kind, weight")
+	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM auth_permission WHERE permission_name LIKE #{permissionName} OR permission_text like #{permissionText} ORDER BY permission_kind, weight")
 	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
 		@Result(property = "permissionName", column = "permission_name"),
 		@Result(property = "permissionUrl", column = "permission_url"),
 		@Result(property = "permissionText", column = "permission_text"),
 		@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
 		@Result(property = "weight", column = "weight"),
-		@Result(property = "state", column = "state"),
 		@Result(property = "parentId", column = "parent_id"),
 		@Result(property = "available", column = "available"),
 		@Result(property = "createdTime", column = "created_time"),
 		@Result(property = "updateTime", column = "update_time") })
-	public List<AuthPermission> fuzzyQuery(AuthPermission permission);
+	public List<EasyTreeGridNode> fuzzyQuery(AuthPermission permission);
 	
 	/**
 	 * @since 1.1
 	 * @param parentId
 	 * @return
 	 */
-	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time, state FROM auth_permission WHERE parent_id = #{parentId} ORDER BY weight")
+	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM auth_permission WHERE parent_id = #{parentId} ORDER BY weight")
 	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
 		@Result(property = "permissionName", column = "permission_name"),
 		@Result(property = "permissionUrl", column = "permission_url"),
 		@Result(property = "permissionText", column = "permission_text"),
 		@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
 		@Result(property = "weight", column = "weight"),
-		@Result(property = "state", column = "state"),
 		@Result(property = "parentId", column = "parent_id"),
 		@Result(property = "available", column = "available"),
 		@Result(property = "createdTime", column = "created_time"),
 		@Result(property = "updateTime", column = "update_time") })
-	public Set<AuthPermission> findPermissionTreeByParent(@Param(value = "parentId")int parentId);
+	public List<EasyTreeGridNode> findChildNodes(@Param(value = "parentId")int parentId);
+	
+	/**
+	 * @since 1.1
+	 * @param parentId
+	 * @return
+	 */
+	@Select("SELECT COUNT(permission_id) FROM auth_permission WHERE parent_id = #{parentId}")
+	public int getChildrenCount(@Param(value = "parentId")int parentId);
 
 	/**
 	 * 按角色ID查询其所拥有的权限

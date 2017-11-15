@@ -3,6 +3,7 @@
  */
 package com.jrsoft.auth.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import com.jrsoft.auth.dao.AuthPermissionDAO;
 import com.jrsoft.auth.dao.AuthRoleDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.entity.EasyTreeGridNode;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.common.DataGrid;
 
@@ -31,9 +33,16 @@ import com.jrsoft.common.DataGrid;
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
 
+	/**
+	 * 
+	 * @see com.jrsoft.auth.dao AuthRoleDao
+	 */
 	@Autowired
 	private AuthRoleDAO authRoleDAO;
 
+	/**
+	 * @see com.jrsoft.auth.dao AuthPermissionDAO
+	 */
 	@Autowired
 	private AuthPermissionDAO authPermissionDAO;
 
@@ -52,20 +61,39 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthPermission>(authPermissionDAO.findAll(false));
 	}
+	
+	protected boolean hasChildren(int permissionId) {
+//		System.out.println("Children Count: " + authPermissionDAO.getChildrenCount(permissionId));
+		return authPermissionDAO.getChildrenCount(permissionId) > 0;
+	}
 
-	public DataGrid<AuthPermission> findAll(int pageIndex, int pageSize, String searchStr) {
-		PageInfo<AuthPermission> pageInfo;
-		if ("" == searchStr) {
-			pageInfo = this.findAll(pageIndex, pageSize);
+	@Override
+	public DataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageNum, int pageSize, String searchStr) {
+		PageInfo<EasyTreeGridNode> pageInfo;
+		if (searchStr.isEmpty()) {
+			PageHelper.startPage(pageNum, pageSize);
+			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.findChildNodes(parentId));
 		} else {
 			AuthPermission permission = new AuthPermission();
 			permission.setPermissionName("%" + searchStr + "%");
 			permission.setPermissionText("%" + searchStr + "%");
-			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<AuthPermission>(authPermissionDAO.fuzzyQuery(permission));
+			PageHelper.startPage(pageNum, pageSize);
+			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.fuzzyQuery(permission));
 		}
 
-		DataGrid<AuthPermission> dg = new DataGrid<AuthPermission>();
+		EasyTreeGridNode node;
+		List<EasyTreeGridNode> nodes = pageInfo.getList();
+		for (Iterator<EasyTreeGridNode> i = nodes.iterator(); i.hasNext();) {
+			node = i.next();
+			if (true == hasChildren(node.getPermissionId())) { //有子节点
+				node.setState("closed");
+			}
+			else {
+				node.setState("open");
+			}
+		}
+
+		DataGrid<EasyTreeGridNode> dg = new DataGrid<EasyTreeGridNode>();
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
@@ -118,14 +146,8 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public Set<AuthPermission> findPermissionTreeByRole(AuthRole role) {
-		// TODO Auto-generated method stub
+	public Set<EasyTreeGridNode> findChildNodesByRole(int parentId, AuthRole role) {
 		return null;
-	}
-
-	@Override
-	public Set<AuthPermission> findPermissionTreeByParent(int parentId) {
-		return this.authPermissionDAO.findPermissionTreeByParent(parentId);
 	}
 
 }

@@ -123,7 +123,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	public DataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
 		PageInfo<AuthRole> pageInfo;
 
-		if ("" == searchStr) {
+		if (searchStr.isEmpty()) {
 			pageInfo = this.findAll(pageIndex, pageSize);
 		} else {
 			String roleName = "%" + searchStr + "%";

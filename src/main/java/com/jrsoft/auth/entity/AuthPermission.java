@@ -17,7 +17,7 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.1
+ * @version 1.0
  *
  */
 public class AuthPermission implements Serializable {
@@ -85,15 +85,6 @@ public class AuthPermission implements Serializable {
 	 * @since 1.0
 	 */
 	private boolean available = true;
-
-	/**
-	 * <p>
-	 * 针对EasyUI TreeGrid组件要求，必须有一个名为state的字段 其值集是 {'open', 'closed'}
-	 * </p> 
-	 * 
-	 * @since 1.1
-	 */
-	private String state;
 
 	/**
 	 * @since 1.0
@@ -320,14 +311,6 @@ public class AuthPermission implements Serializable {
 				+ ", permissionText=" + permissionText + ", permissionUrl=" + permissionUrl + ", weight=" + weight
 				+ ", parentId=" + parentId + ", permissionKind=" + permissionKind + ", available=" + available
 				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 
 }

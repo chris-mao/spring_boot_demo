@@ -49,7 +49,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 	@Override
 	public DataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
 		PageInfo<AuthUser> pageInfo;
-		if ("" == searchStr) {
+		if (searchStr.isEmpty()) {
 			pageInfo = this.findAll(pageIndex, pageSize);
 		} else {
 			AuthUser user = new AuthUser();

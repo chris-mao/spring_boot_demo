@@ -113,6 +113,7 @@ public class AuthUserServiceTest {
 	}
 	
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testAddRole() {
 		AuthUser u = new AuthUser();
 		u.setUserName("cmao");
@@ -128,6 +129,7 @@ public class AuthUserServiceTest {
 	}
 	
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testRemoveRole() {
 		AuthUser u = new AuthUser();
 		u.setUserName("cmao");

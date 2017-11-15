@@ -18,18 +18,18 @@
 </head>
 <body>
 	<!-- 数据表格 -->
-	<table id="permissionDatagrid" class="easyui-treegrid"
-		toolbar="#permissionDatagridToolbar">
+	<table id="permissionTreegrid" class="easyui-treegrid"
+		toolbar="#permissionTreegridToolbar">
 		<thead>
 			<tr>
-				<!-- <th data-options="field:'permissionId'" width="30">#</th> -->
 				<th data-options="field:'permissionText'" width="160">显示文本</th>
-                <th data-options="field:'permissionKind'" style="width: 80px"
-                    align="center">权限类型</th>
-				<th data-options="field:'permissionName'" style="width: 120px">权限代码</th>
+				<th data-options="field:'permissionKind'" style="width: 80px"
+					align="center">权限类型</th>
+				<th data-options="field:'permissionName'" style="width: 150px">权限代码</th>
 				<th data-options="field:'weight'" style="width: 50px" align="right">显示顺序</th>
-				<th data-options="field:'permissionUrl'" width="100">访问链接</th>
-				<th data-options="field:'available'" width="40" align="center">启用</th>
+				<th data-options="field:'permissionUrl'" width="180">访问链接</th>
+				<th data-options="field:'available'" width="40" align="center"
+					formatter="availableFormatter">启用</th>
 				<th data-options="field:'createdTime'" width="140"
 					formatter="dateTimeFormatter">创建时间</th>
 				<th data-options="field:'updateTime'" width="140"
@@ -40,7 +40,7 @@
 	</table>
 
 	<!-- 数据表格工具栏 -->
-	<div id="permissionDatagridToolbar" class="datagrid-toolbar">
+	<div id="permissionTreegridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="authPermission:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-add" plain="true" onclick="newrole()">新增权限</a>
