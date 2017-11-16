@@ -49,8 +49,10 @@
 			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
 				onclick="showUserRolesDialog()">关联角色</a>
 		</shiro:hasPermission>
-		<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-			onclick="changePsd();">修改密码</a>
+		<shiro:hasPermission name="authUser:change-password">
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+				onclick="changePsd();">修改密码</a>
+		</shiro:hasPermission>
 		<shiro:hasPermission name="authUser:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-remove" plain="true" onclick="deleteUser()">删除用户</a>
