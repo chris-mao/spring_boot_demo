@@ -9,8 +9,9 @@ import java.util.Set;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统角色服务接口
@@ -23,32 +24,23 @@ import com.jrsoft.common.DataGrid;
 public interface AuthRoleService {
 
 	/**
-	 * 系统预定义角色名称
-	 */
-	public static final String ADMINISTRAOR = "系统管理员";
-
-	/**
-	 * 系统预定义角色名称
-	 */
-	public static final String CUSTOMER = "销售客户";
-
-	/**
-	 * 系统预定义角色名称
-	 */
-	public static final String CUSTOMER_SERVICE_REPRESENTATIVE = "客服代表";
-
-	/**
-	 * 系统预定义角色名称
-	 */
-	public static final String SALES_REPRESENTATIVE = "销售代表";
-
-	/**
-	 * 查询所有角色信息，不分页
+	 * 查询所有角色信息，不具备分页功能
+	 * 等同于findAll(false)
 	 * 
 	 * @since 1.0
 	 * @return List
 	 */
 	public List<AuthRole> findAll();
+
+	/**
+	 * 查询所有角色信息，不具备分页功能
+	 * 
+	 * @param onlyAvailable 仅返回有效的角色
+	 * 
+	 * @since 1.1
+	 * @return List
+	 */
+	public List<AuthRole> findAll(boolean onlyAvailable);
 
 	/**
 	 * 查询所有数据，具有分页功能
@@ -75,15 +67,7 @@ public interface AuthRoleService {
 	 *            模糊查询内容
 	 * @return
 	 */
-	public DataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
-
-	/**
-	 * 查询所有有效的角色信息
-	 * 
-	 * @since 1.1
-	 * @return List
-	 */
-	public List<AuthRole> findAllAvailable();
+	public EasyDataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 按角色编号或是名称查询
@@ -128,6 +112,33 @@ public interface AuthRoleService {
 	 * @return 成功返回true,否则返回false
 	 */
 	public boolean delete(int id);
+
+	/**
+	 * 新增角色权限关联关系
+	 * 
+	 * @since 1.2
+	 * @param rolePermission
+	 * @return
+	 */
+	public boolean grantPermission(AuthRolePermissionReleation rolePermission);
+
+	/**
+	 * 更新角色权限关联关系
+	 * 
+	 * @since 1.2
+	 * @param rolePermission
+	 * @return
+	 */
+	public boolean updateGrantedPermission(AuthRolePermissionReleation rolePermission);
+
+	/**
+	 * 删除角色权限关联关系
+	 * 
+	 * @since 1.2
+	 * @param rolePermission
+	 * @return
+	 */
+	public boolean revokePermission(AuthRolePermissionReleation rolePermission);
 
 	/**
 	 * 添加新权限

@@ -17,7 +17,7 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthUserService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统用户服务接口实现类
@@ -41,13 +41,18 @@ public class AuthUserServiceImpl implements AuthUserService {
 	}
 
 	@Override
+	public List<AuthUser> findAll(boolean onlyAvailable) {
+		return authUserDAO.findAll(onlyAvailable);
+	}
+
+	@Override
 	public PageInfo<AuthUser> findAll(int pageIndex, int pageSize) {
 		PageHelper.startPage(pageIndex, pageSize);
 		return new PageInfo<AuthUser>(authUserDAO.findAll(false));
 	}
 
 	@Override
-	public DataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
+	public EasyDataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr) {
 		PageInfo<AuthUser> pageInfo;
 		if (searchStr.isEmpty()) {
 			pageInfo = this.findAll(pageIndex, pageSize);
@@ -59,15 +64,10 @@ public class AuthUserServiceImpl implements AuthUserService {
 			pageInfo = new PageInfo<AuthUser>(authUserDAO.fuzzyQuery(user));
 		}
 
-		DataGrid<AuthUser> dg = new DataGrid<AuthUser>();
+		EasyDataGrid<AuthUser> dg = new EasyDataGrid<AuthUser>();
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
-	}
-
-	@Override
-	public List<AuthUser> findAllAvailableUser() {
-		return authUserDAO.findAll(true);
 	}
 
 	@Override
@@ -109,36 +109,36 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public boolean addRole(AuthUser user, AuthRole role) {
+	public boolean grantRole(AuthUser user, AuthRole role) {
 		return 1 == this.authUserDAO.addRole(user.getUserId(), role.getRoleId());
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public boolean removeRole(AuthUser user, AuthRole role) {
+	public boolean revokeRole(AuthUser user, AuthRole role) {
 		return 1 == this.authUserDAO.removeRole(user.getUserId(), role.getRoleId());
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void removeAllRoles(AuthUser user) {
+	public void revokeAllRoles(AuthUser user) {
 		if (0 != user.getUserId()) {
 			this.authUserDAO.removeAllRoles(user.getUserId());
 		}
 	}
 
 	@Override
-	public boolean addRoleRelation(AuthUserRoleReleation releation) {
+	public boolean grantRole(AuthUserRoleReleation releation) {
 		return this.authUserDAO.addRoleRelation(releation) == 1;
 	}
 
 	@Override
-	public boolean updateRoleRelation(AuthUserRoleReleation releation) {
+	public boolean updateGrantedRole(AuthUserRoleReleation releation) {
 		return authUserDAO.updateRoleRelation(releation) == 1;
 	}
 
 	@Override
-	public boolean removeRoleRelation(AuthUserRoleReleation releation) {
+	public boolean revokeRole(AuthUserRoleReleation releation) {
 		return authUserDAO.deleteRoleRelation(releation) == 1;
 	}
 

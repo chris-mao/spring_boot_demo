@@ -15,9 +15,10 @@ import com.jrsoft.auth.dao.AuthRoleDAO;
 import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthRoleService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统角色服务接口实现类
@@ -26,7 +27,7 @@ import com.jrsoft.common.DataGrid;
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.1
+ * @version 1.2
  *
  */
 @Service
@@ -44,14 +45,32 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
+	public List<AuthRole> findAll(boolean onlyAvailable) {
+		return authRoleDAO.findAll(onlyAvailable);
+	}
+
+	@Override
 	public PageInfo<AuthRole> findAll(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthRole>(authRoleDAO.findAll(false));
 	}
 
 	@Override
-	public List<AuthRole> findAllAvailable() {
-		return authRoleDAO.findAll(true);
+	public EasyDataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
+		PageInfo<AuthRole> pageInfo;
+
+		if (searchStr.isEmpty()) {
+			pageInfo = this.findAll(pageIndex, pageSize);
+		} else {
+			String roleName = "%" + searchStr + "%";
+			PageHelper.startPage(pageIndex, pageSize);
+			pageInfo = new PageInfo<AuthRole>(authRoleDAO.fuzzyQuery(roleName));
+		}
+
+		EasyDataGrid<AuthRole> dg = new EasyDataGrid<AuthRole>();
+		dg.setTotal(pageInfo.getTotal());
+		dg.setRows(pageInfo.getList());
+		return dg;
 	}
 
 	@Override
@@ -103,6 +122,24 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 	}
 
 	@Override
+	public boolean grantPermission(AuthRolePermissionReleation rolePermission) {
+		//TODO 
+		return false;
+	}
+
+	@Override
+	public boolean updateGrantedPermission(AuthRolePermissionReleation rolePermission) {
+		//TODO 
+		return false;
+	}
+
+	@Override
+	public boolean revokePermission(AuthRolePermissionReleation rolePermission) {
+		//TODO 
+		return false;
+	}
+
+	@Override
 	public boolean addPermission(AuthRole role, AuthPermission permission) {
 		return 1 == this.authRoleDAO.addPermission(role.getRoleId(), permission.getPermissionId());
 	}
@@ -117,24 +154,6 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		if (0 != role.getRoleId()) {
 			this.authRoleDAO.removeAllPermissions(role.getRoleId());
 		}
-	}
-
-	@Override
-	public DataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr) {
-		PageInfo<AuthRole> pageInfo;
-
-		if (searchStr.isEmpty()) {
-			pageInfo = this.findAll(pageIndex, pageSize);
-		} else {
-			String roleName = "%" + searchStr + "%";
-			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<AuthRole>(authRoleDAO.fuzzyQuery(roleName));
-		}
-
-		DataGrid<AuthRole> dg = new DataGrid<AuthRole>();
-		dg.setTotal(pageInfo.getTotal());
-		dg.setRows(pageInfo.getList());
-		return dg;
 	}
 
 }

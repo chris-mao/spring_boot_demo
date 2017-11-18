@@ -1,7 +1,9 @@
 /**
  * 
  */
-package com.jrsoft.auth.entity;
+package com.jrsoft.common;
+
+import com.jrsoft.auth.entity.AuthPermission;
 
 /**
  * 针对Easy UI的 TreeGrid控件对AuthPermission进行了扩展

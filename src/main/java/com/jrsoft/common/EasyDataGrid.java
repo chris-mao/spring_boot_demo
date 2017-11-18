@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  *
  */
-public class DataGrid<T> {
+public class EasyDataGrid<T> {
 	
 	private Long total;
 	

@@ -9,8 +9,8 @@ import java.util.Set;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
-import com.jrsoft.auth.entity.EasyTreeGridNode;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyTreeGridNode;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统权限服务接口
@@ -28,6 +28,18 @@ public interface AuthPermissionService {
 	 * @return List
 	 */
 	public List<AuthPermission> findAll();
+	
+	/**
+	 * 查询所有权限信息，不具备分页功能
+	 * 等同于findAll(false)
+	 * 
+	 * @param onlyAvailable 仅返回有效的权限
+	 * 
+	 * @since 1.1
+	 * 
+	 * @return List
+	 */
+	public List<AuthPermission> findAll(boolean onlyAvailable);
 
 	/**
 	 * 查询所有数据，具有分页功能
@@ -56,16 +68,7 @@ public interface AuthPermissionService {
 	 *            模糊查询内容
 	 * @return
 	 */
-	public DataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
-	
-	/**
-	 * 查询所有有效的权限信息
-	 * 
-	 * @since 1.1
-	 * 
-	 * @return List
-	 */
-	public List<AuthPermission> findAllAvailable();
+	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 按权限编号或是名称查询

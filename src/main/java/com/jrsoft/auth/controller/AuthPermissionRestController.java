@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jrsoft.auth.entity.EasyTreeGridNode;
 import com.jrsoft.auth.service.AuthPermissionService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyTreeGridNode;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * <p>
@@ -55,11 +55,11 @@ public class AuthPermissionRestController {
 	 *            分页大小
 	 * @param searchStr
 	 *            模糊查询内容
-	 * @return {@link DataGrid }
+	 * @return {@link EasyDataGrid }
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("authPermission:list")
-	public DataGrid<EasyTreeGridNode> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
+	public EasyDataGrid<EasyTreeGridNode> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
 			@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {

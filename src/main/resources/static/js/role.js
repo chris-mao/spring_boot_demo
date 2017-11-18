@@ -13,8 +13,14 @@ $(document).ready(function() {
 		pagePosition : "bottom",
 		pageSize : 20,
 		pageList : [ 10, 20, 30, 50, 80 ],
-		onDblClickRow : function(index, row) {
-			editRole();
+		onSelect: function(index, row) {
+			console.log("加载角色 " + row.roleName + " 的权限");
+			$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
+			$("#permissionTree").tree("expandAll");
+		},
+		onLoadSuccess: function(data) {
+			console.log("角色数据加载完成");
+			$("#roleDatagrid").datagrid("selectRow", 0);
 		}
 	});
 
@@ -29,12 +35,21 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	$("#permissionTree").tree({
+		onLoadSuccess:function(node, data) {
+			console.log("tree data: " + data);
+			if (!data) {
+//				$("#permissionTree").innerText("该角色尚未分配任何权限！");
+			}
+		}
+	});
 });
 
 var post_url;
 function newRole() {
 	$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
-			"创建新用户");
+			"创建新角色");
 	$("#userEditForm").form("clear");
 	post_url = "/users/rest/save";
 }
@@ -43,7 +58,7 @@ function editRole() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
 		$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
-				"编辑用户信息");
+				"编辑角色信息");
 		$("#userEditForm").form("load", row);
 		post_url = "/users/rest/update/" + row.id;
 	} else {
@@ -76,7 +91,7 @@ function saveRole() {
 function deleteRole() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
-		$.messager.confirm("确认", "确要定删除用户 " + row.nickName + " 吗？",
+		$.messager.confirm("确认", "确要定删除角色 " + row.nickName + " 吗？",
 				function(r) {
 					if (r) {
 						$.get("/users/rest/delete/" + row.id, function(result) {

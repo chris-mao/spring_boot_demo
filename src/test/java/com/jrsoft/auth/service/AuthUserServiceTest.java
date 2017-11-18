@@ -123,9 +123,9 @@ public class AuthUserServiceTest {
 		AuthRole role = this.authRoleService.findOne(r);//customer role
 		
 		//添加未关联的角色，应该返回true
-		Assert.assertEquals(true, this.authUserService.addRole(user, role));		
+		Assert.assertEquals(true, this.authUserService.grantRole(user, role));		
 		//添加已关联的角色，应该返回false
-		Assert.assertEquals(false, this.authUserService.addRole(user, role));
+		Assert.assertEquals(false, this.authUserService.grantRole(user, role));
 	}
 	
 	@Test
@@ -139,9 +139,9 @@ public class AuthUserServiceTest {
 		AuthRole role = this.authRoleService.findOne(r);//customer role
 		
 		//移除已关联的角色，应该返回true
-		Assert.assertEquals(true, this.authUserService.removeRole(user, role));
+		Assert.assertEquals(true, this.authUserService.revokeRole(user, role));
 		//移除未关联的角色，应该返回false
-		Assert.assertEquals(false, this.authUserService.removeRole(user, role));
+		Assert.assertEquals(false, this.authUserService.revokeRole(user, role));
 	}
 
 }

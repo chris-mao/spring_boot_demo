@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.service.AuthRoleService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -71,24 +71,24 @@ public class AuthRoleRestController {
 	 *            分页大小
 	 * @param searchStr
 	 *            模糊查询内容
-	 * @return {@link DataGrid }
+	 * @return {@link EasyDataGrid }
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("authRole:list")
-	public DataGrid<AuthRole> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
+	public EasyDataGrid<AuthRole> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
 		return this.authRoleService.findAll(pageIndex, pageSize, searchStr);
 	}
 
 	/**
-	 * 返回角色清单
+	 * 返回有效的角色清单
 	 * 
 	 * @return String
 	 */
 	@GetMapping("/json")
 	public List<AuthRole> jsonData() {
-		return this.authRoleService.findAllAvailable();
+		return this.authRoleService.findAll(true);
 	}
 
 	@PostMapping("/new")

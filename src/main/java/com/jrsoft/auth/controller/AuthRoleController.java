@@ -92,7 +92,7 @@ public class AuthRoleController {
 		//获取角色权限
 		model.addAttribute("myPermissions", authPermissionService.findAllByRole(role));
 		//获取所有有效权限
-		model.addAttribute("permissions", authPermissionService.findAllAvailable());
+		model.addAttribute("permissions", authPermissionService.findAll(true));
 		return "auth/role/detail";
 	}
 

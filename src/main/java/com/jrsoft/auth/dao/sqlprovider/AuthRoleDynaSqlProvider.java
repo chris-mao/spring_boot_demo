@@ -26,7 +26,7 @@ public class AuthRoleDynaSqlProvider {
 	public String findAllSql(final boolean onlyAvailable) {
 		return new SQL() {
 			{
-				SELECT("role_id, role_name, available, created_time, update_time");
+				SELECT("role_id, role_name, role_description, available, created_time, update_time");
 				FROM("auth_role");
 				if (true == onlyAvailable) {
 					WHERE("available = true");

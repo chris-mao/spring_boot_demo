@@ -16,9 +16,9 @@ import com.jrsoft.auth.dao.AuthPermissionDAO;
 import com.jrsoft.auth.dao.AuthRoleDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
-import com.jrsoft.auth.entity.EasyTreeGridNode;
 import com.jrsoft.auth.service.AuthPermissionService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyTreeGridNode;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统权限服务接口实现类
@@ -46,14 +46,14 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Autowired
 	private AuthPermissionDAO authPermissionDAO;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jrsoft.auth.service.AuthPermissionService#findAll()
-	 */
 	@Override
 	public List<AuthPermission> findAll() {
 		return authPermissionDAO.findAll(false);
+	}
+
+	@Override
+	public List<AuthPermission> findAll(boolean onlyAvailable) {
+		return authPermissionDAO.findAll(onlyAvailable);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public DataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageNum, int pageSize, String searchStr) {
+	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageNum, int pageSize, String searchStr) {
 		PageInfo<EasyTreeGridNode> pageInfo;
 		if (searchStr.isEmpty()) {
 			PageHelper.startPage(pageNum, pageSize);
@@ -93,15 +93,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 			}
 		}
 
-		DataGrid<EasyTreeGridNode> dg = new DataGrid<EasyTreeGridNode>();
+		EasyDataGrid<EasyTreeGridNode> dg = new EasyDataGrid<EasyTreeGridNode>();
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
-	}
-
-	@Override
-	public List<AuthPermission> findAllAvailable() {
-		return authPermissionDAO.findAll(true);
 	}
 
 	@Override

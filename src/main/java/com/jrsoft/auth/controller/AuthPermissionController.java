@@ -175,7 +175,7 @@ public class AuthPermissionController {
 	@GetMapping("/json")
 	@ResponseBody
 	public List<AuthPermission> jsonData() {
-		return this.authPermissionService.findAllAvailable();
+		return this.authPermissionService.findAll(true);
 	}
 
 }

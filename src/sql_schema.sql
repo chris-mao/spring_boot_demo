@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `auth_permission`;
 CREATE TABLE IF NOT EXISTS `auth_permission` (
   `permission_id` smallint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `permission_type` enum('Menu','Function') DEFAULT NULL COMMENT '权限类型，分为“菜单”与“功能”两类，“菜单”显示在导航栏中，“功能”显示在每个独立的页面中',
+  `permission_kind` enum('Menu','Function') DEFAULT NULL COMMENT '权限类型，分为“菜单”与“功能”两类，“菜单”显示在导航栏中，“功能”显示在每个独立的页面中',
   `permission_name` varchar(64) NOT NULL COMMENT '权限名称，唯一',
   `permission_text` varchar(64) NOT NULL COMMENT '显示面界面上的文字',
   `permission_url` varchar(128) DEFAULT NULL,
@@ -35,7 +35,10 @@ CREATE TABLE IF NOT EXISTS `auth_permission` (
   UNIQUE KEY `permission_name` (`permission_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
-ALTER TABLE auth_permission ADD COLUMN `state` varchar(6) AFTER `parent_id`, CHANGE COLUMN `available` `available` bit(1) NOT NULL AFTER `state`, CHANGE COLUMN `created_time` `created_time` datetime NOT NULL AFTER `available`, CHANGE COLUMN `update_time` `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `created_time`;
+ALTER TABLE `auth_permission` 
+CHANGE COLUMN `permission_kind` `permission_kind` enum('menu','function') DEFAULT NULL COMMENT '权限类型，分为“菜单”与“功能”两类，“菜单”显示在导航栏中，“功能”显示在每个独立的页面中', 
+CHANGE COLUMN `weight` `weight` smallint(6) UNSIGNED DEFAULT NULL COMMENT '菜单显示顺序，按从小到大的顺序显示', 
+CHANGE COLUMN `parent_id` `parent_id` smallint(6) UNSIGNED DEFAULT 0 COMMENT '父菜单ID';
 
 -- ----------------------------
 --  Table structure for `auth_role`
@@ -51,6 +54,14 @@ CREATE TABLE `auth_role` (
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+ALTER TABLE `auth_role` 
+ADD COLUMN `role_description` varchar(128) DEFAULT 角色描述 AFTER `role_name`, 
+CHANGE COLUMN `navigation` `navigation` varchar(32) DEFAULT NULL COMMENT '角色对应的导航菜单数组键名' AFTER `role_description`, 
+CHANGE COLUMN `is_valid` `is_valid` bit(1) NOT NULL AFTER `navigation`, 
+CHANGE COLUMN `available` `available` bit(1) NOT NULL AFTER `is_valid`, 
+CHANGE COLUMN `created_time` `created_time` datetime NOT NULL AFTER `available`, 
+CHANGE COLUMN `update_time` `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `created_time`;
 
 -- ----------------------------
 --  Table structure for `auth_role_permission`
@@ -78,7 +89,7 @@ CREATE TABLE `auth_user` (
   `nick_name` varchar(64) NOT NULL,
   `email` varchar(64) DEFAULT NULL,
   `salt` varchar(128) DEFAULT NULL,
-  `state` enum('Active','Locked','Expired','Inactive') DEFAULT 'Active',
+  `state` enum('Active','Locked','Expired','Inactive') DEFAULT 'Inactive',
   `role_id` smallint(10) DEFAULT NULL COMMENT 'PHP程序中使用',
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
@@ -122,7 +133,23 @@ CREATE TABLE `auth_user_role` (
 --  View structure for `vw_auth_role_permission`
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_auth_role_permission`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_auth_role_permission` AS select `auth_role`.`role_id` AS `role_id`,`auth_role`.`role_name` AS `role_name`,`auth_permission`.`permission_id` AS `permission_id`,`auth_permission`.`permission_name` AS `permission_name`,`auth_permission`.`permission_url` AS `permission_url`,`auth_permission`.`created_time` AS `created_time`,`auth_permission`.`update_time` AS `update_time`,`auth_permission`.`available` AS `available`,`auth_role_permission`.`start_date` AS `start_date`,`auth_role_permission`.`end_date` AS `end_date` from ((`auth_role` join `auth_role_permission` on((`auth_role`.`role_id` = `auth_role_permission`.`role_id`))) join `auth_permission` on((`auth_role_permission`.`permission_id` = `auth_permission`.`permission_id`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `etao_v4`.`vw_auth_role_permission` AS SELECT auth_role.role_id, 
+	auth_role.role_name, 
+	auth_permission.permission_id, 
+	auth_permission.permission_kind, 
+	auth_permission.permission_name, 
+	auth_permission.permission_text, 
+	auth_permission.parent_id,
+	auth_permission.weight, 
+	auth_permission.permission_url, 
+	auth_permission.created_time, 
+	auth_permission.update_time, 
+	auth_permission.available, 
+	auth_role_permission.start_date, 
+	auth_role_permission.end_date
+FROM auth_role INNER JOIN auth_role_permission ON auth_role.role_id = auth_role_permission.role_id
+	 INNER JOIN auth_permission ON auth_role_permission.permission_id = auth_permission.permission_id
+ORDER BY auth_role.role_id, parent_id, weight;
 
 -- ----------------------------
 --  View structure for `vw_auth_user`
@@ -141,7 +168,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP PROCEDURE IF EXISTS `sp_findRolePermissions`;
 delimiter ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_findRolePermissions`(IN v_role_id smallint)
+CREATE DEFINER = `root`@`localhost` PROCEDURE `sp_findRolePermissions`(IN v_role_id smallint)
     READS SQL DATA
 BEGIN
   /*
@@ -149,12 +176,12 @@ BEGIN
    *
    * 参数 int v_role_id
    */
-  SELECT ap.permission_id, ap.permission_name, ap.permission_url, arp.created_time, arp.update_time 
+  SELECT ap.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, parent_id, weight, ap.permission_url, arp.created_time, arp.update_time 
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp USING(permission_id)
   INNER JOIN auth_role ar using(role_id)
   WHERE arp.available = 1 AND arp.role_id = v_role_id AND (CURDATE() BETWEEN IFNULL(arp.start_date,CURDATE()) AND IFNULL(arp.end_date,CURDATE()))
-  ORDER BY ap.permission_name;
+  ORDER BY ap.parent_id, weight;
 END
  ;;
 delimiter ;
@@ -164,7 +191,7 @@ delimiter ;
 -- ----------------------------
 DROP PROCEDURE IF EXISTS `sp_findUserPermissions`;
 delimiter ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_findUserPermissions`(IN v_user_id smallint)
+CREATE DEFINER = `root`@`localhost` PROCEDURE `sp_findUserPermissions`(IN v_user_id smallint)
     READS SQL DATA
 BEGIN
   /*
@@ -174,7 +201,8 @@ BEGIN
    */
 
   #查询用户主角色权限
-  SELECT  au.user_id, au.user_name, au.nick_name, au.role_id, ar.role_name, arp.permission_id, ap.permission_name 
+  SELECT  au.user_id, au.user_name, au.nick_name, au.role_id, ar.role_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text,
+    ap.parent_id, ap.weight
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
   INNER JOIN auth_role ar ON ar.role_id = arp.role_id
@@ -182,7 +210,8 @@ BEGIN
   WHERE arp.available = 1 AND au.user_id = v_user_id
   UNION
   #查询用户扩展角色权限
-  SELECT  aur.user_id, au.user_name, au.nick_name, aur.role_id, ar.role_name, arp.permission_id, ap.permission_name 
+  SELECT  aur.user_id, au.user_name, au.nick_name, aur.role_id, ar.role_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text,
+    ap.parent_id, ap.weight
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
   INNER JOIN auth_role ar ON ar.role_id = arp.role_id
@@ -209,13 +238,13 @@ BEGIN
    */
 
   #查询用户角色
-  SELECT au.user_id, ar.role_id, ar.role_name, CURDATE() as start_date, NULL as end_date, ar.navigation, ar.created_time, ar.update_time
+  SELECT au.user_id, ar.role_id, ar.role_name, ar.role_description, CURDATE() as start_date, NULL as end_date, ar.navigation, ar.created_time, ar.update_time
   FROM auth_user au
   INNER JOIN auth_role ar ON au.role_id = ar.role_id
   WHERE au.user_id = v_user_id
   UNION
   #查询用户护展角色
-  SELECT aur.user_id, ar.role_id, ar.role_name, aur.start_date, aur.end_date, ar.navigation, ar.created_time, ar.update_time
+  SELECT aur.user_id, ar.role_id, ar.role_name, ar.role_description, aur.start_date, aur.end_date, ar.navigation, ar.created_time, ar.update_time
   FROM auth_user_role aur
   INNER JOIN auth_role ar ON aur.role_id = ar.role_id
   WHERE aur.available = 1 AND aur.user_id = v_user_id AND (CURDATE() BETWEEN IFNULL(aur.start_date,CURDATE()) AND IFNULL(aur.end_date,CURDATE()));

@@ -28,7 +28,7 @@ import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthUserService;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -78,11 +78,11 @@ public class AuthUserRestController {
 	 *            分页大小
 	 * @param searchStr
 	 *            模糊查询内容
-	 * @return {@link DataGrid }
+	 * @return {@link EasyDataGrid }
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("authUser:list")
-	public DataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
+	public EasyDataGrid<AuthUser> findAll(@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
 		return authUserService.findAll(pageIndex, pageSize, searchStr);
@@ -96,7 +96,7 @@ public class AuthUserRestController {
 	@GetMapping("/json")
 	@RequiresPermissions("authUser:list")
 	public List<AuthUser> jsonData() {
-		return this.authUserService.findAllAvailableUser();
+		return this.authUserService.findAll(true);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class AuthUserRestController {
 	}
 
 	/**
-	 * 保存用户角色关联关系
+	 * 修改用户角色关联关系（包括新增、更新和删除）
 	 * 
 	 * @param userId
 	 *            用户编号
@@ -238,7 +238,7 @@ public class AuthUserRestController {
 	 */
 	@PostMapping("/{id}/roles")
 	@RequiresPermissions("authUser:edit")
-	public void assignUserRoles(@PathVariable("id") int userId,
+	public void updateUserRoles(@PathVariable("id") int userId,
 			@RequestBody Map<String, List<AuthUserRoleReleation>> userRoleReleations) {
 		String operation;
 		AuthUserRoleReleation r;
@@ -252,13 +252,13 @@ public class AuthUserRestController {
 				if ("inserted".equals(operation.toLowerCase())) {
 					r.setUserId(userId);
 					System.out.println("insert: " + r);
-					this.authUserService.addRoleRelation(r);
+					this.authUserService.grantRole(r);
 				} else if ("updated".equals(operation.toLowerCase())) {
 					System.out.println("update: " + r);
-					this.authUserService.updateRoleRelation(r);
+					this.authUserService.updateGrantedRole(r);
 				} else if ("deleted".equals(operation.toLowerCase())) {
 					System.out.println("delete: " + r);
-					this.authUserService.removeRoleRelation(r);
+					this.authUserService.revokeRole(r);
 				}
 			}
 		}

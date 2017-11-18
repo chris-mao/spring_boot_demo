@@ -10,7 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
-import com.jrsoft.common.DataGrid;
+import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统用户服务接口
@@ -24,11 +24,21 @@ public interface AuthUserService {
 
 	/**
 	 * 查询所有用户数据，不具备分页功能
+	 * 等同于findAll(false)
 	 * 
 	 * @return List
 	 * @since 1.0
 	 */
 	public List<AuthUser> findAll();
+
+	/**
+	 * 查询所有用户信息，不具备分页功能
+	 * 
+	 * @param onlyAvailable 仅返回有效的用户
+	 * @return List
+	 * @since 1.1
+	 */
+	public List<AuthUser> findAll(boolean onlyAvailable);
 
 	/**
 	 * 查询所有数据，具有分页功能
@@ -55,15 +65,7 @@ public interface AuthUserService {
 	 * @return
 	 * @since 1.2
 	 */
-	public DataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr);
-
-	/**
-	 * 查询所有有效的用户信息
-	 * 
-	 * @return List
-	 * @since 1.1
-	 */
-	public List<AuthUser> findAllAvailableUser();
+	public EasyDataGrid<AuthUser> findAll(int pageIndex, int pageSize, String searchStr);
 
 	/**
 	 * 按用户编号或是名称查询
@@ -132,7 +134,7 @@ public interface AuthUserService {
 	 * @param releation
 	 * @return
 	 */
-	public boolean addRoleRelation(AuthUserRoleReleation releation);
+	public boolean grantRole(AuthUserRoleReleation releation);
 
 	/**
 	 * 更新用户角色关联关系
@@ -141,7 +143,7 @@ public interface AuthUserService {
 	 * @param releation
 	 * @return
 	 */
-	public boolean updateRoleRelation(AuthUserRoleReleation releation);
+	public boolean updateGrantedRole(AuthUserRoleReleation releation);
 
 	/**
 	 * 删除用户角色关联关系
@@ -150,10 +152,10 @@ public interface AuthUserService {
 	 * @param releation
 	 * @return
 	 */
-	public boolean removeRoleRelation(AuthUserRoleReleation releation);
+	public boolean revokeRole(AuthUserRoleReleation releation);
 
 	/**
-	 * 添加新角色，此方法此被废弃，请参考{@link #addRoleRelation},{@link #updateRoleRelation},
+	 * 添加新角色，此方法此被废弃，请参考{@link #grantRole},{@link #updateGrantedRole},
 	 * {@link #removeRoleRelation}
 	 * 
 	 * @deprecated
@@ -164,10 +166,10 @@ public interface AuthUserService {
 	 *            角色对象
 	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
 	 */
-	public boolean addRole(AuthUser user, AuthRole role);
+	public boolean grantRole(AuthUser user, AuthRole role);
 
 	/**
-	 * 移除角色，此方法此被废弃，请参考{@link #addRoleRelation},{@link #updateRoleRelation},
+	 * 移除角色，此方法此被废弃，请参考{@link #grantRole},{@link #updateGrantedRole},
 	 * {@link #removeRoleRelation}
 	 * 
 	 * @deprecated
@@ -178,16 +180,14 @@ public interface AuthUserService {
 	 *            角色对象
 	 * @return boolean 成功返回<code>true</code>,否则返回<code>false</code>
 	 */
-	public boolean removeRole(AuthUser user, AuthRole role);
+	public boolean revokeRole(AuthUser user, AuthRole role);
 
 	/**
-	 * 移除指定用户的所有角色，此方法此被废弃，请参考{@link #addRoleRelation},
-	 * {@link #updateRoleRelation},{@link #removeRoleRelation}
+	 * 移除指定用户的所有角色
 	 * 
-	 * @deprecated
 	 * @since 1.0
 	 * @param user
 	 *            用户对象
 	 */
-	public void removeAllRoles(AuthUser user);
+	public void revokeAllRoles(AuthUser user);
 }

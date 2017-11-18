@@ -75,7 +75,7 @@ public class AuthUserDelegateController {
 		// 只有回到自己的身份的时候，再显示委托候选人供其选择；
 		// 切换到委托人身份时，不允许替委托人设置委托
 		if (AuthUtils.getPreviousUser() == null) {
-			List<AuthUser> candidates = authUserService.findAllAvailableUser();
+			List<AuthUser> candidates = authUserService.findAll(true);
 			candidates.remove(AuthUtils.getCurrentUser());
 			// 将我已委托的用户从委托候选列表中移除
 			for (AuthUserDelegate user : delegates) {

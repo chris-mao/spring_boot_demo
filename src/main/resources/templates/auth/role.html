@@ -17,42 +17,48 @@
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body>
-	<!-- 数据表格 -->
-	<table id="roleDatagrid" class="easyui-datagrid"
-		toolbar="#roleDatagridToolbar">
-		<thead>
-			<tr>
-				<th data-options="field:'ck',checkbox:true"></th>
-				<th field="roleName" style="width: 160px">角色名称</th>
-				<th field="available" style="width: 60px" align="center"
-					formatter="availableFormatter">启用</th>
-				<th field="createdTime" style="width: 140px"
-					formatter="dateTimeFormatter">创建时间</th>
-				<th field="updateTime" style="width: 140px"
-					formatter="dateTimeFormatter">更新时间</th>
-			</tr>
-		</thead>
-	</table>
+	<div class="easyui-layout" data-options="fit:true">
+		<div id="rolePermissionsPanel" data-options="region:'east',border:false,collapsible:false"
+			title="角色权限" style="width: 240px">
+			<ul id="permissionTree" class="easyui-tree"
+				data-options="url:'tree_data1.json',method:'get',animate:true,lines:true,checkbox:true"></ul>
+		</div>
+		<div data-options="region:'center',border:false">
+			<!-- 数据表格 -->
+			<table id="roleDatagrid" class="easyui-datagrid"
+				toolbar="#roleDatagridToolbar">
+				<thead>
+					<tr>
+						<th data-options="field:'ck',checkbox:true"></th>
+						<th field="roleName" style="width: 160px">角色名称</th>
+						<th field="available" style="width: 60px" align="center"
+							formatter="availableFormatter">启用</th>
+						<th field="createdTime" style="width: 140px"
+							formatter="dateTimeFormatter">创建时间</th>
+						<th field="updateTime" style="width: 140px"
+							formatter="dateTimeFormatter">更新时间</th>
+					</tr>
+				</thead>
+			</table>
 
-	<!-- 数据表格工具栏 -->
-	<div id="roleDatagridToolbar" class="datagrid-toolbar">
-		<shiro:hasPermission name="authRole:new">
-			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newrole()">新增角色</a>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="authRole:edit">
-			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editrole()">编辑角色</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-				onclick="showRolePermissionsDialog()">角色权限</a>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="authRole:delete">
-			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deleterole()">删除角色</a>
-		</shiro:hasPermission>
-		<input id="roleName" prompt="请输入角色名称" class="easyui-searchbox" />
+			<!-- 数据表格工具栏 -->
+			<div id="roleDatagridToolbar" class="datagrid-toolbar">
+				<shiro:hasPermission name="authRole:new">
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-add" plain="true" onclick="newrole()">新增角色</a>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="authRole:edit">
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-edit" plain="true" onclick="editrole()">编辑角色</a>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="authRole:delete">
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-remove" plain="true" onclick="deleterole()">删除角色</a>
+				</shiro:hasPermission>
+				<input id="roleName" prompt="请输入角色名称" class="easyui-searchbox" />
+			</div>
+		</div>
 	</div>
-
 	<script th:src="@{/js/role.js}" type="text/javascript"></script>
 </body>
 </html>

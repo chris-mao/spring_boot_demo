@@ -35,6 +35,9 @@ public class AuthRole implements Serializable {
 	@NotEmpty(message = "角色名称不允许为空")
 	@Length(min = 3, max = 64, message = "角色名称长度需在3位到64位之间")
 	private String roleName;
+	
+	@Length(min = 0, max = 128, message = "角色描述长度不能超过128位")
+	private String roleDescription;
 
 	/**
 	 * 创建时间
@@ -88,6 +91,13 @@ public class AuthRole implements Serializable {
 	public String getRoleName() {
 		return roleName;
 	}
+	
+	/**
+	 * @return the roleDescription
+	 */
+	public String getRoleDescription() {
+		return roleDescription;
+	}
 
 	/**
 	 * @param roleName
@@ -96,11 +106,26 @@ public class AuthRole implements Serializable {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
+	
+	/**
+	 * @param roleDescription
+	 *            the roleDescription to set
+	 */
+	public void setRoleDescription(String roleDescription) {
+		this.roleDescription = roleDescription;
+	}
 
+	/**
+	 * @return the available
+	 */
 	public boolean getAvailable() {
 		return available;
 	}
 
+	/**
+	 * @param available
+	 *            the available to set
+	 */
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}

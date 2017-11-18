@@ -20,7 +20,7 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.dao.handler.AuthPermissionKindEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthPermission;
-import com.jrsoft.auth.entity.EasyTreeGridNode;
+import com.jrsoft.common.EasyTreeGridNode;
 
 /**
  * 系统权限数据访问类
