@@ -38,7 +38,7 @@ public interface AuthUserDAO {
 	 * 
 	 * @since 1.0
 	 * @param onlyAvailable
-	 *            true仅查询所有可用用户，否则查询所有用户
+	 *            <code>true</code>仅查询所有可用用户，否则查询所有用户
 	 * 
 	 * @return List
 	 */

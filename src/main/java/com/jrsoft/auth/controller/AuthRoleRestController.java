@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthRolePermissionReleation;
+import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.common.EasyDataGrid;
+import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -42,7 +44,7 @@ import com.jrsoft.common.JsonResult;
  * <dd>POST: roles/rest/{id}</dd>
  * <dt>删除角色数据，需要拥有authRole:delete权限</dt>
  * <dd>DELETE: roles/rest/{id}</dd>
- * <dt>返回角色关联的权限列表，需要拥有authRole:edit权限</dt>
+ * <dt>返回角色关联的权限列表</dt>
  * <dd>GET: roles/rest/{id}/permissions</dd>
  * <dt>修改（新增、编辑、删除）角色关联权限，需要拥有authRole:edit权限</dt>
  * <dd>POST: roles/rest/{id}/permissions</dd>
@@ -58,8 +60,17 @@ import com.jrsoft.common.JsonResult;
 @RequestMapping("/roles/rest")
 public class AuthRoleRestController {
 
+	/**
+	 * 
+	 */
 	@Autowired
 	private AuthRoleService authRoleService;
+
+	/**
+	 * 
+	 */
+	@Autowired
+	private AuthPermissionService authPermissionService;
 
 	/**
 	 * 获取角色列表
@@ -130,13 +141,6 @@ public class AuthRoleRestController {
 		}
 	}
 
-	@GetMapping("/{id}/permissions")
-	@RequiresPermissions("authRole:edit")
-	public Set<AuthRolePermissionReleation> findUserRoles(@PathVariable("id") int roleId) {
-		return null;
-		// return authRoleService.findRolePermissions(roleId);
-	}
-
 	/**
 	 * 保存角色权限关联关系
 	 * 
@@ -175,6 +179,12 @@ public class AuthRoleRestController {
 				}
 			}
 		}
+	}
+	
+	@GetMapping("/{id}/permissions")
+	public List<EasyTreeNode> getRolePermissions(@PathVariable(name = "id") int roleId) {
+		AuthRole role = new AuthRole(roleId);
+		return authPermissionService.getRolePermissionTree(role);
 	}
 
 }

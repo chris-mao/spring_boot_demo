@@ -3,15 +3,20 @@
  */
 package com.jrsoft.auth.controller;
 
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.common.EasyTreeGridNode;
+import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
@@ -64,6 +69,19 @@ public class AuthPermissionRestController {
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
 		return authPermissionService.findChildNodes(parentId, pageIndex, pageSize, searchStr);
+	}
+
+	/**
+	 * 返回指定用户的菜单树（树型结构）
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@GetMapping("/user-menu/{id}")
+	public List<EasyTreeNode> getUserMenu(@PathVariable(name = "id") int userId) {
+		AuthUser user = new AuthUser(userId);
+		return authPermissionService.getMenuTreeByUser(user);
 	}
 
 }

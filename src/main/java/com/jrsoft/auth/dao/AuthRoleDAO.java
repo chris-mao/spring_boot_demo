@@ -34,7 +34,7 @@ public interface AuthRoleDAO {
 	 * 查询所有角色信息
 	 * 
 	 * @param onlyAvailable
-	 *            true仅查询所有可用角色，否则查询所有角色
+	 *            <code>true</code>仅查询所有可用角色，否则查询所有角色
 	 * 
 	 * @return List
 	 */

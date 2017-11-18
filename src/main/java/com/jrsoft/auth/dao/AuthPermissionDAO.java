@@ -36,7 +36,7 @@ public interface AuthPermissionDAO {
 	 * 查询所有权限
 	 * 
 	 * @param onlyAvailable
-	 *            true仅查询所有可用权限，否则查询所有权限
+	 *            <code>true</code>仅查询所有可用权限，否则查询所有权限
 	 * 
 	 * @return List
 	 */
@@ -46,8 +46,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "permissionUrl", column = "permission_url"),
 			@Result(property = "permissionText", column = "permission_text"),
 			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-			@Result(property = "weight", column = "weight"),
-			@Result(property = "parentId", column = "parent_id"),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
@@ -65,8 +64,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "permissionUrl", column = "permission_url"),
 			@Result(property = "permissionText", column = "permission_text"),
 			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-			@Result(property = "weight", column = "weight"),
-			@Result(property = "parentId", column = "parent_id"),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
@@ -84,8 +82,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "permissionUrl", column = "permission_url"),
 			@Result(property = "permissionText", column = "permission_text"),
 			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-			@Result(property = "weight", column = "weight"),
-			@Result(property = "parentId", column = "parent_id"),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
@@ -100,46 +97,47 @@ public interface AuthPermissionDAO {
 	 */
 	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM auth_permission WHERE permission_name LIKE #{permissionName} OR permission_text like #{permissionText} ORDER BY permission_kind, weight")
 	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
-		@Result(property = "permissionName", column = "permission_name"),
-		@Result(property = "permissionUrl", column = "permission_url"),
-		@Result(property = "permissionText", column = "permission_text"),
-		@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-		@Result(property = "weight", column = "weight"),
-		@Result(property = "parentId", column = "parent_id"),
-		@Result(property = "available", column = "available"),
-		@Result(property = "createdTime", column = "created_time"),
-		@Result(property = "updateTime", column = "update_time") })
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "permissionText", column = "permission_text"),
+			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
 	public List<EasyTreeGridNode> fuzzyQuery(AuthPermission permission);
-	
+
 	/**
+	 * 按父节点编号查询子权限
+	 * 
 	 * @since 1.1
 	 * @param parentId
 	 * @return
 	 */
 	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM auth_permission WHERE parent_id = #{parentId} ORDER BY weight")
 	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
-		@Result(property = "permissionName", column = "permission_name"),
-		@Result(property = "permissionUrl", column = "permission_url"),
-		@Result(property = "permissionText", column = "permission_text"),
-		@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-		@Result(property = "weight", column = "weight"),
-		@Result(property = "parentId", column = "parent_id"),
-		@Result(property = "available", column = "available"),
-		@Result(property = "createdTime", column = "created_time"),
-		@Result(property = "updateTime", column = "update_time") })
-	public List<EasyTreeGridNode> findChildNodes(@Param(value = "parentId")int parentId);
-	
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "permissionText", column = "permission_text"),
+			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<EasyTreeGridNode> findChildNodes(@Param(value = "parentId") int parentId);
+
 	/**
 	 * @since 1.1
 	 * @param parentId
 	 * @return
 	 */
 	@Select("SELECT COUNT(permission_id) FROM auth_permission WHERE parent_id = #{parentId}")
-	public int getChildrenCount(@Param(value = "parentId")int parentId);
+	public int getChildrenCount(@Param(value = "parentId") int parentId);
 
 	/**
-	 * 按角色ID查询其所拥有的权限
+	 * 按角色编号查询其所拥有的权限
 	 * 
+	 * @since 1.0
 	 * @param roleId
 	 * @return
 	 */
@@ -149,12 +147,69 @@ public interface AuthPermissionDAO {
 			@Result(property = "permissionUrl", column = "permission_url"),
 			@Result(property = "permissionText", column = "permission_text"),
 			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
-			@Result(property = "weight", column = "weight"),
-			@Result(property = "parentId", column = "parent_id"),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public Set<AuthPermission> findAllByRoleId(@Param(value = "roleId") int roleId);
+	public List<AuthPermission> findRolePermissionsByRoleId(@Param(value = "roleId") int roleId);
+	
+	
+	/**
+	 * 按用户编号查询其所拥有的个人权限
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM vw_auth_user_permission WHERE user_id = #{userId}")
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+		@Result(property = "permissionName", column = "permission_name"),
+		@Result(property = "permissionUrl", column = "permission_url"),
+		@Result(property = "permissionText", column = "permission_text"),
+		@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
+		@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
+		@Result(property = "available", column = "available"),
+		@Result(property = "createdTime", column = "created_time"),
+		@Result(property = "updateTime", column = "update_time") })
+public List<AuthPermission> findIndividualPermissionsByUserId(@Param(value = "userId") int userId);
+	
+	/**
+	 * 按用户编号查询其所拥有的角色权限及个人权限
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@Select("CALL sp_findUserPermissions(#{userId})")
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "permissionText", column = "permission_text"),
+			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public Set<AuthPermission> findAllByUserId1(@Param(value = "userId") int userId);
+
+	/**
+	 * 按用户编号查询其所拥有的角色权限及个人权限中查找所有<code>permission_kind</code>是<code>menu</code>的权限
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@Select("CALL sp_getUserMenu(#{userId})")
+	@Results({ @Result(property = "permissionId", column = "permission_id", id = true),
+			@Result(property = "permissionName", column = "permission_name"),
+			@Result(property = "permissionUrl", column = "permission_url"),
+			@Result(property = "permissionText", column = "permission_text"),
+			@Result(property = "permissionKind", column = "permission_kind", javaType = AuthPermissionKindEnum.class, typeHandler = AuthPermissionKindEnumTypeHandler.class),
+			@Result(property = "weight", column = "weight"), @Result(property = "parentId", column = "parent_id"),
+			@Result(property = "available", column = "available"),
+			@Result(property = "createdTime", column = "created_time"),
+			@Result(property = "updateTime", column = "update_time") })
+	public List<AuthPermission> getUserMenu(@Param(value = "userId") int userId);
 
 	/**
 	 * 创建新权限

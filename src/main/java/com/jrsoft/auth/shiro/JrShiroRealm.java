@@ -1,5 +1,6 @@
 package com.jrsoft.auth.shiro;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -50,10 +51,10 @@ public class JrShiroRealm extends AuthorizingRealm {
 	 */
 	@Resource
 	private AuthUserService authUserService;
-	
+
 	@Resource
 	private AuthRoleService authRoleService;
-	
+
 	@Resource
 	private AuthPermissionService authPermissionService;
 
@@ -75,7 +76,7 @@ public class JrShiroRealm extends AuthorizingRealm {
 		for (AuthRole role : roles) {
 			authorizationInfo.addRole(role.getRoleName());
 			logger.info("==> 读取角色[" + role.getRoleName() + "]关联的权限...");
-			Set<AuthPermission> permissions = authPermissionService.findAllByRole(role);
+			List<AuthPermission> permissions = authPermissionService.findRolePermissions(role);
 			for (AuthPermission permission : permissions) {
 				logger.info("==> 获取权限[" + permission.getPermissionName() + "]");
 				authorizationInfo.addStringPermission(permission.getPermissionName());
@@ -83,13 +84,12 @@ public class JrShiroRealm extends AuthorizingRealm {
 		}
 
 		// 获取用户特有的权限（暂未实现）
-		// Set<AuthPermission> permissions =
-		// this.authPermissionService.findAllByUser(user);
-		// if (null != permissions) {
-		// for (AuthPermission permission : permissions) {
-		// authorizationInfo.addStringPermission(permission.getPermissionName());
-		// }
-		// }
+		List<AuthPermission> permissions = this.authPermissionService.findIndividualPermissions(user);
+		if (null != permissions) {
+			for (AuthPermission permission : permissions) {
+				authorizationInfo.addStringPermission(permission.getPermissionName());
+			}
+		}
 		return authorizationInfo;
 	}
 
@@ -119,7 +119,8 @@ public class JrShiroRealm extends AuthorizingRealm {
 
 		// AuthUserDecorator userDecorator = new AuthUserDecorator(user,
 		// customerService);
-		// SecurityUtils.getSubject().getSession().setAttribute("userDecorator", userDecorator);
+		// SecurityUtils.getSubject().getSession().setAttribute("userDecorator",
+		// userDecorator);
 
 		SimpleAuthenticationInfo authInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()), getName());

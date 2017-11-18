@@ -16,7 +16,18 @@ $(document).ready(function() {
 		onSelect: function(index, row) {
 			console.log("加载角色 " + row.roleName + " 的权限");
 			$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
-			$("#permissionTree").tree("expandAll");
+			$("#permissionTree").tree({
+				method:"get",
+				url:"roles/rest/" + row.roleId + "/permissions",
+				animate:true,
+				lines:true,
+				checkbox:true,
+				emptyMsg:"sdfadf",
+				onLoadSuccess: function(node, data) {
+				    $("#permissionTree").tree("expandAll");
+				}
+			});
+			
 		},
 		onLoadSuccess: function(data) {
 			console.log("角色数据加载完成");

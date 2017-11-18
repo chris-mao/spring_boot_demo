@@ -5,8 +5,6 @@ package com.jrsoft.auth.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +12,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.auth.dao.AuthPermissionDAO;
 import com.jrsoft.auth.dao.AuthRoleDAO;
+import com.jrsoft.auth.dao.AuthUserDAO;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
+import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthPermissionService;
+import com.jrsoft.auth.utils.EasyTreeUtils;
 import com.jrsoft.common.EasyTreeGridNode;
+import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
@@ -32,6 +34,13 @@ import com.jrsoft.common.EasyDataGrid;
  */
 @Service
 public class AuthPermissionServiceImpl implements AuthPermissionService {
+	
+	/**
+	 * 
+	 * @see com.jrsoft.auth.dao AuthUserDAO
+	 */
+	@Autowired
+	private AuthUserDAO authUserDAO;
 
 	/**
 	 * 
@@ -61,9 +70,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<AuthPermission>(authPermissionDAO.findAll(false));
 	}
-	
+
 	protected boolean hasChildren(int permissionId) {
-//		System.out.println("Children Count: " + authPermissionDAO.getChildrenCount(permissionId));
+		// System.out.println("Children Count: " +
+		// authPermissionDAO.getChildrenCount(permissionId));
 		return authPermissionDAO.getChildrenCount(permissionId) > 0;
 	}
 
@@ -85,10 +95,9 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		List<EasyTreeGridNode> nodes = pageInfo.getList();
 		for (Iterator<EasyTreeGridNode> i = nodes.iterator(); i.hasNext();) {
 			node = i.next();
-			if (true == hasChildren(node.getPermissionId())) { //有子节点
+			if (true == hasChildren(node.getPermissionId())) { // 有子节点
 				node.setState("closed");
-			}
-			else {
+			} else {
 				node.setState("open");
 			}
 		}
@@ -126,23 +135,48 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public Set<AuthPermission> findAllByRole(AuthRole role) {
+	public List<AuthPermission> findRolePermissions(AuthRole role) {
 		if (0 != role.getRoleId()) {
-			return authPermissionDAO.findAllByRoleId(role.getRoleId());
+			return authPermissionDAO.findRolePermissionsByRoleId(role.getRoleId());
 		}
 		if (null != role.getRoleName()) {
 			AuthRole r = authRoleDAO.findByName(role.getRoleName());
 			if (null == r) {
 				return null;
 			}
-			return authPermissionDAO.findAllByRoleId(r.getRoleId());
+			return authPermissionDAO.findRolePermissionsByRoleId(r.getRoleId());
 		}
 		return null;
 	}
 
 	@Override
-	public Set<EasyTreeGridNode> findChildNodesByRole(int parentId, AuthRole role) {
+	public List<EasyTreeNode> getRolePermissionTree(AuthRole role) {
+		return EasyTreeUtils.buildTree(findRolePermissions(role));
+	}
+	
+	@Override
+	public List<AuthPermission> findIndividualPermissions(AuthUser user) {
+		if (0 != user.getUserId()) {
+			return authPermissionDAO.findIndividualPermissionsByUserId(user.getUserId());
+		}
+		if (null != user.getUserName()) {
+			AuthUser u = authUserDAO.findByName(user.getUserName());
+			if (null == u) {
+				return null;
+			}
+			return authPermissionDAO.findIndividualPermissionsByUserId(u.getUserId());
+		}
 		return null;
+	}
+
+	@Override
+	public List<EasyTreeNode> getIndividualPermissionTree(AuthUser user) {
+		return EasyTreeUtils.buildTree(findIndividualPermissions(user));
+	}
+
+	@Override
+	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user) {
+		return EasyTreeUtils.buildTree(authPermissionDAO.getUserMenu(user.getUserId()));
 	}
 
 }

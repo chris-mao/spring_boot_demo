@@ -6,8 +6,6 @@ package com.jrsoft.common;
 import java.util.List;
 
 /**
- * com.jrsoft.common DataGrid
- * 
  * 用于前端Easy UI DataGrid显示数据使用
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
