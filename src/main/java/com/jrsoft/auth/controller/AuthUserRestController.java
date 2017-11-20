@@ -25,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jrsoft.auth.AuthUserStateEnum;
+import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
+import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.common.EasyDataGrid;
+import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -39,10 +42,18 @@ import com.jrsoft.common.JsonResult;
  * <dd>GET: users/rest/list?page=1&rows=20&searchValue=</dd>
  * <dt>返回全部有效的（available=1）用户数据列表，需要拥有authUser:list权限</dt>
  * <dd>GET: users/rest/json</dd>
+ * <dt>获取用户个人权限，无权限控制</dt>
+ * <dd>GET: users/rest/{id}/permissions</dd>
+ * <dt>以树型结构返回用户权限清单，无权限控制</dt>
+ * <dd>GET: users/rest/{id}/permissions/tree</dd>
+ * <dt>获取用户菜单，无权限控制</dt>
+ * <dd>GET: users/rest/{id}/menu</dd>
  * <dt>获取用户状态列表，无权限控制</dt>
  * <dd>GET: users/rest/states</dd>
  * <dt>新建用户数据，需要拥有authUser:new权限</dt>
  * <dd>POST: users/rest/new</dd>
+ * <dt>获取用户数据，需要拥有authUser:list权限</dt>
+ * <dd>GET: users/rest/{id}</dd>
  * <dt>更新用户数据，需要拥有authUser:edit权限</dt>
  * <dd>POST: users/rest/{id}</dd>
  * <dt>删除用户数据，需要拥有authUser:delete权限</dt>
@@ -67,6 +78,12 @@ public class AuthUserRestController {
 
 	@Autowired
 	private AuthUserService authUserService;
+
+	/**
+	 * 
+	 */
+	@Autowired
+	private AuthPermissionService authPermissionService;
 
 	/**
 	 * 获取用户列表
@@ -97,6 +114,46 @@ public class AuthUserRestController {
 	@RequiresPermissions("authUser:list")
 	public List<AuthUser> jsonData() {
 		return this.authUserService.findAll(true);
+	}
+
+	/**
+	 * 返回用户的个人权限清单
+	 * 
+	 * @since 1.0
+	 * @param userId
+	 * @return
+	 */
+	@GetMapping("/{id}/permissions")
+	public List<AuthPermission> findIndividualPermissions(@PathVariable(name = "id") int userId) {
+		AuthUser user = new AuthUser(userId);
+		return authPermissionService.findIndividualPermissions(user);
+
+	}
+
+	/**
+	 * 返回用户权限（树型结构）
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@GetMapping("/{id}/permissions/tree")
+	public List<EasyTreeNode> getIndividualPermissionTree(@PathVariable(name = "id") int userId) {
+		AuthUser user = new AuthUser(userId);
+		return authPermissionService.getIndividualPermissionTree(user);
+	}
+
+	/**
+	 * 返回指定用户的菜单树（树型结构）
+	 * 
+	 * @since 1.1
+	 * @param userId
+	 * @return
+	 */
+	@GetMapping("/{id}/menu")
+	public List<EasyTreeNode> getUserMenuTree(@PathVariable(name = "id") int userId) {
+		AuthUser user = new AuthUser(userId);
+		return authPermissionService.getMenuTreeByUser(user);
 	}
 
 	/**
@@ -144,6 +201,20 @@ public class AuthUserRestController {
 		} else {
 			return new JsonResult<AuthUser>(JsonResult.ERROR, "新增用户出错！");
 		}
+	}
+
+	/**
+	 * 获取用户
+	 * 
+	 * @since 1.0
+	 * @param userId
+	 *            用户编号
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public AuthUser getUser(@PathVariable("id") int userId) {
+		AuthUser user = new AuthUser(userId);
+		return this.authUserService.findOne(user);
 	}
 
 	/**

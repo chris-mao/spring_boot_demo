@@ -6,7 +6,7 @@ package com.jrsoft.common;
 import java.io.Serializable;
 
 /**
- * 封装服务器端的JSON返回值
+ * 以JSON格式封装服务器端对数据进行增、删、改操作返回值
  * 
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

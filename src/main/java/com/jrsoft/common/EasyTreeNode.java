@@ -26,6 +26,11 @@ public class EasyTreeNode {
 	 * 节点文本
 	 */
 	private String text;
+	
+	/**
+	 * 
+	 */
+	private boolean checked;
 
 	/**
 	 * 子节点
@@ -104,6 +109,14 @@ public class EasyTreeNode {
 	public EasyTreeNode(int id, String text) {
 		this.id = id;
 		this.text = text;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 }

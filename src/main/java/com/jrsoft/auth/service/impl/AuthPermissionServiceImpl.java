@@ -72,8 +72,6 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	protected boolean hasChildren(int permissionId) {
-		// System.out.println("Children Count: " +
-		// authPermissionDAO.getChildrenCount(permissionId));
 		return authPermissionDAO.getChildrenCount(permissionId) > 0;
 	}
 
@@ -132,6 +130,11 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	@Override
 	public boolean delete(int id) {
 		return 1 == this.authPermissionDAO.delete(id);
+	}
+
+	@Override
+	public List<EasyTreeNode> getPermissionTree() {
+		return EasyTreeUtils.buildTree(authPermissionDAO.findAll(true));
 	}
 
 	@Override

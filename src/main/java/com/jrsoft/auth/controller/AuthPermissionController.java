@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.jrsoft.app.exception.DataNotFoundException;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
@@ -170,12 +168,6 @@ public class AuthPermissionController {
 	public String deletePermission(@PathVariable("id") int id, HttpServletRequest request) {
 		this.authPermissionService.delete(id);
 		return "redirect:/permissions";
-	}
-	
-	@GetMapping("/json")
-	@ResponseBody
-	public List<AuthPermission> jsonData() {
-		return this.authPermissionService.findAll(true);
 	}
 
 }

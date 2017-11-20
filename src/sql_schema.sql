@@ -45,7 +45,7 @@ values
 ('menu', 'setting', '系统设置', null, 0, 2, NOW()),
 ('menu', 'authentication', '安全管理', null, 0, 1, NOW()),
 
-('menu', 'authUser:delegate', '身份委托', '/users/delegate', 1, 1, NOW());
+('menu', 'authUser:delegate', '身份委托', '/users/delegate', 1, 1, NOW()),
 
 ('menu', 'authUser:list', '系统用户管理', '/users', 2, 1, NOW()),
 ('menu', 'authRole:list', '系统角色管理', '/roles', 2, 2, NOW()),
@@ -63,7 +63,7 @@ values
 
 ('function', 'authPermission:new', '新增权限', null, 6, 1, NOW()),
 ('function', 'authPermission:edit', '编辑权限', null, 6, 2, NOW()),
-('function', 'authPermission:delete', '删除权限', null, 6, 3, NOW()),
+('function', 'authPermission:delete', '删除权限', null, 6, 3, NOW());
 
 
 -- ----------------------------
@@ -82,12 +82,14 @@ CREATE TABLE `auth_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 ALTER TABLE `auth_role` 
-ADD COLUMN `role_description` varchar(128) DEFAULT 角色描述 AFTER `role_name`, 
+ADD COLUMN `role_description` varchar(128) DEFAULT NULL COMMENT '角色描述' AFTER `role_name`, 
 CHANGE COLUMN `navigation` `navigation` varchar(32) DEFAULT NULL COMMENT '角色对应的导航菜单数组键名' AFTER `role_description`, 
-CHANGE COLUMN `is_valid` `is_valid` bit(1) NOT NULL AFTER `navigation`, 
-CHANGE COLUMN `available` `available` bit(1) NOT NULL AFTER `is_valid`, 
+CHANGE COLUMN `available` `available` bit(1) DEFAULT b'1' NOT NULL AFTER `navigation`, 
 CHANGE COLUMN `created_time` `created_time` datetime NOT NULL AFTER `available`, 
 CHANGE COLUMN `update_time` `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `created_time`;
+
+insert into auth_role(role_name, role_description, created_time)
+values('系统管理员', '具有系统所有权限，维护系统数据', NOW());
 
 -- ----------------------------
 --  Table structure for `auth_role_permission`
@@ -103,6 +105,9 @@ CREATE TABLE `auth_role_permission` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`,`permission_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+
+insert into auth_role_permission(role_id, permission_id, start_date, created_time)
+SELECT 1, permission_id, CURDATE(), NOW() from auth_permission;
 
 DROP TABLE IF EXISTS `auth_user_permission`;
 CREATE TABLE `auth_user_permission` (
@@ -250,7 +255,7 @@ BEGIN
    */
 
   #查询用户主角色权限
-  SELECT  au.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text,
+  SELECT  au.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
     ap.parent_id, ap.weight
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
@@ -259,7 +264,7 @@ BEGIN
   WHERE arp.available = 1 AND au.user_id = v_user_id
   UNION
   #查询用户扩展角色权限
-  SELECT  aur.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text,
+  SELECT  aur.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
     ap.parent_id, ap.weight
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
@@ -270,7 +275,7 @@ BEGIN
   AND (CURDATE() BETWEEN IFNULL(arp.start_date,CURDATE()) AND IFNULL(arp.end_date,CURDATE()))
   UNION
   #查询用户个人权限
-  SELECT user_id, user_name, nick_name, permission_id, permission_kind, permission_name, permission_text, parent_id, weight
+  SELECT user_id, user_name, nick_name, permission_id, permission_kind, permission_name, permission_text, permission_url, parent_id, weight
   FROM vw_auth_user_permission
   WHERE user_id = v_user_id;
 END
@@ -302,6 +307,44 @@ BEGIN
   FROM auth_user_role aur
   INNER JOIN auth_role ar ON aur.role_id = ar.role_id
   WHERE aur.available = 1 AND aur.user_id = v_user_id AND (CURDATE() BETWEEN IFNULL(aur.start_date,CURDATE()) AND IFNULL(aur.end_date,CURDATE()));
+END
+ ;;
+delimiter ;
+
+
+DROP PROCEDURE IF EXISTS `sp_getUserMenu`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getUserMenu`(IN v_user_id smallint)
+    READS SQL DATA
+BEGIN
+  /*
+   * 根据用户主角色权限、扩展角色权限及个人权限动态生成用户自己的菜单树
+   *
+   * 参数 int v_user_id
+   */
+  SELECT  au.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
+    ap.parent_id, ap.weight
+  FROM auth_permission ap
+  INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
+  INNER JOIN auth_role ar ON ar.role_id = arp.role_id
+  INNER JOIN auth_user au ON au.role_id = ar.role_id
+  WHERE ap.permission_kind = 'menu' AND arp.available = 1 AND au.user_id = v_user_id
+  UNION
+  #查询用户扩展角色权限
+  SELECT  aur.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
+    ap.parent_id, ap.weight
+  FROM auth_permission ap
+  INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
+  INNER JOIN auth_role ar ON ar.role_id = arp.role_id
+  INNER JOIN auth_user_role aur ON aur.role_id = ar.role_id
+  INNER JOIN auth_user au ON au.user_id = aur.user_id
+  WHERE ap.permission_kind = 'menu' AND arp.available = 1 AND au.user_id = v_user_id AND (CURDATE() BETWEEN IFNULL(aur.start_date,CURDATE()) AND IFNULL(aur.end_date,CURDATE())) 
+  AND (CURDATE() BETWEEN IFNULL(arp.start_date,CURDATE()) AND IFNULL(arp.end_date,CURDATE()))
+  UNION
+  #查询用户个人权限
+  SELECT user_id, user_name, nick_name, permission_id, permission_kind, permission_name, permission_text, permission_url, parent_id, weight
+  FROM vw_auth_user_permission
+  WHERE permission_kind = 'menu' AND user_id = v_user_id;
 END
  ;;
 delimiter ;

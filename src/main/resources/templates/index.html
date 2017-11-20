@@ -23,21 +23,45 @@
 
 <body class="easyui-layout" fit="true" style="text-align: left">
 	<div data-options="region:'north',border:false"
-		style="height: 60px; padding: 10px">
-		<p style="float: right">
+		style="height: 48px; padding: 10px">
+
+		<div style="float: right;">
+			<!-- <a href="#" class="easyui-splitbutton" menu="#mm"
+				data-options="plain:true">界面语言</a>
+			<div id="mm" style="width: 150px;">
+				<div>英语</div>
+				<div>简体中文</div>
+			</div> -->
+			<a class="easyui-linkbutton" data-options="plain:true"
+				th:href="@{/users/{id}/change-psd(id=1)}">修改密码</a> <a
+				class="easyui-linkbutton" data-options="plain:true"
+				th:href="@{/logout}">退出系统</a>
+		</div>
+
+		<div style="float: right;margin-left:10px;margin-right:10px;">
+			<label>系统菜单：</label> <select id="menuCombobox"
+				class="easyui-combotree" style="width: 160px;">
+			</select>
+		</div>
+
+		<div style="float: left">
 			<shiro:principal property="nickName" />
-		</p>
+			<shiro:principal property="userId" />
+		</div>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'"
 		style="width: 180px; min-width: 180px;">
-		<div th:replace="fragments/menu::menu">menu fragment</div>
+		<!-- <div th:replace="fragments/menu::menu"> -->
+		<div>
+			<ul id="menuTree" class="easyui-tree"></ul>
+		</div>
 	</div>
 	<div data-options="region:'south',border:false"
 		style="height: 20px; padding: 5px;">south region</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
-			<div class="easyui-panel" title="Panel Footer" fit="true" style="width: 700px;"
-				data-options="footer:'#ft'">
+			<div class="easyui-panel" title="Panel Footer" fit="true"
+				style="width: 700px;" data-options="footer:'#ft'">
 				<div class="panel-body">
 					<p>这里放系统公告，个人消息等信息</p>
 				</div>
@@ -48,6 +72,47 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#menuTree").tree({
+				method : "get",
+				url : "users/rest/2/menu",
+				animate : true,
+				lines : true,
+				onLoadSuccess : function(node, data) {
+					$("#menuTree").tree("expandAll");
+				},
+				onClick : function(node) {
+					if (node) {
+						console.log(node);
+						if (node.attributes.url) {
+							addTab(node.text, node.attributes.url);
+						}
+					}
+				}
+			});
+
+			$("#menuCombobox").combotree({
+				method : "get",
+				url : "users/rest/2/menu",
+				textField : "text",
+				animate : true,
+				lines : true,
+				onLoadSuccess : function(node, data) {
+					$('#menuCombobox').combotree('tree').tree("expandAll");
+					;
+				},
+				onClick : function(node) {
+					if (node) {
+						console.log(node);
+						if (node.attributes.url) {
+							addTab(node.text, node.attributes.url);
+						}
+					}
+				}
+			});
+		});
+	</script>
 </body>
 
 </html>

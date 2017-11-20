@@ -8,12 +8,11 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.EasyTreeNode;
@@ -27,6 +26,8 @@ import com.jrsoft.common.EasyDataGrid;
  * <dd>GET: permissions/rest/list?parentId=1&page=1&rows=20&searchValue=</dd>
  * <dt>返回全部有效的（available=1）权限数据列表，需要拥有authPermission:list权限</dt>
  * <dd>GET: permissions/rest/json</dd>
+ * <dt>以树型结构返回全部有效的（available=1）权限数据列表，需要拥有authPermission:list权限</dt>
+ * <dd>GET: permissions/rest/tree</dd>
  * <dt>新建权限数据，需要拥有authPermission:new权限</dt>
  * <dd>POST: permissions/rest/new</dd>
  * <dt>更新权限数据，需要拥有authPermission:edit权限</dt>
@@ -72,16 +73,28 @@ public class AuthPermissionRestController {
 	}
 
 	/**
-	 * 返回指定用户的菜单树（树型结构）
+	 * 返回有效的权限清单
+	 * 
+	 * @since 1.0
+	 * @return String
+	 */
+	@GetMapping("/json")
+	@RequiresPermissions("authPermission:list")
+	public List<AuthPermission> jsonData() {
+		return authPermissionService.findAll(true);
+	}
+
+	/**
+	 * 以树型结构返回全部有效的（available=1）权限数据列表
 	 * 
 	 * @since 1.1
-	 * @param userId
 	 * @return
 	 */
-	@GetMapping("/user-menu/{id}")
-	public List<EasyTreeNode> getUserMenu(@PathVariable(name = "id") int userId) {
-		AuthUser user = new AuthUser(userId);
-		return authPermissionService.getMenuTreeByUser(user);
+	@GetMapping("/tree")
+	@RequiresPermissions("authPermission:list")
+	public List<EasyTreeNode> permissionTree() {
+		// authPermissionService.getIndividualPermissionTree(user)
+		return authPermissionService.getPermissionTree();
 	}
 
 }

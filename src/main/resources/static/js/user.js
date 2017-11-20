@@ -43,6 +43,7 @@ function newUser() {
 	$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新用户");
 	$("#userEditForm").form("clear");
+	$("#userEditForm").form("load",{"state": "INACTIVE"});
 	$("#userEditForm input:first").textbox("readonly", false);
 	var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
 	switchbuttonObj.switchbutton("check");

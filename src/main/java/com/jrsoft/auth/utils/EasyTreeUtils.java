@@ -29,7 +29,6 @@ public class EasyTreeUtils {
 	 * @return
 	 */
 	public final static List<EasyTreeNode> buildTree(List<AuthPermission> permissions) {
-		System.out.println(permissions.size());
 		List<EasyTreeNode> newTrees = new ArrayList<EasyTreeNode>();
 		for (AuthPermission permission : permissions) {
 			if (permission.getParentId() == 0) { // 父节点
@@ -51,7 +50,6 @@ public class EasyTreeUtils {
 	 * @return
 	 */
 	private final static List<EasyTreeNode> getChildrenNode(int parentId, List<AuthPermission> permissions) {
-		System.out.println(permissions.size());
 		List<EasyTreeNode> newTrees = new ArrayList<EasyTreeNode>();
 		for (AuthPermission permission : permissions) {
 			if (permission.getParentId() == 0) { // 是顶层节点，跳过

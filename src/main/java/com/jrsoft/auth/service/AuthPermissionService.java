@@ -80,6 +80,63 @@ public interface AuthPermissionService {
 	public AuthPermission findOne(AuthPermission permission);
 
 	/**
+	 * 根据系统中所有有效的权限构建权限树
+	 * 
+	 * @since 1.1
+	 * @return
+	 */
+	public List<EasyTreeNode> getPermissionTree();
+
+	/**
+	 * 按角色编号或是角色名称查询其所拥有的权限
+	 * 
+	 * @since 1.0
+	 * @param role
+	 * @return Set
+	 */
+	public List<AuthPermission> findRolePermissions(AuthRole role);
+
+	/**
+	 * 构建角色权限树
+	 * 
+	 * @since 1.1
+	 * @param role
+	 * @return
+	 */
+	public List<EasyTreeNode> getRolePermissionTree(AuthRole role);
+
+	/**
+	 * 按用户编号或是用户名称查询其所拥有的个人权限
+	 * 
+	 * @since 1.1
+	 * @param user
+	 * @return
+	 */
+	public List<AuthPermission> findIndividualPermissions(AuthUser user);
+
+	/**
+	 * 构建用户个人权限树
+	 * 
+	 * @since 1.1
+	 * @param user
+	 * @return
+	 */
+	public List<EasyTreeNode> getIndividualPermissionTree(AuthUser user);
+
+	/**
+	 * 获取用户的菜单树
+	 * <p>
+	 * 查询其所拥有的角色权限及个人权限中查找所有<code>permission_kind</code>是<code>menu</code>
+	 * 的权限，并返回其树型数据结构
+	 * </p>
+	 * 
+	 * @since 1.3
+	 * @param user
+	 * @return
+	 */
+	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user);
+
+	/**
 	 * 创建新权限
 	 * 
 	 * @since 1.0
@@ -105,48 +162,4 @@ public interface AuthPermissionService {
 	 * @return 成功返回true,否则返回false
 	 */
 	public boolean delete(int id);
-
-	/**
-	 * 按角色编号或是角色名称查询其所拥有的权限
-	 * 
-	 * @since 1.0
-	 * @param role
-	 * @return Set
-	 */
-	public List<AuthPermission> findRolePermissions(AuthRole role);
-	
-	/**
-	 * 
-	 * @param role
-	 * @return
-	 */
-	public List<EasyTreeNode> getRolePermissionTree(AuthRole role);
-
-	/**
-	 * 按用户编号或是用户名称查询其所拥有的个人权限
-	 * 
-	 * @since 1.1
-	 * @param user
-	 * @return
-	 */
-	public List<AuthPermission> findIndividualPermissions(AuthUser user);
-	
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public List<EasyTreeNode> getIndividualPermissionTree(AuthUser user);
-
-	/**
-	 * 获取用户的菜单树
-	 * <p>
-	 * 查询其所拥有的角色权限及个人权限中查找所有<code>permission_kind</code>是<code>menu</code>的权限，并返回其树型数据结构
-	 * </p>
-	 * 
-	 * @since 1.3
-	 * @param user
-	 * @return
-	 */
-	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user);
 }

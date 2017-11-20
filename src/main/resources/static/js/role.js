@@ -18,11 +18,10 @@ $(document).ready(function() {
 			$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
 			$("#permissionTree").tree({
 				method:"get",
-				url:"roles/rest/" + row.roleId + "/permissions",
+				url:"roles/rest/" + row.roleId + "/permissions/tree",
 				animate:true,
 				lines:true,
 				checkbox:true,
-				emptyMsg:"sdfadf",
 				onLoadSuccess: function(node, data) {
 				    $("#permissionTree").tree("expandAll");
 				}
@@ -32,6 +31,9 @@ $(document).ready(function() {
 		onLoadSuccess: function(data) {
 			console.log("角色数据加载完成");
 			$("#roleDatagrid").datagrid("selectRow", 0);
+		},
+		onDblClickRow : function(index, row) {
+			editRole();
 		}
 	});
 
@@ -59,62 +61,77 @@ $(document).ready(function() {
 
 var post_url;
 function newRole() {
-	$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
+	$("#roleEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新角色");
-	$("#userEditForm").form("clear");
-	post_url = "/users/rest/save";
+	$("#roleEditForm").form("clear");
+	var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
+	switchbuttonObj.switchbutton("check");
+	post_url = "/roles/rest/new";
 }
 
 function editRole() {
-	var row = $("#userDatagrid").datagrid("getSelected");
+	var row = $("#roleDatagrid").datagrid("getSelected");
 	if (row) {
-		$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
+		console.log(row);
+		$("#roleEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑角色信息");
-		$("#userEditForm").form("load", row);
-		post_url = "/users/rest/update/" + row.id;
+		$("#roleEditForm").form("load", row);
+		post_url = "/roles/rest/" + row.roleId;
 	} else {
 		$.messager.alert("提示", "请选择一个待编辑的数据行！");
 	}
 }
 
 function saveRole() {
-	$("#userEditForm").form("submit", {
+	$("#roleEditForm").form("submit", {
 		url : post_url,
 		onSubmit : function() {
 			return $(this).form("validate");
 		},
-		success : function(result) {
-			alsert(result);
-			var result = eval("(" + result + ")");
-			if (result.errorMsg) {
-				$.messager.show({
-					title : "Error",
-					msg : result.errorMsg
-				});
+		success : function(data, textStatus) {
+			console.log(data);
+			console.log(textStatus);
+			var data = eval('(' + data + ')'); //将字符串转为JSON对象
+			if (data.state == 0) {
+				$.messager.alert("消息", "数据保存成功！", "info");
+				$("#roleEditDlg").dialog("close"); // close the dialog
+				$("#roleDatagrid").datagrid("reload"); // reload the user data
 			} else {
-				$("#userEditDlg").dialog("close"); // close the dialog
-				$("#userDatagrid").datagrid("reload"); // reload the user data
+				$.messager.alert("错误", data.message, "error");
 			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("status: " + textStatus);
+			console.log("error: " + errorThrown);
 		}
 	});
 }
 
 function deleteRole() {
-	var row = $("#userDatagrid").datagrid("getSelected");
+	var row = $("#roleDatagrid").datagrid("getSelected");
 	if (row) {
-		$.messager.confirm("确认", "确要定删除角色 " + row.nickName + " 吗？",
+		$.messager.confirm("确认", "确要定删除角色 " + row.roleName + " 吗？",
 				function(r) {
 					if (r) {
-						$.get("/users/rest/delete/" + row.id, function(result) {
-							if (result.success) {
-								$("#userDatagrid").datagrid("reload");
-							} else {
-								$.messager.show({ // show error message
-									title : "Error",
-									msg : result.errorMsg
-								});
+						$.ajax({
+							url : "/roles/rest/" + row.roleId,
+							type : "DELETE",
+							success : function(data, textStatus) {
+								console.log(data);
+								console.log(textStatus);
+								if (data.state == 0) {
+									$("#roleDatagrid").datagrid("reload");
+									// 清空选中的行
+									$('#roleDatagrid').datagrid('clearSelections');
+								} else {
+									$.messager.alert("错误", data.message, "error");
+								}
+							},
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+								console.log("status: " + textStatus);
+								console.log("error: " + errorThrown);
 							}
-						}, "json");
+						});
 					}
 				});
 	} else {

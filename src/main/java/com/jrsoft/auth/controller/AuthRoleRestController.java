@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.service.AuthPermissionService;
@@ -38,14 +39,18 @@ import com.jrsoft.common.JsonResult;
  * <dd>GET: roles/rest/list?page=1&rows=20&searchValue=</dd>
  * <dt>返回全部有效的（available=1）角色数据列表，需要拥有authRole:list权限</dt>
  * <dd>GET: roles/rest/json</dd>
+ * <dt>返回角色权限清单，无权限控制</dt>
+ * <dd>GET: roles/rest/{id}/permissions</dd>
+ * <dt>以树型结构返回角色权限清单，无权限控制</dt>
+ * <dd>GET: roles/rest/{id}/permissions/tree</dd>
  * <dt>新建角色数据，需要拥有authRole:new权限</dt>
  * <dd>POST: roles/rest/new</dd>
+ * <dt>获取角色数据，无权限控制</dt>
+ * <dd>GET: roles/rest/{id}</dd>
  * <dt>更新角色数据，需要拥有authRole:edit权限</dt>
  * <dd>POST: roles/rest/{id}</dd>
  * <dt>删除角色数据，需要拥有authRole:delete权限</dt>
  * <dd>DELETE: roles/rest/{id}</dd>
- * <dt>返回角色关联的权限列表</dt>
- * <dd>GET: roles/rest/{id}/permissions</dd>
  * <dt>修改（新增、编辑、删除）角色关联权限，需要拥有authRole:edit权限</dt>
  * <dd>POST: roles/rest/{id}/permissions</dd>
  * </dl>
@@ -98,31 +103,93 @@ public class AuthRoleRestController {
 	 * @return String
 	 */
 	@GetMapping("/json")
+	@RequiresPermissions("authRole:list")
 	public List<AuthRole> jsonData() {
 		return this.authRoleService.findAll(true);
 	}
 
+	/**
+	 * 返回角色权限清单
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 *            角色编号
+	 * @return
+	 */
+	@GetMapping("/{id}/permissions")
+	@RequiresPermissions("authRole:list")
+	public List<AuthPermission> findRolePermissions(@PathVariable("id") int roleId) {
+		AuthRole role = new AuthRole(roleId);
+		return authPermissionService.findRolePermissions(role);
+	}
+
+	/**
+	 * 返回角色权限（树型结构）
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 * @return
+	 */
+	@GetMapping("/{id}/permissions/tree")
+	@RequiresPermissions("authRole:list")
+	public List<EasyTreeNode> getRolePermissionTree(@PathVariable(name = "id") int roleId) {
+		AuthRole role = new AuthRole(roleId);
+		return authPermissionService.getRolePermissionTree(role);
+	}
+
+	/**
+	 * 新增角色
+	 * 
+	 * @since 1.0
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/new")
 	@RequiresPermissions("authRole:new")
 	public JsonResult<AuthRole> insert(HttpServletRequest request) {
-		AuthRole user = new AuthRole();
-		user.setRoleName(request.getParameter("roleName"));
-		if (this.authRoleService.findOne(user) != null) { // 角色名已存在
-			return new JsonResult<AuthRole>(JsonResult.ERROR, "角色名【" + user.getRoleName() + "】已被使用，请使用其他角色名");
+		AuthRole role = new AuthRole();
+		role.setRoleName(request.getParameter("roleName"));
+		role.setRoleDescription(request.getParameter("roleDescription"));
+		if (this.authRoleService.findOne(role) != null) { // 角色名已存在
+			return new JsonResult<AuthRole>(JsonResult.ERROR, "角色名【" + role.getRoleName() + "】已被使用，请使用其他角色名");
 		}
-		if (true == this.authRoleService.insert(user)) {
+		if (true == this.authRoleService.insert(role)) {
 			return new JsonResult<AuthRole>();
 		} else {
 			return new JsonResult<AuthRole>(JsonResult.ERROR, "新增角色出错！");
 		}
 	}
 
+	/**
+	 * 获取角色
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 *            角色编号
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public AuthRole getRole(@PathVariable("id") int roleId) {
+		AuthRole role = new AuthRole(roleId);
+		return this.authRoleService.findOne(role);
+	}
+
+	/**
+	 * 更新角色
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 *            角色编号
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/{id}")
 	@RequiresPermissions("authRole:edit")
 	public JsonResult<AuthRole> update(@PathVariable("id") int roleId, HttpServletRequest request) {
 		AuthRole role = new AuthRole();
 		role.setRoleId(roleId);
-		role.setRoleName(request.getParameter("userName"));
+		role.setRoleName(request.getParameter("roleName"));
+		role.setRoleDescription(request.getParameter("roleDescription"));
 		role.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
 		if (true == this.authRoleService.update(role)) {
 			return new JsonResult<AuthRole>(role);
@@ -131,6 +198,15 @@ public class AuthRoleRestController {
 		}
 	}
 
+	/**
+	 * 删除角色
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 *            角色编号
+	 * @param request
+	 * @return
+	 */
 	@DeleteMapping("/{id}")
 	@RequiresPermissions("authRole:delete")
 	public JsonResult<AuthRole> delete(@PathVariable("id") int roleId, HttpServletRequest request) {
@@ -144,6 +220,7 @@ public class AuthRoleRestController {
 	/**
 	 * 保存角色权限关联关系
 	 * 
+	 * @since 1.0
 	 * @param roleId
 	 *            角色编号
 	 * @param userRoleReleations
@@ -179,12 +256,6 @@ public class AuthRoleRestController {
 				}
 			}
 		}
-	}
-	
-	@GetMapping("/{id}/permissions")
-	public List<EasyTreeNode> getRolePermissions(@PathVariable(name = "id") int roleId) {
-		AuthRole role = new AuthRole(roleId);
-		return authPermissionService.getRolePermissionTree(role);
 	}
 
 }
