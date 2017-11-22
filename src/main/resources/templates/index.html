@@ -22,31 +22,20 @@
 </head>
 
 <body class="easyui-layout" fit="true" style="text-align: left">
-	<div data-options="region:'north',border:false"
-		style="height: 48px; padding: 10px">
-
-		<div style="float: right;">
-			<!-- <a href="#" class="easyui-splitbutton" menu="#mm"
-				data-options="plain:true">界面语言</a>
-			<div id="mm" style="width: 150px;">
-				<div>英语</div>
-				<div>简体中文</div>
-			</div> -->
+	<div data-options="region:'north',border:false" class="top-panel">
+		<div class="emerson">&nbsp;</div>
+		<div class="banner">用户认证系统</div>
+		<div class="right-button-panel">
 			<a class="easyui-linkbutton" data-options="plain:true"
 				th:href="@{/users/{id}/change-psd(id=1)}">修改密码</a> <a
 				class="easyui-linkbutton" data-options="plain:true"
 				th:href="@{/logout}">退出系统</a>
 		</div>
 
-		<div style="float: right;margin-left:10px;margin-right:10px;">
+		<div class="menu-combo">
 			<label>系统菜单：</label> <select id="menuCombobox"
 				class="easyui-combotree" style="width: 160px;">
 			</select>
-		</div>
-
-		<div style="float: left">
-			<shiro:principal property="nickName" />
-			<shiro:principal property="userId" />
 		</div>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'"
@@ -57,18 +46,22 @@
 		</div>
 	</div>
 	<div data-options="region:'south',border:false"
-		style="height: 20px; padding: 5px;">south region</div>
+		style="height: 20px; padding: 5px;">state panel</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
 			<div class="easyui-panel" title="Panel Footer" fit="true"
 				style="width: 700px;" data-options="footer:'#ft'">
 				<div class="panel-body">
 					<p>这里放系统公告，个人消息等信息</p>
+					<div>
+						<shiro:principal property="nickName" />
+						<shiro:principal property="userId" />
+					</div>
 				</div>
 			</div>
 			<div id="ft" style="padding: 5px;">Footer Content.</div>
 			<div class="easyui-panel" title="Panel"
-				data-options="collapsible:true,minimizable:true,maximizable:true,closable:true">
+				data-options="collapsible:true,minimizable:true,maximizable:true,closable:true">aaa
 			</div>
 		</div>
 	</div>

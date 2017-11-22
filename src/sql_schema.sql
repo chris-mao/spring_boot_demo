@@ -322,13 +322,14 @@ BEGIN
    *
    * 参数 int v_user_id
    */
+  SELECT * FROM (
   SELECT  au.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
     ap.parent_id, ap.weight
   FROM auth_permission ap
   INNER JOIN auth_role_permission arp ON ap.permission_id = arp.permission_id
   INNER JOIN auth_role ar ON ar.role_id = arp.role_id
   INNER JOIN auth_user au ON au.role_id = ar.role_id
-  WHERE ap.permission_kind = 'menu' AND arp.available = 1 AND au.user_id = v_user_id
+  WHERE ap.permission_kind = 'menu' AND ap.available = 1 AND arp.available = 1 AND au.user_id = v_user_id
   UNION
   #查询用户扩展角色权限
   SELECT  aur.user_id, au.user_name, au.nick_name, arp.permission_id, ap.permission_kind, ap.permission_name, ap.permission_text, ap.permission_url,
@@ -338,13 +339,14 @@ BEGIN
   INNER JOIN auth_role ar ON ar.role_id = arp.role_id
   INNER JOIN auth_user_role aur ON aur.role_id = ar.role_id
   INNER JOIN auth_user au ON au.user_id = aur.user_id
-  WHERE ap.permission_kind = 'menu' AND arp.available = 1 AND au.user_id = v_user_id AND (CURDATE() BETWEEN IFNULL(aur.start_date,CURDATE()) AND IFNULL(aur.end_date,CURDATE())) 
+  WHERE ap.permission_kind = 'menu' AND ap.available = 1 AND arp.available = 1 AND au.user_id = v_user_id AND (CURDATE() BETWEEN IFNULL(aur.start_date,CURDATE()) AND IFNULL(aur.end_date,CURDATE())) 
   AND (CURDATE() BETWEEN IFNULL(arp.start_date,CURDATE()) AND IFNULL(arp.end_date,CURDATE()))
   UNION
   #查询用户个人权限
   SELECT user_id, user_name, nick_name, permission_id, permission_kind, permission_name, permission_text, permission_url, parent_id, weight
   FROM vw_auth_user_permission
-  WHERE permission_kind = 'menu' AND user_id = v_user_id;
+  WHERE permission_kind = 'menu' AND available = 1 AND user_id = v_user_id) T
+  ORDER BY weight;
 END
  ;;
 delimiter ;

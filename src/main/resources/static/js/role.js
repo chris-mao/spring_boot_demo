@@ -76,6 +76,10 @@ function editRole() {
 		$("#roleEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑角色信息");
 		$("#roleEditForm").form("load", row);
+		if (row.available) {
+			var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
+		    switchbuttonObj.switchbutton("check");
+		}
 		post_url = "/roles/rest/" + row.roleId;
 	} else {
 		$.messager.alert("提示", "请选择一个待编辑的数据行！");

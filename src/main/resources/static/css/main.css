@@ -1,3 +1,53 @@
+
+.top-panel {
+	height: 80px;
+	width: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.top-panel .emerson {
+	width: 124px;
+	height: 70px;
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+	background: transparent url(../img/logo.jpg) no-repeat center top;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.top-panel .banner {
+	float: left;
+	margin-left: 5px;
+	margin-top: 17px;
+	margin-right: 5px;
+    cursor: default;
+	font-size: 36px;
+	font-family: monospace, serif;
+}
+
+.top-panel .menu-combo {
+	float: right;
+	margin-left: 5px;
+    margin-top: 30px;
+	margin-right: 5px;
+}
+
+.top-panel .menu-combo label {
+	line-height:21px;
+}
+
+.top-panel .right-button-panel {
+	float: right;
+    margin-left: 5px;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
 .datagrid-toolbar {
 	padding: 5px;
 	height: auto;

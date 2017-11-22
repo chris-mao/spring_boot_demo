@@ -35,24 +35,26 @@ import com.jrsoft.common.JsonResult;
  * <p>
  * 系统角色控制器类，提供系统角色维护方法接口
  * <dl>
- * <dt>按页码返回（符合查询条件或是全部）角色数据列表，需要拥有authRole:list权限</dt>
- * <dd>GET: roles/rest/list?page=1&rows=20&searchValue=</dd>
- * <dt>返回全部有效的（available=1）角色数据列表，需要拥有authRole:list权限</dt>
- * <dd>GET: roles/rest/json</dd>
- * <dt>返回角色权限清单，无权限控制</dt>
- * <dd>GET: roles/rest/{id}/permissions</dd>
- * <dt>以树型结构返回角色权限清单，无权限控制</dt>
- * <dd>GET: roles/rest/{id}/permissions/tree</dd>
- * <dt>新建角色数据，需要拥有authRole:new权限</dt>
- * <dd>POST: roles/rest/new</dd>
- * <dt>获取角色数据，无权限控制</dt>
- * <dd>GET: roles/rest/{id}</dd>
- * <dt>更新角色数据，需要拥有authRole:edit权限</dt>
- * <dd>POST: roles/rest/{id}</dd>
- * <dt>删除角色数据，需要拥有authRole:delete权限</dt>
- * <dd>DELETE: roles/rest/{id}</dd>
- * <dt>修改（新增、编辑、删除）角色关联权限，需要拥有authRole:edit权限</dt>
- * <dd>POST: roles/rest/{id}/permissions</dd>
+ * <dt>GET: roles/rest/list?page=1&rows=20&searchValue=</dt>
+ * <dd>按页码返回（符合查询条件或是全部）角色数据列表，需要拥有<code>authRole:list</code>权限</dd>
+ * <dt>GET: roles/rest/json</dt>
+ * <dd>返回全部有效的（available=1）角色数据列表，需要拥有<code>authRole:list</code>权限</dd>
+ * <dt>GET: roles/rest/{id}/permissions</dt>
+ * <dd>返回角色权限清单，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/rest/json，参看
+ * {@link AuthPermissionRestController#jsonData()}</dd>
+ * <dt>GET: roles/rest/{id}/permissions/tree</dt>
+ * <dd>以树型结构返回角色权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/rest/tree，参看
+ * {@link AuthPermissionRestController#permissionTree()}</dd>
+ * <dt>POST: roles/rest/new</dt>
+ * <dd>新建角色数据，需要拥有<code>authRole:new</code>权限</dd>
+ * <dt>GET: roles/rest/{id}</dt>
+ * <dd>获取角色数据，无权限控制</dd>
+ * <dt>POST: roles/rest/{id}</dt>
+ * <dd>更新角色数据，需要拥有<code>authRole:edit</code>权限</dd>
+ * <dt>DELETE: roles/rest/{id}</dt>
+ * <dd>删除角色数据，需要拥有<code>authRole:delete</code>权限</dd>
+ * <dt>POST: roles/rest/{id}/permissions</dt>
+ * <dd>修改（新增、编辑、删除）角色关联权限，需要拥有<code>authRole:edit</code>权限</dd>
  * </dl>
  * </p>
  * 
@@ -190,7 +192,7 @@ public class AuthRoleRestController {
 		role.setRoleId(roleId);
 		role.setRoleName(request.getParameter("roleName"));
 		role.setRoleDescription(request.getParameter("roleDescription"));
-		role.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+		role.setAvailable("on".equals(request.getParameter("available")));
 		if (true == this.authRoleService.update(role)) {
 			return new JsonResult<AuthRole>(role);
 		} else {

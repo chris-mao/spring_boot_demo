@@ -5,35 +5,43 @@ package com.jrsoft.auth.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.EasyTreeNode;
+import com.jrsoft.common.JsonResult;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
  * <p>
  * 系统权限控制器类，提供系统权限维护方法接口
  * <dl>
- * <dt>按父节点返回（符合查询条件或是全部）权限数据列表，需要拥有authPermission:list权限</dt>
- * <dd>GET: permissions/rest/list?parentId=1&page=1&rows=20&searchValue=</dd>
- * <dt>返回全部有效的（available=1）权限数据列表，需要拥有authPermission:list权限</dt>
- * <dd>GET: permissions/rest/json</dd>
- * <dt>以树型结构返回全部有效的（available=1）权限数据列表，需要拥有authPermission:list权限</dt>
- * <dd>GET: permissions/rest/tree</dd>
- * <dt>新建权限数据，需要拥有authPermission:new权限</dt>
- * <dd>POST: permissions/rest/new</dd>
- * <dt>更新权限数据，需要拥有authPermission:edit权限</dt>
- * <dd>POST: permissions/rest/{id}</dd>
- * <dt>删除权限数据，需要拥有authPermission:delete权限</dt>
- * <dd>DELETE: permissions/rest/{id}</dd>
+ * <dt>GET: permissions/rest/list?parentId=1&page=1&rows=20&searchValue=</dt>
+ * <dd>按父节点返回（符合查询条件或是全部）权限数据列表，需要拥有<code>authPermission:list</code>权限</dd>
+ * <dt>GET: permissions/rest/json</dt>
+ * <dd>返回全部有效的（available=1）权限数据列表，需要拥有<code>authPermission:list</code>权限</dd>
+ * <dt>GET: permissions/rest/tree</dt>
+ * <dd>以树型结构返回全部有效的（available=1）权限数据列表，需要拥有<code>authPermission:list</code>权限
+ * </dd>
+ * <dt>POST: permissions/rest/new</dt>
+ * <dd>新建权限数据，需要拥有<code>authPermission:new</code>权限</dd>
+ * <dt>POST: permissions/rest/{id}</dt>
+ * <dd>更新权限数据，需要拥有<code>authPermission:edit</code>权限</dd>
+ * <dt>DELETE: permissions/rest/{id}</dt>
+ * <dd>删除权限数据，需要拥有<code>authPermission:delete</code>权限</dd>
  * </dl>
  * </p>
  * 
@@ -95,6 +103,93 @@ public class AuthPermissionRestController {
 	public List<EasyTreeNode> permissionTree() {
 		// authPermissionService.getIndividualPermissionTree(user)
 		return authPermissionService.getPermissionTree();
+	}
+
+	/**
+	 * 新增权限
+	 * 
+	 * @since 1.0
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/new")
+	@RequiresPermissions("authPermission:new")
+	public JsonResult<AuthPermission> insert(HttpServletRequest request) {
+		AuthPermission permission = new AuthPermission();
+		permission.setPermissionName(request.getParameter("permissionName"));
+		permission.setPermissionText(request.getParameter("permissionText"));
+		permission.setPermissionKind(AuthPermissionKindEnum.valueOf(request.getParameter("permissionKind")));
+		permission.setPermissionUrl(request.getParameter("permissionUrl"));
+		permission.setWeight(Integer.parseInt(request.getParameter("weight")));
+		if (this.authPermissionService.findOne(permission) != null) { // 权限名已存在
+			return new JsonResult<AuthPermission>(JsonResult.ERROR,
+					"权限名【" + permission.getPermissionName() + "】已被使用，请使用其他权限名");
+		}
+		if (true == this.authPermissionService.insert(permission)) {
+			return new JsonResult<AuthPermission>();
+		} else {
+			return new JsonResult<AuthPermission>(JsonResult.ERROR, "新增权限出错！");
+		}
+	}
+
+	/**
+	 * 获取权限
+	 * 
+	 * @since 1.0
+	 * @param permissionId
+	 *            权限编号
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public AuthPermission getPermission(@PathVariable("id") int permissionId) {
+		AuthPermission role = new AuthPermission(permissionId);
+		return this.authPermissionService.findOne(role);
+	}
+
+	/**
+	 * 编辑权限
+	 * 
+	 * @since 1.0
+	 * @param permissionId
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/{id}")
+	@RequiresPermissions("authPermission:edit")
+	public JsonResult<AuthPermission> update(@PathVariable("id") int permissionId, HttpServletRequest request) {
+		AuthPermission permission = new AuthPermission();
+		permission.setPermissionId(permissionId);
+		permission.setPermissionName(request.getParameter("roleName"));
+		permission.setPermissionName(request.getParameter("permissionName"));
+		permission.setPermissionText(request.getParameter("permissionText"));
+		permission.setPermissionKind(AuthPermissionKindEnum.valueOf(request.getParameter("permissionKind")));
+		permission.setPermissionUrl(request.getParameter("permissionUrl"));
+		permission.setWeight(Integer.parseInt(request.getParameter("weight")));
+		permission.setAvailable("on".equals(request.getParameter("available")));
+		if (true == this.authPermissionService.update(permission)) {
+			return new JsonResult<AuthPermission>(permission);
+		} else {
+			return new JsonResult<AuthPermission>(JsonResult.ERROR, "修改权限出错！");
+		}
+	}
+
+	/**
+	 * 删除权限
+	 * 
+	 * @since 1.0
+	 * @param permissionId
+	 *            权限编号
+	 * @param request
+	 * @return
+	 */
+	@DeleteMapping("/{id}")
+	@RequiresPermissions("authPermission:delete")
+	public JsonResult<AuthPermission> delete(@PathVariable("id") int permissionId, HttpServletRequest request) {
+		if (true == this.authPermissionService.delete(permissionId)) {
+			return new JsonResult<AuthPermission>();
+		} else {
+			return new JsonResult<AuthPermission>(JsonResult.ERROR, "删除权限出错！");
+		}
 	}
 
 }
