@@ -6,58 +6,48 @@ function showUserRolesDialog() {
 		$.messager.alert("提示", "请选择一个待编辑的数据行！");
 		return false;
 	}
-	$("#userRoleDlg").dialog(
-			{
-				onBeforeOpen : function() {
-					var userId = row.userId;
-					$("#userRoleDatagrid").datagrid(
-							{
-								method : "get",
-								url : "/users/rest/" + userId + "/roles",
-								emptyMsg : "该用户尚未分配任何角色！",
-								singleSelect : true,
-								striped : true,
-								fit : true,
-								striped : true,
-								onBeforeEdit : function(index, row) {
-									row.editing = true;
-									$(this).datagrid("refreshRow", index);
-								},
-								onBeginEdit : function(index, row) {
-									// alert("BeginEdit");
-								},
-								onEndEdit : function(index, row, changes) {
-									var editingRow = $("#userRoleDatagrid")
-											.datagrid("getSelected");
-									var ed = $("#userRoleDatagrid").datagrid(
-											"getEditor", {
-												index : index,
-												field : "roleId"
-											});
-									if (ed != null) {
-										console.log("role id: "
-												+ $(ed.target).combobox(
-														"getValue"));
-										console.log("role name: "
-												+ $(ed.target).combobox(
-														"getText"));
-										editingRow.roleId = $(ed.target)
-												.combobox("getValue");
-										editingRow.roleName = $(ed.target)
-												.combobox("getText");
-									}
-								},
-								onAfterEdit : function(index, row, changes) {
-									row.editing = false;
-									$(this).datagrid("refreshRow", index);
-								},
-								onCancelEdit : function(index, row) {
-									row.editing = false;
-									$(this).datagrid("refreshRow", index);
-								}
-							});
+	$("#userRoleDlg").dialog({
+		onBeforeOpen : function() {
+			var userId = row.userId;
+			$("#userRoleDatagrid").datagrid({
+				method : "get",
+				url : "/users/rest/" + userId + "/roles",
+				emptyMsg : "该用户尚未分配任何角色！",
+				singleSelect : true,
+				striped : true,
+				fit : true,
+				striped : true,
+				onBeforeEdit : function(index, row) {
+					row.editing = true;
+					$(this).datagrid("refreshRow", index);
+				},
+				onBeginEdit : function(index, row) {
+					// alert("BeginEdit");
+				},
+				onEndEdit : function(index, row, changes) {
+					var editingRow = $("#userRoleDatagrid").datagrid("getSelected");
+					var ed = $("#userRoleDatagrid").datagrid("getEditor", {
+							index : index,
+							field : "roleId"
+						});
+						if (ed != null) {
+							console.log("role id: "+ $(ed.target).combobox("getValue"));
+							console.log("role name: "+ $(ed.target).combobox("getText"));
+							editingRow.roleId = $(ed.target).combobox("getValue");
+							editingRow.roleName = $(ed.target).combobox("getText");
+						}
+				},
+				onAfterEdit : function(index, row, changes) {
+					row.editing = false;
+					$(this).datagrid("refreshRow", index);
+				},
+				onCancelEdit : function(index, row) {
+					row.editing = false;
+					$(this).datagrid("refreshRow", index);
 				}
-			}).dialog("open").dialog("center").dialog("setTitle","关联角色【" + row.userName + "】");
+			});
+		}
+	}).dialog("open").dialog("center").dialog("setTitle","关联角色【" + row.userName + "】");
 }
 
 // 用于查看用户角色对话框
@@ -72,8 +62,7 @@ function saveUserRoles() {
 		return;
 	}
 	var effectedRows = {};
-	var insertedRows = $("#userRoleDatagrid")
-			.datagrid("getChanges", "inserted");
+	var insertedRows = $("#userRoleDatagrid").datagrid("getChanges", "inserted");
 	var updatedRows = $("#userRoleDatagrid").datagrid("getChanges", "updated");
 	var deletedRows = $("#userRoleDatagrid").datagrid("getChanges", "deleted");
 	if (insertedRows.length > 0) {
@@ -107,14 +96,12 @@ function saveUserRoles() {
 
 function closeUserRolesDialog() {
 	if ($("#userRoleDatagrid").datagrid("getChanges").length > 0) {
-		console.log("changed");
 		$.messager.confirm("确认", "您对用户角色进行了修改，需要保存吗？", function(r) {
 			if (r) {
 				saveUserRoles();
 			}
 		})
 	}
-	console.log("before close");
 	$('#userRoleDlg').dialog('close');
 }
 

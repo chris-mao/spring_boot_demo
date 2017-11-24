@@ -24,8 +24,7 @@ import com.jrsoft.common.EasyDataGrid;
 public interface AuthRoleService {
 
 	/**
-	 * 查询所有角色信息，不具备分页功能
-	 * 等同于findAll(false)
+	 * 查询所有角色信息，不具备分页功能 等同于findAll(false)
 	 * 
 	 * @since 1.0
 	 * @return List
@@ -35,7 +34,8 @@ public interface AuthRoleService {
 	/**
 	 * 查询所有角色信息，不具备分页功能
 	 * 
-	 * @param onlyAvailable 仅返回有效的角色
+	 * @param onlyAvailable
+	 *            仅返回有效的角色
 	 * 
 	 * @since 1.1
 	 * @return List
@@ -167,4 +167,32 @@ public interface AuthRoleService {
 	 * @param role
 	 */
 	public void removeAllPermissions(AuthRole role);
+
+	/**
+	 * 添加新权限
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 * @param permissionId
+	 * @return 成功返回true,否则返回false
+	 */
+	public boolean addPermission(Integer roleId, Integer permissionId);
+
+	/**
+	 * 移除权限
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 * @param permissionId
+	 * @return 成功返回true,否则返回false
+	 */
+	public boolean removePermission(Integer roleId, Integer permissionId);
+
+	/**
+	 * 移除指定角色上所有权限
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 */
+	public void removeAllPermissions(Integer roleId);
 }

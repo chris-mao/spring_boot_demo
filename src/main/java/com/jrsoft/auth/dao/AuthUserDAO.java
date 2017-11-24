@@ -22,7 +22,6 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 
 /**
- * com.jrsoft.auth.map AuthUserInterface
  * 
  * 系统用户数据访问类
  *

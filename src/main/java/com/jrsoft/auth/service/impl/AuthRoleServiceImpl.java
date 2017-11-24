@@ -156,4 +156,19 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 		}
 	}
 
+	@Override
+	public boolean addPermission(Integer roleId, Integer permissionId) {
+		return 1 == this.authRoleDAO.addPermission(roleId, permissionId);
+	}
+
+	@Override
+	public boolean removePermission(Integer roleId, Integer permissionId) {
+		return 1 == this.authRoleDAO.removePermission(roleId, permissionId);
+	}
+
+	@Override
+	public void removeAllPermissions(Integer roleId) {
+		this.authRoleDAO.removeAllPermissions(roleId);
+	}
+
 }

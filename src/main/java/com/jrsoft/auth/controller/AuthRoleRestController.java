@@ -42,6 +42,8 @@ import com.jrsoft.common.JsonResult;
  * <dt>GET: roles/rest/{id}/permissions</dt>
  * <dd>返回角色权限清单，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/rest/json，参看
  * {@link AuthPermissionRestController#jsonData()}</dd>
+ * <dt>POST: roles/rest/{id}/permissions</dt>
+ * <dd>更新角色权限（新增、删除），需要拥有<code>authRole:edit</code>权限</dd>
  * <dt>GET: roles/rest/{id}/permissions/tree</dt>
  * <dd>以树型结构返回角色权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/rest/tree，参看
  * {@link AuthPermissionRestController#permissionTree()}</dd>
@@ -53,8 +55,6 @@ import com.jrsoft.common.JsonResult;
  * <dd>更新角色数据，需要拥有<code>authRole:edit</code>权限</dd>
  * <dt>DELETE: roles/rest/{id}</dt>
  * <dd>删除角色数据，需要拥有<code>authRole:delete</code>权限</dd>
- * <dt>POST: roles/rest/{id}/permissions</dt>
- * <dd>修改（新增、编辑、删除）角色关联权限，需要拥有<code>authRole:edit</code>权限</dd>
  * </dl>
  * </p>
  * 
@@ -119,10 +119,29 @@ public class AuthRoleRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}/permissions")
-	@RequiresPermissions("authRole:list")
 	public List<AuthPermission> findRolePermissions(@PathVariable("id") int roleId) {
 		AuthRole role = new AuthRole(roleId);
 		return authPermissionService.findRolePermissions(role);
+	}
+
+	/**
+	 * 更新角色权限
+	 * 
+	 * @since 1.0
+	 * @param roleId
+	 *            角色编号
+	 * @param permissions
+	 *            权限编号列表
+	 */
+	@PostMapping("/{id}/permissions")
+	@RequiresPermissions("authRole:edit")
+	public void updateRolePermissions(@PathVariable("id") int roleId, @RequestBody List<Integer> permissions) {
+		System.out.println(permissions);
+		this.authRoleService.removeAllPermissions(roleId);
+		Iterator<Integer> iterator = permissions.iterator();
+		while (iterator.hasNext()) {
+			this.authRoleService.addPermission(roleId, iterator.next());
+		}
 	}
 
 	/**
@@ -133,7 +152,6 @@ public class AuthRoleRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}/permissions/tree")
-	@RequiresPermissions("authRole:list")
 	public List<EasyTreeNode> getRolePermissionTree(@PathVariable(name = "id") int roleId) {
 		AuthRole role = new AuthRole(roleId);
 		return authPermissionService.getRolePermissionTree(role);
@@ -216,47 +234,6 @@ public class AuthRoleRestController {
 			return new JsonResult<AuthRole>();
 		} else {
 			return new JsonResult<AuthRole>(JsonResult.ERROR, "删除角色出错！");
-		}
-	}
-
-	/**
-	 * 保存角色权限关联关系
-	 * 
-	 * @since 1.0
-	 * @param roleId
-	 *            角色编号
-	 * @param userRoleReleations
-	 *            角色权限关联应映表，此参数需要包含三个主键<code>inserted</code>,
-	 *            <code>updated</code>和<code>deleted</code>
-	 *            。每个主键对应一个List对象，其中存有一个或多个角色权限对象
-	 *            {@link AuthRolePermissionReleation}
-	 * @return
-	 */
-	@PostMapping("/{id}/permissions")
-	@RequiresPermissions("authRole:edit")
-	public void assignRolePermissions(@PathVariable("id") int roleId,
-			@RequestBody Map<String, List<AuthRolePermissionReleation>> rolePermissionReleations) {
-		String operation;
-		AuthRolePermissionReleation r;
-		Set<Entry<String, List<AuthRolePermissionReleation>>> set = rolePermissionReleations.entrySet();
-		for (Iterator<Entry<String, List<AuthRolePermissionReleation>>> iter = set.iterator(); iter.hasNext();) {
-			Entry<String, List<AuthRolePermissionReleation>> entry = iter.next();
-			operation = entry.getKey();
-			List<AuthRolePermissionReleation> list = entry.getValue();
-			for (Iterator<AuthRolePermissionReleation> i = list.iterator(); i.hasNext();) {
-				r = i.next();
-				if ("inserted".equals(operation.toLowerCase())) {
-					r.setRoleId(roleId);
-					System.out.println("insert: " + r);
-					// this.authRoleService.addRoleRelation(r);
-				} else if ("updated".equals(operation.toLowerCase())) {
-					System.out.println("update: " + r);
-					// this.authRoleService.updateRoleRelation(r);
-				} else if ("deleted".equals(operation.toLowerCase())) {
-					System.out.println("delete: " + r);
-					// this.authRoleService.removeRoleRelation(r);
-				}
-			}
 		}
 	}
 

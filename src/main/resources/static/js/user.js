@@ -73,8 +73,6 @@ $.extend($.fn.validatebox.defaults.rules, {
 	confirmPass : {
 		validator : function(value, param) {
 			var pass = $(param[0]).passwordbox("getValue");
-			// alert("confirmation is " + value);
-			// alert("your password is " + pass);
 			return value == pass;
 		},
 		message : "两次输入的密码不匹配"

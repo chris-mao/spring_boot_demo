@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * com.jrsoft.config.shiro.listener JrSessionListener
- * 
  * 会话监听器类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>

@@ -93,7 +93,7 @@ function savePermission() {
 function deletePermission() {
 	var row = $("#permissionTreegrid").treegrid("getSelected");
 	if (row) {
-		$.messager.confirm("确认", "删除权限【" + row.nickName + "】？", function(r) {
+		$.messager.confirm("确认", "删除权限【" + row.permissionText + "】？", function(r) {
 			if (r) {
 				$.ajax({
 					url : "/permissions/rest/" + row.permissionId,

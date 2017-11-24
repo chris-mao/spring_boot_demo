@@ -26,8 +26,6 @@ import com.jrsoft.configuration.shiro.listener.JrSessionListener;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
- * com.jrsoft.config.shiro ShiroConfiguration
- * 
  * Shiro配置类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>

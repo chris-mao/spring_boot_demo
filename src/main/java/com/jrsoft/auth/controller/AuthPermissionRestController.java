@@ -121,6 +121,12 @@ public class AuthPermissionRestController {
 		permission.setPermissionKind(AuthPermissionKindEnum.valueOf(request.getParameter("permissionKind")));
 		permission.setPermissionUrl(request.getParameter("permissionUrl"));
 		permission.setWeight(Integer.parseInt(request.getParameter("weight")));
+		String parentId = request.getParameter("parentId");
+		if ("".equals(parentId)) {
+			permission.setParentId(0);
+		} else {
+			permission.setParentId(Integer.parseInt(parentId));
+		}
 		if (this.authPermissionService.findOne(permission) != null) { // 权限名已存在
 			return new JsonResult<AuthPermission>(JsonResult.ERROR,
 					"权限名【" + permission.getPermissionName() + "】已被使用，请使用其他权限名");
@@ -165,6 +171,7 @@ public class AuthPermissionRestController {
 		permission.setPermissionKind(AuthPermissionKindEnum.valueOf(request.getParameter("permissionKind")));
 		permission.setPermissionUrl(request.getParameter("permissionUrl"));
 		permission.setWeight(Integer.parseInt(request.getParameter("weight")));
+		permission.setParentId(Integer.parseInt(request.getParameter("parentId")));
 		permission.setAvailable("on".equals(request.getParameter("available")));
 		if (true == this.authPermissionService.update(permission)) {
 			return new JsonResult<AuthPermission>(permission);

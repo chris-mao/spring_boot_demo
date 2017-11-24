@@ -19,10 +19,13 @@
 <body>
 	<div class="easyui-layout" data-options="fit:true">
 		<div id="rolePermissionsPanel"
-			data-options="region:'east',border:false,collapsible:false"
+			data-options="region:'east',border:false,collapsible:false,tools:'#tt'"
 			title="角色权限" style="width: 240px">
-			<ul id="permissionTree" class="easyui-tree"></ul>
+			<ul id="rolePermissionTree" class="easyui-tree"></ul>
 		</div>
+		<div id="tt">
+            <a href="javascript:void(0)" class="icon-edit" onclick="showRolesPermissionDialog()" title="修改权限"></a>
+        </div>
 		<div data-options="region:'center',border:false">
 			<!-- 数据表格 -->
 			<table id="roleDatagrid" class="easyui-datagrid"
@@ -51,8 +54,6 @@
 				<shiro:hasPermission name="authRole:edit">
 					<a href="javascript:void(0)" class="easyui-linkbutton"
 						iconCls="icon-edit" plain="true" onclick="editRole()">编辑角色</a>
-					<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-						onclick="showRolesPermissionDialog()">修改权限</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="authRole:delete">
 					<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -92,6 +93,20 @@
 			iconCls="icon-cancel"
 			onclick="javascript:$('#roleEditDlg').dialog('close')">取消</a>
 	</div>
+	
+	<!-- 角色权限编辑窗体 -->
+    <div id="rolePermissionDlg" class="easyui-dialog" title="权限分配"
+        style="width: 400px; height: 500px;" closed="true" buttons="#rolePermissionDlgButtons" data-options="modal:true">
+        <ul id="permissionTree" class="easyui-tree"></ul>
+    </div>
+
+    <!-- 角色权限窗体按钮 -->
+    <div id="rolePermissionDlgButtons">
+        <a href="javascript:void(0)" class="easyui-linkbutton"
+            iconCls="icon-ok" onclick="saveRolePermissions()">保存且关闭</a> <a
+            href="javascript:void(0)" class="easyui-linkbutton"
+            iconCls="icon-cancel" onclick="closeRolesPermissionDialog()">取消</a>
+    </div>
 
 	<script th:src="@{/js/role.js}" type="text/javascript"></script>
 </body>

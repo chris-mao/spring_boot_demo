@@ -14,19 +14,7 @@ $(document).ready(function() {
 		pageSize : 20,
 		pageList : [ 10, 20, 30, 50, 80 ],
 		onSelect: function(index, row) {
-			console.log("加载角色 " + row.roleName + " 的权限");
-			$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
-			$("#permissionTree").tree({
-				method:"get",
-				url:"roles/rest/" + row.roleId + "/permissions/tree",
-				animate:true,
-				lines:true,
-				checkbox:true,
-				onLoadSuccess: function(node, data) {
-				    $("#permissionTree").tree("expandAll");
-				}
-			});
-			
+			getRolePermissions(row);
 		},
 		onLoadSuccess: function(data) {
 			console.log("角色数据加载完成");
@@ -49,15 +37,30 @@ $(document).ready(function() {
 		}
 	});
 	
-	$("#permissionTree").tree({
+	$("#rolePermissionTree").tree({
 		onLoadSuccess:function(node, data) {
 			console.log("tree data: " + data);
 			if (!data) {
-//				$("#permissionTree").innerText("该角色尚未分配任何权限！");
+//				$("#rolePermissionTree").innerText("该角色尚未分配任何权限！");
 			}
 		}
 	});
 });
+
+function getRolePermissions(row) {
+	console.log("加载角色 " + row.roleName + " 的权限");
+	$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
+	$("#rolePermissionTree").tree({
+		method:"get",
+		url:"roles/rest/" + row.roleId + "/permissions/tree",
+		animate:true,
+		lines:true,
+//		checkbox:true,
+		onLoadSuccess: function(node, data) {
+		    $("#rolePermissionTree").tree("expandAll");
+		}
+	});
+}
 
 var post_url;
 function newRole() {
@@ -99,7 +102,7 @@ function saveRole() {
 			if (data.state == 0) {
 				$.messager.alert("消息", "数据保存成功！", "info");
 				$("#roleEditDlg").dialog("close"); // close the dialog
-				$("#roleDatagrid").datagrid("reload"); // reload the user data
+				$("#roleDatagrid").datagrid("reload"); // reload the role data
 			} else {
 				$.messager.alert("错误", data.message, "error");
 			}
@@ -143,68 +146,69 @@ function deleteRole() {
 	}
 }
 
-function assignPermissions() {
-	$("#userRoleDlg").dialog({
+function showRolesPermissionDialog() {
+	var row = $("#roleDatagrid").datagrid("getSelected");
+	if (!row) {
+		return false;
+	}
+	$("#rolePermissionDlg").dialog({
 		onBeforeOpen : function() {
-			var row = $("#userDatagrid").datagrid("getSelected");
-			if (!row) {
-				return false;
-			}
-			var userId = row.userId;
-			$("#userRoleDatagrid").datagrid({
-				method : "get",
-				url : "/users/rest/" + userId + "/roles",
-				saveUrl : "/users/rest/save",
-				upadteUrl : "/users/rest/save",
-				destroyUrl : "/users/rest/save",
-				emptyMsg : "该用户尚未分配任何角色！",
-				singleSelect : true,
-				striped : true,
-				fit : true,
-				striped:true,
-				onBeforeEdit: function(index, row){
-					row.editing = true;
-					$(this).datagrid("refreshRow", index);
-				},
-				onBeginEdit: function(index, row) {
-					// alert("BeginEdit");
-				},
-				onEndEdit:function(index, row, changes){
-					// alert("EndEdit");
-					var ed = $("#userRoleDatagrid").datagrid("getEditor", { index: index, field: "roleName" });
-	                if (ed != null) {
-	                    var editingRow = $("#userRoleDatagrid").datagrid("getSelected");
-	                    editingRow["roleId"] = $(ed.target).combobox("getValue");
-	                    editingRow["roleName"] = $(ed.target).combobox("getText");
-	                }
-				},
-				onAfterEdit:function(index, row, changes){
-					row.editing = false;
-					$(this).datagrid("refreshRow", index);
-				},
-				onCancelEdit:function(index,row){
-					row.editing = false;
-					$(this).datagrid("refreshRow", index);
+			var roleId = row.roleId;
+			$("#permissionTree").tree({
+				method:"get",
+				url:"permissions/rest/tree",
+				animate:true,
+				lines:true,
+				checkbox:true,
+				onLoadSuccess: function(node, data) {
+					var permissions = $("#permissionTree").tree("getChildren");
+				    var rolePermissions = $("#rolePermissionTree").tree("getChildren");
+				    console.log(rolePermissions.length);
+				    for (var j = 0; j < permissions.length; j++) {
+				    	for(var i = 0; i < rolePermissions.length; i++) {
+				    		if (rolePermissions[i].id == permissions[j].id) {
+				    			if (true == $("#permissionTree").tree("isLeaf", permissions[j].target)) {
+				    			$("#permissionTree").tree("check", permissions[j].target);
+				    			}
+				    			break;
+				    		}
+				        }
+				    }
+					$("#permissionTree").tree("expandAll");
 				}
 			});
 		}
-	}).dialog("open").dialog("center");
+	}).dialog("open").dialog("center").dialog("setTitle","权限分配【" + row.roleName + "】");
 }
 
-function saveRoleRoles() {
-	var insertedRows = $("#userRoleDatagrid").datagrid("getChanges", "inserted");
-	var updatedRows = $("#userRoleDatagrid").datagrid("getChanges", "updated");
-	var deletedRows = $("#userRoleDatagrid").datagrid("getChanges", "deleted");
-	if (insertedRows.length > 0) {
-		alert(insertedRows.length+" rows have been inserted!");
-		alert(insertedRows[0].roleId);
-		alert(insertedRows[0].roleName);
+function saveRolePermissions() {
+	var permissions = [];
+	var checkedNodes = $("#permissionTree").tree("getChecked", ["checked","indeterminate"]);
+	for (var i = 0; i < checkedNodes.length; i++) {
+		console.log("Checked Permission: " + checkedNodes[i]);
+		permissions.push(checkedNodes[i].id);
 	}
-	if (updatedRows.length > 0) {
-		alert(updatedRows.length+" rows have been updated!");
-	}
-	if (deletedRows.length > 0) {
-		alert(deletedRows.length+" rows have been deleted!");
-	}
-	$("#userRoleDlg").dialog("close");
+	var jsonData = JSON.stringify(permissions);
+	console.log("json Data: " + jsonData);
+	var row = $("#roleDatagrid").datagrid("getSelected");
+	$.ajax({
+		url : "/roles/rest/" + row.roleId + "/permissions",
+		type : "POST",
+		data : jsonData,
+		contentType : "application/json;charset=UTF-8",
+		success : function(data, textStatus) {
+			console.log(data);
+			console.log(textStatus);
+			getRolePermissions(row);
+			$("#rolePermissionDlg").dialog("close");
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("status: " + textStatus);
+			console.log("error: " + errorThrown);
+		}
+	});
+}
+
+function closeRolesPermissionDialog() {
+	$('#rolePermissionDlg').dialog('close');
 }

@@ -32,6 +32,9 @@ import com.jrsoft.common.EasyDataGrid;
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
 
+	/**
+	 * com.jrsoft.auth.dao.AuthUserDAO
+	 */
 	@Autowired
 	private AuthUserDAO authUserDAO;
 
