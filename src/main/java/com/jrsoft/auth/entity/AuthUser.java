@@ -6,8 +6,6 @@ package com.jrsoft.auth.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.directwebremoting.annotations.DataTransferObject;
-import org.directwebremoting.annotations.RemoteProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -25,7 +23,6 @@ import com.jrsoft.auth.AuthUserStateEnum;
  * @version 1.0
  *
  */
-@DataTransferObject
 public class AuthUser implements Serializable {
 
 	/**
@@ -41,13 +38,11 @@ public class AuthUser implements Serializable {
 	/**
 	 * 用户编号
 	 */
-	@RemoteProperty
 	private int userId;
 
 	/**
 	 * 登录名称，不允许重复
 	 */
-	@RemoteProperty
 	@NotEmpty(message = "用户名不允许为空")
 	@Length(min = 4, max = 64, message = "用户名长度需在4位到64位之间")
 	private String userName;
@@ -55,7 +50,6 @@ public class AuthUser implements Serializable {
 	/**
 	 * 昵称
 	 */
-	@RemoteProperty
 	@NotEmpty(message = "昵称不允许为空")
 	@Length(min = 2, max = 64, message = "昵称长度需在2位到64位之间")
 	private String nickName;
@@ -63,7 +57,6 @@ public class AuthUser implements Serializable {
 	/**
 	 * 电子邮件，用于找回密码
 	 */
-	@RemoteProperty
 	@NotEmpty(message = "电子邮件不允许为空")
 	@Email(message = "请输入正确的电子邮件")
 	@Length(max = 64, message = "电子邮件长度不能超过64位")
@@ -91,7 +84,6 @@ public class AuthUser implements Serializable {
 	 * 
 	 * @see AuthUserStateEnum Active 激活状态 Locked 帐户锁定 Expired 帐户过期 Inactive 帐户失效
 	 */
-	@RemoteProperty
 	private AuthUserStateEnum state;
 
 	/**
