@@ -7,31 +7,15 @@ $(document).ready(function() {
 function addTab(title, href) {
 	if ($('#workspace').tabs('exists', title)) {
 		$('#workspace').tabs('select', title);
-		// refreshTab({
-		// tabTitle : title,
-		// url : href
-		// });
 	} else {
 		var content = '<iframe scrolling="auto" frameborder="0"  src="' + href
 				+ '" style="width:100%;height:100%;padding:5px;"></iframe>';
 		$('#workspace').tabs('add', {
 			title : title,
-			// content : content,
 			href : href,
 			fit : true,
 			closable : true
 		});
-	}
-}
-
-function refreshTab(cfg) {
-	var refresh_tab = cfg.tabTitle ? $('#workspace').tabs('getTab',
-			cfg.tabTitle) : $('#workspace').tabs('getSelected');
-	if (refresh_tab && refresh_tab.find('iframe').length > 0) {
-		var _refresh_ifram = refresh_tab.find('iframe')[0];
-		var refresh_url = cfg.url ? cfg.url : _refresh_ifram.src;
-		// _refresh_ifram.src = refresh_url;
-		_refresh_ifram.contentWindow.location.href = refresh_url;
 	}
 }
 
@@ -148,27 +132,40 @@ function getRowIndex(target) {
 	return parseInt(tr.attr("datagrid-row-index"));
 }
 
-// 为Date类型拓展一个format方法，用于格式化日期
-Date.prototype.format = function(format) // author: meizz
-{
-	var o = {
-		"M+" : this.getMonth() + 1, // month
-		"d+" : this.getDate(), // day
-		"h+" : this.getHours(), // hour
-		"m+" : this.getMinutes(), // minute
-		"s+" : this.getSeconds(), // second
-		"q+" : Math.floor((this.getMonth() + 3) / 3), // quarter
-		"S" : this.getMilliseconds() // millisecond
-	};
-	if (/(y+)/.test(format))
-		format = format.replace(RegExp.$1, (this.getFullYear() + "")
-				.substr(4 - RegExp.$1.length));
-	for ( var k in o)
-		if (new RegExp("(" + k + ")").test(format))
-			format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k]
-					: ("00" + o[k]).substr(("" + o[k]).length));
-	return format;
-};
+//打开修改密码对话框
+function changePsd(userId, userName) {
+	post_url = "/users/rest/" + userId + "/psd";
+	$("#changePasswordDlg").dialog("open").dialog("center");
+	$("#changePasswordForm").form("clear");
+	$("#changePasswordDlg").form("load", {userName: userName});
+	$("#changePasswordDlg").dialog("open").dialog("center");
+}
+
+//保存密码
+function savePassword() {
+	console.log(post_url);
+	$("#changePasswordForm").form("submit", {
+		url : post_url,
+		onSubmit : function() {
+			return $(this).form("validate");
+		},
+		success : function(data, textStatus) {
+			console.log(data);
+			console.log(textStatus);
+			var data = eval('(' + data + ')'); //将字符串转为JSON对象
+			if (data.state == 0) {
+				$.messager.alert("消息", "密码修改成功！", "info");
+				$("#changePasswordDlg").dialog("close"); // close the dialog
+			} else {
+				$.messager.alert("错误", data.message, "error");
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("status: " + textStatus);
+			console.log("error: " + errorThrown);
+		}
+	});
+}
 
 $.extend($.fn.datagrid.defaults.editors, {
 	datebox : {

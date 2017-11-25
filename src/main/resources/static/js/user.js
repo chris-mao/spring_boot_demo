@@ -80,42 +80,13 @@ $.extend($.fn.validatebox.defaults.rules, {
 });
 
 // 打开修改密码对话框
-function changePsd() {
+function changeUserPsd() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
-		post_url = "/users/rest/" + row.userId + "/psd";
-		$("#changePasswordDlg").dialog("open").dialog("center");
-		$("#changePasswordForm").form("clear");
-		$("#changePasswordDlg").form("load", row);
-		$("#changePasswordDlg").dialog("open").dialog("center");
+		changePsd(row.userId, row.userName);
 	} else {
 		$.messager.alert("提示", "没有选中的数据行");
 	}
-}
-
-function savePassword() {
-	console.log(post_url);
-	$("#changePasswordForm").form("submit", {
-		url : post_url,
-		onSubmit : function() {
-			return $(this).form("validate");
-		},
-		success : function(data, textStatus) {
-			console.log(data);
-			console.log(textStatus);
-			var data = eval('(' + data + ')'); //将字符串转为JSON对象
-			if (data.state == 0) {
-				$.messager.alert("消息", "密码修改成功！", "info");
-				$("#changePasswordDlg").dialog("close"); // close the dialog
-			} else {
-				$.messager.alert("错误", data.message, "error");
-			}
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("status: " + textStatus);
-			console.log("error: " + errorThrown);
-		}
-	});
 }
 
 // 保存用户
