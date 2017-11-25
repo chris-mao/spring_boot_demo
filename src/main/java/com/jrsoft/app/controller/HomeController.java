@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.jrsoft.auth.utils.AuthUtils;
+
 /**
  * com.jrsoft.app.controller HomeController
  * 
@@ -32,6 +34,7 @@ public class HomeController {
 	 */
 	@GetMapping({ "/", "/index" })
 	public String index(HttpServletRequest request, Map<String, Object> map) {
+		map.put("user", AuthUtils.getCurrentUser());
 		return "index";
 	}
 
