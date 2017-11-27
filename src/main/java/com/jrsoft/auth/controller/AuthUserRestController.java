@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jrsoft.auth.AuthUserStateEnum;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthUser;
+import com.jrsoft.auth.entity.AuthUserDelegate;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthPermissionService;
+import com.jrsoft.auth.service.AuthUserDelegateService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.common.EasyTreeNode;
@@ -66,6 +68,10 @@ import com.jrsoft.common.JsonResult;
  * <dd>返回用户关联的角色列表，需要拥有<code>authUser:edit</code>权限</dd>
  * <dt>POST: users/rest/{id}/roles</dt>
  * <dd>修改（新增、编辑、删除）用户关联角色，需要拥有<code>authUser:edit</code>权限</dd>
+ * <dt>GET: users/rest/{id}/agents</dt>
+ * <dd>返回用户的代理用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
+ * <dt>GET: users/rest/{id}/delegates</dt>agents
+ * <dd>返回用户的代理的用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
  * </dl>
  * </p>
  * 
@@ -86,6 +92,12 @@ public class AuthUserRestController {
 	 */
 	@Autowired
 	private AuthPermissionService authPermissionService;
+
+	/**
+	 * 
+	 */
+	@Autowired
+	private AuthUserDelegateService authUserDelegateService;
 
 	/**
 	 * 获取用户列表
@@ -302,6 +314,7 @@ public class AuthUserRestController {
 	/**
 	 * 修改用户角色关联关系（包括新增、更新和删除）
 	 * 
+	 * @since 1.0
 	 * @param userId
 	 *            用户编号
 	 * @param userRoleReleations
@@ -336,5 +349,35 @@ public class AuthUserRestController {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 获取指定用户的代理用户名单
+	 * 
+	 * @since 1.0
+	 * @param userId
+	 *            用户编号
+	 * @return
+	 */
+	@GetMapping("/{id}/agents")
+	@RequiresPermissions("authUser:delegate")
+	public List<AuthUserDelegate> findAllAgents(@PathVariable("id") int userId) {
+		AuthUser fromUser = new AuthUser(userId);
+		return authUserDelegateService.findAllByFromUser(fromUser);
+	}
+
+	/**
+	 * 获取指定用户代理的用户名单
+	 * 
+	 * @since 1.0
+	 * @param userId
+	 *            用户编号
+	 * @return
+	 */
+	@GetMapping("/{id}/delegates")
+	@RequiresPermissions("authUser:delegate")
+	public List<AuthUserDelegate> findAllDelegates(@PathVariable("id") int userId) {
+		AuthUser toUser = new AuthUser(userId);
+		return authUserDelegateService.findAllByToUser(toUser);
 	}
 }

@@ -34,8 +34,8 @@ public interface AuthUserDelegateDAO {
 	 */
 	@Select("CALL sp_findAllDelegates(#{fromUserId})")
 	@Results({
-			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
-			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.EAGER) ),
+			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.EAGER) ),
 			@Result(property = "startDate", column = "start_date"), @Result(property = "endDate", column = "end_date"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
@@ -50,8 +50,8 @@ public interface AuthUserDelegateDAO {
 	 */
 	@Select("CALL sp_findAllClients(${toUserId})")
 	@Results({
-			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
-			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.LAZY) ),
+			@Result(property = "fromUser", column = "from_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.EAGER) ),
+			@Result(property = "toUser", column = "to_user_id", one = @One(select = "com.jrsoft.auth.dao.AuthUserDAO.findById", fetchType = FetchType.EAGER) ),
 			@Result(property = "startDate", column = "start_date"), @Result(property = "endDate", column = "end_date"),
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),

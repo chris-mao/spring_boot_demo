@@ -141,7 +141,7 @@ function saveRow(target) {
 // 取消行修改
 function cancelRow(target) {
 	var editIndex = getRowIndex(target);
-	$("#userRoleDatagrid").datagrid("cancelEdit", getRowIndex(target));
+	$("#userRoleDatagrid").datagrid("cancelEdit", editIndex);
 }
 
 // 保存客户端的所有修改

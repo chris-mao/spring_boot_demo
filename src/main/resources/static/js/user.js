@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	// 初始货用户表格
+	// 初始化用户表格
 	$("#userDatagrid").datagrid({
 		method : "get",
 		url : "/users/rest/list",

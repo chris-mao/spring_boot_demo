@@ -65,12 +65,12 @@ public class AuthUserDelegateController {
 		// System.out.println("前一个身份是：" + AuthUtils.getPreviousUser());
 		// 前一个身份
 		model.addAttribute("previousUser", AuthUtils.getPreviousUser());
-		// 代理人（受托人）
-		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByFromUser(AuthUtils.getCurrentUser());
+		// 当前用户的代理人（受托人）
+		List<AuthUserDelegate> agents = this.authUserDelegateService.findAllByFromUser(AuthUtils.getCurrentUser());
+		model.addAttribute("agents", agents);
+		// 当前用户的委托人
+		List<AuthUserDelegate> delegates = this.authUserDelegateService.findAllByToUser(AuthUtils.getCurrentUser());
 		model.addAttribute("delegates", delegates);
-		// 委托人
-		List<AuthUserDelegate> clients = this.authUserDelegateService.findAllByToUser(AuthUtils.getCurrentUser());
-		model.addAttribute("clients", clients);
 
 		// 只有回到自己的身份的时候，再显示委托候选人供其选择；
 		// 切换到委托人身份时，不允许替委托人设置委托
@@ -78,18 +78,18 @@ public class AuthUserDelegateController {
 			List<AuthUser> candidates = authUserService.findAll(true);
 			candidates.remove(AuthUtils.getCurrentUser());
 			// 将我已委托的用户从委托候选列表中移除
-			for (AuthUserDelegate user : delegates) {
+			for (AuthUserDelegate user : agents) {
 				// System.out.println("从列表中移除我的受托人: " + user.getToUser());
 				candidates.remove(user.getToUser());
 			}
 			// 将已委托给我的用户从委托候选列表中移除
-			for (AuthUserDelegate user : clients) {
+			for (AuthUserDelegate user : delegates) {
 				// System.out.println("从列表中移除我的委托人: " + user.getFromUser());
 				candidates.remove(user.getFromUser());
 			}
 			model.addAttribute("candidates", candidates);
 		}
-		return "auth/delegate/index";
+		return "auth/delegate";
 	}
 
 	/**

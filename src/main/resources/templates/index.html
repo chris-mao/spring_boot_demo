@@ -52,9 +52,9 @@
 		style="height: 20px; padding: 5px;">state panel</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
-			<div class="easyui-panel" title="Panel Footer" fit="true"
+			<div class="easyui-panel" title="Panel Title" fit="true"
 				style="width: 700px;" data-options="footer:'#ft'">
-				<div class="panel-body">
+				<div class="panel-body" style="padding:4px;">
 					<p>这里放系统公告，个人消息等信息</p>
 					<div>
 						<shiro:principal property="nickName" />
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="ft" style="padding: 5px;">Footer Content.</div>
+			<div id="ft" style="padding: 5px;">Footer.</div>
 			<div class="easyui-panel" title="Panel"
 				data-options="collapsible:true,minimizable:true,maximizable:true,closable:true">aaa
 			</div>

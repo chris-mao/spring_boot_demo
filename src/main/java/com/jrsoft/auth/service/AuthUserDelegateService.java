@@ -55,7 +55,7 @@ public interface AuthUserDelegateService {
 	public boolean exists(AuthUser fromUser, AuthUser toUser);
 	
 	/**
-	 * 查询受托人／代理人（我把身份委托给了谁）
+	 * 查询用户的代理（用户把身份委托给了谁）
 	 * 
 	 * @param fromUser 委托人
 	 * @return
@@ -63,7 +63,7 @@ public interface AuthUserDelegateService {
 	public List<AuthUserDelegate> findAllByFromUser(AuthUser fromUser);
 	
 	/**
-	 * 查询委托人（谁把身份委托给了我）
+	 * 查询用户的委托（谁把身份委托给了用户）
 	 * 
 	 * @param toUser 受托人（代理人）
 	 * @return
