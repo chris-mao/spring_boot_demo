@@ -311,6 +311,33 @@ END
  ;;
 delimiter ;
 
+DROP PROCEDURE IF EXISTS `sp_findAllClients`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_findAllClients`(IN v_to_user_id smallint)
+    READS SQL DATA
+BEGIN
+SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available 
+FROM auth_user_delegate 
+WHERE to_user_id = v_to_user_id AND (CURDATE() BETWEEN IFNULL(start_date,CURDATE()) AND IFNULL(end_date,CURDATE()));
+END
+ ;;
+delimiter ;
+
+
+DROP PROCEDURE IF EXISTS `sp_findAllClients`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_findAllDelegates`(IN v_from_user_id smallint)
+    READS SQL DATA
+BEGIN
+/* 查询委托人（代理人）
+ *
+ *
+ */
+SELECT from_user_id, to_user_id, start_date, end_date, created_time, update_time, available FROM auth_user_delegate WHERE from_user_id = v_from_user_id AND (CURDATE() BETWEEN IFNULL(start_date,CURDATE()) AND IFNULL(end_date,CURDATE()));
+END
+ ;;
+delimiter ;
+
 
 DROP PROCEDURE IF EXISTS `sp_getUserMenu`;
 delimiter ;;
