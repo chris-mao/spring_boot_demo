@@ -58,11 +58,12 @@ public class AuthUserDelegateController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({ "", "/index" })
 	@RequiresPermissions("authUser:delegate")
 	public String delegateList(@RequestParam(defaultValue = "1") int page, Model model) {
 		// System.out.println("当前身份是： " + AuthUtils.getUser());
 		// System.out.println("前一个身份是：" + AuthUtils.getPreviousUser());
+		//当前身份
+		model.addAttribute("currentUser", AuthUtils.getCurrentUser());
 		// 前一个身份
 		model.addAttribute("previousUser", AuthUtils.getPreviousUser());
 		// 当前用户的代理人（受托人）
@@ -156,7 +157,6 @@ public class AuthUserDelegateController {
 	 * @throws DataNotFoundException
 	 * @throws IllegalDelegateException
 	 */
-	@GetMapping("/switchTo/{toUserId}")
 	@RequiresPermissions("authUser:delegate")
 	public String switchTo(@PathVariable("toUserId") Integer toUserId)
 			throws DataNotFoundException, IllegalDelegateException {
@@ -170,6 +170,10 @@ public class AuthUserDelegateController {
 			throw new IllegalDelegateException(String.format("委托者 %s 的帐号已过期，请与系统管理员联系！！", toUser.getNickName()));
 		} else if (toUser.getState() == AuthUserStateEnum.INACTIVE) {
 			throw new IllegalDelegateException(String.format("委托者 %s 的帐号已失效，请与系统管理员联系！！", toUser.getNickName()));
+		}
+		
+		else if (false == authUserDelegateService.exists(AuthUtils.getCurrentUser(), toUser)) {
+			
 		}
 
 		SimplePrincipalCollection spc = new SimplePrincipalCollection(toUser, "");
@@ -185,7 +189,6 @@ public class AuthUserDelegateController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/switchBack")
 	@RequiresPermissions("authUser:delegate")
 	public String switchBack() {
 		if (AuthUtils.getCredential().isRunAs()) {

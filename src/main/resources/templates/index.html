@@ -26,13 +26,24 @@
 		<div class="emerson">&nbsp;</div>
 		<div class="banner">用户认证系统</div>
 		<div class="right-button-panel">
-			<input type="hidden" id="userId" th:value="${user.userId}"/>
-			<input type="hidden" id="userName" th:value="${user.userName}"/>
+			<input type="hidden" id="userId" th:value="${currentUser.userId}" />
+			<input type="hidden" id="userName" th:value="${currentUser.userName}" />
 			<a class="easyui-linkbutton" data-options="plain:true" href="#"
 				onclick="changePsd($('#userId').val(), $('#userName').val());">修改密码</a>
-			<a
-				class="easyui-linkbutton" data-options="plain:true"
+			<a class="easyui-linkbutton" data-options="plain:true"
 				th:href="@{/logout}">退出系统</a>
+		</div>
+		<div class="user-panel" style="float: right;margin-left: 10px;margin-top: 40px;">
+			<div class="user">
+				欢迎 <span th:text="${currentUser.nickName}"></span>
+			</div>
+			<div class="agent" th:if="${previousUser}">
+				<small><a style="color: #A52A2A;" class="easyui-linkbutton"
+					plain="true" href="#" onclick="switchBack()">返回代理人<strong
+						th:utext="${previousUser.nickName}" class="text-primary"
+						style="padding-left: 4px; padding-right: 4px;"></strong>的身份
+				</a></small>
+			</div>
 		</div>
 
 		<div class="menu-combo">
@@ -52,62 +63,47 @@
 		style="height: 20px; padding: 5px;">state panel</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
-			<div class="easyui-panel" title="Panel Title" fit="true"
-				style="width: 700px;" data-options="footer:'#ft'">
-				<div class="panel-body" style="padding:4px;">
-					<p>这里放系统公告，个人消息等信息</p>
-					<div>
-						<shiro:principal property="nickName" />
-						<shiro:principal property="userId" />
-					</div>
-					<div>
-					<p th:text="${user}"></p>
-					</div>
-				</div>
-			</div>
-			<div id="ft" style="padding: 5px;">Footer.</div>
-			<div class="easyui-panel" title="Panel"
-				data-options="collapsible:true,minimizable:true,maximizable:true,closable:true">aaa
-			</div>
+			<h1 class="text-primary">Welcome，</h1>
+
 		</div>
 	</div>
-    
-    <!-- 修改密码窗体 -->
-    <div id="changePasswordDlg" class="easyui-dialog" title="修改密码"
-        style="width: 400px; height: auto;" closed="true"
-        buttons="#changePasswordDlgButtons" data-options="modal:true">
-        <form id="changePasswordForm" method="post">
-            <div>
-                <input name="userName" class="easyui-textbox" iconWidth="28"
-                    style="width: 100%; height: 34px; backgroud: gray" readonly="true"
-                    disabled="true" label="用户名称" labelWidth="60px" />
-            </div>
-            <div>
-                <input id="pass" name="newPassword" class="easyui-passwordbox"
-                    prompt="请输入新的登录密码" iconWidth="28" required="true"
-                    style="width: 100%; height: 34px;" label="新密码" labelWidth="60px" />
-            </div>
-            <div>
-                <input class="easyui-passwordbox" prompt="请再次输入新密码" iconWidth="28"
-                    required="true" validType="confirmPass['#pass']"
-                    style="width: 100%; height: 34px;" label="密码确认" labelWidth="60px" />
-            </div>
-        </form>
-    </div>
-    <!-- 修改密码窗体按钮 -->
-    <div id="changePasswordDlgButtons">
-        <a href="javascript:void(0)" class="easyui-linkbutton"
-            iconCls="icon-ok" onclick="savePassword()">保存新密码</a> <a
-            href="javascript:void(0)" class="easyui-linkbutton"
-            iconCls="icon-cancel"
-            onclick="javascript:$('#changePasswordDlg').dialog('close')">放弃修改</a>
-    </div>
-	
+
+	<!-- 修改密码窗体 -->
+	<div id="changePasswordDlg" class="easyui-dialog" title="修改密码"
+		style="width: 400px; height: auto;" closed="true"
+		buttons="#changePasswordDlgButtons" data-options="modal:true">
+		<form id="changePasswordForm" method="post">
+			<div>
+				<input name="userName" class="easyui-textbox" iconWidth="28"
+					style="width: 100%; height: 34px; backgroud: gray" readonly="true"
+					disabled="true" label="用户名称" labelWidth="60px" />
+			</div>
+			<div>
+				<input id="pass" name="newPassword" class="easyui-passwordbox"
+					prompt="请输入新的登录密码" iconWidth="28" required="true"
+					style="width: 100%; height: 34px;" label="新密码" labelWidth="60px" />
+			</div>
+			<div>
+				<input class="easyui-passwordbox" prompt="请再次输入新密码" iconWidth="28"
+					required="true" validType="confirmPass['#pass']"
+					style="width: 100%; height: 34px;" label="密码确认" labelWidth="60px" />
+			</div>
+		</form>
+	</div>
+	<!-- 修改密码窗体按钮 -->
+	<div id="changePasswordDlgButtons">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-ok" onclick="savePassword()">保存新密码</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#changePasswordDlg').dialog('close')">放弃修改</a>
+	</div>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#menuTree").tree({
 				method : "get",
-				url : "users/rest/2/menu",
+				url : "users/rest/" + $("#userId").val() + "/menu",
 				animate : true,
 				lines : true,
 				onLoadSuccess : function(node, data) {
@@ -125,13 +121,12 @@
 
 			$("#menuCombobox").combotree({
 				method : "get",
-				url : "users/rest/2/menu",
+				url : "users/rest/" + $("#userId").val() + "/menu",
 				textField : "text",
 				animate : true,
 				lines : true,
 				onLoadSuccess : function(node, data) {
 					$('#menuCombobox').combotree('tree').tree("expandAll");
-					;
 				},
 				onClick : function(node) {
 					if (node) {

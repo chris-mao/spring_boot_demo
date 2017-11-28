@@ -24,7 +24,7 @@
             您只需指定委托人，及委托日期（可以是一个临时性委托，也可以是永久性委托），他（她）就可以以您的身份在系统中进行操作。
         </p>
     </div>
-        
+    <input type="hidden" id="userId" th:value="${currentUser.userId}" />  
     <div class="easyui-panel" data-options="border:false" style=" height: 310px; padding: 4px;">
     <div class="easyui-layout" data-options="fit:true">
         <div data-options="region:'west',border:false" style="width: 49%">
@@ -52,8 +52,7 @@
             </div>
             <!-- 面板脚注 -->
             <div id="agentPanelFooter" class="panel-footer" style="padding: 4px;" >
-                <small>您已将身份委托给以上用户，他们可以在<strong class="text-danger">有效的委托时间范围以您的身份在系统中执行操作</strong>。<span
-                    th:unless="${previousUser}">使用右侧的 <code>取消代理</code>按钮取消身份委托！</span>
+                <small>您已将身份委托给以上用户，他们可以在<strong class="text-danger">有效的委托时间范围以您的身份在系统中执行操作</strong>。使用右侧的 <code>取消代理</code>按钮取消代理！
                 </small>
             </div>
         </div>
@@ -78,7 +77,7 @@
             <!-- 面板脚注 -->
             <div id="delegatePanelFooter" class="panel-footer" style="padding: 4px;">
                 您已获得以上用户的委托，可以使用右侧的 <code>切换身份</code>按钮切换到委托人身份在系统中执行操作！
-                <span style="color:red">“切换身份”动作会关闭所有页面，请确保在执行该操作之前所有数据都已保存！！！</span>
+                <span style="color:red">“切换身份”动作会关闭所有已打开的页面，请确保在执行该操作之前所有数据都已保存！！！</span>
             </div>
         </div>
     </div>
@@ -87,17 +86,18 @@
         <div class="btn-toolbar pull-right hidden-print"
             th:if="${previousUser}">
             <div class="btn-group btn-group-xs">
-                <a class="btn btn-default" th:href="@{/delegate/switchBack}">返回<strong
+                <a class="btn btn-default" href="#" onclick="switchBack()">返回<strong
                     th:utext="${previousUser.nickName}" class="text-primary"
                     style="padding-left: 4px; padding-right: 4px;"></strong>的身份
                 </a>
             </div>
         </div>
+        
     <script type="text/javascript">
     $(document).ready(function() {
         $("#delegateDatagrid").datagrid({
             method : "get",
-            url : "users/rest/2/delegates",
+            url : "/users/rest/" + $("#userId").val() + "/delegates",
             rownumbers : true,
             striped : true,
             emptyMsg: "无委托记录！"
@@ -105,16 +105,13 @@
         
         $("#agentDatagrid").datagrid({
             method : "get",
-            url : "users/rest/2/agents",
+            url : "/users/rest/" + $("#userId").val() + "/agents",
             rownumbers : true,
             striped : true,
             emptyMsg: "无代理记录！",
             onBeforeEdit : function(index, row) {
                 row.editing = true;
                 $(this).datagrid("refreshRow", index);
-            },
-            onBeginEdit : function(index, row) {
-                // alert("BeginEdit");
             },
             onEndEdit : function(index, row, changes) {
                 var editingRow = $("#agentDatagrid").datagrid("getSelected");
@@ -123,10 +120,30 @@
                         field : "toUser"
                     });
                     if (ed != null) {
-                        console.log("role id: "+ $(ed.target).combobox("getValue"));
-                        console.log("role name: "+ $(ed.target).combobox("getText"));
-                        editingRow.roleId = $(ed.target).combobox("getValue");
-                        editingRow.roleName = $(ed.target).combobox("getText");
+                        console.log("user id: "+ $(ed.target).combobox("getValue"));
+                        console.log("nick name: "+ $(ed.target).combobox("getText"));
+                        userId = $(ed.target).combobox("getValue");
+                        nickName = $(ed.target).combobox("getText");
+                        $.ajax({
+                            url : "/users/rest/grant/" + userId,
+                            type : "POST",
+                            data: {"startDate": editingRow.startDate,"endDate":editingRow.endDate},
+                            success : function(data, textStatus) {
+                                console.log(data);
+                                console.log(textStatus);
+                                if (data.state == 0) {
+                                	$("#agentDatagrid").datagrid("reload");
+                                	$.messager.alert("信息", data.message, "info");
+                                } else {
+                                    $.messager.alert("错误", data.message, "error");
+                                    $("#agentDatagrid").datagrid("deleteRow", index);
+                                }
+                            },
+                            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                                console.log("status: " + textStatus);
+                                console.log("error: " + errorThrown);
+                            }
+                        });
                     }
             },
             onAfterEdit : function(index, row, changes) {
@@ -152,14 +169,44 @@
             var cancelBtn = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="cancelRow(this)">取消</a>';
             return saveBtn + cancelBtn;
         } else {
-            return '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="">取消代理</a> ';
+            if (row.toUser) {
+        	    return '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="revoke(' + row.toUser.userId +')">取消代理</a> ';
+            }
+            return "";
+            
         }
     }
     
     function switchBtnFormatter(value, row, index) {
-        return '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="">切换身份</a>';
+        return '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="switchUser(' + row.fromUser.userId +')">切换身份</a>';
     }
     
+    //切换用户身份
+    function switchUser(userId) {
+    	$.ajax({
+            url : "/users/rest/switch-to/" + userId,
+            type : "GET",
+            success : function(data, textStatus) {
+                console.log(data);
+                console.log(textStatus);
+                if (data.state == 0) {
+                	$.messager.confirm("信息", data.message + " 是否立即刷新页面？", function(r) {
+                		if (r) {
+                			window.location.reload();
+                		}
+                	});
+                } else {
+                    $.messager.alert("错误", data.message, "error");
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("status: " + textStatus);
+                console.log("error: " + errorThrown);
+            }
+        });
+    }
+    
+    //新增数据行
     function newAgent() {
         var myDate = new Date();
         $("#agentDatagrid").datagrid("appendRow", {
@@ -170,15 +217,43 @@
         $("#agentDatagrid").datagrid("beginEdit", editIndex);
     }
     
+    //保存新代理
     function saveRow(target) {
         $("#agentDatagrid").datagrid("endEdit", getRowIndex(target));
     }
 
-    // 取消行修改
+    // 取消新增
     function cancelRow(target) {
         var editIndex = getRowIndex(target);
         $("#agentDatagrid").datagrid("cancelEdit", editIndex);
         $("#agentDatagrid").datagrid("deleteRow", editIndex);
+    }
+    
+    //收回代理资格
+    function revoke(userId) {
+    	$.messager.confirm("确认", "取消代理资格？", function(r) {
+            if (r) {
+            	$.ajax({
+                    url : "/users/rest/revoke/" + userId,
+                    type : "POST",
+                    success : function(data, textStatus) {
+                        console.log(data);
+                        console.log(textStatus);
+                        if (data.state == 0) {
+                            $("#agentDatagrid").datagrid("reload");
+                            $.messager.alert("信息", data.message, "info");
+                        } else {
+                            $.messager.alert("错误", data.message, "error");
+                            $("#agentDatagrid").datagrid("deleteRow", index);
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("status: " + textStatus);
+                        console.log("error: " + errorThrown);
+                    }
+                });
+            }
+        })
     }
     
     </script>

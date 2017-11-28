@@ -1,4 +1,3 @@
-
 .top-panel {
 	height: 80px;
 	width: 100%;
@@ -25,7 +24,7 @@
 	margin-left: 5px;
 	margin-top: 17px;
 	margin-right: 5px;
-    cursor: default;
+	cursor: default;
 	font-size: 36px;
 	font-family: monospace, serif;
 }
@@ -33,19 +32,36 @@
 .top-panel .menu-combo {
 	float: right;
 	margin-left: 5px;
-    margin-top: 30px;
+	margin-top: 40px;
 	margin-right: 5px;
 }
 
 .top-panel .menu-combo label {
-	line-height:21px;
+	line-height: 21px;
+}
+
+.top-panle .user-panel {
+	float: right;
+	margin-left: 10px;
+	margin-top: 40px;
+}
+
+.user-panel .user {
+	float: left;
+	font-weight: bold;
+	margin-top: 4px;
+}
+
+.user-panel .agent {
+	float: left;
+	margin-left: 4px;
 }
 
 .top-panel .right-button-panel {
 	float: right;
-    margin-left: 5px;
-    margin-top: 30px;
-    margin-right: 10px;
+	margin-left: 4px;
+	margin-top: 40px;
+	margin-right: 10px;
 }
 
 .datagrid-toolbar {

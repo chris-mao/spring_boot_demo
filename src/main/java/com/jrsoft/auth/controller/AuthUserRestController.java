@@ -3,7 +3,10 @@
  */
 package com.jrsoft.auth.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +36,7 @@ import com.jrsoft.auth.entity.AuthUserRoleReleation;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthUserDelegateService;
 import com.jrsoft.auth.service.AuthUserService;
+import com.jrsoft.auth.utils.AuthUtils;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
@@ -70,8 +75,17 @@ import com.jrsoft.common.JsonResult;
  * <dd>修改（新增、编辑、删除）用户关联角色，需要拥有<code>authUser:edit</code>权限</dd>
  * <dt>GET: users/rest/{id}/agents</dt>
  * <dd>返回用户的代理用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
- * <dt>GET: users/rest/{id}/delegates</dt>agents
+ * <dt>GET: users/rest/{id}/delegates</dt>
  * <dd>返回用户的代理的用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
+ * <dt>GET: users/rest/switch-to/{id}</dt>
+ * <dd>切换到委托人身份，需要拥有<code>authUser:delegate</code>权限</dd>
+ * <dt>GET: users/rest/switch-back</dt>
+ * <dd>返回前一个身份，需要拥有<code>authUser:delegate</code>权限</dd>
+ * 
+ * <dt>POST: users/rest/grant/{id}</dt>
+ * <dd>将指定用户设为当前用户的代理，需要拥有<code>authUser:delegate</code>权限</dd>
+ * <dt>POST: users/rest/revoke/{id}</dt>
+ * <dd>取消代理，需要拥有<code>authUser:delegate</code>权限</dd>
  * </dl>
  * </p>
  * 
@@ -379,5 +393,128 @@ public class AuthUserRestController {
 	public List<AuthUserDelegate> findAllDelegates(@PathVariable("id") int userId) {
 		AuthUser toUser = new AuthUser(userId);
 		return authUserDelegateService.findAllByToUser(toUser);
+	}
+
+	/**
+	 * 将身份委托给指定的用户
+	 * 
+	 * @param toUserId
+	 * @param request
+	 * @return {@link JsonResult }
+	 */
+	@PostMapping("/grant/{toUserId}")
+	@RequiresPermissions("authUser:delegate")
+	public JsonResult<AuthUser> grant(@PathVariable("toUserId") Integer toUserId, HttpServletRequest request) {
+		AuthUser toUser = new AuthUser(toUserId);
+		toUser = authUserService.findOne(toUser);
+		AuthUser currentUser = AuthUtils.getCurrentUser();
+		if (null == toUser) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, String.format("代理帐号不存在！ID：%d", toUserId), toUser);
+		} else if (toUser.equals(currentUser)) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "不允许自已为自己代理！", toUser);
+		} else if (this.authUserDelegateService.exists(currentUser, toUser)) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("重复委托：用户 %s 的已是您的代理人，不允许重复设置！", toUser.getNickName()), toUser);
+		} else if (true == authUserDelegateService.exists(toUser, currentUser)) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("循环委托：您已是用户 %s 的代理人，不允许再将身份委托给他（她）！", toUser.getNickName()), toUser);
+		} else if (toUser.getState() == AuthUserStateEnum.LOCKED) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("代理人 %s 的帐号已被锁，无法设为您的代理人！", toUser.getNickName()), toUser);
+		} else if (toUser.getState() == AuthUserStateEnum.EXPIRED) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("代理人 %s 的帐号已过期，无法设为您的代理人！", toUser.getNickName()), toUser);
+		} else if (toUser.getState() == AuthUserStateEnum.INACTIVE) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("代理人 %s 的帐号已失效，无法设为您的代理人！", toUser.getNickName()), toUser);
+		}
+
+		Date startDate = null, endDate = null;
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			startDate = df.parse(request.getParameter("startDate"));
+			if ("" != request.getParameter("endDate")) {
+				endDate = df.parse(request.getParameter("endDate"));
+			}
+			this.authUserDelegateService.grantDelegate(currentUser, toUser, startDate, endDate);
+			return new JsonResult<AuthUser>(JsonResult.SUCCESS, String.format("成功将用户 %s 设为您的代理！", toUser.getNickName()),
+					toUser);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "设置代理出错！", toUser);
+		}
+	}
+
+	/**
+	 * 取消委托关系
+	 * 
+	 * @param toUserId
+	 * @return
+	 */
+	@PostMapping("/revoke/{toUserId}")
+	@RequiresPermissions("authUser:delegate")
+	public JsonResult<AuthUser> revoke(@PathVariable("toUserId") Integer toUserId) {
+		AuthUser toUser = new AuthUser(toUserId);
+		toUser = authUserService.findOne(toUser);
+		this.authUserDelegateService.revokeDelegate(AuthUtils.getCurrentUser(), toUser);
+		return new JsonResult<AuthUser>(JsonResult.SUCCESS, String.format("成功收回用户 %s 的代理资格！", toUser.getNickName()),
+				toUser);
+	}
+
+	/**
+	 * 切换身份
+	 * 
+	 * 在切换身份之前会判断委托关系是否存在，以及委托人的帐号状态（被锁、过期或是失效）是否正常
+	 * 
+	 * @param toUserId
+	 * @return {@link JsonResult }
+	 */
+	@GetMapping("/switch-to/{id}")
+	@RequiresPermissions("authUser:delegate")
+	public JsonResult<AuthUser> switchTo(@PathVariable("id") Integer fromUserId) {
+		AuthUser fromUser = new AuthUser(fromUserId);
+		fromUser = authUserService.findOne(fromUser);
+		AuthUser currentUser = AuthUtils.getCurrentUser();
+		if (null == fromUser) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, String.format("委托帐号不存在！ID：%d", fromUserId), fromUser);
+		} else if (fromUser.equals(currentUser)) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR, "不允许自已为自己代理！", fromUser);
+		} else if (false == authUserDelegateService.exists(fromUser, currentUser)) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("用户 %s 与 %s 之间不存在委托关系！", fromUser.getNickName(), currentUser.getNickName()),
+					fromUser);
+		} else if (fromUser.getState() == AuthUserStateEnum.LOCKED) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("委托人 %s 的帐号已被锁，请与系统管理员联系！", fromUser.getNickName()), fromUser);
+		} else if (fromUser.getState() == AuthUserStateEnum.EXPIRED) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("委托人 %s 的帐号已过期，请与系统管理员联系！", fromUser.getNickName()), fromUser);
+		} else if (fromUser.getState() == AuthUserStateEnum.INACTIVE) {
+			return new JsonResult<AuthUser>(JsonResult.ERROR,
+					String.format("委托人 %s 的帐号已失效，请与系统管理员联系！", fromUser.getNickName()), fromUser);
+		}
+
+		SimplePrincipalCollection spc = new SimplePrincipalCollection(fromUser, "");
+		AuthUtils.getCredential().runAs(spc);
+		return new JsonResult<AuthUser>(JsonResult.SUCCESS, String.format("成功切换到委托人 %s 的身份！", fromUser.getNickName()),
+				fromUser);
+	}
+
+	/**
+	 * 返回身份
+	 * 
+	 * 身份委托是以栈的形式保存，所以在返回身份时，只能返回上一个身份，直至栈为空为止
+	 * 
+	 * @return
+	 */
+	@GetMapping("/switch-back")
+	@RequiresPermissions("authUser:delegate")
+	public JsonResult<AuthUser> switchBack() {
+		if (AuthUtils.getCredential().isRunAs()) {
+			AuthUtils.getCredential().releaseRunAs();
+		}
+		AuthUser currentUser = AuthUtils.getCurrentUser();
+		return new JsonResult<AuthUser>(JsonResult.SUCCESS, String.format("成功返回到 %s 的身份！", currentUser.getNickName()),
+				currentUser);
 	}
 }

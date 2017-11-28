@@ -3,11 +3,10 @@
  */
 package com.jrsoft.app.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.jrsoft.auth.utils.AuthUtils;
@@ -33,8 +32,11 @@ public class HomeController {
 	 * @return
 	 */
 	@GetMapping({ "/", "/index" })
-	public String index(HttpServletRequest request, Map<String, Object> map) {
-		map.put("user", AuthUtils.getCurrentUser());
+	public String index(HttpServletRequest request, Model model) {
+		// 当前身份
+		model.addAttribute("currentUser", AuthUtils.getCurrentUser());
+		// 前一个身份
+		model.addAttribute("previousUser", AuthUtils.getPreviousUser());
 		return "index";
 	}
 

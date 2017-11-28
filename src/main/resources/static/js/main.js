@@ -167,6 +167,31 @@ function savePassword() {
 	});
 }
 
+//返回前一身份
+function switchBack() {
+    $.ajax({
+        url : "/users/rest/switch-back",
+        type : "GET",
+        success : function(data, textStatus) {
+            console.log(data);
+            console.log(textStatus);
+            if (data.state == 0) {
+            	$.messager.confirm("信息", data.message + " 是否立即刷新页面？", function(r) {
+                    if (r) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                $.messager.alert("错误", data.message, "error");
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("status: " + textStatus);
+            console.log("error: " + errorThrown);
+        }
+    });
+}
+
 $.extend($.fn.datagrid.defaults.editors, {
 	datebox : {
 		init : function(container, options) {
