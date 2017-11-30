@@ -37,6 +37,7 @@ var post_url;
 // 打开创建新权限对话框
 function newPermission() {
 	post_url = "/permissions/rest/new";
+	$("#parentId").combotree("reload");
 	$("#permissionEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新权限");
 	$("#permissionEditForm").form("clear");
