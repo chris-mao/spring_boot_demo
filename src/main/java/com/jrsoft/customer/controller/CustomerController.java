@@ -1,4 +1,4 @@
-package com.jrsoft.auth.controller;
+package com.jrsoft.customer.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * <p>系统角色控制器类，提供系统角色维护页面入口</p>
- * 
- * com.jrsoft.auth.controller AuthRoleController
+ * <p>客户控制器类，提供客户维护页面入口</p>
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -16,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping("/roles")
-public class AuthRoleController {
+@RequestMapping("/customers")
+public class CustomerController {
 
 	/**
-	 * 系统角色列表
+	 * 客户列表
 	 * 
 	 * @param page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "", "/index" })
-	@RequiresPermissions("authRole:list")
-	public String roleList() {
-		return "auth/role";
+	@RequiresPermissions("customer:list")
+	public String customerList() {
+		return "customer/index";
 	}
 }
