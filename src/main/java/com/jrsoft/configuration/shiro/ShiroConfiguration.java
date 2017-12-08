@@ -24,6 +24,7 @@ import com.jrsoft.auth.shiro.JrShiroRealm;
 import com.jrsoft.configuration.shiro.listener.JrSessionListener;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import net.sf.ehcache.CacheManager;
 
 /**
  * Shiro配置类
@@ -143,9 +144,17 @@ public class ShiroConfiguration {
 	 */
 	@Bean
 	public EhCacheManager ehCacheManager() {
-		EhCacheManager cacheManager = new EhCacheManager();
-		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
-		return cacheManager;
+		//这里的缓存名称要和缓存配置文件中使用的名称一致
+		CacheManager cacheManager = CacheManager.getCacheManager("es");
+		if (null == cacheManager) {
+			EhCacheManager ehCacheManager = new EhCacheManager();
+			ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+			return ehCacheManager;
+		}
+		//创建缓存管理器
+		EhCacheManager ehCacheManager = new EhCacheManager();
+		ehCacheManager.setCacheManager(cacheManager);
+		return ehCacheManager;
 	}
 	
 	/**
