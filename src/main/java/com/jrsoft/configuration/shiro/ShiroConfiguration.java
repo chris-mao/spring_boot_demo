@@ -144,14 +144,12 @@ public class ShiroConfiguration {
 	 */
 	@Bean
 	public EhCacheManager ehCacheManager() {
-		//这里的缓存名称要和缓存配置文件中使用的名称一致
 		CacheManager cacheManager = CacheManager.getCacheManager("es");
 		if (null == cacheManager) {
 			EhCacheManager ehCacheManager = new EhCacheManager();
 			ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
 			return ehCacheManager;
 		}
-		//创建缓存管理器
 		EhCacheManager ehCacheManager = new EhCacheManager();
 		ehCacheManager.setCacheManager(cacheManager);
 		return ehCacheManager;

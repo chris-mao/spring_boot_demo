@@ -3,15 +3,13 @@
  */
 package com.jrsoft.auth.service;
 
-import java.util.List;
 import java.util.Set;
 
-import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统角色服务接口
@@ -21,62 +19,7 @@ import com.jrsoft.common.EasyDataGrid;
  * @version 1.2
  *
  */
-public interface AuthRoleService {
-
-	/**
-	 * 查询所有角色信息，不具备分页功能 等同于findAll(false)
-	 * 
-	 * @since 1.0
-	 * @return List
-	 */
-	public List<AuthRole> findAll();
-
-	/**
-	 * 查询所有角色信息，不具备分页功能
-	 * 
-	 * @param onlyAvailable
-	 *            仅返回有效的角色
-	 * 
-	 * @since 1.1
-	 * @return List
-	 */
-	public List<AuthRole> findAll(boolean onlyAvailable);
-
-	/**
-	 * 查询所有数据，具有分页功能
-	 * 
-	 * @since 1.0
-	 * @param pageIndex
-	 *            页码
-	 * @param pageSize
-	 *            分页大小
-	 * @return {@link PageInfo}
-	 */
-	public PageInfo<AuthRole> findAll(int pageNum, int pageSize);
-
-	/**
-	 * 根据传入的查询条件查询数据，具有分页功能 如果参数searchStr为空，则查询所有角色数据，否则查询<code>roleName</code>
-	 * 中含有其内容的角色数据
-	 * 
-	 * @since 1.2
-	 * @param pageIndex
-	 *            页码
-	 * @param pageSize
-	 *            分页大小
-	 * @param searchStr
-	 *            模糊查询内容
-	 * @return
-	 */
-	public EasyDataGrid<AuthRole> findAll(int pageIndex, int pageSize, String searchStr);
-
-	/**
-	 * 按角色编号或是名称查询
-	 * 
-	 * @since 1.0
-	 * @param role
-	 * @return AuthRole
-	 */
-	public AuthRole findOne(AuthRole role);
+public interface AuthRoleService extends AbstractDbService<AuthRole> {
 
 	/**
 	 * 根据用户查询其所拥有的有效角色清单
@@ -86,32 +29,6 @@ public interface AuthRoleService {
 	 * @return Set
 	 */
 	public Set<AuthRole> findAllByUser(AuthUser user);
-
-	/**
-	 * 创建新角色
-	 * 
-	 * @since 1.0
-	 * @param role
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean insert(AuthRole role);
-
-	/**
-	 * 更新角色
-	 * 
-	 * @since 1.0
-	 * @param role
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean update(AuthRole role);
-
-	/**
-	 * 删除角色
-	 * 
-	 * @param id
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean delete(int id);
 
 	/**
 	 * 新增角色权限关联关系
