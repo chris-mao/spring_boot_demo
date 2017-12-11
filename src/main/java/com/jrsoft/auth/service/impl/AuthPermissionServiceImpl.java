@@ -182,4 +182,9 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return EasyTreeUtils.buildTree(authPermissionDAO.getUserMenu(user.getUserId()));
 	}
 
+	@Override
+	public EasyDataGrid<AuthPermission> findAll(int pageIndex, int pageSize, String searchStr) {
+		return null;
+	}
+
 }
