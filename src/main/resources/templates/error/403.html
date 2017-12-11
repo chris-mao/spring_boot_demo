@@ -7,9 +7,9 @@
 <title>受限访问</title>
 </head>
 <body>
-	<div layout:fragment="content">
-		<div class="text-center text-danger" style="margin: 30px auto">
-			<h4>亲，看到这个页面时请不要慌张，这并不代表您做错了什么，只是您没有获得相应的系统授权。</h4>
+	<div layout:fragment="content" class="easyui-panel" title="受限访问" style="padding:10px;min-height: 200px;">
+		<div class="text-center text-danger" >
+			<h3>亲，看到这个页面时请不要慌张，这并不代表您做错了什么，只是您没有获得相应的系统授权。</h3>
 		</div>
 		<div
 			th:replace="fragments/exceptionInfo::showException(${exceptionInfo})">

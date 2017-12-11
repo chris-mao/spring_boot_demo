@@ -165,7 +165,7 @@ public class ShiroConfiguration {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		//设置会话过期时间
 		logger.info("设置会话过期时间");
-		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000); // 30 mins
+		sessionManager.setGlobalSessionTimeout(12 * 60 * 60 * 1000); // 12 hours
 		sessionManager.setSessionValidationInterval(sessionManager.getGlobalSessionTimeout());
 		//添加会话监听
 		logger.info("添加会话监听");

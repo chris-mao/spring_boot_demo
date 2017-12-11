@@ -53,7 +53,7 @@ public class AuthController {
 				msg = "您的帐号已被禁用！";
 			}
 			else if (AuthenticationException.class.getName().equals(exception)) {
-				msg = "登录认证失败，原因不明！";
+				msg = "登录认证失败，请联系管理员检查数据库是否连接正常！";
 			}
 			else {
 				msg = "登录异常！";

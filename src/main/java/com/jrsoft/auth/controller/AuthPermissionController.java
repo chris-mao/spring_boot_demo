@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthPermissionController {
 
 	/**
-	 * 系统权限列表
+	 * 系统权限页面访问入口
 	 * 
 	 * @param page
 	 * @param model
