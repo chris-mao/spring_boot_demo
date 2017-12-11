@@ -4,7 +4,7 @@
 package com.jrsoft.auth.service;
 
 import java.util.List;
-import com.github.pagehelper.PageInfo;
+import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
@@ -20,39 +20,7 @@ import com.jrsoft.common.EasyTreeNode;
  * @version 1.3
  *
  */
-public interface AuthPermissionService {
-
-	/**
-	 * 查询所有权限，不分页
-	 * 
-	 * @return List
-	 */
-	public List<AuthPermission> findAll();
-
-	/**
-	 * 查询所有权限信息，不具备分页功能 等同于findAll(false)
-	 * 
-	 * @param onlyAvailable
-	 *            仅返回有效的权限
-	 * 
-	 * @since 1.1
-	 * 
-	 * @return List
-	 */
-	public List<AuthPermission> findAll(boolean onlyAvailable);
-
-	/**
-	 * 查询所有数据，具有分页功能
-	 * 
-	 * @since 1.0
-	 * @param pageIndex
-	 *            页码
-	 * @param pageSize
-	 *            分页大小
-	 * @return {@link PageInfo}
-	 */
-	public PageInfo<AuthPermission> findAll(int pageNum, int pageSize);
-
+public interface AuthPermissionService extends AbstractDbService<AuthPermission> {
 	/**
 	 * 根据传入的父节点编号查询其子节点数据，且有分页功能，如果参数searchStr不为空，则查询指定节点下所有符合查询条件(
 	 * permission_name或是permission_text包含查询条件)的子节点
@@ -69,16 +37,7 @@ public interface AuthPermissionService {
 	 * @return
 	 */
 	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
-
-	/**
-	 * 按权限编号或是名称查询
-	 * 
-	 * @since 1.0
-	 * @param permission
-	 * @return AuthPermission
-	 */
-	public AuthPermission findOne(AuthPermission permission);
-
+	
 	/**
 	 * 根据系统中所有有效的权限构建权限树
 	 * 
@@ -135,31 +94,4 @@ public interface AuthPermissionService {
 	 * @return
 	 */
 	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user);
-
-	/**
-	 * 创建新权限
-	 * 
-	 * @since 1.0
-	 * @param permission
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean insert(AuthPermission permission);
-
-	/**
-	 * 更新权限
-	 * 
-	 * @since 1.0
-	 * @param permission
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean update(AuthPermission permission);
-
-	/**
-	 * 删除权限
-	 * 
-	 * @since 1.0
-	 * @param permission
-	 * @return 成功返回true,否则返回false
-	 */
-	public boolean delete(int id);
 }
