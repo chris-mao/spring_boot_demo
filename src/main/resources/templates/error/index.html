@@ -7,9 +7,10 @@
 <title>系统错误</title>
 </head>
 <body>
-	<div layout:fragment="content">
-		<div class="text-center text-danger" style="margin: 30px auto">
-            <h4>亲，出错啦〜〜</h4>
+    <div layout:fragment="content" class="easyui-panel" title="系统错误" style="padding:10px;min-height: 200px;">
+        <div class="text-center text-danger" >
+            <h3>亲，出错啦〜〜</h3>
+            <p>请把以下信息发送给系统管理员。谢谢！</p>
         </div>
         <div
             th:replace="fragments/exceptionInfo::showException(${exceptionInfo})">

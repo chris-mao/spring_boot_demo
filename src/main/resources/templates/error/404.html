@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/default">
 <head>
 <title>404</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<div layout:fragment="content">
-	<div class="text-center text-danger" style="margin: 30px auto">
-		<h4>亲，你请求的页面飞走了〜〜〜</h4>
-	</div>
-</div>
+<body>
+    <div layout:fragment="content" class="easyui-panel" title="页面不存在" style="padding:10px;min-height: 200px;">
+        <div class="text-center text-danger">
+        <h4>亲，你请求的页面找不到了，我想他是迷失在茫茫宇宙中了〜〜〜</h4>
+    </div>
+    </div>
+</body>
 </html>

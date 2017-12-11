@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CustomerController {
 
 	/**
-	 * 客户列表
+	 * 客户管理页面访问入口
 	 * 
-	 * @param page
-	 * @param model
 	 * @return
 	 */
 	@GetMapping({ "", "/index" })
-	@RequiresPermissions("customer:list")
+	@RequiresPermissions("customer:list1")
 	public String customerList() {
 		return "customer/index";
 	}

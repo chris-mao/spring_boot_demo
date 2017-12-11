@@ -52,18 +52,17 @@
 			</select>
 		</div>
 	</div>
-	<div data-options="region:'west',split:true,title:'菜单'"
+	<!-- <div data-options="region:'west',split:true,title:'菜单'"
 		style="width: 180px; min-width: 180px;">
-		<!-- <div th:replace="fragments/menu::menu"> -->
 		<div>
 			<ul id="menuTree" class="easyui-tree"></ul>
 		</div>
-	</div>
+	</div> -->
 	<div data-options="region:'south',border:false"
 		style="height: 20px; padding: 5px;">state panel</div>
 	<div id="workspace" data-options="region:'center'" class="easyui-tabs">
 		<div title="首页" style="padding: 5px; height: auto">
-			<h1 class="text-primary">Welcome，</h1>
+			<h1 class="text-primary">Welcome，<label th:text="${currentUser.nickName}"></label></h1>
 
 		</div>
 	</div>
@@ -101,13 +100,13 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#menuTree").tree({
+			/* $("#menuTree").tree({
 				method : "get",
 				url : "users/rest/" + $("#userId").val() + "/menu",
 				animate : true,
 				lines : true,
 				onLoadSuccess : function(node, data) {
-					$("#menuTree").tree("expandAll");
+					//$("#menuTree").tree("expandAll");
 				},
 				onClick : function(node) {
 					if (node) {
@@ -117,7 +116,7 @@
 						}
 					}
 				}
-			});
+			}); */
 
 			$("#menuCombobox").combotree({
 				method : "get",
@@ -126,7 +125,11 @@
 				animate : true,
 				lines : true,
 				onLoadSuccess : function(node, data) {
-					$('#menuCombobox').combotree('tree').tree("expandAll");
+					if(($("#menuCombobox").combotree('tree').tree('getRoots').length)==0) { //获取整个树形对象，然后获得这个树形对象的根节点的个数  
+				        $.messager.alert('提示','您还没有任何权限，请与系统管理员联系！','info');
+				    } else {  
+					    $('#menuCombobox').combotree('tree').tree("expandAll");
+				    }
 				},
 				onClick : function(node) {
 					if (node) {
