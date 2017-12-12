@@ -13,6 +13,7 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.customer.entity.Customer;
 import com.jrsoft.customer.service.CustomerService;
+import com.jrsoft.employee.entity.Employee;
 
 /**
  * 客户服务接口实现类
@@ -77,6 +78,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Set<Customer> findAllByEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
