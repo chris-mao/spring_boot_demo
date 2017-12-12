@@ -18,44 +18,66 @@
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body>
-	<!-- 数据表格 -->
-	<table id="employeeDatagrid" class="easyui-datagrid"
-		toolbar="#employeeDatagridToolbar">
-		<thead>
-			<tr>
-				<th data-options="field:'ck',checkbox:true"></th>
-				<th field="employeeId" style="width: 40px">编号</th>
-				<th field="employeeName" style="width: 120px">员工名称</th>
-				<th field="phone" style="width: 160px" align="center">联系电话</th>
-				<th field="fax" style="width: 160px" align="center">传真号码</th>
-				<th field="email" style="width: 240px">电子邮件</th>
-				<th field="oracleAccount" style="width: 100px" align="center">Oracle帐号</th>
-				<th field="reportTo" style="width: 60px">上级领导</th>
-				<th field="available" style="width: 60px" align="center"
-					formatter="availableFormatter">启用</th>
-				<th field="createdTime" style="width: 140px"
-					formatter="dateTimeFormatter">创建时间</th>
-				<th field="updateTime" style="width: 140px"
-					formatter="dateTimeFormatter">更新时间</th>
-			</tr>
-		</thead>
-	</table>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'west',split:false,collapsible:false"
+			title="组织架构" style="width: 200px;">
+			<ul class="easyui-tree" data-options="lines:true">
+				<li><span>艾默生</span>
+					<ul>
+						<li><span>苏州工厂</span></li>
+						<li><span>沈阳工厂</span></li>
+                        <li><span>销售办事处</span>
+							<ul>
+								<li><span>北京</span></li>
+								<li><span>上海</span></li>
+								<li><span>广州</span></li>
+							</ul></li>
+					</ul></li>
+			</ul>
+		</div>
+		<div data-options="region:'center'" title="员工列表">
+			<!-- 数据表格 -->
+			<table id="employeeDatagrid" class="easyui-datagrid"
+				toolbar="#employeeDatagridToolbar">
+				<thead>
+					<tr>
+						<th data-options="field:'ck',checkbox:true"></th>
+						<th field="employeeId" style="width: 40px">编号</th>
+						<th field="employeeName" style="width: 120px">员工名称</th>
+						<th field="phone" style="width: 160px" align="center">联系电话</th>
+						<th field="fax" style="width: 160px" align="center">传真号码</th>
+						<th field="email" style="width: 240px">电子邮件</th>
+						<th field="oracleAccount" style="width: 100px" align="center">Oracle帐号</th>
+						<th field="reportTo" style="width: 60px">上级领导</th>
+						<th field="available" style="width: 60px" align="center"
+							formatter="availableFormatter">启用</th>
+						<th field="createdTime" style="width: 140px"
+							formatter="dateTimeFormatter">创建时间</th>
+						<th field="updateTime" style="width: 140px"
+							formatter="dateTimeFormatter">更新时间</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
 
 	<!-- 数据表格工具栏 -->
 	<div id="employeeDatagridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="employee:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newEmployee()">新增员工</a>
+				iconCls="icon-add" plain="true" onclick="newEmployee()">新增</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="employee:edit">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editEmployee()">编辑员工</a>
+				iconCls="icon-edit" plain="true" onclick="editEmployee()">修改</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="employee:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deleteEmployee()">删除员工</a>
+				iconCls="icon-remove" plain="true" onclick="deleteEmployee()">删除</a>
 		</shiro:hasPermission>
-		<input id="employeeSearch" prompt="请输入员工姓名" class="easyui-searchbox" />
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-add" plain="true" title="查看名下客户清单">分配客户</a> <input
+			id="employeeSearch" prompt="请输入员工姓名" class="easyui-searchbox" />
 	</div>
 
 	<!-- 新增、编辑窗体 -->
@@ -104,42 +126,42 @@
 	</div>
 
 	<script type="text/javascript">
-	$(document).ready(function() {
-	    // 初始化用户表格
-	    $("#employeeDatagrid").datagrid({
-	        method : "get",
-	        url : "/employees/rest/list",
-	        idField : "employeeId",
-	        checkOnSelect : false,
-	        selectOnCheck : false,
-	        singleSelect : true,
-	        rownumbers : true,
-	        striped : true,
-	        fit : true,
-	        pagination : true,
-	        pagePosition : "bottom",
-	        pageSize : 20,
-	        pageList : [ 10, 20, 30, 50, 80 ],
-	        onDblClickRow : function(index, row) {
-	            editUser();
-	        }
-	    });
+		$(document).ready(function() {
+			// 初始化用户表格
+			$("#employeeDatagrid").datagrid({
+				method : "get",
+				url : "/employees/rest/list",
+				idField : "employeeId",
+				checkOnSelect : false,
+				selectOnCheck : false,
+				singleSelect : true,
+				rownumbers : true,
+				striped : true,
+				fit : true,
+				pagination : true,
+				pagePosition : "bottom",
+				pageSize : 20,
+				pageList : [ 10, 20, 30, 50, 80 ],
+				onDblClickRow : function(index, row) {
+					editUser();
+				}
+			});
 
-	    // 绑定快速查询
-	    $("#employeeSearch").searchbox({
-	        searcher : function(value, name) {
-	            if ($.trim(value).length > 0) {
-	                $("#employeeDatagrid").datagrid("load", {
-	                    searchValue : value
-	                });
-	            } else {
-	                $("#employeeDatagrid").datagrid("load", {});
-	            }
-	            // 清空选中的行
-	            $('#employeeDatagrid').datagrid('clearSelections');
-	        }
-	    });
-	});
-    </script>
+			// 绑定快速查询
+			$("#employeeSearch").searchbox({
+				searcher : function(value, name) {
+					if ($.trim(value).length > 0) {
+						$("#employeeDatagrid").datagrid("load", {
+							searchValue : value
+						});
+					} else {
+						$("#employeeDatagrid").datagrid("load", {});
+					}
+					// 清空选中的行
+					$('#employeeDatagrid').datagrid('clearSelections');
+				}
+			});
+		});
+	</script>
 </body>
 </html>

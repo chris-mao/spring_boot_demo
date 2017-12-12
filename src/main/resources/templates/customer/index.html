@@ -42,15 +42,15 @@
 	<div id="customerDatagridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="customer:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newCustomer()">新增用户</a>
+				iconCls="icon-add" plain="true" onclick="newCustomer()">新增</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="customer:edit">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editCustomer()">编辑用户</a>
+				iconCls="icon-edit" plain="true" onclick="editCustomer()">修改</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="customer:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deleteCustomer()">删除用户</a>
+				iconCls="icon-remove" plain="true" onclick="deleteCustomer()">删除</a>
 		</shiro:hasPermission>
 		<input id="customerSearch" prompt="请输入客户名称" class="easyui-searchbox" />
 	</div>

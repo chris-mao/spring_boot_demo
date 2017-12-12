@@ -8,6 +8,7 @@ import java.util.Set;
 import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.entity.Customer;
+import com.jrsoft.employee.entity.Employee;
 
 /**
  * 客户服务接口
@@ -17,7 +18,7 @@ import com.jrsoft.customer.entity.Customer;
  * @version 1.0
  *
  */
-public interface CustomerService  extends AbstractDbService<Customer> {
+public interface CustomerService extends AbstractDbService<Customer> {
 
 	/**
 	 * 根据用户查询其所对应的客户清单
@@ -27,4 +28,13 @@ public interface CustomerService  extends AbstractDbService<Customer> {
 	 * @return Set
 	 */
 	public Set<Customer> findAllByUser(AuthUser user);
+
+	/**
+	 * 根据员工查询分配到其名下的客户清单
+	 * 
+	 * @since 1.0
+	 * @param employee
+	 * @return Set
+	 */
+	public Set<Customer> findAllByEmployee(Employee employee);
 }
