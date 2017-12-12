@@ -5,10 +5,6 @@ package com.jrsoft.auth.controller;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
-import com.jrsoft.auth.entity.AuthRolePermissionReleation;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.common.EasyDataGrid;

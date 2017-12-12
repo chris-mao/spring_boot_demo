@@ -36,14 +36,12 @@ import com.jrsoft.common.EasyDataGrid;
 public class AuthPermissionServiceImpl implements AuthPermissionService {
 	
 	/**
-	 * 
 	 * @see com.jrsoft.auth.dao AuthUserDAO
 	 */
 	@Autowired
 	private AuthUserDAO authUserDAO;
 
 	/**
-	 * 
 	 * @see com.jrsoft.auth.dao AuthRoleDao
 	 */
 	@Autowired

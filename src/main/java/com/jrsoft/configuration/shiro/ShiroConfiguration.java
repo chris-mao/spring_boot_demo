@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
@@ -106,7 +105,7 @@ public class ShiroConfiguration {
 	public JrShiroRealm jrShiroRealm() {
 		JrShiroRealm jrShiroRealm = new JrShiroRealm();
 		logger.info("向Shiro中注入密码加密匹配器");
-		jrShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+		 jrShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return jrShiroRealm;
 	}
 
@@ -116,10 +115,12 @@ public class ShiroConfiguration {
 	 * @return
 	 */
 	@Bean
-	public HashedCredentialsMatcher hashedCredentialsMatcher() {
-		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+	public RetryLimitHashedCredentialsMatcher hashedCredentialsMatcher() {
+		//HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+		RetryLimitHashedCredentialsMatcher hashedCredentialsMatcher = new RetryLimitHashedCredentialsMatcher(ehCacheManager());
 		hashedCredentialsMatcher.setHashAlgorithmName("MD5");
 		hashedCredentialsMatcher.setHashIterations(1);
+		hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
 		return hashedCredentialsMatcher;
 	}
 
@@ -154,7 +155,7 @@ public class ShiroConfiguration {
 		ehCacheManager.setCacheManager(cacheManager);
 		return ehCacheManager;
 	}
-	
+
 	/**
 	 * 会话管理器
 	 * 
@@ -163,24 +164,23 @@ public class ShiroConfiguration {
 	@Bean
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		//设置会话过期时间
+		// 设置会话过期时间
 		logger.info("设置会话过期时间");
-		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000); // 30 mins
+		sessionManager.setGlobalSessionTimeout(12 * 60 * 60 * 1000); // 12 hours
 		sessionManager.setSessionValidationInterval(sessionManager.getGlobalSessionTimeout());
-		//添加会话监听
+		// 添加会话监听
 		logger.info("添加会话监听");
 		ArrayList<SessionListener> listeners = new ArrayList<SessionListener>();
 		listeners.add(new JrSessionListener());
 		sessionManager.setSessionListeners(listeners);
 		sessionManager.setCacheManager(ehCacheManager());
-		
+
 		return sessionManager;
 	}
-	
 
-	
 	/**
 	 * 为Thymeleaf增加Shiro方言，以便能够在模板文件中使用Shiro标签
+	 * 
 	 * @return
 	 */
 	@Bean

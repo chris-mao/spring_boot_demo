@@ -49,15 +49,15 @@
 			<div id="roleDatagridToolbar" class="datagrid-toolbar">
 				<shiro:hasPermission name="authRole:new">
 					<a href="javascript:void(0)" class="easyui-linkbutton"
-						iconCls="icon-add" plain="true" onclick="newRole()">新增角色</a>
+						iconCls="icon-add" plain="true" onclick="newRole()">新增</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="authRole:edit">
 					<a href="javascript:void(0)" class="easyui-linkbutton"
-						iconCls="icon-edit" plain="true" onclick="editRole()">编辑角色</a>
+						iconCls="icon-edit" plain="true" onclick="editRole()">修改</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="authRole:delete">
 					<a href="javascript:void(0)" class="easyui-linkbutton"
-						iconCls="icon-remove" plain="true" onclick="deleteRole()">删除角色</a>
+						iconCls="icon-remove" plain="true" onclick="deleteRole()">删除</a>
 				</shiro:hasPermission>
 				<input id="roleName" prompt="请输入角色名称" class="easyui-searchbox" />
 			</div>

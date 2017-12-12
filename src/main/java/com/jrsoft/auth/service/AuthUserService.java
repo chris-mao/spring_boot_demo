@@ -3,15 +3,12 @@
  */
 package com.jrsoft.auth.service;
 
-import java.util.List;
 import java.util.Set;
 
-import com.github.pagehelper.PageInfo;
 import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.entity.AuthUserRoleReleation;
-import com.jrsoft.common.EasyDataGrid;
 
 /**
  * 系统用户服务接口
