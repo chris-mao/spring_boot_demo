@@ -8,6 +8,9 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jrsoft.auth.service.AuthUserService;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,6 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
+	
+	@Autowired
+	private AuthUserService authUserService;
 	
 	/**
 	 * 最大登录次数
@@ -47,20 +53,22 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
-        String username = (String)token.getPrincipal();
-        AtomicInteger retryCount = passwordRetryCache.get(username);
+        String userName = (String)token.getPrincipal();
+        AtomicInteger retryCount = passwordRetryCache.get(userName);
         if(retryCount == null) {
             retryCount = new AtomicInteger(1);
-            passwordRetryCache.put(username, retryCount);
+            passwordRetryCache.put(userName, retryCount);
         }
-        logger.info("==> 用户 {} 尝试第 {} 次登录: ", username, retryCount.get());
+        logger.info("==> 用户 {} 尝试第 {} 次登录: ", userName, retryCount.get());
         //增加登录尝试次数
         if(retryCount.incrementAndGet() > MaxRetryCount) {
-            throw new ExcessiveAttemptsException();
+        	logger.info("==> 用户 {} 的帐号被锁！！！！ ", userName, retryCount.get());
+        	authUserService.lockUser(userName);
+        	throw new ExcessiveAttemptsException();
         }
 
         if(super.doCredentialsMatch(token, info)) { //身份认证成功，清除登录次数缓存
-            passwordRetryCache.remove(username);
+            passwordRetryCache.remove(userName);
             return true;
         }
         return false;
