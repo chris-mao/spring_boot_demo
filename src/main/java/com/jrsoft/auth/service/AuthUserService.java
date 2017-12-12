@@ -15,7 +15,7 @@ import com.jrsoft.auth.entity.AuthUserRoleReleation;
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.2
+ * @version 1.3
  *
  */
 public interface AuthUserService extends AbstractDbService<AuthUser> {
@@ -42,6 +42,24 @@ public interface AuthUserService extends AbstractDbService<AuthUser> {
 	 * @since 1.0
 	 */
 	public boolean changePassword(int id, String oldPassword, String newPassword);
+	
+	/**
+	 * 锁定用户帐号
+	 * 
+	 * @since 1.3
+	 * @param userId
+	 * @throws NotFoundException
+	 */
+	public void lockUser(final int userId);
+	
+	/**
+	 * 锁定用户帐号
+	 * 
+	 * @since 1.3
+	 * @param userName
+	 * @throws NotFoundException
+	 */
+	public void lockUser(final String userName);
 
 	/**
 	 * 查询用户所拥有的角色关系
