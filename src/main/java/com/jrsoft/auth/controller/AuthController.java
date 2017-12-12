@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -53,7 +54,10 @@ public class AuthController {
 				msg = "您的帐号已被禁用！";
 			}
 			else if (AuthenticationException.class.getName().equals(exception)) {
-				msg = "登录认证失败，原因不明！";
+				msg = "登录认证失败，请联系管理员检查数据库是否连接正常！";
+			}
+			else if (ExcessiveAttemptsException.class.getName().equals(exception)) {
+				msg = "连续5次登录失败，帐号已被锁定，请与系统管理员联系！";
 			}
 			else {
 				msg = "登录异常！";

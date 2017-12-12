@@ -41,21 +41,21 @@
 	<div id="userDatagridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="authUser:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newUser()">新增用户</a>
+				iconCls="icon-add" plain="true" onclick="newUser()">新增</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="authUser:edit">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+				iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 				onclick="showUserRolesDialog()">关联角色</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="authUser:change-password">
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 				onclick="changeUserPsd();">修改密码</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="authUser:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deleteUser()">删除用户</a>
+				iconCls="icon-remove" plain="true" onclick="deleteUser()">删除</a>
 		</shiro:hasPermission>
 		<input id="userSearch" prompt="请输入用户名称或昵称" class="easyui-searchbox" />
 	</div>

@@ -8,8 +8,6 @@ function addTab(title, href) {
 	if ($('#workspace').tabs('exists', title)) {
 		$('#workspace').tabs('select', title);
 	} else {
-		var content = '<iframe scrolling="auto" frameborder="0"  src="' + href
-				+ '" style="width:100%;height:100%;padding:5px;"></iframe>';
 		$('#workspace').tabs('add', {
 			title : title,
 			href : href,

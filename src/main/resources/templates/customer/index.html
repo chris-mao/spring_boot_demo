@@ -24,10 +24,10 @@
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
-				<th field="customerName" style="width: 160px">用户名称</th>
-				<th field="nickName" style="width: 260px">显示昵称</th>
-				<th field="email" style="width: 200px">电子邮件</th>
-				<th field="state" style="width: 80px" align="center">状态</th>
+				<th field="customerNumber" style="width: 160px">客户代码</th>
+                <th field="customerName" style="width: 260px">客户名称</th>
+				<th field="nickName" style="width: 360px">客户全名</th>
+				<th field="email" style="width: 60px">国家代码</th>
 				<th field="available" style="width: 60px" align="center"
 					formatter="availableFormatter">启用</th>
 				<th field="createdTime" style="width: 140px"
@@ -42,15 +42,15 @@
 	<div id="customerDatagridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="customer:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newcustomer()">新增用户</a>
+				iconCls="icon-add" plain="true" onclick="newCustomer()">新增用户</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="customer:edit">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editcustomer()">编辑用户</a>
+				iconCls="icon-edit" plain="true" onclick="editCustomer()">编辑用户</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="customer:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deletecustomer()">删除用户</a>
+				iconCls="icon-remove" plain="true" onclick="deleteCustomer()">删除用户</a>
 		</shiro:hasPermission>
 		<input id="customerSearch" prompt="请输入客户名称" class="easyui-searchbox" />
 	</div>
@@ -90,7 +90,7 @@
 	<!-- 新增、编辑窗体按钮 -->
 	<div id="customerEditDlgButtons">
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-ok" onclick="savecustomer()">保存且关闭</a> <a
+			iconCls="icon-ok" onclick="saveCustomer()">保存且关闭</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel"
 			onclick="javascript:$('#customerEditDlg').dialog('close')">取消</a>

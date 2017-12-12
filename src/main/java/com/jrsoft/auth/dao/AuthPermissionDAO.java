@@ -15,7 +15,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
-
 import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.dao.handler.AuthPermissionKindEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;

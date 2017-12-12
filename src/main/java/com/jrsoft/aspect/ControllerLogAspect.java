@@ -44,7 +44,7 @@ public class ControllerLogAspect {
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-
+		
 		// url
 		logger.info("用户在 {} 以 {} 方式访问 {}", request.getRemoteAddr(), request.getMethod(), request.getRequestURL());
 
