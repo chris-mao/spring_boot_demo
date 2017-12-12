@@ -145,4 +145,25 @@ public class AuthUserServiceImpl implements AuthUserService {
 		return authUserDAO.deleteRoleRelation(releation) == 1;
 	}
 
+	private boolean lockUser(AuthUser user) {
+		user.setState(AuthUserStateEnum.LOCKED);
+		return update(user);
+	}
+
+	@Override
+	public void lockUser(int userId) {
+		AuthUser user = authUserDAO.findById(userId);
+		if (null != user) {
+			lockUser(user);
+		}
+	}
+
+	@Override
+	public void lockUser(String userName) {
+		AuthUser user = authUserDAO.findByName(userName);
+		if (null != user) {
+			lockUser(user);
+		}
+	}
+
 }
