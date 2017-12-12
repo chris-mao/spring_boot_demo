@@ -43,15 +43,15 @@
 	<div id="permissionTreegridToolbar" class="datagrid-toolbar">
 		<shiro:hasPermission name="authPermission:new">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-add" plain="true" onclick="newPermission()">新增权限</a>
+				iconCls="icon-add" plain="true" onclick="newPermission()">新增</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="authPermission:edit">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="editPermission()">编辑权限</a>
+				iconCls="icon-edit" plain="true" onclick="editPermission()">修改</a>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="authPermission:delete">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-remove" plain="true" onclick="deletePermission()">删除权限</a>
+				iconCls="icon-remove" plain="true" onclick="deletePermission()">删除</a>
 		</shiro:hasPermission>
 		<input id="permissionName" prompt="请输入权限名称" class="easyui-searchbox" />
 	</div>
