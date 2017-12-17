@@ -38,7 +38,6 @@ import com.jrsoft.auth.service.AuthUserDelegateService;
 import com.jrsoft.auth.service.AuthUserService;
 import com.jrsoft.auth.utils.AuthUtils;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -166,7 +165,7 @@ public class AuthUserRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}/permissions/tree")
-	public List<EasyTreeNode> getIndividualPermissionTree(@PathVariable(name = "id") int userId) {
+	public List<AuthPermission> getIndividualPermissionTree(@PathVariable(name = "id") int userId) {
 		AuthUser user = new AuthUser(userId);
 		return authPermissionService.getIndividualPermissionTree(user);
 	}
@@ -179,7 +178,7 @@ public class AuthUserRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}/menu")
-	public List<EasyTreeNode> getUserMenuTree(@PathVariable(name = "id") int userId) {
+	public List<AuthPermission> getUserMenuTree(@PathVariable(name = "id") int userId) {
 		AuthUser user = new AuthUser(userId);
 		return authPermissionService.getMenuTreeByUser(user);
 	}

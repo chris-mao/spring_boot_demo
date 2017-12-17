@@ -1,9 +1,9 @@
 $(document).ready(function() {
-	$("#permissionTreegrid").treegrid({
+	$("#departmentTreegrid").treegrid({
 		method : "get",
-		url : "permissions/rest/list",
-		idField : "permissionId",
-		treeField : "permissionText",
+		url : "departments/rest/list",
+		idField : "departmentId",
+		treeField : "departmentName",
 		singleSelect : true,
 		rownumbers : true,
 		striped : true,
@@ -19,14 +19,14 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#permissionName").searchbox({
+	$("#departmentName").searchbox({
 		searcher : function(value, name) {
 			if ($.trim(value).length > 0) {
-				$("#permissionTreegrid").treegrid("load", {
+				$("#departmentTreegrid").treegrid("load", {
 					searchValue : value
 				});
 			} else {
-				$("#permissionTreegrid").treegrid("load", {});
+				$("#departmentTreegrid").treegrid("load", {});
 			}
 		}
 	});
@@ -34,30 +34,30 @@ $(document).ready(function() {
 
 var post_url;
 
-// 打开创建新权限对话框
-function newPermission() {
-	post_url = "/permissions/rest/new";
+// 打开创建新部门对话框
+function newDepartment() {
+	post_url = "/departments/rest/new";
 	$("#parentId").combotree("reload");
-	$("#permissionEditDlg").dialog("open").dialog("center").dialog("setTitle",
-			"创建新权限");
-	$("#permissionEditForm").form("clear");
-	var row = $("#permissionTreegrid").treegrid("getSelected");
+	$("#departmentEditDlg").dialog("open").dialog("center").dialog("setTitle",
+			"创建新部门");
+	$("#departmentEditForm").form("clear");
+	var row = $("#departmentTreegrid").treegrid("getSelected");
 	if (row) {
-		$("#permissionEditForm").form("load", {"parentId":row.permissionId});
+		$("#departmentEditForm").form("load", {"parentId":row.departmentId});
 	}
 	var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
 	switchbuttonObj.switchbutton("check");
 }
 
-// 打开编加权限对话框
-function editPermission() {
-	var row = $("#permissionTreegrid").treegrid("getSelected");
+// 打开编加部门对话框
+function editDepartment() {
+	var row = $("#departmentTreegrid").treegrid("getSelected");
 	if (row) {
 		console.log(row);
-		post_url = "/permissions/rest/" + row.permissionId;
-		$("#permissionEditDlg").dialog("open").dialog("center").dialog("setTitle",
-				"编辑权限");
-		$("#permissionEditForm").form("load", row);
+		post_url = "/departments/rest/" + row.departmentId;
+		$("#departmentEditDlg").dialog("open").dialog("center").dialog("setTitle",
+				"编辑部门");
+		$("#departmentEditForm").form("load", row);
 		if (row.available) {
 			var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
 		    switchbuttonObj.switchbutton("check");
@@ -67,10 +67,10 @@ function editPermission() {
 	}
 }
 
-//保存权限
-function savePermission() {
+//保存部门
+function saveDepartment() {
 	console.log(post_url);
-	$("#permissionEditForm").form("submit", {
+	$("#departmentEditForm").form("submit", {
 		url : post_url,
 		onSubmit : function() {
 			return $(this).form("validate");
@@ -81,8 +81,8 @@ function savePermission() {
 			var data = eval('(' + data + ')'); //将字符串转为JSON对象
 			if (data.state == 0) {
 				$.messager.alert("消息", "数据保存成功！", "info");
-				$("#permissionEditDlg").dialog("close"); // close the dialog
-				$("#permissionTreegrid").treegrid("reload"); // reload the permission data
+				$("#departmentEditDlg").dialog("close"); // close the dialog
+				$("#departmentTreegrid").treegrid("reload"); // reload the department data
 			} else {
 				$.messager.alert("错误", data.message, "error");
 			}
@@ -94,22 +94,22 @@ function savePermission() {
 	});
 }
 
-// 删除权限
-function deletePermission() {
-	var row = $("#permissionTreegrid").treegrid("getSelected");
+// 删除部门
+function deleteDepartment() {
+	var row = $("#departmentTreegrid").treegrid("getSelected");
 	if (row) {
-		$.messager.confirm("确认", "删除权限【" + row.permissionText + "】？", function(r) {
+		$.messager.confirm("确认", "删除部门【" + row.departmentName + "】？", function(r) {
 			if (r) {
 				$.ajax({
-					url : "/permissions/rest/" + row.permissionId,
+					url : "/departments/rest/" + row.departmentId,
 					type : "DELETE",
 					success : function(data, textStatus) {
 						console.log(data);
 						console.log(textStatus);
 						if (data.state == 0) {
-							$("#permissionTreegrid").treegrid("reload");
+							$("#departmentTreegrid").treegrid("reload");
 							// 清空选中的行
-							$('#permissionTreegrid').treegrid('clearSelections');
+							$('#departmentTreegrid').treegrid('clearSelections');
 						} else {
 							$.messager.alert("错误", data.message, "error");
 						}

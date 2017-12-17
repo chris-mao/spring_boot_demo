@@ -15,17 +15,7 @@ import java.util.Map;
  * @version 1.0
  *
  */
-public class EasyTreeNode {
-	
-	/**
-	 * 节点编号
-	 */
-	private int id;
-	
-	/**
-	 * 节点文本
-	 */
-	private String text;
+public abstract class EasyTreeNode {
 	
 	/**
 	 * 
@@ -41,6 +31,16 @@ public class EasyTreeNode {
 	 * 添加到节点的自定义属性
 	 */
 	private Map<String, Object> attributes = new HashMap<String, Object>();
+	
+	public EasyTreeNode() {
+		
+	}
+	
+	public abstract int getId();
+	
+	public abstract String getText();
+	
+	public abstract int getParentId();
 
 	/**
 	 * @return the attributes
@@ -72,28 +72,6 @@ public class EasyTreeNode {
 	
 	/**
 	 * <p>
-	 * 针对EasyUI Tree组件要求，id字段是必须的
-	 * </p>
-	 * 
-	 * @since 1.0
-	 */
-	public int getId() {
-		return this.id;
-	}
-	
-	/**
-	 * <p>
-	 * 针对EasyUI Tree组件要求，text字段是必须的
-	 * </p>
-	 * 
-	 * @since 1.0
-	 */
-	public String getText() {
-		return this.text;
-	}
-	
-	/**
-	 * <p>
 	 * 针对EasyUI TreeGrid组件要求，必须有一个名为state的字段 其值集是 {'open', 'closed'}
 	 * </p>
 	 * 
@@ -104,11 +82,6 @@ public class EasyTreeNode {
 			return "open";
 		}
 		return "closed";
-	}
-	
-	public EasyTreeNode(int id, String text) {
-		this.id = id;
-		this.text = text;
 	}
 
 	public boolean isChecked() {

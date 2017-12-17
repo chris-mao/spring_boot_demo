@@ -21,7 +21,6 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.common.EasyTreeGridNode;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 import com.jrsoft.common.EasyDataGrid;
 
@@ -100,7 +99,7 @@ public class AuthPermissionRestController {
 	 */
 	@GetMapping("/tree")
 	@RequiresPermissions("authPermission:list")
-	public List<EasyTreeNode> permissionTree() {
+	public List<AuthPermission> permissionTree() {
 		// authPermissionService.getIndividualPermissionTree(user)
 		return authPermissionService.getPermissionTree();
 	}

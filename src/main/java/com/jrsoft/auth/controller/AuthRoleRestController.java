@@ -23,7 +23,6 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.service.AuthRoleService;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 
 /**
@@ -147,7 +146,7 @@ public class AuthRoleRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}/permissions/tree")
-	public List<EasyTreeNode> getRolePermissionTree(@PathVariable(name = "id") int roleId) {
+	public List<AuthPermission> getRolePermissionTree(@PathVariable(name = "id") int roleId) {
 		AuthRole role = new AuthRole(roleId);
 		return authPermissionService.getRolePermissionTree(role);
 	}

@@ -43,45 +43,50 @@ public class Employee implements Serializable {
 	/**
 	 * 员工姓名
 	 */
-	@NotEmpty(message = "")
+	@NotEmpty(message = "员工姓名不能为空")
 	@Length(min = 3, max = 64, message = "员工姓名长度需在3位到64位之间")
 	private String employeeName;
 
 	/**
 	 * 电子邮件
 	 */
-	@Length(min = 10, max = 64, message = "")
+	@Length(min = 10, max = 100, message = "电子邮件长度需在10位到100位之间")
 	private String email;
 
 	/**
 	 * 电话号码
 	 */
-	@Length(min = 8, max = 32, message = "")
+	@Length(min = 8, max = 32, message = "电话号码长度需要8位到32位之间")
 	private String phone;
 	
 	
 	/**
 	 * 传真号码
 	 */
-	@Length(min = 8, max = 32, message = "")
+	@Length(min = 8, max = 32, message = "传真号码长度需要8位到32位之间")
 	private String fax;
 
 	/**
 	 * 员工类型
 	 */
-	@NotEmpty(message = "")
 	private String employeeType;
 
 	/**
 	 * oracle帐号
 	 */
-	@Length(min = 4, max = 32, message = "")
+	@Length(min = 4, max = 32, message = "Oracle帐号长度需要4位到32位之间")
 	private String oracleAccount;
 
 	/**
 	 * 汇报主管、经理
 	 */
 	private int reportTo;
+	
+	/**
+	 * 部门编号
+	 */
+	@NotEmpty(message = "请指定员工隶属部门")
+	private int departmentId;
 
 	/**
 	 * 员工对应的系统用户编号

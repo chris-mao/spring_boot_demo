@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.employee.dao.EmployeeDAO;
+import com.jrsoft.employee.entity.Department;
 import com.jrsoft.employee.entity.Employee;
 import com.jrsoft.employee.service.EmployeeService;
 
@@ -64,6 +65,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
+	}
+
+	@Override
+	public List<Employee> findAllByDepartment(Department dept) {
+		return null;
 	}
 
 	@Override

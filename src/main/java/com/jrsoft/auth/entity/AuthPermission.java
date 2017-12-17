@@ -5,12 +5,12 @@ package com.jrsoft.auth.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.jrsoft.auth.AuthPermissionKindEnum;
+import com.jrsoft.common.EasyTreeNode;
 
 /**
  * 权限实体类
@@ -20,7 +20,7 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
  * @version 1.0
  *
  */
-public class AuthPermission implements Serializable {
+public class AuthPermission extends EasyTreeNode implements Serializable {
 
 	/**
 	 * 
@@ -311,6 +311,30 @@ public class AuthPermission implements Serializable {
 				+ ", permissionText=" + permissionText + ", permissionUrl=" + permissionUrl + ", weight=" + weight
 				+ ", parentId=" + parentId + ", permissionKind=" + permissionKind + ", available=" + available
 				+ ", createdTime=" + createdTime + ", updateTime=" + updateTime + "]";
+	}
+
+	/**
+	 * <p>
+	 * 针对EasyUI Tree组件要求，id字段是必须的
+	 * </p>
+	 * 
+	 * @since 1.0
+	 */
+	@Override
+	public int getId() {
+		return this.getPermissionId();
+	}
+	
+	/**
+	 * <p>
+	 * 针对EasyUI Tree组件要求，text字段是必须的
+	 * </p>
+	 * 
+	 * @since 1.0
+	 */
+	@Override
+	public String getText() {
+		return this.getPermissionText();
 	}
 
 }

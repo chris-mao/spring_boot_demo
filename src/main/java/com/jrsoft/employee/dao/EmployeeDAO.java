@@ -15,7 +15,7 @@ import com.jrsoft.employee.dao.sqlprovider.EmployeeDynaSqlProvider;
 import com.jrsoft.employee.entity.Employee;
 
 /**
- * com.jrsoft.employee.dao EmployeeDAO
+ * 员工数据访问类
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *

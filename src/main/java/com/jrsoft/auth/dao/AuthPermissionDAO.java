@@ -88,10 +88,10 @@ public interface AuthPermissionDAO {
 	public AuthPermission findByName(@Param(value = "name") String permissionName);
 
 	/**
-	 * 按用户名或是昵称模糊查询
+	 * 按权限名或是显示文本模糊查询
 	 * 
 	 * @since 1.1
-	 * @param user
+	 * @param permission
 	 * @return
 	 */
 	@Select("SELECT permission_id, permission_name, permission_url, permission_kind, permission_text, weight, parent_id, available, created_time, update_time FROM auth_permission WHERE permission_name LIKE #{permissionName} OR permission_text like #{permissionText} ORDER BY permission_kind, weight")

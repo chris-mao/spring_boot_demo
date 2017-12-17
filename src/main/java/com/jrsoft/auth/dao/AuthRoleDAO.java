@@ -23,7 +23,7 @@ import com.jrsoft.auth.entity.AuthRole;
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
- * @version 1.0
+ * @version 1.1
  *
  */
 public interface AuthRoleDAO {
@@ -82,6 +82,13 @@ public interface AuthRoleDAO {
 	// FetchType.LAZY) ) })
 	public AuthRole findByName(@Param(value = "name") String roleName);
 	
+	/**
+	 * 按角色名模糊查询
+	 * 
+	 * @since 1.1
+	 * @param roleName
+	 * @return
+	 */
 	@Select("SELECT role_id, role_name, role_description, available, created_time, update_time FROM auth_role WHERE role_name LIKE #{name}")
 	@Results({ @Result(property = "roleId", column = "role_id", id = true),
 			@Result(property = "roleName", column = "role_name"),

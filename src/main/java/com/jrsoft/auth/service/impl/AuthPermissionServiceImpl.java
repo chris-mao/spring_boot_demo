@@ -19,7 +19,6 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.utils.EasyTreeUtils;
 import com.jrsoft.common.EasyTreeGridNode;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
@@ -74,16 +73,16 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageNum, int pageSize, String searchStr) {
+	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr) {
 		PageInfo<EasyTreeGridNode> pageInfo;
 		if (searchStr.isEmpty()) {
-			PageHelper.startPage(pageNum, pageSize);
+			PageHelper.startPage(pageIndex, pageSize);
 			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.findChildNodes(parentId));
 		} else {
 			AuthPermission permission = new AuthPermission();
 			permission.setPermissionName("%" + searchStr + "%");
 			permission.setPermissionText("%" + searchStr + "%");
-			PageHelper.startPage(pageNum, pageSize);
+			PageHelper.startPage(pageIndex, pageSize);
 			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.fuzzyQuery(permission));
 		}
 
@@ -130,9 +129,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return 1 == this.authPermissionDAO.delete(id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<EasyTreeNode> getPermissionTree() {
-		return EasyTreeUtils.buildTree(authPermissionDAO.findAll(true));
+	public List<AuthPermission> getPermissionTree() {
+		return (List<AuthPermission>) EasyTreeUtils.buildTree(authPermissionDAO.findAll(true));
 	}
 
 	@Override
@@ -150,9 +150,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<EasyTreeNode> getRolePermissionTree(AuthRole role) {
-		return EasyTreeUtils.buildTree(findRolePermissions(role));
+	public List<AuthPermission> getRolePermissionTree(AuthRole role) {
+		return (List<AuthPermission>) EasyTreeUtils.buildTree(findRolePermissions(role));
 	}
 	
 	@Override
@@ -170,14 +171,16 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<EasyTreeNode> getIndividualPermissionTree(AuthUser user) {
-		return EasyTreeUtils.buildTree(findIndividualPermissions(user));
+	public List<AuthPermission> getIndividualPermissionTree(AuthUser user) {
+		return (List<AuthPermission>) EasyTreeUtils.buildTree(findIndividualPermissions(user));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user) {
-		return EasyTreeUtils.buildTree(authPermissionDAO.getUserMenu(user.getUserId()));
+	public List<AuthPermission> getMenuTreeByUser(AuthUser user) {
+		return (List<AuthPermission>) EasyTreeUtils.buildTree(authPermissionDAO.getUserMenu(user.getUserId()));
 	}
 
 	@Override

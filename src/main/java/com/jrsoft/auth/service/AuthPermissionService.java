@@ -10,7 +10,6 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeNode;
 
 /**
  * 系统权限服务接口
@@ -21,6 +20,7 @@ import com.jrsoft.common.EasyTreeNode;
  *
  */
 public interface AuthPermissionService extends AbstractDbService<AuthPermission> {
+	
 	/**
 	 * 根据传入的父节点编号查询其子节点数据，且有分页功能，如果参数searchStr不为空，则查询指定节点下所有符合查询条件(
 	 * permission_name或是permission_text包含查询条件)的子节点
@@ -44,7 +44,7 @@ public interface AuthPermissionService extends AbstractDbService<AuthPermission>
 	 * @since 1.1
 	 * @return
 	 */
-	public List<EasyTreeNode> getPermissionTree();
+	public List<AuthPermission> getPermissionTree();
 
 	/**
 	 * 按角色编号或是角色名称查询其所拥有的权限
@@ -62,7 +62,7 @@ public interface AuthPermissionService extends AbstractDbService<AuthPermission>
 	 * @param role
 	 * @return
 	 */
-	public List<EasyTreeNode> getRolePermissionTree(AuthRole role);
+	public List<AuthPermission> getRolePermissionTree(AuthRole role);
 
 	/**
 	 * 按用户编号或是用户名称查询其所拥有的个人权限
@@ -80,7 +80,7 @@ public interface AuthPermissionService extends AbstractDbService<AuthPermission>
 	 * @param user
 	 * @return
 	 */
-	public List<EasyTreeNode> getIndividualPermissionTree(AuthUser user);
+	public List<AuthPermission> getIndividualPermissionTree(AuthUser user);
 
 	/**
 	 * 获取用户的菜单树
@@ -93,5 +93,5 @@ public interface AuthPermissionService extends AbstractDbService<AuthPermission>
 	 * @param user
 	 * @return
 	 */
-	public List<EasyTreeNode> getMenuTreeByUser(AuthUser user);
+	public List<AuthPermission> getMenuTreeByUser(AuthUser user);
 }
