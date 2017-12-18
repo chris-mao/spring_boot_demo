@@ -18,7 +18,6 @@ import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.auth.service.AuthPermissionService;
 import com.jrsoft.auth.utils.EasyTreeUtils;
-import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
@@ -73,22 +72,22 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 	}
 
 	@Override
-	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr) {
-		PageInfo<EasyTreeGridNode> pageInfo;
+	public EasyDataGrid<AuthPermission> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr) {
+		PageInfo<AuthPermission> pageInfo;
 		if (searchStr.isEmpty()) {
 			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.findChildNodes(parentId));
+			pageInfo = new PageInfo<AuthPermission>(authPermissionDAO.findChildNodes(parentId));
 		} else {
 			AuthPermission permission = new AuthPermission();
 			permission.setPermissionName("%" + searchStr + "%");
 			permission.setPermissionText("%" + searchStr + "%");
 			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<EasyTreeGridNode>(authPermissionDAO.fuzzyQuery(permission));
+			pageInfo = new PageInfo<AuthPermission>(authPermissionDAO.fuzzyQuery(permission));
 		}
 
-		EasyTreeGridNode node;
-		List<EasyTreeGridNode> nodes = pageInfo.getList();
-		for (Iterator<EasyTreeGridNode> i = nodes.iterator(); i.hasNext();) {
+		AuthPermission node;
+		List<AuthPermission> nodes = pageInfo.getList();
+		for (Iterator<AuthPermission> i = nodes.iterator(); i.hasNext();) {
 			node = i.next();
 			if (true == hasChildren(node.getPermissionId())) { // 有子节点
 				node.setState("closed");
@@ -97,7 +96,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
 			}
 		}
 
-		EasyDataGrid<EasyTreeGridNode> dg = new EasyDataGrid<EasyTreeGridNode>();
+		EasyDataGrid<AuthPermission> dg = new EasyDataGrid<AuthPermission>();
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.service.AuthPermissionService;
-import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.JsonResult;
 import com.jrsoft.common.EasyDataGrid;
 
@@ -72,7 +71,7 @@ public class AuthPermissionRestController {
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("authPermission:list")
-	public EasyDataGrid<EasyTreeGridNode> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
+	public EasyDataGrid<AuthPermission> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
 			@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {

@@ -7,8 +7,6 @@ import java.util.List;
 
 import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeGridNode;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.employee.entity.Department;
 
 /**
@@ -36,7 +34,7 @@ public interface DepartmentService extends AbstractDbService<Department> {
 	 *            模糊查询内容
 	 * @return
 	 */
-	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
+	public EasyDataGrid<Department> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
 	
 	/**
 	 * 根据系统中所有有效的部门构建部门树
@@ -44,6 +42,6 @@ public interface DepartmentService extends AbstractDbService<Department> {
 	 * @since 1.1
 	 * @return
 	 */
-	public List<EasyTreeNode> getDepartmentTree();
+	public List<Department> getDepartmentTree();
 
 }

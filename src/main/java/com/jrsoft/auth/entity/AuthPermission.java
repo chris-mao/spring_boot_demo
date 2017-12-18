@@ -3,7 +3,6 @@
  */
 package com.jrsoft.auth.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,7 +19,7 @@ import com.jrsoft.common.EasyTreeNode;
  * @version 1.0
  *
  */
-public class AuthPermission extends EasyTreeNode implements Serializable {
+public class AuthPermission extends EasyTreeNode {
 
 	/**
 	 * 
@@ -236,7 +235,7 @@ public class AuthPermission extends EasyTreeNode implements Serializable {
 	 * @return the parentId
 	 */
 	public int getParentId() {
-		return parentId;
+		return this.parentId;
 	}
 
 	/**

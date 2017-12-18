@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeGridNode;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.common.JsonResult;
 import com.jrsoft.employee.entity.Department;
 import com.jrsoft.employee.entity.Employee;
@@ -84,7 +82,7 @@ public class DepartmentRestController {
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("department:list")
-	public EasyDataGrid<EasyTreeGridNode> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
+	public EasyDataGrid<Department> findAll(@RequestParam(name = "id", defaultValue = "0") int parentId,
 			@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
@@ -117,7 +115,7 @@ public class DepartmentRestController {
 	 */
 	@GetMapping("/tree")
 	@RequiresPermissions("department:list")
-	public List<EasyTreeNode> departmentTree() {
+	public List<Department> departmentTree() {
 		return departmentService.getDepartmentTree();
 	}
 	

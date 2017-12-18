@@ -19,7 +19,6 @@ import com.jrsoft.auth.AuthPermissionKindEnum;
 import com.jrsoft.auth.dao.handler.AuthPermissionKindEnumTypeHandler;
 import com.jrsoft.auth.dao.sqlprovider.AuthPermissionDynaSqlProvider;
 import com.jrsoft.auth.entity.AuthPermission;
-import com.jrsoft.common.EasyTreeGridNode;
 
 /**
  * 系统权限数据访问类
@@ -104,7 +103,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public List<EasyTreeGridNode> fuzzyQuery(AuthPermission permission);
+	public List<AuthPermission> fuzzyQuery(AuthPermission permission);
 
 	/**
 	 * 按父节点编号查询子权限
@@ -123,7 +122,7 @@ public interface AuthPermissionDAO {
 			@Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public List<EasyTreeGridNode> findChildNodes(@Param(value = "parentId") int parentId);
+	public List<AuthPermission> findChildNodes(@Param(value = "parentId") int parentId);
 
 	/**
 	 * @since 1.1

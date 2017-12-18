@@ -3,11 +3,12 @@
  */
 package com.jrsoft.employee.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.jrsoft.common.EasyTreeNode;
 
 /**
  * 部门实体类
@@ -17,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version 1.0
  *
  */
-public class Department implements Serializable {
+public class Department extends EasyTreeNode {
 
 	/**
 	 * 
@@ -111,5 +112,15 @@ public class Department implements Serializable {
 		return "Department [departmentId=" + departmentId + ", departmentName=" + departmentName + ", parentId="
 				+ parentId + ", available=" + available + ", createdTime=" + createdTime + ", updateTime=" + updateTime
 				+ "]";
+	}
+
+	@Override
+	public int getId() {
+		return this.getDepartmentId();
+	}
+
+	@Override
+	public String getText() {
+		return this.getDepartmentName();
 	}
 }

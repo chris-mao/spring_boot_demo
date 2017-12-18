@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.common.EasyTreeGridNode;
-import com.jrsoft.common.EasyTreeNode;
 import com.jrsoft.employee.dao.DepartmentDAO;
 import com.jrsoft.employee.entity.Department;
 import com.jrsoft.employee.service.DepartmentService;
@@ -135,30 +133,30 @@ public class DepartmentServiceImpl implements DepartmentService {
 	 * int, int, java.lang.String)
 	 */
 	@Override
-	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr) {
-		PageInfo<EasyTreeGridNode> pageInfo;
+	public EasyDataGrid<Department> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr) {
+		PageInfo<Department> pageInfo;
 		if (searchStr.isEmpty()) {
 			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<EasyTreeGridNode>(departmentDAO.findChildNodes(parentId));
+			pageInfo = new PageInfo<Department>(departmentDAO.findChildNodes(parentId));
 		} else {
 			Department department = new Department();
 			department.setDepartmentName("%" + searchStr + "%");
 			PageHelper.startPage(pageIndex, pageSize);
-			pageInfo = new PageInfo<EasyTreeGridNode>(departmentDAO.fuzzyQuery(department));
+			pageInfo = new PageInfo<Department>(departmentDAO.fuzzyQuery(department));
 		}
-
-		EasyTreeGridNode node;
-		List<EasyTreeGridNode> nodes = pageInfo.getList();
-		for (Iterator<EasyTreeGridNode> i = nodes.iterator(); i.hasNext();) {
+		
+		Department node;
+		List<Department> nodes = pageInfo.getList();
+		for (Iterator<Department> i = nodes.iterator(); i.hasNext();) {
 			node = i.next();
-			if (true == hasChildren(node.getPermissionId())) { // 有子节点
+			if (true == hasChildren(node.getDepartmentId())) { // 有子节点
 				node.setState("closed");
 			} else {
 				node.setState("open");
 			}
 		}
 
-		EasyDataGrid<EasyTreeGridNode> dg = new EasyDataGrid<EasyTreeGridNode>();
+		EasyDataGrid<Department> dg = new EasyDataGrid<Department>();
 		dg.setTotal(pageInfo.getTotal());
 		dg.setRows(pageInfo.getList());
 		return dg;
@@ -170,7 +168,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	 * @see com.jrsoft.employee.service.DepartmentService#getDepartmentTree()
 	 */
 	@Override
-	public List<EasyTreeNode> getDepartmentTree() {
+	public List<Department> getDepartmentTree() {
 		return null;
 //		return EasyTreeUtils.buildTree(findAll());
 	}

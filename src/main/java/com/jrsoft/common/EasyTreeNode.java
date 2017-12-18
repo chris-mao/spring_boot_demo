@@ -3,6 +3,7 @@
  */
 package com.jrsoft.common;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,17 @@ import java.util.Map;
  * @version 1.0
  *
  */
-public abstract class EasyTreeNode {
+public abstract class EasyTreeNode implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 节点状态
+	 */
+	private String state;
 	
 	/**
 	 * 
@@ -32,15 +43,53 @@ public abstract class EasyTreeNode {
 	 */
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	
-	public EasyTreeNode() {
-		
-	}
-	
 	public abstract int getId();
 	
 	public abstract String getText();
 	
 	public abstract int getParentId();
+	
+	public EasyTreeNode() {
+		//
+	}
+	
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+	
+	/**
+	 * <p>
+	 * 针对EasyUI TreeGrid组件要求，必须有一个名为state的字段 其值集是 {'open', 'closed'}
+	 * </p>
+	 * 
+	 * @since 1.0
+	 */
+	public String getState() {
+		return state;
+	}
+	
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	/**
+	 * @return the children
+	 */
+	public List<EasyTreeNode> getChildren() {
+		return children;
+	}
+
+	/**
+	 * @param children the children to set
+	 */
+	public void setChildren(List<EasyTreeNode> children) {
+		this.children = children;
+//		state = ((null == this.children) || this.children.isEmpty()) ? "open" : "closed";
+	}
 
 	/**
 	 * @return the attributes
@@ -57,39 +106,17 @@ public abstract class EasyTreeNode {
 	}
 
 	/**
-	 * @return the children
-	 */
-	public List<EasyTreeNode> getChildren() {
-		return children;
-	}
-
-	/**
-	 * @param children the children to set
-	 */
-	public void setChildren(List<EasyTreeNode> children) {
-		this.children = children;
-	}
-	
-	/**
 	 * <p>
-	 * 针对EasyUI TreeGrid组件要求，必须有一个名为state的字段 其值集是 {'open', 'closed'}
+	 * 针对EasyUI TreeGrid组件懒加载要求，必须有一个名为_parentId的字段且值要为一，顶级节点该字段值要为<code>null</code>
 	 * </p>
 	 * 
-	 * @since 1.0
+	 * @return
 	 */
-	public String getState() {
-		if ((null == this.children) || this.children.isEmpty()) {
-			return "open";
+	public Integer get_parentId() {
+		if (this.getParentId() == 0) {
+			return null;
 		}
-		return "closed";
-	}
-
-	public boolean isChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
+		return this.getParentId();
 	}
 
 }

@@ -8,7 +8,6 @@ import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
 import com.jrsoft.auth.entity.AuthUser;
-import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.common.EasyDataGrid;
 
 /**
@@ -36,7 +35,7 @@ public interface AuthPermissionService extends AbstractDbService<AuthPermission>
 	 *            模糊查询内容
 	 * @return
 	 */
-	public EasyDataGrid<EasyTreeGridNode> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
+	public EasyDataGrid<AuthPermission> findChildNodes(int parentId, int pageIndex, int pageSize, String searchStr);
 	
 	/**
 	 * 根据系统中所有有效的权限构建权限树

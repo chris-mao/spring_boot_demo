@@ -14,7 +14,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 
-import com.jrsoft.common.EasyTreeGridNode;
 import com.jrsoft.employee.dao.sqlprovider.DepartmentDynaSqlProvider;
 import com.jrsoft.employee.entity.Department;
 
@@ -85,7 +84,7 @@ public interface DepartmentDAO {
 			@Result(property = "parentId", column = "parent_id"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public List<EasyTreeGridNode> fuzzyQuery(Department department);
+	public List<Department> fuzzyQuery(Department department);
 
 	/**
 	 * 按父节点编号查询子部门
@@ -100,7 +99,7 @@ public interface DepartmentDAO {
 			@Result(property = "parentId", column = "parent_id"), @Result(property = "available", column = "available"),
 			@Result(property = "createdTime", column = "created_time"),
 			@Result(property = "updateTime", column = "update_time") })
-	public List<EasyTreeGridNode> findChildNodes(@Param(value = "parentId") int parentId);
+	public List<Department> findChildNodes(@Param(value = "parentId") int parentId);
 
 	/**
 	 * @since 1.1
