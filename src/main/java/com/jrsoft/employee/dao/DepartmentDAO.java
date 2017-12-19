@@ -72,13 +72,13 @@ public interface DepartmentDAO {
 	public Department findByName(@Param(value = "name") String deptName);
 
 	/**
-	 * 按部门名或是显示文本模糊查询
+	 * 按部门名模糊查询
 	 * 
 	 * @since 1.1
 	 * @param department
 	 * @return
 	 */
-	@Select("SELECT department_id, department_name, parent_id, available, created_time, update_time FROM department WHERE department_name LIKE #{departmentName} OR department_text like #{departmentText}")
+	@Select("SELECT department_id, department_name, parent_id, available, created_time, update_time FROM department WHERE department_name LIKE #{departmentName}")
 	@Results({ @Result(property = "departmentId", column = "department_id", id = true),
 			@Result(property = "departmentName", column = "department_name"),
 			@Result(property = "parentId", column = "parent_id"), @Result(property = "available", column = "available"),

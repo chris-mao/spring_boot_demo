@@ -28,7 +28,7 @@ public class DepartmentDynaSqlProvider {
 			if (onlyAvailable) {
 				WHERE("available = 1");
 			}
-			ORDER_BY("partent_id");
+			ORDER_BY("parent_id");
 		}}.toString();
 	}
 

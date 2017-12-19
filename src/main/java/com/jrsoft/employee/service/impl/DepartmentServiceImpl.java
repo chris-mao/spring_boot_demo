@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jrsoft.auth.utils.EasyTreeUtils;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.employee.dao.DepartmentDAO;
 import com.jrsoft.employee.entity.Department;
@@ -118,7 +119,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	 */
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
 		return 1 == departmentDAO.delete(id);
 	}
 
@@ -167,10 +167,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	 * 
 	 * @see com.jrsoft.employee.service.DepartmentService#getDepartmentTree()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Department> getDepartmentTree() {
-		return null;
-//		return EasyTreeUtils.buildTree(findAll());
+		return (List<Department>) EasyTreeUtils.buildTree(findAll());
 	}
 
 }

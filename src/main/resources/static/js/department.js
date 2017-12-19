@@ -15,7 +15,7 @@ $(document).ready(function() {
 		pageSize : 20,
 		pageList : [ 10, 20, 30, 50, 80 ],
 		onDblClickRow : function(index, row) {
-			editPermission();
+			editDepartment();
 		}
 	});
 

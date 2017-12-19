@@ -23,8 +23,7 @@
 		toolbar="#departmentTreegridToolbar">
 		<thead>
 			<tr>
-				<th data-options="field:'departmentName'" style="width: 150px">部门名称</th>
-				<th data-options="field:'departmentName'" width="100">部门经理</th>
+				<th data-options="field:'departmentName'" style="width: 300px">部门名称</th>
 				<th data-options="field:'available'" width="40" align="center"
 					formatter="availableFormatter">启用</th>
 				<th data-options="field:'createdTime'" width="140"
@@ -69,10 +68,6 @@
 					data-options="url:'/departments/rest/tree', method:'get'">
 					<option value="menu">menu</option>
 				</select>
-			</div>
-			<div>
-				<input name="departmentUrl" class="easyui-textbox"
-					style="width: 100%; height: 34px;" label="部门经理" lableWidth="60px" />
 			</div>
 			<div style="text-align: right">
 				<input class="easyui-switchbutton" name="available"

@@ -86,6 +86,7 @@ public class DepartmentRestController {
 			@RequestParam(name = "page", defaultValue = "1") int pageIndex,
 			@RequestParam(name = "rows", defaultValue = "20") int pageSize,
 			@RequestParam(name = "searchValue", defaultValue = "") String searchStr) {
+		System.out.println("searchStr ==>> " + searchStr);
 		return departmentService.findChildNodes(parentId, pageIndex, pageSize, searchStr);
 	}
 	
@@ -130,15 +131,8 @@ public class DepartmentRestController {
 	@RequiresPermissions("department:new")
 	public JsonResult<Department> insert(HttpServletRequest request) {
 		Department department = new Department();
-//		department.setEmployeeName(request.getParameter("departmentName"));
-//		department.setPhone(request.getParameter("phone"));
-//		department.setFax(request.getParameter("fax"));
-//		department.setEmail(request.getParameter("email"));
-//		department.setOracleAccount(request.getParameter("oracleAccount"));
-//		department.setReportTo(Integer.parseInt(request.getParameter("reportTo")));
-////		department.setUserName(request.getParameter("userName"));
-////		department.setNickName(request.getParameter("nickName"));
-//		department.setEmail(request.getParameter("email"));
+		department.setDepartmentName(request.getParameter("departmentName"));
+		department.setParentId(Integer.parseInt(request.getParameter("parentId")));
 		if (this.departmentService.findOne(department) != null) { // 部门名已存在
 			return new JsonResult<Department>(JsonResult.ERROR, "部门名【" + department.getDepartmentName() + "】已被使用，请使用其他部门名");
 		}
@@ -158,7 +152,7 @@ public class DepartmentRestController {
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public Department getUser(@PathVariable("id") int departmentId) {
+	public Department getDepartment(@PathVariable("id") int departmentId) {
 		Department department = new Department();
 		department.setDepartmentId(departmentId);
 		return this.departmentService.findOne(department);
@@ -177,8 +171,8 @@ public class DepartmentRestController {
 	public JsonResult<Department> update(@PathVariable("id") int departmentId, HttpServletRequest request) {
 		Department department = new Department();
 		department.setDepartmentId(departmentId);
-//		department.setUserName(request.getParameter("userName"));
-//		department.setNickName(request.getParameter("nickName"));
+		department.setDepartmentName(request.getParameter("departmentName"));
+		department.setParentId(Integer.parseInt(request.getParameter("parentId")));
 		department.setAvailable("on".equals(request.getParameter("available")));
 
 		if (true == this.departmentService.update(department)) {

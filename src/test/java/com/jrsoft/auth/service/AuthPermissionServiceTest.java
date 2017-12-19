@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jrsoft.auth.entity.AuthPermission;
 import com.jrsoft.auth.entity.AuthRole;
@@ -50,6 +51,7 @@ public class AuthPermissionServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void testInsert() {
 		final String permissionName = "new permission";
 		AuthPermission p = new AuthPermission();
@@ -70,6 +72,7 @@ public class AuthPermissionServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void testUpdate() {
 		final String permissionName = "new permission";
 		final String newPermissionName = "new permission 123";
@@ -87,6 +90,7 @@ public class AuthPermissionServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void testDelete() {
 		final String permissionName = "new permission 123";
 		AuthPermission p = new AuthPermission();
