@@ -1,4 +1,4 @@
-package com.jrsoft.employee.service;
+package com.jrsoft.organization.service;
 
 import static org.junit.Assert.*;
 
