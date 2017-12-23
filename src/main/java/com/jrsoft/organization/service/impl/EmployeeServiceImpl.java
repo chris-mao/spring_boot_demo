@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.service.impl;
+package com.jrsoft.organization.service.impl;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jrsoft.common.EasyDataGrid;
-import com.jrsoft.employee.dao.EmployeeDAO;
-import com.jrsoft.employee.entity.Department;
-import com.jrsoft.employee.entity.Employee;
-import com.jrsoft.employee.service.EmployeeService;
+import com.jrsoft.organization.dao.EmployeeDAO;
+import com.jrsoft.organization.entity.Department;
+import com.jrsoft.organization.entity.Employee;
+import com.jrsoft.organization.service.EmployeeService;
 
 /**
  * 员工服务接口实现类

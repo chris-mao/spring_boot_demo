@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.dao.sqlprovider;
+package com.jrsoft.organization.dao.sqlprovider;
 
 import org.apache.ibatis.jdbc.SQL;
 

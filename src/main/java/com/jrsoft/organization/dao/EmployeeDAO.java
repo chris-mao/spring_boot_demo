@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.dao;
+package com.jrsoft.organization.dao;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
-import com.jrsoft.employee.dao.sqlprovider.EmployeeDynaSqlProvider;
-import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.organization.dao.sqlprovider.EmployeeDynaSqlProvider;
+import com.jrsoft.organization.entity.Employee;
 
 /**
  * 员工数据访问类

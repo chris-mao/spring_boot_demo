@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.controller;
+package com.jrsoft.organization.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * com.jrsoft.employee.controller DepartmentController
+ * com.jrsoft.employee.controller EmployeeController
  *
  * @author Chris Mao(Zibing) <chris.mao.zb@163.com>
  *
@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping("/departments")
-public class DepartmentController {
+@RequestMapping("/employees")
+public class EmployeeController {
 	
 	/**
-	 * 部门页面访问入口
+	 * 员工页面访问入口
 	 * 
 	 * @return
 	 */
 	@GetMapping({ "", "/index" })
-	@RequiresPermissions("department:list")
+	@RequiresPermissions("employee:list")
 	public String index() {
-		return "department/index";
+		return "employee/index";
 	}
 
 }

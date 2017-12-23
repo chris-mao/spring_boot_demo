@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.entity;
+package com.jrsoft.organization.entity;
 
 import java.util.Date;
 import org.hibernate.validator.constraints.Length;

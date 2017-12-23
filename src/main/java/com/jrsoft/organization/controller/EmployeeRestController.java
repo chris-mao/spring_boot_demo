@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jrsoft.employee.controller;
+package com.jrsoft.organization.controller;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.common.JsonResult;
 import com.jrsoft.customer.entity.Customer;
-import com.jrsoft.employee.entity.Employee;
-import com.jrsoft.employee.service.EmployeeService;
+import com.jrsoft.organization.entity.Employee;
+import com.jrsoft.organization.service.EmployeeService;
 
 /**
  * <p>

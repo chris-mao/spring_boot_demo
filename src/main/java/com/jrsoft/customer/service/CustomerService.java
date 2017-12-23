@@ -8,7 +8,7 @@ import java.util.Set;
 import com.jrsoft.app.service.AbstractDbService;
 import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.customer.entity.Customer;
-import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.organization.entity.Employee;
 
 /**
  * 客户服务接口

@@ -13,7 +13,7 @@ import com.jrsoft.auth.entity.AuthUser;
 import com.jrsoft.common.EasyDataGrid;
 import com.jrsoft.customer.entity.Customer;
 import com.jrsoft.customer.service.CustomerService;
-import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.organization.entity.Employee;
 
 /**
  * 客户服务接口实现类

@@ -1,10 +1,10 @@
-package com.jrsoft.employee.service;
+package com.jrsoft.organization.service;
 
 import java.util.List;
 
 import com.jrsoft.app.service.AbstractDbService;
-import com.jrsoft.employee.entity.Department;
-import com.jrsoft.employee.entity.Employee;
+import com.jrsoft.organization.entity.Department;
+import com.jrsoft.organization.entity.Employee;
 
 /**
  * 员工服务接口
