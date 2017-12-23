@@ -96,7 +96,7 @@ values('系统管理员', '具有系统所有权限，维护系统数据', NOW()
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_role_permission`;
 CREATE TABLE `auth_role_permission` (
-  `role_id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` smallint(10) unsigned NOT NULL,
   `permission_id` smallint(10) unsigned NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
@@ -104,14 +104,14 @@ CREATE TABLE `auth_role_permission` (
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`,`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 insert into auth_role_permission(role_id, permission_id, start_date, created_time)
 SELECT 1, permission_id, CURDATE(), NOW() from auth_permission;
 
 DROP TABLE IF EXISTS `auth_user_permission`;
 CREATE TABLE `auth_user_permission` (
-  `user_id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` smallint(10) unsigned NOT NULL,
   `permission_id` smallint(10) unsigned NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE `auth_user_permission` (
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户个人权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户个人权限表';
 
 -- ----------------------------
 --  Table structure for `auth_user`
@@ -133,14 +133,17 @@ CREATE TABLE `auth_user` (
   `email` varchar(64) DEFAULT NULL,
   `salt` varchar(128) DEFAULT NULL,
   `state` enum('Active','Locked','Expired','Inactive') DEFAULT 'Inactive',
-  `role_id` smallint(10) DEFAULT NULL COMMENT 'PHP程序中使用',
+  `role_id` smallint(10) unsigned DEFAULT NULL,
   `available` bit(1) NOT NULL DEFAULT b'1',
   `created_time` datetime NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_name` (`user_name`) USING BTREE,
-  KEY `role_id` (`role_id`)
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+insert into auth_user(user_name, user_psd, nick_name, email, created_time)
+values('admin','5f4dcc3b5aa765d61d8327deb882cf99','Administrator','chris.mao.zb@163.com', NOW());
 
 -- ----------------------------
 --  Table structure for `auth_user_delegate`
@@ -171,6 +174,9 @@ CREATE TABLE `auth_user_role` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户扩展角色表';
+
+insert into auth_user_role(user_id, role_id, start_date, created_time)
+values(1, 1, CURDATE(), NOW());
 
 -- ----------------------------
 --  View structure for `vw_auth_role_permission`
@@ -324,7 +330,7 @@ END
 delimiter ;
 
 
-DROP PROCEDURE IF EXISTS `sp_findAllClients`;
+DROP PROCEDURE IF EXISTS `sp_findAllDelegates`;
 delimiter ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_findAllDelegates`(IN v_from_user_id smallint)
     READS SQL DATA

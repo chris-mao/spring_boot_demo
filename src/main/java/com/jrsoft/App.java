@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.jrsoft.*.dao")
-// @ComponentScan({"com.jrsoft.*.dao"})
 public class App {
 
 	public static void main(String[] args) {
