@@ -27,18 +27,18 @@ import com.jrsoft.common.EasyDataGrid;
  * <p>
  * 系统权限控制器类，提供系统权限维护方法接口
  * <dl>
- * <dt>GET: permissions/rest/list?parentId=1&page=1&rows=20&searchValue=</dt>
+ * <dt>GET: permissions/api/list?parentId=1&page=1&rows=20&searchValue=</dt>
  * <dd>按父节点返回（符合查询条件或是全部）权限数据列表，需要拥有<code>authPermission:list</code>权限</dd>
- * <dt>GET: permissions/rest/json</dt>
+ * <dt>GET: permissions/api/json</dt>
  * <dd>返回全部有效的（available=1）权限数据列表，需要拥有<code>authPermission:list</code>权限</dd>
- * <dt>GET: permissions/rest/tree</dt>
+ * <dt>GET: permissions/api/tree</dt>
  * <dd>以树型结构返回全部有效的（available=1）权限数据列表，需要拥有<code>authPermission:list</code>权限
  * </dd>
- * <dt>POST: permissions/rest/new</dt>
+ * <dt>POST: permissions/api/new</dt>
  * <dd>新建权限数据，需要拥有<code>authPermission:new</code>权限</dd>
- * <dt>POST: permissions/rest/{id}</dt>
+ * <dt>POST: permissions/api/{id}</dt>
  * <dd>更新权限数据，需要拥有<code>authPermission:edit</code>权限</dd>
- * <dt>DELETE: permissions/rest/{id}</dt>
+ * <dt>DELETE: permissions/api/{id}</dt>
  * <dd>删除权限数据，需要拥有<code>authPermission:delete</code>权限</dd>
  * </dl>
  * </p>
@@ -49,7 +49,7 @@ import com.jrsoft.common.EasyDataGrid;
  *
  */
 @RestController
-@RequestMapping("/permissions/rest")
+@RequestMapping("/permissions/api")
 public class AuthPermissionRestController {
 
 	@Autowired

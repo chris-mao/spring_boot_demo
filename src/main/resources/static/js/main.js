@@ -132,7 +132,7 @@ function getRowIndex(target) {
 
 //打开修改密码对话框
 function changePsd(userId, userName) {
-	post_url = "/users/rest/" + userId + "/psd";
+	post_url = "/users/api/" + userId + "/psd";
 	$("#changePasswordDlg").dialog("open").dialog("center");
 	$("#changePasswordForm").form("clear");
 	$("#changePasswordDlg").form("load", {userName: userName});
@@ -168,7 +168,7 @@ function savePassword() {
 //返回前一身份
 function switchBack() {
     $.ajax({
-        url : "/users/rest/switch-back",
+        url : "/users/api/switch-back",
         type : "GET",
         success : function(data, textStatus) {
             console.log(data);

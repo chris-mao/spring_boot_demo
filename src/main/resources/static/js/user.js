@@ -2,7 +2,7 @@ $(document).ready(function() {
 	// 初始化用户表格
 	$("#userDatagrid").datagrid({
 		method : "get",
-		url : "/users/rest/list",
+		url : "/users/api/list",
 		idField : "userId",
 		checkOnSelect : false,
 		selectOnCheck : false,
@@ -39,7 +39,7 @@ var post_url;
 
 // 打开创建新用户对话框
 function newUser() {
-	post_url = "/users/rest/new";
+	post_url = "/users/api/new";
 	$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新用户");
 	$("#userEditForm").form("clear");
@@ -54,7 +54,7 @@ function editUser() {
 	var row = $("#userDatagrid").datagrid("getSelected");
 	if (row) {
 		console.log(row);
-		post_url = "/users/rest/" + row.userId;
+		post_url = "/users/api/" + row.userId;
 		$("#userEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑用户");
 		$("#userEditForm").form("load", row);
@@ -123,7 +123,7 @@ function deleteUser() {
 		$.messager.confirm("确认", "删除用户【" + row.nickName + "】？", function(r) {
 			if (r) {
 				$.ajax({
-					url : "/users/rest/" + row.userId,
+					url : "/users/api/" + row.userId,
 					type : "DELETE",
 					success : function(data, textStatus) {
 						console.log(data);

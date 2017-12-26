@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#departmentTreegrid").treegrid({
 		method : "get",
-		url : "departments/rest/list",
+		url : "departments/api/list",
 		idField : "departmentId",
 		treeField : "departmentName",
 		singleSelect : true,
@@ -36,7 +36,7 @@ var post_url;
 
 // 打开创建新部门对话框
 function newDepartment() {
-	post_url = "/departments/rest/new";
+	post_url = "/departments/api/new";
 	$("#parentId").combotree("reload");
 	$("#departmentEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新部门");
@@ -54,7 +54,7 @@ function editDepartment() {
 	var row = $("#departmentTreegrid").treegrid("getSelected");
 	if (row) {
 		console.log(row);
-		post_url = "/departments/rest/" + row.departmentId;
+		post_url = "/departments/api/" + row.departmentId;
 		$("#departmentEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑部门");
 		$("#departmentEditForm").form("load", row);
@@ -101,7 +101,7 @@ function deleteDepartment() {
 		$.messager.confirm("确认", "删除部门【" + row.departmentName + "】？", function(r) {
 			if (r) {
 				$.ajax({
-					url : "/departments/rest/" + row.departmentId,
+					url : "/departments/api/" + row.departmentId,
 					type : "DELETE",
 					success : function(data, textStatus) {
 						console.log(data);

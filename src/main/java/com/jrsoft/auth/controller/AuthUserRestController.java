@@ -44,46 +44,46 @@ import com.jrsoft.common.JsonResult;
  * <p>
  * 系统用户控制器类，提供系统用户维护方法接口
  * <dl>
- * <dt>GET: users/rest/list?page=1&rows=20&searchValue=</dt>
+ * <dt>GET: users/api/list?page=1&rows=20&searchValue=</dt>
  * <dd>按页码返回（符合查询条件或是全部）用户数据列表，需要拥有<code>authUser:list</code>权限</dd>
- * <dt>GET: users/rest/json</dt>
+ * <dt>GET: users/api/json</dt>
  * <dd>返回全部有效的（available=1）用户数据列表，需要拥有<code>authUser:list</code>权限</dd>
- * <dt>GET: users/rest/{id}/permissions</dt>
- * <dd>获取用户个人权限，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/rest/json，参看
+ * <dt>GET: users/api/{id}/permissions</dt>
+ * <dd>获取用户个人权限，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/api/json，参看
  * {@link AuthPermissionRestController#jsonData()}</dd>
- * <dt>GET: users/rest/{id}/permissions/tree</dt>
- * <dd>以树型结构返回用户权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/rest/tree，参看
+ * <dt>GET: users/api/{id}/permissions/tree</dt>
+ * <dd>以树型结构返回用户权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/api/tree，参看
  * {@link AuthPermissionRestController#permissionTree()}</dd>
- * <dt>GET: users/rest/{id}/menu</dt>
+ * <dt>GET: users/api/{id}/menu</dt>
  * <dd>获取用户权限菜单，无权限控制</dd>
- * <dt>GET: users/rest/states</dt>
+ * <dt>GET: users/api/states</dt>
  * <dd>获取用户状态列表，无权限控制</dd>
- * <dt>POST: users/rest/new</dt>
+ * <dt>POST: users/api/new</dt>
  * <dd>新建用户数据，需要拥有<code>authUser:new</code>权限</dd>
- * <dt>GET: users/rest/{id}</dt>
+ * <dt>GET: users/api/{id}</dt>
  * <dd>获取用户数据，需要拥有<code>authUser:list</code>权限</dd>
- * <dt>POST: users/rest/{id}</dt>
+ * <dt>POST: users/api/{id}</dt>
  * <dd>更新用户数据，需要拥有<code>authUser:edit</code>权限</dd>
- * <dt>DELETE: users/rest/{id}</dt>
+ * <dt>DELETE: users/api/{id}</dt>
  * <dd>删除用户数据，需要拥有<code>authUser:delete</code>权限</dd>
- * <dt>POST: users/rest/{id}/psd</dt>
+ * <dt>POST: users/api/{id}/psd</dt>
  * <dd>修改用户登录密码，无权限控制</dd>
- * <dt>GET: users/rest/{id}/roles</dt>
+ * <dt>GET: users/api/{id}/roles</dt>
  * <dd>返回用户关联的角色列表，需要拥有<code>authUser:edit</code>权限</dd>
- * <dt>POST: users/rest/{id}/roles</dt>
+ * <dt>POST: users/api/{id}/roles</dt>
  * <dd>修改（新增、编辑、删除）用户关联角色，需要拥有<code>authUser:edit</code>权限</dd>
- * <dt>GET: users/rest/{id}/agents</dt>
+ * <dt>GET: users/api/{id}/agents</dt>
  * <dd>返回用户的代理用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
- * <dt>GET: users/rest/{id}/delegates</dt>
+ * <dt>GET: users/api/{id}/delegates</dt>
  * <dd>返回用户的代理的用户清单，需要拥有<code>authUser:delegate</code>权限</dd>
- * <dt>GET: users/rest/switch-to/{id}</dt>
+ * <dt>GET: users/api/switch-to/{id}</dt>
  * <dd>切换到委托人身份，需要拥有<code>authUser:delegate</code>权限</dd>
- * <dt>GET: users/rest/switch-back</dt>
+ * <dt>GET: users/api/switch-back</dt>
  * <dd>返回前一个身份，需要拥有<code>authUser:delegate</code>权限</dd>
  * 
- * <dt>POST: users/rest/grant/{id}</dt>
+ * <dt>POST: users/api/grant/{id}</dt>
  * <dd>将指定用户设为当前用户的代理，需要拥有<code>authUser:delegate</code>权限</dd>
- * <dt>POST: users/rest/revoke/{id}</dt>
+ * <dt>POST: users/api/revoke/{id}</dt>
  * <dd>取消代理，需要拥有<code>authUser:delegate</code>权限</dd>
  * </dl>
  * </p>
@@ -94,7 +94,7 @@ import com.jrsoft.common.JsonResult;
  *
  */
 @RestController
-@RequestMapping("/users/rest")
+@RequestMapping("/users/api")
 public class AuthUserRestController {
 
 	@Autowired

@@ -28,7 +28,7 @@ public class DepartmentController {
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("department:list")
 	public String index() {
-		return "department/index";
+		return "organization/department";
 	}
 
 }

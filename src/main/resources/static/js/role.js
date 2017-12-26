@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#roleDatagrid").datagrid({
 		method : "get",
-		url : "/roles/rest/list",
+		url : "/roles/api/list",
 		idField : "roleId",
 		checkOnSelect : false,
 		selectOnCheck : false,
@@ -52,7 +52,7 @@ function getRolePermissions(row) {
 	$("#rolePermissionsPanel").panel({"title": "角色【" + row.roleName + "】的权限"});
 	$("#rolePermissionTree").tree({
 		method:"get",
-		url:"roles/rest/" + row.roleId + "/permissions/tree",
+		url:"roles/api/" + row.roleId + "/permissions/tree",
 		animate:true,
 		lines:true,
 //		checkbox:true,
@@ -69,7 +69,7 @@ function newRole() {
 	$("#roleEditForm").form("clear");
 	var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
 	switchbuttonObj.switchbutton("check");
-	post_url = "/roles/rest/new";
+	post_url = "/roles/api/new";
 }
 
 function editRole() {
@@ -83,7 +83,7 @@ function editRole() {
 			var switchbuttonObj = $(".easyui-switchbutton[switchbuttonName='available']");
 		    switchbuttonObj.switchbutton("check");
 		}
-		post_url = "/roles/rest/" + row.roleId;
+		post_url = "/roles/api/" + row.roleId;
 	} else {
 		$.messager.alert("提示", "请选择一个待编辑的数据行！");
 	}
@@ -121,7 +121,7 @@ function deleteRole() {
 				function(r) {
 					if (r) {
 						$.ajax({
-							url : "/roles/rest/" + row.roleId,
+							url : "/roles/api/" + row.roleId,
 							type : "DELETE",
 							success : function(data, textStatus) {
 								console.log(data);
@@ -156,7 +156,7 @@ function showRolesPermissionDialog() {
 			var roleId = row.roleId;
 			$("#permissionTree").tree({
 				method:"get",
-				url:"permissions/rest/tree",
+				url:"permissions/api/tree",
 				animate:true,
 				lines:true,
 				checkbox:true,
@@ -192,7 +192,7 @@ function saveRolePermissions() {
 	console.log("json Data: " + jsonData);
 	var row = $("#roleDatagrid").datagrid("getSelected");
 	$.ajax({
-		url : "/roles/rest/" + row.roleId + "/permissions",
+		url : "/roles/api/" + row.roleId + "/permissions",
 		type : "POST",
 		data : jsonData,
 		contentType : "application/json;charset=UTF-8",

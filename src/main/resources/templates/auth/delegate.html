@@ -34,7 +34,7 @@
                     <thead>
                         <tr>
                             <th field="toUser" formatter="userFormatter" align="center" 
-                                style="width: 160px" editor="{type:'combobox',options:{valueField:'userId',textField:'nickName',method:'get',url:'/users/rest/json',required:true}}" >代理人</th>
+                                style="width: 160px" editor="{type:'combobox',options:{valueField:'userId',textField:'nickName',method:'get',url:'/users/api/json',required:true}}" >代理人</th>
                             <th field="startDate" style="width: 100px"
                                 formatter="dateFormatter" align="center"
                                 editor="{type:'datebox',options:{required:true}}" >生效日期</th>
@@ -96,7 +96,7 @@
     $(document).ready(function() {
         $("#delegateDatagrid").datagrid({
             method : "get",
-            url : "/users/rest/" + $("#userId").val() + "/delegates",
+            url : "/users/api/" + $("#userId").val() + "/delegates",
             rownumbers : true,
             striped : true,
             emptyMsg: "无委托记录！"
@@ -104,7 +104,7 @@
         
         $("#agentDatagrid").datagrid({
             method : "get",
-            url : "/users/rest/" + $("#userId").val() + "/agents",
+            url : "/users/api/" + $("#userId").val() + "/agents",
             rownumbers : true,
             striped : true,
             emptyMsg: "无代理记录！",
@@ -124,7 +124,7 @@
                         userId = $(ed.target).combobox("getValue");
                         nickName = $(ed.target).combobox("getText");
                         $.ajax({
-                            url : "/users/rest/grant/" + userId,
+                            url : "/users/api/grant/" + userId,
                             type : "POST",
                             data: {"startDate": editingRow.startDate,"endDate":editingRow.endDate},
                             success : function(data, textStatus) {
@@ -183,7 +183,7 @@
     //切换用户身份
     function switchUser(userId) {
     	$.ajax({
-            url : "/users/rest/switch-to/" + userId,
+            url : "/users/api/switch-to/" + userId,
             type : "GET",
             success : function(data, textStatus) {
                 console.log(data);
@@ -233,7 +233,7 @@
     	$.messager.confirm("确认", "取消代理资格？", function(r) {
             if (r) {
             	$.ajax({
-                    url : "/users/rest/revoke/" + userId,
+                    url : "/users/api/revoke/" + userId,
                     type : "POST",
                     success : function(data, textStatus) {
                         console.log(data);

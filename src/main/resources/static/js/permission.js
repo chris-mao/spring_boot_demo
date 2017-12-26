@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#permissionTreegrid").treegrid({
 		method : "get",
-		url : "permissions/rest/list",
+		url : "permissions/api/list",
 		idField : "permissionId",
 		treeField : "permissionText",
 		singleSelect : true,
@@ -36,7 +36,7 @@ var post_url;
 
 // 打开创建新权限对话框
 function newPermission() {
-	post_url = "/permissions/rest/new";
+	post_url = "/permissions/api/new";
 	$("#parentId").combotree("reload");
 	$("#permissionEditDlg").dialog("open").dialog("center").dialog("setTitle",
 			"创建新权限");
@@ -54,7 +54,7 @@ function editPermission() {
 	var row = $("#permissionTreegrid").treegrid("getSelected");
 	if (row) {
 		console.log(row);
-		post_url = "/permissions/rest/" + row.permissionId;
+		post_url = "/permissions/api/" + row.permissionId;
 		$("#permissionEditDlg").dialog("open").dialog("center").dialog("setTitle",
 				"编辑权限");
 		$("#permissionEditForm").form("load", row);
@@ -101,7 +101,7 @@ function deletePermission() {
 		$.messager.confirm("确认", "删除权限【" + row.permissionText + "】？", function(r) {
 			if (r) {
 				$.ajax({
-					url : "/permissions/rest/" + row.permissionId,
+					url : "/permissions/api/" + row.permissionId,
 					type : "DELETE",
 					success : function(data, textStatus) {
 						console.log(data);

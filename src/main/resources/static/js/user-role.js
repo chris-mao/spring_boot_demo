@@ -11,7 +11,7 @@ function showUserRolesDialog() {
 			var userId = row.userId;
 			$("#userRoleDatagrid").datagrid({
 				method : "get",
-				url : "/users/rest/" + userId + "/roles",
+				url : "/users/api/" + userId + "/roles",
 				emptyMsg : "该用户尚未分配任何角色！",
 				singleSelect : true,
 				striped : true,
@@ -78,7 +78,7 @@ function saveUserRoles() {
 	console.log(jsonData);
 	var row = $("#userDatagrid").datagrid("getSelected");
 	$.ajax({
-		url : "/users/rest/" + row.userId + "/roles",
+		url : "/users/api/" + row.userId + "/roles",
 		type : "POST",
 		data : jsonData,
 		contentType : "application/json;charset=UTF-8",

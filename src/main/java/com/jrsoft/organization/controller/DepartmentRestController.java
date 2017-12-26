@@ -28,21 +28,21 @@ import com.jrsoft.organization.service.EmployeeService;
  * <p>
  * 部门控制器类，提供部门数据的维护方法接口
  * <dl>
- * <dt>GET: departments/rest/list?page=1&rows=20&searchValue=</dt>
+ * <dt>GET: departments/api/list?page=1&rows=20&searchValue=</dt>
  * <dd>按页码返回（符合查询条件或是全部）部门数据列表，需要拥有<code>department:list</code>权限</dd>
- * <dt>GET: departments/rest/json</dt>
+ * <dt>GET: departments/api/json</dt>
  * <dd>返回全部有效的（available=1）部门数据列表，需要拥有<code>department:list</code>权限</dd>
- * <dt>GET: departments/rest/{id}/emoloyees</dt>
+ * <dt>GET: departments/api/{id}/emoloyees</dt>
  * <dd>获取部门权部门，需要拥有<code>department:list</code>权限</dd>
- * <dt>GET: departments/rest/tree</dt>
+ * <dt>GET: departments/api/tree</dt>
  * <dd>以树型结构返回全部有效的（available=1）部门数据列表，需要拥有<code>department:list</code>权限
- * <dt>POST: departments/rest/new</dt>
+ * <dt>POST: departments/api/new</dt>
  * <dd>新建部门数据，需要拥有<code>department:new</code>权限</dd>
- * <dt>GET: departments/rest/{id}</dt>
+ * <dt>GET: departments/api/{id}</dt>
  * <dd>获取部门数据，需要拥有<code>department:list</code>权限</dd>
- * <dt>POST: departments/rest/{id}</dt>
+ * <dt>POST: departments/api/{id}</dt>
  * <dd>更新部门数据，需要拥有<code>department:edit</code>权限</dd>
- * <dt>DELETE: departments/rest/{id}</dt>
+ * <dt>DELETE: departments/api/{id}</dt>
  * <dd>删除部门数据，需要拥有<code>department:delete</code>权限</dd>
  * </dl>
  * </p>
@@ -53,7 +53,7 @@ import com.jrsoft.organization.service.EmployeeService;
  *
  */
 @RestController
-@RequestMapping("/departments/rest")
+@RequestMapping("/departments/api")
 public class DepartmentRestController {
 
 	/**

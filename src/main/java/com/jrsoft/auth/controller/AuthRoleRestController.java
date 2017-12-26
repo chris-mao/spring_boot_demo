@@ -29,25 +29,25 @@ import com.jrsoft.common.JsonResult;
  * <p>
  * 系统角色控制器类，提供系统角色维护方法接口
  * <dl>
- * <dt>GET: roles/rest/list?page=1&rows=20&searchValue=</dt>
+ * <dt>GET: roles/api/list?page=1&rows=20&searchValue=</dt>
  * <dd>按页码返回（符合查询条件或是全部）角色数据列表，需要拥有<code>authRole:list</code>权限</dd>
- * <dt>GET: roles/rest/json</dt>
+ * <dt>GET: roles/api/json</dt>
  * <dd>返回全部有效的（available=1）角色数据列表，需要拥有<code>authRole:list</code>权限</dd>
- * <dt>GET: roles/rest/{id}/permissions</dt>
- * <dd>返回角色权限清单，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/rest/json，参看
+ * <dt>GET: roles/api/{id}/permissions</dt>
+ * <dd>返回角色权限清单，无权限控制。若要返回所有有效的权限，请使用GET方法访问permissions/api/json，参看
  * {@link AuthPermissionRestController#jsonData()}</dd>
- * <dt>POST: roles/rest/{id}/permissions</dt>
+ * <dt>POST: roles/api/{id}/permissions</dt>
  * <dd>更新角色权限（新增、删除），需要拥有<code>authRole:edit</code>权限</dd>
- * <dt>GET: roles/rest/{id}/permissions/tree</dt>
- * <dd>以树型结构返回角色权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/rest/tree，参看
+ * <dt>GET: roles/api/{id}/permissions/tree</dt>
+ * <dd>以树型结构返回角色权限清单，无权限控制。若要返回所有权限的树型结构，请使用GET方法访问permissions/api/tree，参看
  * {@link AuthPermissionRestController#permissionTree()}</dd>
- * <dt>POST: roles/rest/new</dt>
+ * <dt>POST: roles/api/new</dt>
  * <dd>新建角色数据，需要拥有<code>authRole:new</code>权限</dd>
- * <dt>GET: roles/rest/{id}</dt>
+ * <dt>GET: roles/api/{id}</dt>
  * <dd>获取角色数据，无权限控制</dd>
- * <dt>POST: roles/rest/{id}</dt>
+ * <dt>POST: roles/api/{id}</dt>
  * <dd>更新角色数据，需要拥有<code>authRole:edit</code>权限</dd>
- * <dt>DELETE: roles/rest/{id}</dt>
+ * <dt>DELETE: roles/api/{id}</dt>
  * <dd>删除角色数据，需要拥有<code>authRole:delete</code>权限</dd>
  * </dl>
  * </p>
@@ -58,7 +58,7 @@ import com.jrsoft.common.JsonResult;
  *
  */
 @RestController
-@RequestMapping("/roles/rest")
+@RequestMapping("/roles/api")
 public class AuthRoleRestController {
 
 	/**

@@ -28,7 +28,7 @@ public class EmployeeController {
 	@GetMapping({ "", "/index" })
 	@RequiresPermissions("employee:list")
 	public String index() {
-		return "employee/index";
+		return "organization/employee";
 	}
 
 }

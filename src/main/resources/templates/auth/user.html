@@ -84,7 +84,7 @@
 				<input class="easyui-combobox" name="state" label="状态"
 					lableWidth="60px" style="width: 100%; height: 34px;"
 					required="true"
-					data-options="url:'/users/rest/states',method:'get',valueField:'id',textField:'text',panelHeight:'auto'" />
+					data-options="url:'/users/api/states',method:'get',valueField:'id',textField:'text',panelHeight:'auto'" />
 			</div>
 			<div style="text-align: right">
 				<input class="easyui-switchbutton" name="available"
@@ -110,7 +110,7 @@
 			<thead>
 				<tr>
 					<th field="roleId" style="width: 160px"
-						editor="{type:'combobox',options:{valueField:'roleId',textField:'roleName',method:'get',url:'/roles/rest/json',required:true}}"
+						editor="{type:'combobox',options:{valueField:'roleId',textField:'roleName',method:'get',url:'/roles/api/json',required:true}}"
 						formatter="roleIdDisplayFormatter">角色名称</th>
 					<th field="startDate" style="width: 120px" align="center"
 						formatter="dateFormatter"

@@ -26,17 +26,17 @@ import com.jrsoft.customer.service.CustomerService;
  * <p>
  * 客户控制器类，提供客户资料维护方法接口
  * <dl>
- * <dt>GET: customers/rest/list?page=1&rows=20&searchValue=</dt>
+ * <dt>GET: customers/api/list?page=1&rows=20&searchValue=</dt>
  * <dd>按页码返回（符合查询条件或是全部）客户数据列表，需要拥有<code>customer:list</code>权限</dd>
- * <dt>GET: customers/rest/json</dt>
+ * <dt>GET: customers/api/json</dt>
  * <dd>返回全部有效的（available=1）客户数据列表，需要拥有<code>customer:list</code>权限</dd>
- * <dt>POST: customers/rest/new</dt>
+ * <dt>POST: customers/api/new</dt>
  * <dd>新建客户数据，需要拥有<code>customer:new</code>权限</dd>
- * <dt>GET: customers/rest/{id}</dt>
+ * <dt>GET: customers/api/{id}</dt>
  * <dd>获取客户数据，无权限控制</dd>
- * <dt>POST: customers/rest/{id}</dt>
+ * <dt>POST: customers/api/{id}</dt>
  * <dd>更新客户数据，需要拥有<code>customer:edit</code>权限</dd>
- * <dt>DELETE: customers/rest/{id}</dt>
+ * <dt>DELETE: customers/api/{id}</dt>
  * <dd>删除客户数据，需要拥有<code>customer:delete</code>权限</dd>
  * </dl>
  * </p>
@@ -47,7 +47,7 @@ import com.jrsoft.customer.service.CustomerService;
  *
  */
 @RestController
-@RequestMapping("/customers/rest")
+@RequestMapping("/customers/api")
 public class CustomerRestController {
 	
 	@Autowired
