@@ -14,15 +14,24 @@
 			<h2 class="form-signin-heading">Please sign in</h2>
 			<label for="username" class="sr-only">用户名称</label> <input type="text"
 				class="form-control" id="username" name="username"
-				placeholder="用户名称" autofocus="autofocus" required="required" /> <label for="password" class="sr-only">登录密码</label>
-			<input type="password" class="form-control" id="password"
-				name="password" placeholder="登录密码" required="required" />
+				placeholder="用户名称" autofocus="autofocus" required="required" /> <label
+				for="password" class="sr-only">登录密码</label> <input type="password"
+				class="form-control" id="password" name="password"
+				placeholder="登录密码" required="required" />
 			<div class="forgot text-right">
 				<label> <a href="#">忘记密码</a>
 				</label>
 			</div>
 			<button type="submit" class="btn btn-lg btn-block btn-success">登录</button>
-			<p class="message bg-warning text-danger text-center" th:text="${msg}"></p>
+			<p class="message bg-warning text-danger text-center"
+				th:text="${msg}"></p>
+			<div>
+				<ul>
+					<li>admin: password</li>
+					<li>cmao: password</li>
+				</ul>
+			</div>
+
 		</form>
 	</div>
 </body>
