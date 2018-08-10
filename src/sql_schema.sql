@@ -127,6 +127,7 @@ CREATE TABLE `auth_user_permission` (
 DROP TABLE IF EXISTS `auth_user`;
 CREATE TABLE `auth_user` (
   `user_id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_type` enum('Manual','LDAP') DEFAULT 'Manual' NOT NULL COMMENT '用户类型',
   `user_name` varchar(64) NOT NULL,
   `user_psd` varchar(64) NOT NULL,
   `nick_name` varchar(64) NOT NULL,
@@ -142,8 +143,8 @@ CREATE TABLE `auth_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
-insert into auth_user(user_name, user_psd, nick_name, email, created_time)
-values('admin','5f4dcc3b5aa765d61d8327deb882cf99','Administrator','chris.mao.zb@163.com', NOW());
+insert into auth_user(user_name, user_type, user_psd, nick_name, email, created_time)
+values('admin','Manual', '5f4dcc3b5aa765d61d8327deb882cf99','Administrator','chris.mao.zb@163.com', NOW());
 
 -- ----------------------------
 --  Table structure for `auth_user_delegate`
@@ -215,13 +216,28 @@ order by `auth_user`.`user_id`,`auth_permission`.`parent_id`,`auth_permission`.`
 --  View structure for `vw_auth_user`
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_auth_user`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_auth_user` AS select `auth_user`.`user_id` AS `user_id`,`auth_user`.`user_name` AS `user_name`,`auth_user`.`user_psd` AS `user_psd`,`auth_user`.`nick_name` AS `nick_name`,`auth_user`.`role_id` AS `role_id`,`auth_user`.`available` AS `available`,`auth_user`.`created_time` AS `created_time`,`auth_user`.`update_time` AS `update_time`,`auth_role`.`role_name` AS `role_name`,`auth_role`.`navigation` AS `navigation` from (`auth_user` join `auth_role` on((`auth_user`.`role_id` = `auth_role`.`role_id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_auth_user` AS 
+select `auth_user`.`user_id` AS `user_id`,
+  `auth_user`.`user_name` AS `user_name`,`auth_user`.`user_type` AS `user_type`,`auth_user`.`user_psd` AS `user_psd`,
+  `auth_user`.`nick_name` AS `nick_name`,`auth_user`.`role_id` AS `role_id`,`auth_user`.`available` AS `available`,
+  `auth_user`.`created_time` AS `created_time`,`auth_user`.`update_time` AS `update_time`,`auth_role`.`role_name` AS `role_name`,
+  `auth_role`.`navigation` AS `navigation` 
+from (`auth_user` join `auth_role` on((`auth_user`.`role_id` = `auth_role`.`role_id`)));
 
 -- ----------------------------
 --  View structure for `vw_auth_user_role`
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_auth_user_role`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_auth_user_role` AS select `au`.`user_id` AS `user_id`,`ar`.`role_id` AS `role_id`,`ar`.`role_name` AS `role_name`,curdate() AS `start_date`,NULL AS `end_date`,`ar`.`navigation` AS `navigation`,`ar`.`created_time` AS `created_time`,`ar`.`update_time` AS `update_time` from (`auth_user` `au` join `auth_role` `ar` on((`au`.`role_id` = `ar`.`role_id`))) union select `aur`.`user_id` AS `user_id`,`ar`.`role_id` AS `role_id`,`ar`.`role_name` AS `role_name`,`aur`.`start_date` AS `start_date`,`aur`.`end_date` AS `end_date`,`ar`.`navigation` AS `navigation`,`ar`.`created_time` AS `created_time`,`ar`.`update_time` AS `update_time` from (`auth_user_role` `aur` join `auth_role` `ar` on((`aur`.`role_id` = `ar`.`role_id`))) where (`aur`.`available` = 1);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_auth_user_role` AS 
+select `au`.`user_id` AS `user_id`,`ar`.`role_id` AS `role_id`,`ar`.`role_name` AS `role_name`,curdate() AS `start_date`,
+  NULL AS `end_date`,`ar`.`navigation` AS `navigation`,`ar`.`created_time` AS `created_time`,`ar`.`update_time` AS `update_time` 
+from (`auth_user` `au` join `auth_role` `ar` on((`au`.`role_id` = `ar`.`role_id`))) 
+union 
+select `aur`.`user_id` AS `user_id`,`ar`.`role_id` AS `role_id`,`ar`.`role_name` AS `role_name`,
+  `aur`.`start_date` AS `start_date`,`aur`.`end_date` AS `end_date`,`ar`.`navigation` AS `navigation`,`ar`.`created_time` AS `created_time`,
+  `ar`.`update_time` AS `update_time` 
+  from (`auth_user_role` `aur` join `auth_role` `ar` on ((`aur`.`role_id` = `ar`.`role_id`))) 
+  where (`aur`.`available` = 1);
 
 -- ----------------------------
 --  Procedure structure for `sp_findRolePermissions`
